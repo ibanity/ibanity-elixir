@@ -1,0 +1,4 @@
+%{
+  "espec": {:hex, :espec, "1.6.3", "d9355788e508b82743a1b1b9aa5ac64ba37b0547c6210328d909e8a6eb56d42e", [:mix], [{:meck, "0.8.12", [hex: :meck, repo: "hexpm", optional: false]}], "hexpm"},
+  "meck": {:hex, :meck, "0.8.12", "1f7b1a9f5d12c511848fec26bbefd09a21e1432eadb8982d9a8aceb9891a3cf2", [:rebar3], [], "hexpm"},
+}
