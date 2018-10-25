@@ -1,4 +1,8 @@
 defmodule Ibanity.Client do
+  @moduledoc """
+  Wrapper for Ibanity API
+  """
+
   use GenServer
 
   defstruct [
