@@ -25,20 +25,20 @@ defmodule Ibanity.Client do
     GenServer.start_link(__MODULE__, Application.get_all_env(:ibanity))
   end
 
-  def get(uri, query_params \\ %{}) do
-    GenServer.call(__MODULE__, {:get, uri, query_params})
+  def get(uri, query_params \\ %{}, customer_access_token \\ nil) do
+    GenServer.call(__MODULE__, {:get, uri, query_params, customer_access_token})
   end
 
-  def post(uri, payload, query_params) do
-
+  def post(uri, payload, query_params \\ %{}, customer_access_token \\ nil, idempotency_key \\ nil) do
+    GenServer.call(__MODULE__, {:post, uri, query_params, customer_access_token, idempotency_key})
   end
 
-  def patch(uri, payload, query_params) do
-
+  def patch(uri, payload, query_params \\ %{}, customer_access_token \\ nil, idempotency_key \\ nil) do
+    GenServer.call(__MODULE__, {:patch, uri, query_params, customer_access_token, idempotency_key})
   end
 
-  def delete(uri, query_params) do
-
+  def delete(uri, query_params \\ %{}, customer_access_token \\ nil) do
+    GenServer.call(__MODULE__, {:delete, uri, query_params, customer_access_token})
   end
 
   ##
@@ -75,7 +75,7 @@ defmodule Ibanity.Client do
     {:noreply, %{config | api_schema: api_schema}}
   end
 
-  def handle_call({:get, uri, query_params}, _, config) do
+  def handle_call({:get, uri, query_params, customer_access_token}, _, config) do
     ssl_options = [
       certfile: config.certificate,
       keyfile: config.key,
