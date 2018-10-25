@@ -42,6 +42,10 @@ defmodule Ibanity.Client do
     GenServer.call(__MODULE__, {:delete, uri, query_params, customer_access_token})
   end
 
+  def api_schema do
+    GenServer.call(__MODULE__, :api_schema)
+  end
+
   ##
   # Callbacks
   ##
@@ -114,6 +118,10 @@ defmodule Ibanity.Client do
     )
 
     {:reply, Jason.decode!(res.body), config}
+  end
+
+  def handle_call(:api_schema, _, config) do
+    {:reply, config.api_schema, config}
   end
 
   ##
