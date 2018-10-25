@@ -91,6 +91,57 @@ defmodule Ibanity.Client do
     {:reply, Jason.decode!(res.body), config}
   end
 
+  def handle_call({:post, uri, payload, query_params, customer_access_token, idempotency_key}) do
+    ssl_options = [
+      certfile: config.certificate,
+      keyfile: config.key,
+      cacertfile: config.ssl_ca_file
+    ]
+
+    res = HTTPoison.post!(
+      config.api_url <> uri,
+      Jason.encode!(payload),
+      build_headers(config),
+      ssl: ssl_options
+    )
+
+    {:reply, Jason.decode!(res.body), config}
+  end
+
+  def handle_call({:patch, uri, payload, query_params, customer_access_token, idempotency_key}) do
+    ssl_options = [
+      certfile: config.certificate,
+      keyfile: config.key,
+      cacertfile: config.ssl_ca_file
+    ]
+
+    res = HTTPoison.patch!(
+      config.api_url <> uri,
+      Jason.encode!(payload),
+      build_headers(config),
+      ssl: ssl_options
+    )
+
+    {:reply, Jason.decode!(res.body), config}
+  end
+
+  def handle_call({:delete, uri, payload, query_params, customer_access_token}) do
+    ssl_options = [
+      certfile: config.certificate,
+      keyfile: config.key,
+      cacertfile: config.ssl_ca_file
+    ]
+
+    res = HTTPoison.patch!(
+      config.api_url <> uri,
+      Jason.encode!(payload),
+      build_headers(config),
+      ssl: ssl_options
+    )
+
+    {:reply, Jason.decode!(res.body), config}
+  end
+
   ##
   # Private functions
   ##
