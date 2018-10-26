@@ -25,6 +25,7 @@ defmodule Ibanity.MixProject do
     [
       {:httpoison, "~> 1.4"},
       {:jason, "~> 1.1"},
+      {:recase, "~> 0.3"},
       {:espec, "~> 1.6.2", only: :test}
     ]
   end
