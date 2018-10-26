@@ -3,6 +3,8 @@ defmodule Ibanity.Client do
   Wrapper for Ibanity API
   """
 
+  alias Ibanity.Request
+
   use GenServer
 
   defstruct [
@@ -26,20 +28,20 @@ defmodule Ibanity.Client do
     GenServer.start_link(__MODULE__, Application.get_all_env(:ibanity))
   end
 
-  def get(uri, query_params \\ %{}, customer_access_token \\ nil, headers \\ nil) do
-    GenServer.call(__MODULE__, {:get, uri, query_params, customer_access_token})
+  def get(%Request{} = request) do
+    GenServer.call(__MODULE__, {:get, request})
   end
 
-  def post(uri, payload, query_params \\ %{}, customer_access_token \\ nil, idempotency_key \\ nil) do
-    GenServer.call(__MODULE__, {:post, uri, query_params, customer_access_token, idempotency_key})
+  def post(%Request{} = request) do
+    GenServer.call(__MODULE__, {:post, request})
   end
 
-  def patch(uri, payload, query_params \\ %{}, customer_access_token \\ nil, idempotency_key \\ nil) do
-    GenServer.call(__MODULE__, {:patch, uri, query_params, customer_access_token, idempotency_key})
+  def patch(%Request{} = request) do
+    GenServer.call(__MODULE__, {:patch, request})
   end
 
-  def delete(uri, query_params \\ %{}, customer_access_token \\ nil) do
-    GenServer.call(__MODULE__, {:delete, uri, query_params, customer_access_token})
+  def delete(%Request{} = request) do
+    GenServer.call(__MODULE__, {:delete, request})
   end
 
   def api_schema do
@@ -78,9 +80,9 @@ defmodule Ibanity.Client do
     {:noreply, %{config | api_schema: api_schema}}
   end
 
-  def handle_call({:get, uri, query_params, customer_access_token}, _, config) do
+  def handle_call({:get, %Request{} = request}, _, config) do
     res = HTTPoison.get!(
-      uri,
+      request.uri,
       build_headers(config),
       ssl: config.ssl_options
     )
@@ -88,10 +90,10 @@ defmodule Ibanity.Client do
     {:reply, Jason.decode!(res.body), config}
   end
 
-  def handle_call({:post, uri, payload, query_params, customer_access_token, idempotency_key}, _, config) do
+  def handle_call({:post, %Request{} = request}, _, config) do
     res = HTTPoison.post!(
-      uri,
-      Jason.encode!(payload),
+      request.uri,
+      Jason.encode!(request.payload),
       build_headers(config),
       ssl: config.ssl_options
     )
@@ -99,10 +101,10 @@ defmodule Ibanity.Client do
     {:reply, Jason.decode!(res.body), config}
   end
 
-  def handle_call({:patch, uri, payload, query_params, customer_access_token, idempotency_key}, _, config) do
+  def handle_call({:patch, %Request{} = request}, _, config) do
     res = HTTPoison.patch!(
-      uri,
-      Jason.encode!(payload),
+      request.uri,
+      Jason.encode!(request.payload),
       build_headers(config),
       ssl: config.ssl_options
     )
@@ -110,9 +112,9 @@ defmodule Ibanity.Client do
     {:reply, Jason.decode!(res.body), config}
   end
 
-  def handle_call({:delete, uri, query_params, customer_access_token}, _, config) do
+  def handle_call({:delete, %Request{} = request}, _, config) do
     res = HTTPoison.delete!(
-      uri,
+      request.uri,
       build_headers(config),
       ssl: config.ssl_options
     )

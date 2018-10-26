@@ -1,8 +1,12 @@
 defmodule Ibanity.ResourceOperations do
-  alias Ibanity.{BaseResource, Client, Collection}
+  alias Ibanity.{BaseResource, Client, Collection, Request}
 
-  def list_by_uri(module, uri, query_params \\ %{}, customer_access_token \\ nil, headers \\ nil) do
-    raw_response = Client.get(uri, query_params, headers, customer_access_token)
+  def create_by_uri(module, %Request{} = request) do
+    raw_response = Client.post(request)
+  end
+
+  def list_by_uri(module, %Request{} = request) do
+    raw_response = Client.get(request)
 
     items =
       raw_response
