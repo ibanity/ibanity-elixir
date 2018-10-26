@@ -17,6 +17,8 @@ defmodule Ibanity.Request do
 
   def idempotency_key(request, key), do: Map.put(request, :idempotency_key, key)
 
+  def customer_access_token(request, token), do: Map.put(request, :customer_access_token, token)
+
   def attributes(request, attributes) do
     create_or_update_data(request, :attributes, attributes)
   end
