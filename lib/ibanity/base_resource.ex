@@ -1,5 +1,10 @@
 defmodule Ibanity.BaseResource do
 
+  @key_paths [
+    id: ["id"],
+    self_link: ["links", "self"]
+  ]
+
   def new(module, item, _customer_access_token \\ nil) do
     item_attributes = Map.fetch!(item, "attributes")
     keys = common_keys(item) ++ structure_keys(item_attributes, module)
@@ -8,10 +13,9 @@ defmodule Ibanity.BaseResource do
   end
 
   def common_keys(item) do
-    [
-      id: Map.fetch!(item, "id"),
-      self_link: get_in(item, ["links", "self"])
-    ]
+    Enum.reduce(@key_paths, [], fn {key, path}, keys ->
+      if get_in(item, path), do: [{key, get_in(item, path)} | keys], else: keys
+    end)
   end
 
   def structure_keys(item_attributes, module) do
