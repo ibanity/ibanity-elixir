@@ -2,6 +2,12 @@
 
 The Ibanity Elixir Library provides convenient wrappers around the Ibanity API. The object attributes are dynamically defined based on the API response, supporting minor API changes seamlessly.
 
+## Disclaimer !!!
+
+This library is under **heavy** development; its API is unstable and can be changed at any time.
+
+It is not yet ready for production !
+
 ## Documentation
 
 Visit our [Elixir API docs](https://documentation.ibanity.com/api/elixir).
