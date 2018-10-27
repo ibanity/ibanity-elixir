@@ -7,7 +7,7 @@ defmodule Ibanity.FinancialInstitution do
   @type t :: %FinancialInstitution{id: String.t, sandbox: boolean, name: String.t, self_link: String.t}
 
   @spec list(String.t, map) :: [FinancialInstitution.t]
-  def list(customer_access_token \\ nil, query_params \\ %{}) do
+  def list(customer_access_token \\ nil, _query_params \\ %{}) do
     schema  = Configuration.api_schema()
     id_path = if customer_access_token, do: ["customer", "financialInstitutions"], else: ["financialInstitutions"]
 
@@ -36,7 +36,7 @@ defmodule Ibanity.FinancialInstitution do
   end
 
   def create(%__MODULE__{} = institution, idempotency_key \\ nil) do
-    schema  = Configuration.api_schema()
+    schema = Configuration.api_schema()
 
     attributes =
       institution
