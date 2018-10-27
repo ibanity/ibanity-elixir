@@ -1,5 +1,5 @@
 defmodule Ibanity.FinancialInstitution do
-  alias Ibanity.{Client, Collection, Configuration, FinancialInstitution, Request, ResourceOperations}
+  alias Ibanity.{Configuration, FinancialInstitution, Request, ResourceOperations}
 
   @base_keys [:sandbox, :name]
   @enforce_keys [:id, :self_link | @base_keys]
