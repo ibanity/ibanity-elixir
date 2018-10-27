@@ -24,7 +24,7 @@ defmodule Ibanity.Request do
   end
 
   def resource_type(request, type) do
-    create_or_update_data(request, :resource_type, type)
+    create_or_update_data(request, :type, type)
   end
 
   def meta(request, meta) do
