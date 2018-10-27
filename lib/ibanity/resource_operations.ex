@@ -26,6 +26,13 @@ defmodule Ibanity.ResourceOperations do
     |> wrap_item(module)
   end
 
+  def destroy_by_uri(module, %Request{} = request) do
+    request
+    |> Client.delete
+    |> Map.fetch!("data")
+    |> wrap_item(module)
+  end
+
   defp wrap_items(data, module) do
     Enum.map(data, &(BaseResource.new(module, &1)))
   end
