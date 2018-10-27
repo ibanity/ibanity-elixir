@@ -1,12 +1,12 @@
 defmodule Ibanity.CustomerAccessToken do
-  alias Ibanity.{Client, Collection, CustomerAccessToken, Request, ResourceOperations}
+  alias Ibanity.{Client, Collection, Configuration, CustomerAccessToken, Request, ResourceOperations}
 
   @base_keys [:token]
   @enforce_keys [:id | @base_keys]
   defstruct id: nil, token: nil
 
   def create(application_customer_reference, idempotency_key \\ nil) do
-    uri = Map.get(Client.api_schema(), "customerAccessTokens")
+    uri = Map.get(Configuration.api_schema(), "customerAccessTokens")
 
     request =
       uri

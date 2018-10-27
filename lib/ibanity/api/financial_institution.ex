@@ -1,5 +1,5 @@
 defmodule Ibanity.FinancialInstitution do
-  alias Ibanity.{Client, Collection, FinancialInstitution, Request, ResourceOperations}
+  alias Ibanity.{Client, Collection, Configuration, FinancialInstitution, Request, ResourceOperations}
 
   @base_keys [:sandbox, :name]
   @enforce_keys [:id, :self_link | @base_keys]
@@ -9,7 +9,7 @@ defmodule Ibanity.FinancialInstitution do
 
   @spec list(String.t, map) :: [FinancialInstitution.t]
   def list(customer_access_token \\ nil, query_params \\ %{}) do
-    schema  = Client.api_schema()
+    schema  = Configuration.api_schema()
     id_path = if customer_access_token, do: ["customer", "financialInstitutions"], else: ["financialInstitutions"]
 
     request =
