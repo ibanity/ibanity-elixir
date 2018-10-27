@@ -26,6 +26,13 @@ defmodule Ibanity.ResourceOperations do
     |> wrap_item(module)
   end
 
+  def update_by_uri(module, %Request{} = request) do
+    request
+    |> Client.patch
+    |> Map.fetch!("data")
+    |> wrap_item(module)
+  end
+
   def destroy_by_uri(module, %Request{} = request) do
     request
     |> Client.delete
