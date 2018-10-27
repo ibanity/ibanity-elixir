@@ -56,5 +56,26 @@ defmodule Ibanity.FinancialInstitution do
     ResourceOperations.create_by_uri(__MODULE__, request)
   end
 
+  def delete(%__MODULE__{} = institution, idempotency_key \\ nil) do
+    schema = Configuration.api_schema()
+
+    attributes =
+      institution
+      |> Map.from_struct
+      |> Map.take(@base_keys)
+
+    request =
+      schema
+      |> get_in(["sandbox", "financialInstitutions"])
+      |> String.replace("{financialInstitutionId}", institution.id)
+      |> Request.new
+      |> Request.idempotency_key(idempotency_key)
+      |> Request.resource_type("financialInstitution")
+      |> Request.attributes(attributes)
+      |> Request.build
+
+    ResourceOperations.destroy_by_uri(__MODULE__, request)
+  end
+
   def keys, do: @base_keys
 end
