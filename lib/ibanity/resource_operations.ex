@@ -19,6 +19,13 @@ defmodule Ibanity.ResourceOperations do
     Collection.new(module, items, %{}, %{})
   end
 
+  def find_by_uri(module, %Request{} = request) do
+    request
+    |> Client.get
+    |> Map.fetch!("data")
+    |> wrap_item(module)
+  end
+
   defp wrap_items(data, module) do
     Enum.map(data, &(BaseResource.new(module, &1)))
   end
