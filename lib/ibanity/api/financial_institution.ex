@@ -23,5 +23,18 @@ defmodule Ibanity.FinancialInstitution do
     ResourceOperations.list_by_uri(__MODULE__, request)
   end
 
+  def find(id) do
+    schema  = Configuration.api_schema()
+
+    request =
+      schema
+      |> Map.fetch!("financialInstitutions")
+      |> String.replace("{financialInstitutionId}", id)
+      |> Request.new
+      |> Request.build
+
+    ResourceOperations.find_by_uri(__MODULE__, request)
+  end
+
   def keys, do: @base_keys
 end
