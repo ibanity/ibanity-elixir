@@ -1,6 +1,6 @@
 use Mix.Config
 
-config :ibanity, :certificate, "/Users/bruno/devel/credentials/certificate.pem"
-config :ibanity, :key, "/Users/bruno/devel/credentials/newkey.pem"
-config :ibanity, :api_url, "https://api.ibanity.localhost:443"
-config :ibanity, :ssl_ca_file, "/Users/bruno/devel/ibanity/credentials/certificates/root_ca.cert.pem"
+config :ibanity, :certificate, System.get_env("IBANITY_CERTIFICATE")
+config :ibanity, :key, System.get_env("IBANITY_KEY")
+config :ibanity, :api_url, System.get_env("IBANITY_API_URL")
+config :ibanity, :ssl_ca_file, System.get_env("IBANITY_CA_FILE")
