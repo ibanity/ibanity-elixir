@@ -2,7 +2,6 @@ defmodule Ibanity.FinancialInstitution do
   alias Ibanity.{Configuration, FinancialInstitution, Request, ResourceOperations}
 
   @base_keys [:sandbox, :name]
-  @enforce_keys [:id, :self_link | @base_keys]
   defstruct id: nil, sandbox: true, name: nil, self_link: nil
 
   @type t :: %FinancialInstitution{id: String.t, sandbox: boolean, name: String.t, self_link: String.t}
