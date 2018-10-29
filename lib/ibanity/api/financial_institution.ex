@@ -1,106 +1,71 @@
 defmodule Ibanity.FinancialInstitution do
   alias Ibanity.{Configuration, FinancialInstitution, Request, ResourceOperations}
+  alias Ibanity.Client.Request, as: ClientRequest
 
   @base_keys [:sandbox, :name]
   defstruct id: nil, sandbox: true, name: nil, self_link: nil
 
   @type t :: %FinancialInstitution{id: String.t, sandbox: boolean, name: String.t, self_link: String.t}
 
-  @spec list(String.t, map) :: [FinancialInstitution.t]
-  def list(customer_access_token \\ nil, _query_params \\ %{}) do
-    schema  = Configuration.api_schema()
-    id_path = if customer_access_token, do: ["customer", "financialInstitutions"], else: ["financialInstitutions"]
+  def list(%Request{} = request) do
+    id_path =
+      if Request.has_header?(request, :"Authorization") do
+        ["customer", "financialInstitutions"]
+      else
+        ["financialInstitutions"]
+      end
 
-    request =
-      schema
-      |> get_in(id_path)
-      |> String.replace("{financialInstitutionId}", "")
-      |> Request.new
-      |> Request.customer_access_token(customer_access_token)
-      |> Request.build
+    uri = generate_uri(id_path)
 
-    ResourceOperations.list_by_uri(__MODULE__, request)
+    request
+    |> generate_client_request(uri)
+    |> ResourceOperations.list_by_uri(__MODULE__)
   end
 
-  def find(id) do
-    schema  = Configuration.api_schema()
+  def find(%Request{resource_id: resource_id} = request) when not is_nil(resource_id) do
+    uri = generate_uri(["financialInstitutions"], resource_id)
 
-    request =
-      schema
-      |> Map.fetch!("financialInstitutions")
-      |> String.replace("{financialInstitutionId}", id)
-      |> Request.new
-      |> Request.build
-
-    ResourceOperations.find_by_uri(__MODULE__, request)
+    request
+    |> generate_client_request(uri)
+    |> ResourceOperations.find_by_uri(__MODULE__)
   end
 
-  def create(%__MODULE__{} = institution, idempotency_key \\ nil) do
-    schema = Configuration.api_schema()
+  def create(%Request{} = request) do
+    uri = generate_uri(["sandbox", "financialInstitutions"])
 
-    attributes =
-      institution
-      |> Map.from_struct
-      |> Map.take(@base_keys)
-
-    request =
-      schema
-      |> get_in(["sandbox", "financialInstitutions"])
-      |> String.replace("{financialInstitutionId}", "")
-      |> Request.new
-      |> Request.idempotency_key(idempotency_key)
-      |> Request.resource_type("financialInstitution")
-      |> Request.attributes(attributes)
-      |> Request.build
-
-    ResourceOperations.create_by_uri(__MODULE__, request)
+    request
+    |> generate_client_request(uri)
+    |> ResourceOperations.create_by_uri(__MODULE__)
   end
 
-  # TODO: Discuss if it's better to use
-  # update(%__MODULE__{} = institution, idempotency_key \\ nil)
-  # or
-  # update(id, %__MODULE__{} = institution, idempotency_key \\ nil)
-  #
-  def update(%__MODULE__{} = institution, idempotency_key \\ nil) do
-    schema = Configuration.api_schema()
+  def update(%Request{resource_id: resource_id} = request) when not is_nil(resource_id) do
+    uri = generate_uri(["sandbox", "financialInstitutions"], resource_id)
 
-    attributes =
-      institution
-      |> Map.from_struct
-      |> Map.take(@base_keys)
-
-    request =
-      schema
-      |> get_in(["sandbox", "financialInstitutions"])
-      |> String.replace("{financialInstitutionId}", institution.id)
-      |> Request.new
-      |> Request.idempotency_key(idempotency_key)
-      |> Request.resource_type("financialInstitution")
-      |> Request.attributes(attributes)
-      |> Request.build
-
-    ResourceOperations.update_by_uri(__MODULE__, request)
+    request
+    |> generate_client_request(uri)
+    |> ResourceOperations.update_by_uri(__MODULE__)
   end
 
-  def delete(%__MODULE__{} = institution, idempotency_key \\ nil) do
-    schema = Configuration.api_schema()
+  def delete(%Request{resource_id: resource_id} = request) when not is_nil(resource_id) do
+    uri = generate_uri(["sandbox", "financialInstitutions"], resource_id)
 
-    attributes =
-      institution
-      |> Map.from_struct
-      |> Map.take(@base_keys)
+    request
+    |> generate_client_request(uri)
+    |> ResourceOperations.destroy_by_uri(__MODULE__)
+  end
 
-    request =
-      schema
-      |> get_in(["sandbox", "financialInstitutions"])
-      |> String.replace("{financialInstitutionId}", institution.id)
-      |> Request.new
-      |> Request.idempotency_key(idempotency_key)
-      |> Request.resource_type("financialInstitution")
-      |> Request.attributes(attributes)
-      |> Request.build
+  defp generate_uri(path, replacement \\ "") do
+    Configuration
+    |> apply(:api_schema, [])
+    |> get_in(path)
+    |> String.replace("{financialInstitutionId}", replacement)
+  end
 
-    ResourceOperations.destroy_by_uri(__MODULE__, request)
+  defp generate_client_request(%Request{} = request, uri) do
+    request
+    |> ClientRequest.build
+    |> ClientRequest.uri(uri)
+    |> ClientRequest.resource_type("financialInstitution")
   end
 
   def keys, do: @base_keys

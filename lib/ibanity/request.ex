@@ -1,47 +1,64 @@
 defmodule Ibanity.Request do
 
-  @enforce_keys [:uri]
+  @base_headers %{
+    :Accept         => "application/json",
+    :"Content-Type" => "application/json"
+  }
+
   defstruct [
-    attributes: nil,
-    customer_access_token: nil,
-    headers: %{},
+    headers: @base_headers,
+    attributes: %{},
     idempotency_key: nil,
-    payload: %{},
-    query_params: %{},
-    uri: nil
+    customer_access_token: nil,
+    resource_type: nil,
+    resource_id: nil,
+    limit: 10,
+    before: nil,
+    after: nil
   ]
 
-  def new(uri), do: %{uri: uri}
 
-  def headers(request, headers), do: Map.put(request, :headers, headers)
+  def new, do: %__MODULE__{}
 
-  def idempotency_key(request, key), do: Map.put(request, :idempotency_key, key)
+  def new(attributes) when is_list(attributes) do
+    attributes = if attributes, do: Enum.into(attributes, %{}), else: %{}
 
-  def customer_access_token(request, token), do: Map.put(request, :customer_access_token, token)
-
-  def attributes(request, attributes) do
-    create_or_update_data(request, :attributes, attributes)
+    %__MODULE__{attributes: attributes}
   end
 
-  def resource_type(request, type) do
-    create_or_update_data(request, :type, type)
+  def header(%__MODULE__{} = request, header, value) do
+    %__MODULE__{request | headers: Map.put(request.headers, header, value)}
   end
 
-  def meta(request, meta) do
-    create_or_update_data(request, :meta, meta)
+  def headers(%__MODULE__{} = request, headers) do
+    %__MODULE__{request | headers: Map.merge(request.headers, headers)}
   end
 
-  def build(request) do
-    request = Map.put_new(request, :payload, %{data: request[:data]})
-    struct(__MODULE__, request)
+  def idempotency_key(%__MODULE__{} = request, key) do
+    %__MODULE__{request | idempotency_key: key}
   end
 
-  def create_or_update_data(request, key, value) do
-    case Map.has_key?(request, :data) do
-      true ->
-        update_in(request, [:data], &(Map.put_new(&1, key, value)))
-      false ->
-        Map.put(request, :data, %{key => value})
-    end
+  def customer_access_token(%__MODULE__{} = request, token) do
+    %__MODULE__{request | customer_access_token: token}
+  end
+
+  def attribute(%__MODULE__{} = request, attribute, value) do
+    %__MODULE__{request | attributes: Map.put(request.attributes, attribute, value)}
+  end
+
+  def attributes(%__MODULE__{} = request, attributes) do
+    %__MODULE__{request | attributes: Map.merge(request.attributes, attributes)}
+  end
+
+  def resource_type(%__MODULE__{} = request, type) do
+    %__MODULE__{request | resource_type: type}
+  end
+
+  def resource_id(%__MODULE__{} = request, id) do
+    %__MODULE__{request | resource_id: id}
+  end
+
+  def has_header?(request, header) do
+    Map.has_key?(request.headers, header)
   end
 end
