@@ -22,7 +22,7 @@ defmodule Ibanity.FinancialInstitution do
 
     request
     |> generate_client_request(uri)
-    |> ResourceOperations.list_by_uri(__MODULE__)
+    |> ResourceOperations.list(__MODULE__)
   end
 
   def find(id) when is_binary(id), do: find(%Request{resource_ids: [{@resource_id_name, id}]})
@@ -31,7 +31,7 @@ defmodule Ibanity.FinancialInstitution do
          uri            <- generate_uri(["financialInstitutions"], id),
          client_request <- generate_client_request(request, uri)
     do
-      ResourceOperations.find_by_uri(client_request, __MODULE__)
+      ResourceOperations.find(client_request, __MODULE__)
     else
       error -> error
     end
@@ -42,7 +42,7 @@ defmodule Ibanity.FinancialInstitution do
 
     request
     |> generate_client_request(uri)
-    |> ResourceOperations.create_by_uri(__MODULE__)
+    |> ResourceOperations.create(__MODULE__)
   end
 
   def update(%Request{} = request) do
@@ -50,7 +50,7 @@ defmodule Ibanity.FinancialInstitution do
          uri            <- generate_uri(["sandbox", "financialInstitutions"], id),
          client_request <- generate_client_request(request, uri)
     do
-      ResourceOperations.update_by_uri(client_request, __MODULE__)
+      ResourceOperations.update(client_request, __MODULE__)
     else
       error -> error
     end
@@ -62,7 +62,7 @@ defmodule Ibanity.FinancialInstitution do
          uri            <- generate_uri(["sandbox", "financialInstitutions"], id),
          client_request <- generate_client_request(request, uri)
     do
-      ResourceOperations.destroy_by_uri(client_request, __MODULE__)
+      ResourceOperations.destroy(client_request, __MODULE__)
     else
       error -> error
     end

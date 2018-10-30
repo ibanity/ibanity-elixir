@@ -14,7 +14,7 @@ defmodule Ibanity.CustomerAccessToken do
       |> ClientRequest.resource_type("customerAccessToken")
       |> ClientRequest.uri(uri)
 
-    ResourceOperations.create_by_uri(client_request, __MODULE__)
+    ResourceOperations.create(client_request, __MODULE__)
   end
 
   def keys, do: @base_keys
