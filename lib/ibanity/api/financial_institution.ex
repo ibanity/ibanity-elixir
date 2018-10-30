@@ -23,7 +23,7 @@ defmodule Ibanity.FinancialInstitution do
     |> ResourceOperations.list_by_uri(__MODULE__)
   end
 
-  def find(%Request{resource_id: resource_id} = request) when not is_nil(resource_id) do
+  def find(%Request{resource_ids: [resource_id]} = request) when not is_nil(resource_id) do
     uri = generate_uri(["financialInstitutions"], resource_id)
 
     request
@@ -39,7 +39,7 @@ defmodule Ibanity.FinancialInstitution do
     |> ResourceOperations.create_by_uri(__MODULE__)
   end
 
-  def update(%Request{resource_id: resource_id} = request) when not is_nil(resource_id) do
+  def update(%Request{resource_ids: [resource_id]} = request) when not is_nil(resource_id) do
     uri = generate_uri(["sandbox", "financialInstitutions"], resource_id)
 
     request
@@ -47,7 +47,7 @@ defmodule Ibanity.FinancialInstitution do
     |> ResourceOperations.update_by_uri(__MODULE__)
   end
 
-  def delete(%Request{resource_id: resource_id} = request) when not is_nil(resource_id) do
+  def delete(%Request{resource_ids: [resource_id]} = request) when not is_nil(resource_id) do
     uri = generate_uri(["sandbox", "financialInstitutions"], resource_id)
 
     request

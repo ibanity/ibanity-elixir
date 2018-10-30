@@ -11,7 +11,7 @@ defmodule Ibanity.Request do
     idempotency_key: nil,
     customer_access_token: nil,
     resource_type: nil,
-    resource_id: nil,
+    resource_ids: [],
     limit: 10,
     before: nil,
     after: nil
@@ -54,7 +54,12 @@ defmodule Ibanity.Request do
 
   def id(id), do: id(%__MODULE__{}, id)
   def id(%__MODULE__{} = request, id) do
-    %__MODULE__{request | resource_id: id}
+    %__MODULE__{request | resource_ids: [id]}
+  end
+
+  def ids(ids), do: ids(%__MODULE__{}, ids)
+  def ids(%__MODULE__{} = request, ids) when is_list(ids) do
+    %__MODULE__{request | resource_ids: ids}
   end
 
   def has_header?(request, header) do

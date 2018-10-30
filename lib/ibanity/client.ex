@@ -12,7 +12,6 @@ defmodule Ibanity.Client do
       data: %{},
       query_params: [],
       uri: "",
-      resource_id: nil
     ]
 
     def uri(%__MODULE__{} = request, uri), do: %__MODULE__{request | uri: uri}
@@ -29,7 +28,6 @@ defmodule Ibanity.Client do
       %Ibanity.Client.Request{
         headers:     create_headers(request),
         data:        create_data(request),
-        resource_id: request.resource_id
       }
     end
 
