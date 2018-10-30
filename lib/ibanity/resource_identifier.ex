@@ -1,5 +1,12 @@
 defmodule Ibanity.ResourceIdentifier do
 
+  def validate_ids!(expected_ids, actual_ids) do
+    case validate_ids(expected_ids, actual_ids) do
+      {:ok, ids}       -> ids
+      {:error, reason} -> raise ArgumentError, Atom.to_string(reason)
+    end
+  end
+
   def validate_ids(expected_ids, actual_ids) do
     with :ok <- validate_presence(expected_ids, actual_ids),
          :ok <- actual_ids |> Keyword.values |> validate_uuids
