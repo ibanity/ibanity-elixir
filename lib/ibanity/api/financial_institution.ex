@@ -1,11 +1,13 @@
 defmodule Ibanity.FinancialInstitution do
-  alias Ibanity.{Configuration, FinancialInstitution, Request, ResourceOperations}
+  alias Ibanity.{Configuration, FinancialInstitution, Request, ResourceIdentifier, ResourceOperations}
   alias Ibanity.Client.Request, as: ClientRequest
 
   @base_keys [:sandbox, :name]
   defstruct id: nil, sandbox: true, name: nil, self_link: nil
 
   @type t :: %FinancialInstitution{id: String.t, sandbox: boolean, name: String.t, self_link: String.t}
+
+  @resource_id_name :financialInstitution
 
   def list, do: list(%Request{})
   def list(%Request{} = request) do
@@ -23,8 +25,10 @@ defmodule Ibanity.FinancialInstitution do
     |> ResourceOperations.list_by_uri(__MODULE__)
   end
 
-  def find(%Request{resource_ids: [resource_id]} = request) when not is_nil(resource_id) do
-    uri = generate_uri(["financialInstitutions"], resource_id)
+  def find(id) when is_binary(id), do: find(%Request{resource_ids: [{@resource_id_name, id}]})
+  def find(%Request{} = request) do
+    id  = validate_id(request)
+    uri = generate_uri(["financialInstitutions"], id)
 
     request
     |> generate_client_request(uri)
@@ -39,16 +43,19 @@ defmodule Ibanity.FinancialInstitution do
     |> ResourceOperations.create_by_uri(__MODULE__)
   end
 
-  def update(%Request{resource_ids: [resource_id]} = request) when not is_nil(resource_id) do
-    uri = generate_uri(["sandbox", "financialInstitutions"], resource_id)
+  def update(%Request{} = request) do
+    id  = validate_id(request)
+    uri = generate_uri(["sandbox", "financialInstitutions"], id)
 
     request
     |> generate_client_request(uri)
     |> ResourceOperations.update_by_uri(__MODULE__)
   end
 
-  def delete(%Request{resource_ids: [resource_id]} = request) when not is_nil(resource_id) do
-    uri = generate_uri(["sandbox", "financialInstitutions"], resource_id)
+  def delete(id) when is_binary(id), do: delete(%Request{resource_ids: [{@resource_id_name, id}]})
+  def delete(%Request{} = request) do
+    id  = validate_id(request)
+    uri = generate_uri(["sandbox", "financialInstitutions"], id)
 
     request
     |> generate_client_request(uri)
@@ -70,4 +77,11 @@ defmodule Ibanity.FinancialInstitution do
   end
 
   def keys, do: @base_keys
+
+  defp validate_id(%Request{} = request) do
+    [@resource_id_name]
+    |> ResourceIdentifier.validate_ids!(request.resource_ids)
+    |> List.first
+    |> elem(1)
+  end
 end
