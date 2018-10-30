@@ -7,6 +7,7 @@ defmodule Ibanity.FinancialInstitution do
 
   @type t :: %FinancialInstitution{id: String.t, sandbox: boolean, name: String.t, self_link: String.t}
 
+  def list, do: list(%Request{})
   def list(%Request{} = request) do
     id_path =
       if Request.has_header?(request, :"Authorization") do
