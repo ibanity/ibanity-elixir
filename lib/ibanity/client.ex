@@ -34,25 +34,22 @@ defmodule Ibanity.Client do
     end
 
     defp create_headers(request) do
-      headers =
-        request.headers
-        |> add_idempotency_key(request)
-        |> add_customer_access_token(request)
-
-      Enum.into(headers, [])
+      request.headers
+      |> add_idempotency_key(request)
+      |> add_customer_access_token(request)
     end
 
     defp add_idempotency_key(headers, request) do
       if request.idempotency_key do
-        Map.put(headers, :"Ibanity-Idempotency-Key", request.idempotency_key)
+        Keyword.put(headers, :"Ibanity-Idempotency-Key", request.idempotency_key)
       else
-        request.headers
+        headers
       end
     end
 
     defp add_customer_access_token(headers, request) do
       if request.customer_access_token do
-        Map.put(headers, :Authorization, "Bearer #{request.customer_access_token}")
+        Keyword.put(headers, :Authorization, "Bearer #{request.customer_access_token}")
       else
         headers
       end
