@@ -52,9 +52,9 @@ defmodule Ibanity.Request do
     %__MODULE__{request | resource_type: type}
   end
 
-  def id(id), do: id(%__MODULE__{}, id)
-  def id(%__MODULE__{} = request, id) do
-    %__MODULE__{request | resource_ids: [id]}
+  def id(name, value), do: id(%__MODULE__{}, name, value)
+  def id(%__MODULE__{} = request, name, value) do
+    %__MODULE__{request | resource_ids: [{name, value}]}
   end
 
   def ids(ids), do: ids(%__MODULE__{}, ids)
