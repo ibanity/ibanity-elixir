@@ -82,8 +82,7 @@ defmodule Ibanity.Client do
       request.headers,
       ssl: Config.ssl_options()
     )
-
-    Jason.decode!(res.body)
+    process_response(res)
   end
 
   def post(%Request{} = request) do
@@ -94,7 +93,7 @@ defmodule Ibanity.Client do
       ssl: Config.ssl_options()
     )
 
-    Jason.decode!(res.body)
+    process_response(res)
   end
 
   def patch(%Request{} = request) do
@@ -105,7 +104,7 @@ defmodule Ibanity.Client do
       ssl: Config.ssl_options()
     )
 
-    Jason.decode!(res.body)
+    process_response(res)
   end
 
   def delete(%Request{} = request) do
@@ -115,6 +114,20 @@ defmodule Ibanity.Client do
       ssl: Config.ssl_options()
     )
 
-    Jason.decode!(res.body)
+    process_response(res)
+  end
+
+  defp process_response(response) do
+    code = response.status_code
+    body = Jason.decode!(response.body)
+
+    cond do
+      code >= 200 and code <= 299 ->
+        {:ok, Map.fetch!(body, "data")}
+      code >= 400 and code <= 599 ->
+        {:error, Map.fetch!(body, "errors")}
+      true ->
+        raise "Unknown return code: #{code}"
+    end
   end
 end

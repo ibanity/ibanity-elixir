@@ -12,7 +12,7 @@ defmodule Ibanity.Collection do
     synchronized_at: nil
   ]
 
-  def new(class, items, paging, links, synchronized_at \\ nil, latest_synchronization \\ nil) do
+  def new(items, paging, links, synchronized_at \\ nil, latest_synchronization \\ nil, class) do
     %__MODULE__{
       class: class,
       items: items,

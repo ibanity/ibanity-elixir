@@ -2,49 +2,61 @@ defmodule Ibanity.ResourceOperations do
   alias Ibanity.{BaseResource, Client, Client.Request, Collection}
 
   def create_by_uri(%Request{} = request, return_type) do
-    request
-    |> Client.post
-    |> Map.fetch!("data")
-    |> wrap_item(return_type)
+    case Client.post(request) do
+      {:ok, item} ->
+        wrap(item, return_type)
+
+      error ->
+        error
+    end
   end
 
   def list_by_uri(%Request{} = request, return_type) do
-    raw_response = Client.get(request)
+    case Client.get(request) do
+      {:ok, items} ->
+        items
+        |> wrap(return_type)
+        |> Collection.new(%{}, %{}, return_type)
 
-    items =
-      raw_response
-      |> Map.fetch!("data")
-      |> wrap_items(return_type)
-
-    Collection.new(return_type, items, %{}, %{})
+      error ->
+        error
+    end
   end
 
   def find_by_uri(%Request{} = request, return_type) do
-    request
-    |> Client.get
-    |> Map.fetch!("data")
-    |> wrap_item(return_type)
+    case Client.get(request) do
+      {:ok, item} ->
+        wrap(item, return_type)
+
+      error ->
+        error
+    end
   end
 
   def update_by_uri(%Request{} = request, return_type) do
-    request
-    |> Client.patch
-    |> Map.fetch!("data")
-    |> wrap_item(return_type)
+    case Client.patch(request) do
+      {:ok, item} ->
+        wrap(item, return_type)
+
+      error ->
+        error
+    end
   end
 
   def destroy_by_uri(%Request{} = request, return_type) do
-    request
-    |> Client.delete
-    |> Map.fetch!("data")
-    |> wrap_item(return_type)
+    case Client.delete(request) do
+      {:ok, item} ->
+        wrap(item, return_type)
+
+      error ->
+        error
+    end
   end
 
-  defp wrap_items(data, return_type) do
-    Enum.map(data, &(BaseResource.new(return_type, &1)))
+  defp wrap(data, return_type) when is_list(data) do
+    Enum.map(data, &wrap(&1, return_type))
   end
-
-  defp wrap_item(data, return_type) do
+  defp wrap(data, return_type) do
     BaseResource.new(return_type, data)
   end
 end
