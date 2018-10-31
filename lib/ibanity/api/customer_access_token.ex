@@ -7,12 +7,7 @@ defmodule Ibanity.CustomerAccessToken do
 
   def create(%Request{} = request) do
     uri = Map.get(Configuration.api_schema(), "customerAccessTokens")
-
-    client_request =
-      request
-      |> ClientRequest.build
-      |> ClientRequest.resource_type("customerAccessToken")
-      |> ClientRequest.uri(uri)
+    client_request = ClientRequest.build(request, uri, "customerAccessToken")
 
     ResourceOperations.create(client_request, __MODULE__)
   end

@@ -14,21 +14,23 @@ defmodule Ibanity.Client do
       uri: nil
     ]
 
-    def uri(%__MODULE__{} = request, uri), do: %__MODULE__{request | uri: uri}
+    def build(%Ibanity.Request{} = request, uri, resource_type) do
+      %Ibanity.Client.Request{
+        headers: create_headers(request),
+        data:    create_data(request)
+      }
+      |> uri(uri)
+      |> resource_type(resource_type)
+    end
 
-    def resource_type(%__MODULE__{} = request, type) do
+    defp uri(%__MODULE__{} = request, uri), do: %__MODULE__{request | uri: uri}
+
+    defp resource_type(%__MODULE__{} = request, type) do
       unless Map.has_key?(request.data, :type) do
         %__MODULE__{request | data: Map.put(request.data, :type, type)}
       else
         request
       end
-    end
-
-    def build(%Ibanity.Request{} = request) do
-      %Ibanity.Client.Request{
-        headers: create_headers(request),
-        data:    create_data(request)
-      }
     end
 
     defp create_headers(request) do

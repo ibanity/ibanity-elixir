@@ -8,6 +8,7 @@ defmodule Ibanity.FinancialInstitution do
   @type t :: %FinancialInstitution{id: String.t, sandbox: boolean, name: String.t, self_link: String.t}
 
   @resource_id_name :financialInstitution
+  @resource_type "financialInstitution"
 
   def list, do: list(%Request{})
   def list(%Request{} = request) do
@@ -21,7 +22,7 @@ defmodule Ibanity.FinancialInstitution do
     uri = generate_uri(id_path)
 
     request
-    |> generate_client_request(uri)
+    |> ClientRequest.build(uri, @resource_type)
     |> ResourceOperations.list(__MODULE__)
   end
 
@@ -29,7 +30,7 @@ defmodule Ibanity.FinancialInstitution do
   def find(%Request{} = request) do
     with {:ok, id}      <- validate_id(request),
          uri            <- generate_uri(["financialInstitutions"], id),
-         client_request <- generate_client_request(request, uri)
+         client_request <- ClientRequest.build(request, uri, @resource_type)
     do
       ResourceOperations.find(client_request, __MODULE__)
     else
@@ -41,14 +42,14 @@ defmodule Ibanity.FinancialInstitution do
     uri = generate_uri(["sandbox", "financialInstitutions"])
 
     request
-    |> generate_client_request(uri)
+    |> ClientRequest.build(uri, @resource_type)
     |> ResourceOperations.create(__MODULE__)
   end
 
   def update(%Request{} = request) do
     with {:ok, id}      <- validate_id(request),
          uri            <- generate_uri(["sandbox", "financialInstitutions"], id),
-         client_request <- generate_client_request(request, uri)
+         client_request <- ClientRequest.build(request, uri, @resource_type)
     do
       ResourceOperations.update(client_request, __MODULE__)
     else
@@ -60,7 +61,7 @@ defmodule Ibanity.FinancialInstitution do
   def delete(%Request{} = request) do
     with {:ok, id}      <- validate_id(request),
          uri            <- generate_uri(["sandbox", "financialInstitutions"], id),
-         client_request <- generate_client_request(request, uri)
+         client_request <- ClientRequest.build(request, uri, @resource_type)
     do
       ResourceOperations.destroy(client_request, __MODULE__)
     else
@@ -73,13 +74,6 @@ defmodule Ibanity.FinancialInstitution do
     |> apply(:api_schema, [])
     |> get_in(path)
     |> String.replace("{financialInstitutionId}", replacement)
-  end
-
-  defp generate_client_request(%Request{} = request, uri) do
-    request
-    |> ClientRequest.build
-    |> ClientRequest.uri(uri)
-    |> ClientRequest.resource_type("financialInstitution")
   end
 
   def keys, do: @base_keys
