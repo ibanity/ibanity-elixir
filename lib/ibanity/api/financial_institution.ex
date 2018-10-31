@@ -19,17 +19,19 @@ defmodule Ibanity.FinancialInstitution do
         ["financialInstitutions"]
       end
 
-    uri = generate_uri(id_path)
-
-    request
-    |> ClientRequest.build(uri, @resource_type)
-    |> ResourceOperations.list(__MODULE__)
+    with {:ok, uri}     <- generate_uri(id_path),
+         client_request <- ClientRequest.build(request, uri, @resource_type)
+    do
+      ResourceOperations.list(client_request, __MODULE__)
+    else
+      error -> error
+    end
   end
 
   def find(id) when is_binary(id), do: find(%Request{resource_ids: [{@resource_id_name, id}]})
   def find(%Request{} = request) do
     with {:ok, id}      <- validate_id(request),
-         uri            <- generate_uri(["financialInstitutions"], id),
+         {:ok, uri}     <- generate_uri(["financialInstitutions"], id),
          client_request <- ClientRequest.build(request, uri, @resource_type)
     do
       ResourceOperations.find(client_request, __MODULE__)
@@ -39,16 +41,18 @@ defmodule Ibanity.FinancialInstitution do
   end
 
   def create(%Request{} = request) do
-    uri = generate_uri(["sandbox", "financialInstitutions"])
-
-    request
-    |> ClientRequest.build(uri, @resource_type)
-    |> ResourceOperations.create(__MODULE__)
+    with {:ok, uri}     <- generate_uri(["sandbox", "financialInstitutions"]),
+         client_request <- ClientRequest.build(request, uri, @resource_type)
+    do
+      ResourceOperations.create(client_request, __MODULE__)
+    else
+      error -> error
+    end
   end
 
   def update(%Request{} = request) do
     with {:ok, id}      <- validate_id(request),
-         uri            <- generate_uri(["sandbox", "financialInstitutions"], id),
+         {:ok, uri}     <- generate_uri(["sandbox", "financialInstitutions"], id),
          client_request <- ClientRequest.build(request, uri, @resource_type)
     do
       ResourceOperations.update(client_request, __MODULE__)
@@ -60,7 +64,7 @@ defmodule Ibanity.FinancialInstitution do
   def delete(id) when is_binary(id), do: delete(%Request{resource_ids: [{@resource_id_name, id}]})
   def delete(%Request{} = request) do
     with {:ok, id}      <- validate_id(request),
-         uri            <- generate_uri(["sandbox", "financialInstitutions"], id),
+         {:ok, uri}     <- generate_uri(["sandbox", "financialInstitutions"], id),
          client_request <- ClientRequest.build(request, uri, @resource_type)
     do
       ResourceOperations.destroy(client_request, __MODULE__)
@@ -69,14 +73,17 @@ defmodule Ibanity.FinancialInstitution do
     end
   end
 
-  defp generate_uri(path, replacement \\ "") do
-    Configuration
-    |> apply(:api_schema, [])
-    |> get_in(path)
-    |> String.replace("{financialInstitutionId}", replacement)
-  end
-
   def keys, do: @base_keys
+
+  defp generate_uri(path, replacement \\ "") do
+    fragment = Configuration |> apply(:api_schema, []) |> get_in(path)
+
+    if fragment do
+      {:ok, String.replace(fragment, "{financialInstitutionId}", replacement)}
+    else
+      {:error, :uri_fragment}
+    end
+  end
 
   defp validate_id(%Request{} = request) do
     case ResourceIdentifier.validate_ids([@resource_id_name], request.resource_ids) do
