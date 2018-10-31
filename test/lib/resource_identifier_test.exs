@@ -3,6 +3,15 @@ defmodule Ibanity.ResourceIdentifierTest do
   import Ibanity.ResourceIdentifier
 
   describe ".validate/2" do
+    test "valid when an empty list is given as identifiers" do
+      expected_ids = []
+      actual_ids = [
+        financialInstitution: "d15563b2-9f6a-4ede-8f9a-fb6de858c382"
+      ]
+
+      assert validate_ids(expected_ids, actual_ids) == {:ok, actual_ids}
+    end
+
     test "valid when mandatory identifiers are present" do
       expected_ids = [:financialInstitution, :customer]
       actual_ids = [
