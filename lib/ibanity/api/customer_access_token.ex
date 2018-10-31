@@ -2,7 +2,6 @@ defmodule Ibanity.CustomerAccessToken do
   alias Ibanity.{Configuration, Request, ResourceOperations}
   alias Ibanity.Client.Request, as: ClientRequest
 
-  @base_keys [:token]
   defstruct id: nil, token: nil
 
   def create(%Request{} = request) do
@@ -12,5 +11,10 @@ defmodule Ibanity.CustomerAccessToken do
     ResourceOperations.create(client_request, __MODULE__)
   end
 
-  def keys, do: @base_keys
+  def key_mapping do
+    [
+      id: ~w(id),
+      token: ~w(attributes token)
+    ]
+  end
 end

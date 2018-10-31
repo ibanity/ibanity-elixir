@@ -2,7 +2,6 @@ defmodule Ibanity.FinancialInstitution do
   alias Ibanity.{Configuration, FinancialInstitution, Request, ResourceIdentifier, ResourceOperations}
   alias Ibanity.Client.Request, as: ClientRequest
 
-  @base_keys [:sandbox, :name]
   defstruct id: nil, sandbox: true, name: nil, self_link: nil
 
   @type t :: %FinancialInstitution{id: String.t, sandbox: boolean, name: String.t, self_link: String.t}
@@ -73,7 +72,14 @@ defmodule Ibanity.FinancialInstitution do
     end
   end
 
-  def keys, do: @base_keys
+  def key_mapping do
+    [
+      id: ~w(id),
+      sandbox: ~w(attributes sandbox),
+      name: ~w(attributes name),
+      self_link: ~w(links self)
+    ]
+  end
 
   defp generate_uri(path, replacement \\ "") do
     fragment = Configuration |> apply(:api_schema, []) |> get_in(path)

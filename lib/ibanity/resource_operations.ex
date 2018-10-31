@@ -1,5 +1,5 @@
 defmodule Ibanity.ResourceOperations do
-  alias Ibanity.{BaseResource, Client, Client.Request, Collection}
+  alias Ibanity.{Client, Client.Request, Collection}
 
   def create(%Request{} = request, return_type \\ nil) do
     execute_request(:post, request, return_type)
@@ -24,6 +24,7 @@ defmodule Ibanity.ResourceOperations do
   defp execute_request(method, request, return_type) do
     Client
     |> apply(method, [request])
+    |> IO.inspect(label: "Response")
     |> handle_response(return_type)
   end
 
@@ -40,6 +41,14 @@ defmodule Ibanity.ResourceOperations do
     Enum.map(data, &wrap(&1, return_type))
   end
   defp wrap(data, return_type) do
-    BaseResource.new(return_type, data)
+    fill_struct(return_type, data)
   end
+
+  defp fill_struct(module, item) do
+    mapping = module.key_mapping()
+    keys    = Enum.map(mapping, fn {key, path} -> {key, get_in(item, path)} end)
+
+    struct(module, keys)
+  end
+
 end
