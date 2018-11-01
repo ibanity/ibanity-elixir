@@ -33,7 +33,7 @@ defmodule Ibanity.Request do
     %__MODULE__{request | idempotency_key: key}
   end
 
-  def customer_access_token(token), do: customer_access_token(%__MODULE__{}, token)
+  def customer_access_token(token) when is_binary(token), do: customer_access_token(%__MODULE__{}, token)
   def customer_access_token(%__MODULE__{} = request, token) do
     %__MODULE__{request | customer_access_token: token}
   end
@@ -65,5 +65,9 @@ defmodule Ibanity.Request do
 
   def has_header?(request, header) do
     Keyword.has_key?(request.headers, header)
+  end
+
+  def has_customer_access_token?(request) do
+    not is_nil(request.customer_access_token)
   end
 end

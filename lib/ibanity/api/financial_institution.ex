@@ -20,7 +20,7 @@ defmodule Ibanity.FinancialInstitution do
   def list, do: list(%Request{})
   def list(%Request{} = request) do
     {request, id_path} =
-      if Request.has_header?(request, :"Authorization") do
+      if Request.has_customer_access_token?(request) do
         {request, ["customer", "financialInstitutions"]}
       else
         resource_ids = Keyword.put(request.resource_ids, :financialInstitutionId, "")
