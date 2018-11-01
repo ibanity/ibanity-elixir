@@ -20,7 +20,7 @@ defmodule Ibanity.Request do
 
   def header(header, value), do: header(%__MODULE__{}, header, value)
   def header(%__MODULE__{} = request, header, value) do
-    %__MODULE__{request | headers: Map.put(request.headers, header, value)}
+    %__MODULE__{request | headers: Keyword.put(request.headers, header, value)}
   end
 
   def headers(headers), do: headers(%__MODULE__{}, headers)
@@ -29,7 +29,7 @@ defmodule Ibanity.Request do
   end
 
   def idempotency_key(key), do: idempotency_key(%__MODULE__{}, key)
-  def idempotency_key(%__MODULE__{} = request, key) do
+  def idempotency_key(%__MODULE__{} = request, key) when is_binary(key) do
     %__MODULE__{request | idempotency_key: key}
   end
 
