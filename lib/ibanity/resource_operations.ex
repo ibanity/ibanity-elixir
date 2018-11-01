@@ -24,10 +24,10 @@ defmodule Ibanity.ResourceOperations do
   defp execute_request(method, request, return_type) do
     Client
     |> apply(method, [request])
-    |> IO.inspect(label: "Response")
     |> handle_response(return_type)
   end
 
+  defp handle_response(%{"message" => reason}, nil), do: {:error, reason}
   defp handle_response({:error, _} = error, _return_type), do: error
   defp handle_response({:ok, res}, nil), do: res
   defp handle_response({:ok, items}, return_type) when is_list(items) do
