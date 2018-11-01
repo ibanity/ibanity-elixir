@@ -25,10 +25,7 @@ defmodule Ibanity.MixProject do
     [
       {:httpoison, "~> 1.4"},
       {:jason, "~> 1.1"},
-      {:recase, "~> 0.3"},
-      {:elixir_uuid, "~> 1.2"},
-      {:espec, "~> 1.6.2", only: :test},
-      {:exvcr, "~> 0.10.3", only: :test}
+      {:recase, "~> 0.3"}
     ]
   end
 end
