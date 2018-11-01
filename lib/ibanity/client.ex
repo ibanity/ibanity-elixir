@@ -14,12 +14,16 @@ defmodule Ibanity.Client do
       uri: nil
     ]
 
-    def build(%Ibanity.Request{} = request, uri, resource_type) do
+    def build(%Ibanity.Request{} = request, uri_path, resource_type) do
+      uri = get_in(Config.api_schema(), uri_path)
+      request = %Ibanity.Request{request | uri: uri}
+      request = Ibanity.ResourceIdentifier.substitute_in_uri(request)
+
       %Ibanity.Client.Request{
         headers: create_headers(request),
         data:    create_data(request)
       }
-      |> uri(uri)
+      |> uri(request.uri)
       |> resource_type(resource_type)
     end
 

@@ -6,6 +6,7 @@ defmodule Ibanity.Request do
   ]
 
   defstruct [
+    uri: nil,
     headers: @base_headers,
     attributes: %{},
     idempotency_key: nil,

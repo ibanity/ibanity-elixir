@@ -1,57 +1,46 @@
 defmodule Ibanity.ResourceIdentifierTest do
   use ExUnit.Case, async: true
+  alias Ibanity.Request
   import Ibanity.ResourceIdentifier
 
-  describe ".validate/2" do
-    test "valid when an empty list is given as identifiers" do
-      expected_ids = []
-      actual_ids = [
-        financialInstitution: "d15563b2-9f6a-4ede-8f9a-fb6de858c382"
-      ]
+  describe ".substitute_in_uri/1" do
+    test "raise an error if there are missing ids" do
+      request = %Request{
+        uri: "http://www.example.com/{financialInstitutionId}",
+        resource_ids: []
+      }
 
-      assert validate_ids(expected_ids, actual_ids) == {:ok, actual_ids}
+      assert_raise(ArgumentError, fn -> substitute_in_uri(request) end)
     end
 
-    test "valid when mandatory identifiers are present" do
-      expected_ids = [:financialInstitution, :customer]
-      actual_ids = [
-        financialInstitution: "d15563b2-9f6a-4ede-8f9a-fb6de858c382",
-        customer: "2250d435-1c78-4080-89e5-1bc052ae6df6"
-      ]
+    test "substitute all the ids" do
+      request =
+        %Request{
+          uri: "http://www.example.com/{financialInstitutionId}/accounts/{accountId}",
+          resource_ids: [
+            financialInstitutionId: "287d7357-bbe8-455c-89f6-a83c111b1f93",
+            accountId: "59f86484-6503-42e2-9e0b-de28cc1b7a0c"
+          ]
+        }
+        |> substitute_in_uri
 
-      assert validate_ids(expected_ids, actual_ids) == {:ok, actual_ids}
+
+      assert request.uri == "http://www.example.com/287d7357-bbe8-455c-89f6-a83c111b1f93/accounts/59f86484-6503-42e2-9e0b-de28cc1b7a0c"
     end
 
-    test "error when identifiers are missing" do
-      expected_ids = [:financialInstitution, :customer]
-      actual_ids = [
-        financialInstitution: "d15563b2-9f6a-4ede-8f9a-fb6de858c382"
-      ]
+    test "allow empty ids" do
+      request =
+        %Request{
+          uri: "http://www.example.com/{financialInstitutionId}/accounts/{accountId}",
+          resource_ids: [
+            financialInstitutionId: "287d7357-bbe8-455c-89f6-a83c111b1f93",
+            accountId: ""
+          ]
+        }
+        |> substitute_in_uri
 
-      assert validate_ids(expected_ids, actual_ids) == {:error, :missing_resource_ids}
-    end
 
-    test "error when identifiers are not UUIDv4" do
-      expected_ids = [:financialInstitution, :customer]
-
-      # Hint: "af42e939-7e21-5397-b8fe-4743cfe62ad8" is not a UUIDv4
-      actual_ids = [
-        financialInstitution: "af42e939-7e21-5397-b8fe-4743cfe62ad8",
-        customer: "2250d435-1c78-4080-89e5-1bc052ae6df6"
-      ]
-
-      assert validate_ids(expected_ids, actual_ids) == {:error, :invalid_resource_id}
-    end
-  end
-
-  describe ".validate!/2" do
-    test "raise an exception when error occurs" do
-      expected_ids = [:financialInstitution, :customer]
-      actual_ids = [
-        financialInstitution: "d15563b2-9f6a-4ede-8f9a-fb6de858c382"
-      ]
-
-      assert_raise(ArgumentError, fn -> validate_ids!(expected_ids, actual_ids) end)
+      assert request.uri == "http://www.example.com/287d7357-bbe8-455c-89f6-a83c111b1f93/accounts/"
     end
   end
 end
