@@ -1,6 +1,10 @@
 defmodule Ibanity.FinancialInstitution do
-  alias Ibanity.{FinancialInstitution, Request, ResourceOperations}
+  @moduledoc """
+  Financial institutions API wrapper
+  """
+
   alias Ibanity.Client.Request, as: ClientRequest
+  alias Ibanity.{FinancialInstitution, Request, ResourceOperations}
 
   defstruct [
     id: nil,

@@ -1,6 +1,10 @@
 defmodule Ibanity.PaymentInitiationRequest do
-  alias Ibanity.{PaymentInitiationRequest, Request, ResourceOperations}
+  @moduledoc """
+  Payment initiation requests API wrapper
+  """
+
   alias Ibanity.Client.Request, as: ClientRequest
+  alias Ibanity.{PaymentInitiationRequest, Request, ResourceOperations}
 
   @api_schema_path ~w(customer financialInstitution paymentInitiationRequests)
   @resource_type "paymentInitiationRequest"

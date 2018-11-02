@@ -1,4 +1,8 @@
 defmodule Ibanity.AccountInformationAccessRequest do
+  @moduledoc """
+  Account information access requests API wrapper
+  """
+
   alias Ibanity.{Request, ResourceOperations}
   alias Ibanity.Client.Request, as: ClientRequest
 

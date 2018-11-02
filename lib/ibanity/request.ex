@@ -1,4 +1,8 @@
 defmodule Ibanity.Request do
+  @moduledoc """
+  Abstraction layer that eases the construction of an HTTP request
+  """
+
   alias Ibanity.CustomerAccessToken
 
   @base_headers [

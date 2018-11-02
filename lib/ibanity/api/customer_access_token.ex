@@ -1,6 +1,10 @@
 defmodule Ibanity.CustomerAccessToken do
-  alias Ibanity.{Request, ResourceOperations}
+  @moduledoc """
+  Customer access token API wrapper
+  """
+
   alias Ibanity.Client.Request, as: ClientRequest
+  alias Ibanity.{Request, ResourceOperations}
 
   defstruct id: nil, token: nil
 

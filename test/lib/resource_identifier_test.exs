@@ -24,7 +24,6 @@ defmodule Ibanity.ResourceIdentifierTest do
         }
         |> substitute_in_uri
 
-
       assert request.uri == "http://www.example.com/287d7357-bbe8-455c-89f6-a83c111b1f93/accounts/59f86484-6503-42e2-9e0b-de28cc1b7a0c"
     end
 
@@ -38,7 +37,6 @@ defmodule Ibanity.ResourceIdentifierTest do
           ]
         }
         |> substitute_in_uri
-
 
       assert request.uri == "http://www.example.com/287d7357-bbe8-455c-89f6-a83c111b1f93/accounts/"
     end

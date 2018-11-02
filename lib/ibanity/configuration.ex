@@ -1,4 +1,8 @@
 defmodule Ibanity.Configuration do
+  @moduledoc """
+  Stores the configuration used by the HTTP client: SSL, URLs,...
+  """
+
   use Agent
 
   defstruct [

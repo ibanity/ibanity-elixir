@@ -1,4 +1,8 @@
 defmodule Ibanity.ResourceOperations do
+  @moduledoc """
+  Execute the client request and handle the response
+  """
+
   alias Ibanity.{Client, Client.Request, Collection}
 
   def create(%Request{} = request, return_type \\ nil) do
@@ -50,5 +54,4 @@ defmodule Ibanity.ResourceOperations do
 
     struct(module, keys)
   end
-
 end

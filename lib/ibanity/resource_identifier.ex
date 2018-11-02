@@ -1,4 +1,8 @@
 defmodule Ibanity.ResourceIdentifier do
+  @moduledoc """
+  Convenience functions for resource identifier manipulation
+  """
+
   alias Ibanity.Request
 
   @ids_matcher ~r/\{(\w+)\}/

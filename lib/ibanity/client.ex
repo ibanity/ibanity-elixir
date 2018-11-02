@@ -7,6 +7,9 @@ defmodule Ibanity.Client do
   alias Ibanity.Request
 
   defmodule Request do
+    @moduledoc """
+    Parameters that will be passed as-is to the HTTP client
+    """
     defstruct [
       headers: [],
       data: %{},
@@ -30,10 +33,10 @@ defmodule Ibanity.Client do
     defp uri(%__MODULE__{} = request, uri), do: %__MODULE__{request | uri: uri}
 
     defp resource_type(%__MODULE__{} = request, type) do
-      unless Map.has_key?(request.data, :type) do
-        %__MODULE__{request | data: Map.put(request.data, :type, type)}
-      else
+      if Map.has_key?(request.data, :type) do
         request
+      else
+        %__MODULE__{request | data: Map.put(request.data, :type, type)}
       end
     end
 
@@ -66,10 +69,10 @@ defmodule Ibanity.Client do
     end
 
     defp add_attributes(data, request) do
-      unless Enum.empty?(request.attributes) do
-        Map.put(data, :attributes, request.attributes)
-      else
+      if Enum.empty?(request.attributes) do
         data
+      else
+        Map.put(data, :attributes, request.attributes)
       end
     end
 
