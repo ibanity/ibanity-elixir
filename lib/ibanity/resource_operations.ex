@@ -49,6 +49,8 @@ defmodule Ibanity.ResourceOperations do
   end
 
   defp fill_struct(module, item) do
+    # TODO: Should we use protocol instead of duck typing ?
+    # See https://hexdocs.pm/commanded/serialization.html for example
     mapping = module.key_mapping()
     keys    = Enum.map(mapping, fn {key, path} -> {key, get_in(item, path)} end)
 
