@@ -24,12 +24,8 @@ defmodule Ibanity.Configuration do
 
   defp init(environment) do
     config = %__MODULE__{
-      api_url: Keyword.get(environment, :api_url) || @default_api_url,
-      ssl_options: [
-        certfile: Keyword.get(environment, :certificate),
-        keyfile: Keyword.get(environment, :key),
-        cacertfile: Keyword.get(environment, :ssl_ca_file)
-      ]
+      api_url: Keyword.get(environment, :api_url, @default_api_url),
+      ssl_options: ssl_options(environment)
     }
 
     res = HTTPoison.get!(
@@ -40,5 +36,15 @@ defmodule Ibanity.Configuration do
     api_schema = res.body |> Jason.decode! |> Map.fetch!("links")
 
     %{config | api_schema: api_schema}
+  end
+
+  defp ssl_options(environment) do
+    ssl_options = [
+      certfile: Keyword.get(environment, :certificate),
+      keyfile: Keyword.get(environment, :key)
+    ]
+
+    ca_cert_file = Keyword.get(environment, :ssl_ca_file)
+    if ca_cert_file, do: Keyword.put_new(ssl_options, :cacertfile, ca_cert_file), else: ssl_options
   end
 end
