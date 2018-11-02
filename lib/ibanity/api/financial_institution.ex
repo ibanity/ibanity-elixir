@@ -18,17 +18,15 @@ defmodule Ibanity.FinancialInstitution do
   @find_api_schema_path    ["financialInstitutions"]
 
   def list, do: list(%Request{})
-  def list(%Request{} = request) do
-    {request, id_path} =
-      if Request.has_customer_access_token?(request) do
-        {request, ["customer", "financialInstitutions"]}
-      else
-        resource_ids = Keyword.put(request.resource_ids, :financialInstitutionId, "")
-        {%Request{request | resource_ids: resource_ids}, ["financialInstitutions"]}
-      end
-
+  def list(%Request{customer_access_token: nil} = request) do
     request
-    |> ClientRequest.build(id_path, @resource_type)
+    |> Request.id(:financialInstitutionId, "")
+    |> ClientRequest.build(["financialInstitutions"], @resource_type)
+    |> ResourceOperations.list(__MODULE__)
+  end
+  def list(%Request{} = request) do
+    request
+    |> ClientRequest.build(["customer", "financialInstitutions"], @resource_type)
     |> ResourceOperations.list(__MODULE__)
   end
 
