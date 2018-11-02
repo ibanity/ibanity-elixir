@@ -1,4 +1,5 @@
 defmodule Ibanity.Request do
+  alias Ibanity.CustomerAccessToken
 
   @base_headers [
     Accept: "application/json",
@@ -34,6 +35,10 @@ defmodule Ibanity.Request do
   end
 
   def customer_access_token(token) when is_binary(token), do: customer_access_token(%__MODULE__{}, token)
+  def customer_access_token(%CustomerAccessToken{} = access), do: customer_access_token(access.token)
+  def customer_access_token(%__MODULE__{} = request, %CustomerAccessToken{} = access) do
+    customer_access_token(request, access.token)
+  end
   def customer_access_token(%__MODULE__{} = request, token) do
     %__MODULE__{request | customer_access_token: token}
   end
@@ -55,12 +60,12 @@ defmodule Ibanity.Request do
 
   def id(name, value), do: id(%__MODULE__{}, name, value)
   def id(%__MODULE__{} = request, name, value) do
-    %__MODULE__{request | resource_ids: [{name, value}]}
+    %__MODULE__{request | resource_ids: Keyword.put(request.resource_ids, name, value)}
   end
 
   def ids(ids), do: ids(%__MODULE__{}, ids)
   def ids(%__MODULE__{} = request, ids) when is_list(ids) do
-    %__MODULE__{request | resource_ids: ids}
+    %__MODULE__{request | resource_ids: Keyword.merge(request.resource_ids, ids)}
   end
 
   def has_header?(request, header) do
