@@ -24,7 +24,7 @@ In your configuration:
 ```elixir
 config :ibanity, :certificate, "path/to/your/certificate.pem"
 config :ibanity, :key, "path/to/your/private/key.pem" # Note, at this moment it doesn't support encrypted key !
-config :ibanity, :api_url, "https://api.ibanity.com" # Or whatever environment you are working with
+config :ibanity, :api_url, "https://api.development.ibanity.com" # Default is "https://api.ibanity.com"
 config :ibanity, :ssl_ca_file, "path/to/ca_file.pem" # Optional, not needed in production
 ```
 
