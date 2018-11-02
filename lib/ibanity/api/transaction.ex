@@ -46,7 +46,7 @@ defmodule Ibanity.Transaction do
       currency: ~w(attributes currency),
       counterpart_reference: ~w(attributes counterpartReference),
       counterpart_name: ~w(attributes counterpartName),
-      amount: ~w(attributes amount)
+      amount: ~w(attributes amount),
       self: ~w(links self)
     ]
   end
