@@ -68,11 +68,23 @@ defmodule Ibanity.Request do
     %__MODULE__{request | resource_ids: Keyword.merge(request.resource_ids, ids)}
   end
 
-  def has_header?(request, header) do
+  def has_id?(%__MODULE__{} = request, id) do
+    Keyword.has_key?(request.resource_ids, id)
+  end
+
+  def get_id(%__MODULE__{} = request, id) do
+    Keyword.get(request.resource_ids, id)
+  end
+
+  def has_header?(%__MODULE__{} = request, header) do
     Keyword.has_key?(request.headers, header)
   end
 
-  def has_customer_access_token?(request) do
+  def get_header(%__MODULE__{} = request, header) do
+    Keyword.get(request.headers, header)
+  end
+
+  def has_customer_access_token?(%__MODULE__{} = request) do
     not is_nil(request.customer_access_token)
   end
 end
