@@ -3,9 +3,7 @@ defmodule Ibanity.Account do
   Acounts API wrapper
   """
 
-  alias Ibanity.{Account, Client, CustomerAccessToken, ResourceOperations, Request}
-  alias Ibanity.Client.Request, as: ClientRequest
-  import Ibanity.Request
+  use Ibanity.Resource
 
   defstruct [
     id: nil,

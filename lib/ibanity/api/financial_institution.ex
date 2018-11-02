@@ -3,8 +3,7 @@ defmodule Ibanity.FinancialInstitution do
   Financial institutions API wrapper
   """
 
-  alias Ibanity.Client.Request, as: ClientRequest
-  alias Ibanity.{FinancialInstitution, Request, ResourceOperations}
+  use Ibanity.Resource
 
   defstruct [
     id: nil,

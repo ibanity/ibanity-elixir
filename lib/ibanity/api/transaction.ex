@@ -3,8 +3,7 @@ defmodule Ibanity.Transaction do
   Transactions API wrapper
   """
 
-  alias Ibanity.Client.Request, as: ClientRequest
-  alias Ibanity.{Request, ResourceOperations, Transaction}
+  use Ibanity.Resource
 
   defstruct [
     id: nil,

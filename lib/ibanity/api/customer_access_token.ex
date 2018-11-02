@@ -3,8 +3,7 @@ defmodule Ibanity.CustomerAccessToken do
   Customer access token API wrapper
   """
 
-  alias Ibanity.Client.Request, as: ClientRequest
-  alias Ibanity.{Request, ResourceOperations}
+  use Ibanity.Resource
 
   defstruct id: nil, token: nil
 
