@@ -12,8 +12,6 @@ defmodule Ibanity.FinancialInstitution do
     self_link: nil
   ]
 
-  @type t :: %FinancialInstitution{id: String.t, sandbox: boolean, name: String.t, self_link: String.t}
-
   @resource_id_name :financialInstitutionId
   @resource_type "financialInstitution"
 
