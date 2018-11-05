@@ -10,7 +10,7 @@ defmodule Ibanity.Account do
     subtype: nil,
     reference_type: nil,
     reference: nil,
-    descrition: nil,
+    description: nil,
     current_balance: nil,
     currency: nil,
     available_balance: nil,
@@ -42,14 +42,14 @@ defmodule Ibanity.Account do
   def list(%Request{} = request), do: list(request, Request.get_id(request, :financialInstitutionId))
   def list(%Request{} = request, nil) do
     request
-    |> id(:accountId, "")
+    |> Request.id(:accountId, "")
     |> ClientRequest.build(["customer", "accounts"], "account")
     |> ResourceOperations.list(__MODULE__)
   end
   def list(%Request{} = request, financial_institution_id) do
     request
-    |> id(:accountId, "")
-    |> id(:financialInstitutionId, financial_institution_id)
+    |> Request.id(:accountId, "")
+    |> Request.id(:financialInstitutionId, financial_institution_id)
     |> ClientRequest.build(["customer", "financialInstitution", "accounts"], "account")
     |> ResourceOperations.list(__MODULE__)
   end
@@ -61,8 +61,8 @@ defmodule Ibanity.Account do
   end
   def find(%Request{} = request, account_id, financial_institution_id) do
     request
-    |> id(:accountId, account_id)
-    |> id(:financialInstitutionId, financial_institution_id)
+    |> Request.id(:accountId, account_id)
+    |> Request.id(:financialInstitutionId, financial_institution_id)
     |> find
   end
 
@@ -71,8 +71,8 @@ defmodule Ibanity.Account do
   end
   def delete(%Request{} = request, account_id, financial_institution_id) do
     request
-    |> id(:accountId, account_id)
-    |> id(:financialInstitutionId, financial_institution_id)
+    |> Request.id(:accountId, account_id)
+    |> Request.id(:financialInstitutionId, financial_institution_id)
     |> delete
   end
   def delete(%Request{} = request) do
