@@ -9,6 +9,7 @@ defmodule Ibanity.PaymentInitiationRequest do
   @resource_type "paymentInitiationRequest"
 
   defstruct [
+    id: nil,
     status: nil,
     remittance_information_type: nil,
     remittance_information: nil,
@@ -29,11 +30,12 @@ defmodule Ibanity.PaymentInitiationRequest do
 
   def key_mapping do
     [
+      id: ~w(id),
       status: ~w(attributes status),
       remittance_information_type: ~w(attributes remittanceInformationType),
       remittance_information: ~w(attributes remittanceInformation),
       product_type: ~w(attributes productType),
-      end_to_end_id: ~w(attributes end_to_end_id),
+      end_to_end_id: ~w(attributes endToEndId),
       debtor_name: ~w(attributes debtorName),
       debtor_account_reference_type: ~w(attributes debtorAccountReferenceType),
       debtor_account_reference: ~w(attributes debtorAccountReference),
@@ -41,7 +43,7 @@ defmodule Ibanity.PaymentInitiationRequest do
       creditor_name: ~w(attributes creditorName),
       creditor_agent_type: ~w(attributes creditorAgentType),
       creditor_agent: ~w(attributes creditorAgent),
-      creditor_account_reference_type: ~w(attributes creditorAccourReferenceType),
+      creditor_account_reference_type: ~w(attributes creditorAccountReferenceType),
       creditor_account_reference: ~w(attributes creditorAccountReference),
       consent_reference: ~w(attributes consentReference),
       amount: ~w(attributes amount)
