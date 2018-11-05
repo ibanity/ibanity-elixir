@@ -4,6 +4,7 @@ defmodule Ibanity.ResourceOperations do
   """
 
   alias Ibanity.{Client, Client.Request, Collection}
+  import Ibanity.JsonDeserializer
 
   def create(%Request{} = request, return_type \\ nil) do
     execute_request(:post, request, return_type)
@@ -36,24 +37,8 @@ defmodule Ibanity.ResourceOperations do
   defp handle_response({:ok, res}, nil), do: res
   defp handle_response({:ok, items}, return_type) when is_list(items) do
     items
-    |> wrap(return_type)
+    |> deserialize(return_type)
     |> Collection.new(%{}, %{}, return_type)
   end
-  defp handle_response({:ok, item}, return_type), do: wrap(item, return_type)
-
-  defp wrap(data, return_type) when is_list(data) do
-    Enum.map(data, &wrap(&1, return_type))
-  end
-  defp wrap(data, return_type) do
-    fill_struct(return_type, data)
-  end
-
-  defp fill_struct(module, item) do
-    # TODO: Should we use protocol instead of duck typing ?
-    # See https://hexdocs.pm/commanded/serialization.html for example
-    mapping = module.key_mapping()
-    keys    = Enum.map(mapping, fn {key, path} -> {key, get_in(item, path)} end)
-
-    struct(module, keys)
-  end
+  defp handle_response({:ok, item}, return_type), do: deserialize(item, return_type)
 end
