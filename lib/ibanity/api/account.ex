@@ -29,7 +29,7 @@ defmodule Ibanity.Account do
       currency: ~w(attributes currency),
       available_balance: ~w(attributes availableBalance),
       transactions: ~w(relationships transactions links related),
-      financial_institution: ~w(relationships financialInstitution links)
+      financial_institution: ~w(relationships financialInstitution links related)
     ]
   end
 

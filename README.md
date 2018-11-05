@@ -82,3 +82,6 @@ FinancialInstitutions.list
 |> FinancialInstitution.update
 # => %Ibanity.FinancialInstitution{id: "0864492c-dbf4-43bd-8764-e0b52f4136d4", name: "WowBank", ...}
 ```
+
+## TODO
+- [] Deserialize datetime fields
