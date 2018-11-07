@@ -24,13 +24,13 @@ defmodule Ibanity.Transaction do
   def list(%Request{} = request) do
     request
     |> Request.id(:transactionId, "")
-    |> ClientRequest.build(:get, @api_schema_path)
+    |> HttpRequest.build(:get, @api_schema_path)
     |> ResourceOperations.list(__MODULE__)
   end
 
   def find(%Request{} = request) do
     request
-    |> ClientRequest.build(:get, @api_schema_path)
+    |> HttpRequest.build(:get, @api_schema_path)
     |> ResourceOperations.find(__MODULE__)
   end
 

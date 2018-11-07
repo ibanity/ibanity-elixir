@@ -3,26 +3,26 @@ defmodule Ibanity.ResourceOperations do
   Execute the client request and handle the response
   """
 
-  alias Ibanity.{Client, Client.Request, Collection}
+  alias Ibanity.{Client, HttpRequest, Collection}
   import Ibanity.JsonDeserializer
 
-  def create(%Request{} = request, return_type \\ nil) do
+  def create(%HttpRequest{} = request, return_type \\ nil) do
     execute_request(:post, request, return_type)
   end
 
-  def list(%Request{} = request, return_type) do
+  def list(%HttpRequest{} = request, return_type) do
     execute_request(:get, request, return_type)
   end
 
-  def find(%Request{} = request, return_type) do
+  def find(%HttpRequest{} = request, return_type) do
     execute_request(:get, request, return_type)
   end
 
-  def update(%Request{} = request, return_type) do
+  def update(%HttpRequest{} = request, return_type) do
     execute_request(:patch, request, return_type)
   end
 
-  def destroy(%Request{} = request, return_type) do
+  def destroy(%HttpRequest{} = request, return_type) do
     execute_request(:delete, request, return_type)
   end
 

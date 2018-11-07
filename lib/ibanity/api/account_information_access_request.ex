@@ -15,7 +15,7 @@ defmodule Ibanity.AccountInformationAccessRequest do
 
   def create(%Request{} = request) do
     request
-    |> ClientRequest.build(:post, @api_schema_path, "accountInformationAccessRequest")
+    |> HttpRequest.build(:post, @api_schema_path, "accountInformationAccessRequest")
     |> ResourceOperations.create(__MODULE__)
   end
 

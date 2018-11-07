@@ -11,7 +11,7 @@ defmodule Ibanity.CustomerAccessToken do
 
   def create(%Request{} = request) do
     request
-    |> ClientRequest.build(:post, @api_schema_path)
+    |> HttpRequest.build(:post, @api_schema_path)
     |> ResourceOperations.create(__MODULE__)
   end
 

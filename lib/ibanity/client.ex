@@ -6,7 +6,7 @@ defmodule Ibanity.Client do
   alias Ibanity.Configuration, as: Config
   alias Ibanity.Request
 
-  defmodule Request do
+  defmodule HttpRequest do
     @moduledoc """
     Parameters that will be passed as-is to the HTTP client
     """
@@ -23,7 +23,7 @@ defmodule Ibanity.Client do
       request      = %Ibanity.Request{request | uri: uri} |> Ibanity.ResourceIdentifier.substitute_in_uri
       sign_options = Config.signature_options()
 
-      %Ibanity.Client.Request{
+      %Ibanity.Client.HttpRequest{
         headers: create_headers(request),
         data:    create_data(request),
       }
@@ -38,7 +38,7 @@ defmodule Ibanity.Client do
       certificate_id = Keyword.get(signature_options, :certificate_id)
       signature_headers = Ibanity.Signature.signature_headers(request, method, uri, private_key, certificate_id)
 
-      %Ibanity.Client.Request{request | headers: Keyword.merge(request.headers, signature_headers)}
+      %Ibanity.Client.HttpRequest{request | headers: Keyword.merge(request.headers, signature_headers)}
     end
 
     defp uri(%__MODULE__{} = request, uri), do: %__MODULE__{request | uri: uri}
