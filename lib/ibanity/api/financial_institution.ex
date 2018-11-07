@@ -40,7 +40,8 @@ defmodule Ibanity.FinancialInstitution do
 
   def create(%Request{} = request) do
     request
-    |> ClientRequest.build(@sandbox_api_schema_path, @resource_type)
+    |> Request.id(:financialInstitutionId, "")
+    |> ClientRequest.build(:post, @sandbox_api_schema_path, @resource_type)
     |> ResourceOperations.create(__MODULE__)
   end
 
