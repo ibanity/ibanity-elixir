@@ -58,7 +58,7 @@ defmodule Ibanity.PaymentInitiationRequest do
   def create(%Request{} = request) do
     request
     |> Request.id(:paymentInitiationRequestId, "")
-    |> ClientRequest.build(@api_schema_path, @resource_type)
+    |> ClientRequest.build(:post, @api_schema_path, @resource_type)
     |> ResourceOperations.create(__MODULE__)
   end
 
@@ -70,7 +70,7 @@ defmodule Ibanity.PaymentInitiationRequest do
   end
   def find(%Request{} = request) do
     request
-    |> ClientRequest.build(@api_schema_path, @resource_type)
+    |> ClientRequest.build(:get, @api_schema_path)
     |> ResourceOperations.create(__MODULE__)
   end
 end

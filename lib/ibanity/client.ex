@@ -12,12 +12,13 @@ defmodule Ibanity.Client do
     """
     defstruct [
       headers: [],
-      data: %{},
+      data: nil,
       query_params: [],
-      uri: nil
+      uri: nil,
+      method: nil
     ]
 
-    def build(%Ibanity.Request{} = request, uri_path, resource_type) do
+    def build(%Ibanity.Request{} = request, http_method, uri_path, resource_type \\ nil) do
       uri = get_in(Config.api_schema(), uri_path)
       request = %Ibanity.Request{request | uri: uri}
       request = Ibanity.ResourceIdentifier.substitute_in_uri(request)
@@ -28,10 +29,21 @@ defmodule Ibanity.Client do
       }
       |> uri(request.uri)
       |> resource_type(resource_type)
+      |> add_signature(http_method, uri, Config.signature_options())
+    end
+
+    defp add_signature(request, _method, _uri, nil), do: request
+    defp add_signature(request, method, uri, signature_options) do
+      private_key = Keyword.get(signature_options, :signature_key)
+      certificate_id = Keyword.get(signature_options, :certificate_id)
+      signature_headers = Ibanity.Signature.signature_headers(request, method, uri, private_key, certificate_id)
+
+      %Ibanity.Client.Request{request | headers: Keyword.merge(request.headers, signature_headers)}
     end
 
     defp uri(%__MODULE__{} = request, uri), do: %__MODULE__{request | uri: uri}
 
+    defp resource_type(%__MODULE__{} = request, nil), do: request
     defp resource_type(%__MODULE__{} = request, type) do
       if Map.has_key?(request.data, :type) do
         request

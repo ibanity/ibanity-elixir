@@ -22,38 +22,38 @@ defmodule Ibanity.FinancialInstitution do
   def list(%Request{customer_access_token: nil} = request) do
     request
     |> Request.id(:financialInstitutionId, "")
-    |> ClientRequest.build(["financialInstitutions"], @resource_type)
+    |> ClientRequest.build(:get, ["financialInstitutions"])
     |> ResourceOperations.list(__MODULE__)
   end
   def list(%Request{} = request) do
     request
-    |> ClientRequest.build(["customer", "financialInstitutions"], @resource_type)
+    |> ClientRequest.build(:get, ["customer", "financialInstitutions"])
     |> ResourceOperations.list(__MODULE__)
   end
 
   def find(id) when is_binary(id), do: find(%Request{resource_ids: [{@resource_id_name, id}]})
   def find(%Request{} = request) do
     request
-    |> ClientRequest.build(@find_api_schema_path, @resource_type)
+    |> ClientRequest.build(:get, @find_api_schema_path)
     |> ResourceOperations.find(__MODULE__)
   end
 
   def create(%Request{} = request) do
     request
-    |> ClientRequest.build(@sandbox_api_schema_path, @resource_type)
+    |> ClientRequest.build(:post, @sandbox_api_schema_path, @resource_type)
     |> ResourceOperations.create(__MODULE__)
   end
 
   def update(%Request{} = request) do
     request
-    |> ClientRequest.build(@sandbox_api_schema_path, @resource_type)
+    |> ClientRequest.build(:patch, @sandbox_api_schema_path, @resource_type)
     |> ResourceOperations.update(__MODULE__)
   end
 
   def delete(id) when is_binary(id), do: delete(%Request{resource_ids: [{@resource_id_name, id}]})
   def delete(%Request{} = request) do
     request
-    |> ClientRequest.build(@sandbox_api_schema_path, @resource_type)
+    |> ClientRequest.build(:delete, @sandbox_api_schema_path)
     |> ResourceOperations.destroy(__MODULE__)
   end
 

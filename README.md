@@ -22,8 +22,11 @@ end
 
 In your configuration:
 ```elixir
-config :ibanity, :certificate, "path/to/your/certificate.pem"
-config :ibanity, :key, "path/to/your/private/key.pem" # Note, at this moment it doesn't support encrypted key !
+config :ibanity, :certificate_file, "path/to/your/certificate.pem"
+config :ibanity, :key_file, "path/to/your/private/key.pem" # Note, at this moment it doesn't support encrypted key !
+config :ibanity, :signature_certificate_file, "path/to/your/certificate/used/for/signature.pem" # At this moment, can be the same as the certificate file
+config :ibanity, :signature_certificate_id, "fb3e6bc3-4ba3-461d-b3fd-6f108402320e" # The id (UUIDv4) of the certificate used for signature
+config :ibanity, :signature_key_file, "path/to/your/private/key/used/for/signature.pem"
 config :ibanity, :api_url, "https://api.development.ibanity.com" # Default is "https://api.ibanity.com"
 config :ibanity, :ssl_ca_file, "path/to/ca_file.pem" # Optional, not needed in production
 ```
@@ -84,4 +87,4 @@ FinancialInstitutions.list
 ```
 
 ## TODO
-- [] Deserialize datetime fields
+- [ ] Deserialize datetime fields
