@@ -18,7 +18,7 @@ defmodule Ibanity.HttpRequest do
     request      = %Ibanity.Request{request | uri: uri} |> Ibanity.ResourceIdentifier.substitute_in_uri
     sign_options = Configuration.signature_options()
 
-    %Ibanity.Client.HttpRequest{
+    %__MODULE__{
       headers: create_headers(request),
       data:    create_data(request),
     }
@@ -33,7 +33,7 @@ defmodule Ibanity.HttpRequest do
     certificate_id = Keyword.get(signature_options, :certificate_id)
     signature_headers = Ibanity.Signature.signature_headers(request, method, uri, private_key, certificate_id)
 
-    %Ibanity.Client.HttpRequest{request | headers: Keyword.merge(request.headers, signature_headers)}
+    %__MODULE__{request | headers: Keyword.merge(request.headers, signature_headers)}
   end
 
   defp uri(%__MODULE__{} = request, uri), do: %__MODULE__{request | uri: uri}

@@ -8,7 +8,7 @@ defmodule Ibanity.Signature do
   @empty_sha256sum "47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU="
   @algorithm "rsa-sha256"
 
-  alias Ibanity.Client.HttpRequest, as: HttpRequest
+  alias Ibanity.HttpRequest
 
   def signature_headers(%HttpRequest{} = request, method, uri, private_key, certificate_id) do
     uri = URI.parse(uri)
