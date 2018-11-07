@@ -26,6 +26,7 @@ defmodule Ibanity.MixProject do
       {:httpoison, "~> 1.4"},
       {:jason, "~> 1.1"},
       {:recase, "~> 0.3"},
+      {:ex_crypto, "~> 0.9.0"},
       {:credo, "~> 1.0.0-rc1", only: [:dev, :test], runtime: false}
     ]
   end

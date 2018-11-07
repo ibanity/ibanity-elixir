@@ -9,7 +9,7 @@ defmodule Ibanity.Customer do
 
   def delete(%Request{} = request) do
     request
-    |> ClientRequest.build(["customer", "self"], "customer")
+    |> ClientRequest.build(:delete, ["customer", "self"])
     |> ResourceOperations.destroy(__MODULE__)
   end
 
