@@ -15,21 +15,21 @@ defmodule Ibanity.Client do
       data: nil,
       query_params: [],
       uri: nil,
-      method: nil
+      payload: nil
     ]
 
     def build(%Ibanity.Request{} = request, http_method, uri_path, resource_type \\ nil) do
-      uri = get_in(Config.api_schema(), uri_path)
-      request = %Ibanity.Request{request | uri: uri}
-      request = Ibanity.ResourceIdentifier.substitute_in_uri(request)
+      uri          = get_in(Config.api_schema(), uri_path)
+      request      = %Ibanity.Request{request | uri: uri} |> Ibanity.ResourceIdentifier.substitute_in_uri
+      sign_options = Config.signature_options()
 
       %Ibanity.Client.Request{
         headers: create_headers(request),
-        data:    create_data(request)
+        data:    create_data(request),
       }
       |> uri(request.uri)
       |> resource_type(resource_type)
-      |> add_signature(http_method, uri, Config.signature_options())
+      |> add_signature(http_method, request.uri, sign_options)
     end
 
     defp add_signature(request, _method, _uri, nil), do: request
@@ -75,9 +75,12 @@ defmodule Ibanity.Client do
     end
 
     defp create_data(request) do
-      %{}
-      |> add_attributes(request)
-      |> add_type(request)
+      data =
+        %{}
+        |> add_attributes(request)
+        |> add_type(request)
+
+      if Enum.empty?(data), do: nil, else: data
     end
 
     defp add_attributes(data, request) do
@@ -103,6 +106,7 @@ defmodule Ibanity.Client do
       request.headers,
       ssl: Config.ssl_options()
     )
+
     process_response(res)
   end
 

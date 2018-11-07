@@ -1,10 +1,11 @@
 defmodule Ibanity.Signature do
   @moduledoc """
   HTTP Signature: https://documentation.ibanity.com/products#http-signature
+
+  Note that it only support SHA-256 digest at this time
   """
 
-  @empty_sha512sum "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg_SpIdNs6c5H0NE8XYXysP-DGNKHfuwvY7kxvUdBeoGlODJ6-SfaPg=="
-  @empty_sha256sum "RBNvo1WzZ4oRRq0W9-hknpT7T8If536DEMBg9hyq_4o="
+  @empty_sha256sum "47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU="
   @algorithm "rsa-sha256"
 
   alias Ibanity.Client.Request, as: ClientRequest
