@@ -58,24 +58,25 @@ See examples below.
 |> Request.attributes`
 |> Request.idempotency_key("007572ed-77a9-4828-844c-1fc0180b9795")
 |> CustomerAccessToken.create
-# => %Ibanity.CustomerAccessToken{id: "b2d81d9a-1a10-4bb6-a354-9910b8b64a01", token: "eyJ0eXAiOiJKV1QiLCJhbGc..."}
+# => {:ok, %Ibanity.CustomerAccessToken{id: "b2d81d9a-1a10-4bb6-a354-9910b8b64a01", token: "eyJ0eXAiOiJKV1QiLCJhbGc..."}}
 
 # List financial institutions
 FinancialInstitutions.list
-# %Ibanity.Collection{
-#   after_cursor: nil,
-#   before_cursor: nil,
-#   class: Ibanity.FinancialInstitution,
-#   first_link: nil,
-#   items: [
-#     %Ibanity.FinancialInstitution{
-#       id: "44d3be20-4423-475e-9433-8b5fe48e0c64",
-#       name: "Acme Bank",
-#       sandbox: false,
-#       self_link: "https://api.ibanity.com/financial-institutions/44d3be20-4423-475e-9433-8b5fe48e0c64"
-#     },
-#     %Ibanity.FinancialInstitution{...}
-#   ]
+# {:ok, %Ibanity.Collection{
+#    after_cursor: nil,
+#    before_cursor: nil,
+#    class: Ibanity.FinancialInstitution,
+#    first_link: nil,
+#    items: [
+#      %Ibanity.FinancialInstitution{
+#        id: "44d3be20-4423-475e-9433-8b5fe48e0c64",
+#        name: "Acme Bank",
+#        sandbox: false,
+#        self_link: "https://api.ibanity.com/financial-institutions/44d3be20-4423-475e-9433-8b5fe48e0c64"
+#      },
+#      %Ibanity.FinancialInstitution{...}
+#    ]
+#  }
 # }
 
 # Update an existing financial institution
@@ -83,7 +84,7 @@ FinancialInstitutions.list
 |> Request.attributes
 |> Request.ids(financialInstitutionId: "0864492c-dbf4-43bd-8764-e0b52f4136d4")
 |> FinancialInstitution.update
-# => %Ibanity.FinancialInstitution{id: "0864492c-dbf4-43bd-8764-e0b52f4136d4", name: "WowBank", ...}
+# => {:ok, %Ibanity.FinancialInstitution{id: "0864492c-dbf4-43bd-8764-e0b52f4136d4", name: "WowBank", ...}}
 ```
 
 ## TODO

@@ -3,8 +3,6 @@ defmodule Ibanity.Request do
   Abstraction layer that eases the construction of an HTTP request
   """
 
-  alias Ibanity.CustomerAccessToken
-
   @base_headers [
     Accept: "application/json",
     "Content-Type": "application/json"
@@ -39,8 +37,8 @@ defmodule Ibanity.Request do
   end
 
   def customer_access_token(token) when is_binary(token), do: customer_access_token(%__MODULE__{}, token)
-  def customer_access_token(%CustomerAccessToken{} = access), do: customer_access_token(access.token)
-  def customer_access_token(%__MODULE__{} = request, %CustomerAccessToken{} = access) do
+  def customer_access_token(%Ibanity.CustomerAccessToken{} = access), do: customer_access_token(access.token)
+  def customer_access_token(%__MODULE__{} = request, %Ibanity.CustomerAccessToken{} = access) do
     customer_access_token(request, access.token)
   end
   def customer_access_token(%__MODULE__{} = request, token) do

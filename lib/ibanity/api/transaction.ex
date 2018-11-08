@@ -24,14 +24,12 @@ defmodule Ibanity.Transaction do
   def list(%Request{} = request) do
     request
     |> Request.id(:transactionId, "")
-    |> HttpRequest.build(:get, @api_schema_path)
-    |> Client.execute(__MODULE__)
+    |> Client.execute(:get, @api_schema_path, __MODULE__)
   end
 
   def find(%Request{} = request) do
     request
-    |> HttpRequest.build(:get, @api_schema_path)
-    |> Client.execute(__MODULE__)
+    |> Client.execute(:get, @api_schema_path, __MODULE__)
   end
 
   def key_mapping do

@@ -4,8 +4,8 @@ defmodule Ibanity.Resource do
   """
   defmacro __using__(_ \\ []) do
     quote do
-      alias Ibanity.HttpRequest
-      alias Ibanity.{Client, Request}
+      alias Ibanity.Client
+      alias Ibanity.Request
       alias unquote(__MODULE__)
     end
   end

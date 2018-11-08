@@ -9,8 +9,7 @@ defmodule Ibanity.Customer do
 
   def delete(%Request{} = request) do
     request
-    |> HttpRequest.build(:delete, ["customer", "self"])
-    |> Client.execute(__MODULE__)
+    |> Client.execute(:delete, ["customer", "self"], __MODULE__)
   end
 
   def key_mapping do

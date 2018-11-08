@@ -3,7 +3,7 @@ defmodule Ibanity.HttpRequest do
   Parameters that will be passed as-is to the HTTP client
   """
 
-  alias Ibanity.Configuration
+  alias Ibanity.{Configuration}
 
   defstruct [
     headers: [],
@@ -36,13 +36,16 @@ defmodule Ibanity.HttpRequest do
     if path, do: {:ok, path}, else: {:error, :invalid_path}
   end
 
-  defp add_signature(request, _method, _uri, nil), do: request
+  defp add_signature(request, _method, _uri, nil), do: {:ok, request}
   defp add_signature(request, method, uri, signature_options) do
-    private_key = Keyword.get(signature_options, :signature_key)
-    certificate_id = Keyword.get(signature_options, :certificate_id)
-    signature_headers = Ibanity.Signature.signature_headers(request, method, uri, private_key, certificate_id)
-
-    %__MODULE__{request | headers: Keyword.merge(request.headers, signature_headers)}
+    with {:ok, private_key}    <- Keyword.fetch(signature_options, :signature_key),
+         {:ok, certificate_id} <- Keyword.fetch(signature_options, :certificate_id),
+         {:ok, headers}        <- Ibanity.Signature.signature_headers(request, method, uri, private_key, certificate_id)
+    do
+      {:ok, %__MODULE__{request | headers: Keyword.merge(request.headers, headers)}}
+    else
+      {:error, reason} -> {:error, reason}
+    end
   end
 
   defp uri(%__MODULE__{} = request, uri), do: %__MODULE__{request | uri: uri}

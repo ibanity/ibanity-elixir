@@ -12,12 +12,13 @@ defmodule Ibanity.Signature do
 
   def signature_headers(%HttpRequest{} = request, method, uri, private_key, certificate_id) do
     uri = URI.parse(uri)
-
-    [
+    headers = [
       "Date": now_to_string(),
       "Digest":  "SHA-256=" <> payload_digest(request),
       "Signature": generate_signature(request, method, uri, private_key, certificate_id)
     ]
+
+    {:ok, headers}
   end
 
   defp payload_digest(%{data: nil}), do: @empty_sha256sum

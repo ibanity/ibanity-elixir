@@ -11,8 +11,7 @@ defmodule Ibanity.CustomerAccessToken do
 
   def create(%Request{} = request) do
     request
-    |> HttpRequest.build(:post, @api_schema_path)
-    |> Client.execute(__MODULE__)
+    |> Client.execute(:post, @api_schema_path, __MODULE__)
   end
 
   def key_mapping do
