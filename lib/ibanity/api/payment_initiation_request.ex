@@ -59,7 +59,7 @@ defmodule Ibanity.PaymentInitiationRequest do
     request
     |> Request.id(:paymentInitiationRequestId, "")
     |> HttpRequest.build(:post, @api_schema_path, @resource_type)
-    |> ResourceOperations.create(__MODULE__)
+    |> Client.execute(__MODULE__)
   end
 
   def find(%Request{} = request, financial_institution_id, initiation_request_id) do
@@ -71,6 +71,6 @@ defmodule Ibanity.PaymentInitiationRequest do
   def find(%Request{} = request) do
     request
     |> HttpRequest.build(:get, @api_schema_path)
-    |> ResourceOperations.find(__MODULE__)
+    |> Client.execute(__MODULE__)
   end
 end

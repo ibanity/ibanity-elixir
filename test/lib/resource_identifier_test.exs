@@ -4,17 +4,17 @@ defmodule Ibanity.ResourceIdentifierTest do
   import Ibanity.ResourceIdentifier
 
   describe ".substitute_in_uri/1" do
-    test "raise an error if there are missing ids" do
+    test "return an error if there are missing ids" do
       request = %Request{
         uri: "http://www.example.com/{financialInstitutionId}",
         resource_ids: []
       }
 
-      assert_raise(ArgumentError, fn -> substitute_in_uri(request) end)
+      assert substitute_in_uri(request) == {:error, :missing_ids}
     end
 
     test "substitute all the ids" do
-      request =
+      {:ok, request} =
         %Request{
           uri: "http://www.example.com/{financialInstitutionId}/accounts/{accountId}",
           resource_ids: [
@@ -28,7 +28,7 @@ defmodule Ibanity.ResourceIdentifierTest do
     end
 
     test "allow empty ids" do
-      request =
+      {:ok, request} =
         %Request{
           uri: "http://www.example.com/{financialInstitutionId}/accounts/{accountId}",
           resource_ids: [

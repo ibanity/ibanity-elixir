@@ -10,21 +10,30 @@ defmodule Ibanity.HttpRequest do
     data: nil,
     query_params: [],
     uri: nil,
-    payload: nil
+    method: nil,
+    return_type: nil
   ]
 
   def build(%Ibanity.Request{} = request, http_method, uri_path, resource_type \\ nil) do
-    uri          = get_in(Configuration.api_schema(), uri_path)
-    request      = %Ibanity.Request{request | uri: uri} |> Ibanity.ResourceIdentifier.substitute_in_uri
-    sign_options = Configuration.signature_options()
+    with {:ok, uri}     <- find_uri(uri_path),
+         {:ok, request} <- Ibanity.ResourceIdentifier.substitute_in_uri(%Ibanity.Request{request | uri: uri})
+    do
+      %__MODULE__{
+        headers: create_headers(request),
+        data:    create_data(request),
+        method:  http_method
+      }
+      |> uri(request.uri)
+      |> resource_type(resource_type)
+      |> add_signature(http_method, request.uri, Configuration.signature_options())
+    else
+      {:error, reason} -> {:error, reason}
+    end
+  end
 
-    %__MODULE__{
-      headers: create_headers(request),
-      data:    create_data(request),
-    }
-    |> uri(request.uri)
-    |> resource_type(resource_type)
-    |> add_signature(http_method, request.uri, sign_options)
+  defp find_uri(uri_path) do
+    path = get_in(Configuration.api_schema(), uri_path)
+    if path, do: {:ok, path}, else: {:error, :invalid_path}
   end
 
   defp add_signature(request, _method, _uri, nil), do: request

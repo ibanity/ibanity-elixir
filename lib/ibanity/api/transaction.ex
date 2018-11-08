@@ -25,13 +25,13 @@ defmodule Ibanity.Transaction do
     request
     |> Request.id(:transactionId, "")
     |> HttpRequest.build(:get, @api_schema_path)
-    |> ResourceOperations.list(__MODULE__)
+    |> Client.execute(__MODULE__)
   end
 
   def find(%Request{} = request) do
     request
     |> HttpRequest.build(:get, @api_schema_path)
-    |> ResourceOperations.find(__MODULE__)
+    |> Client.execute(__MODULE__)
   end
 
   def key_mapping do

@@ -9,9 +9,11 @@ defmodule Ibanity.ResourceIdentifier do
 
   def substitute_in_uri(%Request{} = request) do
     expected_ids = Regex.scan(@ids_matcher, request.uri)
-    all_present?(request.resource_ids, expected_ids)
-
-    %Request{request | uri: substitute_ids(request.uri, request.resource_ids)}
+    if all_present?(request.resource_ids, expected_ids) do
+      {:ok, %Request{request | uri: substitute_ids(request.uri, request.resource_ids)}}
+    else
+      {:error, :missing_ids}
+    end
   end
 
   defp substitute_ids(uri, ids) do
@@ -29,10 +31,6 @@ defmodule Ibanity.ResourceIdentifier do
       |> Enum.map(&String.to_atom/1)
       |> Enum.reject(&(Enum.member?(actual_ids, &1)))
 
-    if Enum.empty?(missing_ids) do
-      resource_ids
-    else
-      raise ArgumentError, "missing ids: #{inspect missing_ids}"
-    end
+    Enum.empty?(missing_ids)
   end
 end
