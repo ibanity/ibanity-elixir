@@ -4,6 +4,7 @@ defmodule Ibanity.Configuration do
   """
 
   use Agent
+  alias Ibanity.IdReplacer
 
   defstruct [
     api_schema: nil,
@@ -12,7 +13,7 @@ defmodule Ibanity.Configuration do
     signature_options: nil
   ]
 
-  @default_api_url "https://api.ibanity.com:443"
+  @default_api_url "https://api.ibanity.com"
 
   @base_headers [
     {"Accept", "application/json"},
@@ -39,7 +40,7 @@ defmodule Ibanity.Configuration do
       @base_headers,
       ssl: config.ssl_options
     )
-    api_schema = res.body |> Jason.decode! |> Map.fetch!("links")
+    api_schema = res.body |> Jason.decode! |> Map.fetch!("links") |> replace_last_ids
 
     %{config | api_schema: api_schema}
   end
@@ -86,5 +87,14 @@ defmodule Ibanity.Configuration do
   defp add_key_file(ssl_options, environment) do
     key_file = Keyword.get(environment, :key_file)
     if key_file, do: Keyword.put_new(ssl_options, :keyfile, key_file), else: ssl_options
+  end
+
+  defp replace_last_ids(links) when is_map(links) do
+    Enum.reduce(links, %{}, fn {key, value}, acc ->
+      Map.put_new(acc, key, replace_last_ids(value))
+    end)
+  end
+  defp replace_last_ids(str) when is_binary(str) do
+    IdReplacer.replace_last(str)
   end
 end

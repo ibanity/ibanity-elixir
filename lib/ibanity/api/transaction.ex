@@ -23,7 +23,7 @@ defmodule Ibanity.Transaction do
 
   def list(%Request{} = request) do
     request
-    |> Request.id(:transactionId, "")
+    |> Request.id(:id, "")
     |> Client.execute(:get, @api_schema_path, __MODULE__)
   end
 

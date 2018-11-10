@@ -57,14 +57,14 @@ defmodule Ibanity.PaymentInitiationRequest do
   end
   def create(%Request{} = request) do
     request
-    |> Request.id(:paymentInitiationRequestId, "")
+    |> Request.id(:id, "")
     |> Request.resource_type(@resource_type)
     |> Client.execute(:post, @api_schema_path, __MODULE__)
   end
 
   def find(%Request{} = request, financial_institution_id, initiation_request_id) do
     request
-    |> Request.id(:financialInstitutionId, financial_institution_id)
+    |> Request.id(:id, financial_institution_id)
     |> Request.id(:paymentInitiationRequestId, initiation_request_id)
     |> find
   end

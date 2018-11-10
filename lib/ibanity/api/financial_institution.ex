@@ -21,7 +21,7 @@ defmodule Ibanity.FinancialInstitution do
   def list, do: list(%Request{})
   def list(%Request{customer_access_token: nil} = request) do
     request
-    |> Request.id(:financialInstitutionId, "")
+    |> Request.id(:id, "")
     |> Client.execute(:get, ["financialInstitutions"], __MODULE__)
   end
   def list(%Request{} = request) do
@@ -37,7 +37,7 @@ defmodule Ibanity.FinancialInstitution do
 
   def create(%Request{} = request) do
     request
-    |> Request.id(:financialInstitutionId, "")
+    |> Request.id(:id, "")
     |> Request.resource_type(@resource_type)
     |> Client.execute(:post, @sandbox_api_schema_path, __MODULE__)
   end
