@@ -59,7 +59,8 @@ defmodule Ibanity.PaymentInitiationRequest.DeserializationTest do
       creditor_account_reference_type: "IBAN",
       creditor_account_reference: "BE4359048312132562",
       consent_reference: "b57cca6b-74d6-4ac8-ba5d-4e28160d8dde",
-      amount: 59
+      amount: 59,
+      redirect_link: "https://callback.ibanity.com/sandbox/fi/pir/i?state=dmF1bHQ6djE6V1FLZFp..."
     }
 
     assert actual == expected
