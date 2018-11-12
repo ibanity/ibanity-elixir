@@ -22,36 +22,36 @@ defmodule Ibanity.FinancialInstitution do
   def list(%Request{customer_access_token: nil} = request) do
     request
     |> Request.id(:id, "")
-    |> Client.execute(:get, ["financialInstitutions"], __MODULE__)
+    |> Client.execute(:get, ["financialInstitutions"])
   end
   def list(%Request{} = request) do
     request
-    |> Client.execute(:get, ["customer", "financialInstitutions"], __MODULE__)
+    |> Client.execute(:get, ["customer", "financialInstitutions"])
   end
 
   def find(id) when is_binary(id), do: find(%Request{resource_ids: [{@resource_id_name, id}]})
   def find(%Request{} = request) do
     request
-    |> Client.execute(:get, @find_api_schema_path, __MODULE__)
+    |> Client.execute(:get, @find_api_schema_path)
   end
 
   def create(%Request{} = request) do
     request
     |> Request.id(:id, "")
     |> Request.resource_type(@resource_type)
-    |> Client.execute(:post, @sandbox_api_schema_path, __MODULE__)
+    |> Client.execute(:post, @sandbox_api_schema_path)
   end
 
   def update(%Request{} = request) do
     request
     |> Request.resource_type(@resource_type)
-    |> Client.execute(:patch, @sandbox_api_schema_path, __MODULE__)
+    |> Client.execute(:patch, @sandbox_api_schema_path)
   end
 
   def delete(id) when is_binary(id), do: delete(%Request{resource_ids: [{@resource_id_name, id}]})
   def delete(%Request{} = request) do
     request
-    |> Client.execute(:delete, @sandbox_api_schema_path, __MODULE__)
+    |> Client.execute(:delete, @sandbox_api_schema_path)
   end
 
   def key_mapping do

@@ -56,7 +56,7 @@ defmodule Ibanity.Account.DeserializationTest do
       }
     }
 
-    actual = data |> deserialize(Account)
+    actual = data |> deserialize
     expected = %Account{
       id: "2e016890-70a5-4892-8711-f34ef74c0b02",
       subtype: "checking",

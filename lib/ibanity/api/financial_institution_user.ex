@@ -20,28 +20,28 @@ defmodule Ibanity.FinancialInstitutionUser do
   def create(%Request{} = request) do
     request
     |> Request.id(:id, "")
-    |> Client.execute(:post, @api_schema_path, __MODULE__)
+    |> Client.execute(:post, @api_schema_path)
   end
 
   def list(%Request{} = request) do
     request
     |> Request.id(:id, "")
-    |> Client.execute(:get, @api_schema_path, __MODULE__)
+    |> Client.execute(:get, @api_schema_path)
   end
 
   def find(%Request{} = request) do
     request
-    |> Client.execute(:get, @api_schema_path, __MODULE__)
+    |> Client.execute(:get, @api_schema_path)
   end
 
   def update(%Request{} = request) do
     request
-    |> Client.execute(:patch, @api_schema_path, __MODULE__)
+    |> Client.execute(:patch, @api_schema_path)
   end
 
   def delete(%Request{} = request) do
     request
-    |> Client.execute(:delete, @api_schema_path, __MODULE__)
+    |> Client.execute(:delete, @api_schema_path)
   end
 
   def key_mapping do

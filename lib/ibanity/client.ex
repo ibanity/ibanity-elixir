@@ -6,26 +6,26 @@ defmodule Ibanity.Client do
   alias Ibanity.{Collection, Configuration, HttpRequest}
   import Ibanity.JsonDeserializer
 
-  def execute(%Ibanity.Request{} = request, method, uri_path, return_type) do
+  def execute(%Ibanity.Request{} = request, method, uri_path) do
     case HttpRequest.build(request, method, uri_path) do
-      {:ok, http_request} -> execute(http_request, return_type)
+      {:ok, http_request} -> execute(http_request)
       {:error, reason}    -> {:error, reason}
     end
   end
 
-  defp execute(%HttpRequest{method: method} = request, return_type) do
+  defp execute(%HttpRequest{method: method} = request) do
     body = if method_has_body?(method), do: Jason.encode!(%{data: request.data}), else: ""
     res = HTTPoison.request!(
       method,
       request.uri,
       body,
       request.headers,
-      ssl: Configuration.ssl_options(),
+      ssl: Configuration.ssl_options()
     )
 
     res
     |> process_response
-    |> handle_response_body(return_type)
+    |> handle_response_body
   end
 
   defp method_has_body?(method) do
@@ -46,16 +46,15 @@ defmodule Ibanity.Client do
     end
   end
 
-  defp handle_response_body(%{"message" => reason}, nil), do: {:error, reason}
-  defp handle_response_body({:error, _} = error, _return_type), do: error
-  defp handle_response_body({:ok, res}, nil), do: {:ok, res}
-  defp handle_response_body({:ok, items}, return_type) when is_list(items) do
+  defp handle_response_body(%{"message" => reason}), do: {:error, reason}
+  defp handle_response_body({:error, _} = error), do: error
+  defp handle_response_body({:ok, items}) when is_list(items) do
     collection =
       items
-      |> deserialize(return_type)
-      |> Collection.new(%{}, %{}, return_type)
+      |> Enum.map(&deserialize/1)
+      |> Collection.new(%{}, %{})
 
     {:ok, collection}
   end
-  defp handle_response_body({:ok, item}, return_type), do: {:ok, deserialize(item, return_type)}
+  defp handle_response_body({:ok, item}), do: {:ok, deserialize(item)}
 end

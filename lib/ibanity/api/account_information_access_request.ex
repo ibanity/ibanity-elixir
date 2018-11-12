@@ -16,7 +16,7 @@ defmodule Ibanity.AccountInformationAccessRequest do
   def create(%Request{} = request) do
     request
     |> Request.resource_type("accountInformationAccessRequest")
-    |> Client.execute(:post, @api_schema_path, __MODULE__)
+    |> Client.execute(:post, @api_schema_path)
   end
 
   def key_mapping do

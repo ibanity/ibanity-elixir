@@ -15,7 +15,7 @@ defmodule Ibanity.FinancialInstitution.DeserializationTest do
       }
     }
 
-    actual = deserialize(data, Ibanity.FinancialInstitution)
+    actual = deserialize(data)
     expected = %Ibanity.FinancialInstitution{
       id: "01faf09c-038d-43f3-8e0c-d0aaf3e0e176",
       sandbox: true,

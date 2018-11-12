@@ -3,13 +3,22 @@ defmodule Ibanity.JsonDeserializer do
   JSON to struct deserializer
   """
 
-  def deserialize(data, return_type) when is_list(data) do
-    Enum.map(data, &deserialize(&1, return_type))
-  end
+  @type_mappings %{
+    "accountInformationAccessRequest" => Ibanity.AccountInformationAccessRequest,
+    "account" => Ibanity.Account,
+    "customerAccessToken" => Ibanity.CustomerAccessToken,
+    "customer" => Ibanity.Customer,
+    "financialInstitutionAccount" => Ibanity.FinancialInstitutionAccount,
+    "financialInstitutionUser" => Ibanity.FinancialInstitutionUser,
+    "financialInstitution" => Ibanity.FinancialInstitution,
+    "paymentInitiationRequest" => Ibanity.PaymentInitiationRequest,
+    "transaction" => Ibanity.Transaction
+  }
 
-  def deserialize(item, return_type) do
+  def deserialize(item) do
+    return_type = Map.fetch!(@type_mappings, Map.fetch!(item, "type"))
     mapping = return_type.key_mapping()
-    keys    = Enum.map(mapping, fn {key, path} -> {key, get_in(item, path)} end)
+    keys = Enum.map(mapping, fn {key, path} -> {key, get_in(item, path)} end)
 
     struct(return_type, keys)
   end

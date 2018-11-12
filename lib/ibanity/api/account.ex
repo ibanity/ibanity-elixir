@@ -43,18 +43,18 @@ defmodule Ibanity.Account do
   def list(%Request{} = request, nil) do
     request
     |> Request.id(:id, "")
-    |> Client.execute(:get, ["customer", "accounts"], __MODULE__)
+    |> Client.execute(:get, ["customer", "accounts"])
   end
   def list(%Request{} = request, financial_institution_id) do
     request
     |> Request.id(:id, "")
     |> Request.id(:financialInstitutionId, financial_institution_id)
-    |> Client.execute(:get, ["customer", "financialInstitution", "accounts"], __MODULE__)
+    |> Client.execute(:get, ["customer", "financialInstitution", "accounts"])
   end
 
   def find(%Request{} = request) do
     request
-    |> Client.execute(:get, ["customer", "financialInstitution", "accounts"], __MODULE__)
+    |> Client.execute(:get, ["customer", "financialInstitution", "accounts"])
   end
   def find(%Request{} = request, account_id, financial_institution_id) do
     request
@@ -74,6 +74,6 @@ defmodule Ibanity.Account do
   end
   def delete(%Request{} = request) do
     request
-    |> Client.execute(:delete, ["customer", "financialInstitution", "accounts"], __MODULE__)
+    |> Client.execute(:delete, ["customer", "financialInstitution", "accounts"])
   end
 end

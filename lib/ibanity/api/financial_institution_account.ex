@@ -24,7 +24,7 @@ defmodule Ibanity.FinancialInstitutionAccount do
     request
     |> Request.id(:id, "")
     |> Request.resource_type("financialInstitutionAccount")
-    |> Client.execute(:post, @api_schema_path, __MODULE__)
+    |> Client.execute(:post, @api_schema_path)
   end
 
   def list(institution_id, user_id) do
@@ -35,7 +35,7 @@ defmodule Ibanity.FinancialInstitutionAccount do
   def list(%Request{} = request) do
     request
     |> Request.id(:id, "")
-    |> Client.execute(:get, @api_schema_path, __MODULE__)
+    |> Client.execute(:get, @api_schema_path)
   end
 
   def find(institution_id, user_id, account_id) do
@@ -46,7 +46,7 @@ defmodule Ibanity.FinancialInstitutionAccount do
   end
   def find(%Request{} = request) do
     request
-    |> Client.execute(:get, @api_schema_path, __MODULE__)
+    |> Client.execute(:get, @api_schema_path)
   end
 
   def delete(institution_id, user_id, account_id) do
@@ -57,7 +57,7 @@ defmodule Ibanity.FinancialInstitutionAccount do
   end
   def delete(%Request{} = request) do
     request
-    |> Client.execute(:delete, @api_schema_path, __MODULE__)
+    |> Client.execute(:delete, @api_schema_path)
   end
 
   def key_mapping do

@@ -41,7 +41,7 @@ defmodule Ibanity.PaymentInitiationRequest.DeserializationTest do
       }
     }
 
-    actual = deserialize(data, PaymentInitiationRequest)
+    actual = deserialize(data)
     expected = %PaymentInitiationRequest{
       id: "6c1b78d1-a574-4b84-847f-bb7aa0fe43ef",
       status: nil,

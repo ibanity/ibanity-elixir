@@ -4,7 +4,6 @@ defmodule Ibanity.Collection do
   """
 
   defstruct [
-    class: nil,
     items: [],
     page_limit: nil,
     before_cursor: nil,
@@ -16,9 +15,8 @@ defmodule Ibanity.Collection do
     synchronized_at: nil
   ]
 
-  def new(items, paging, links, synchronized_at \\ nil, latest_synchronization \\ nil, class) do
+  def new(items, paging, links, synchronized_at \\ nil, latest_synchronization \\ nil) do
     %__MODULE__{
-      class: class,
       items: items,
       page_limit: paging["limit"],
       before_cursor: paging["before"],

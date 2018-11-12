@@ -17,7 +17,7 @@ defmodule Ibanity.AccountInformationAccessRequest.DeserializationTest do
       }
     }
 
-    actual = data |> deserialize(AccountInformationAccessRequest)
+    actual = deserialize(data)
     expected = %AccountInformationAccessRequest{
       id: "18f5fc93-0659-4734-b1e4-e274537db6ff",
       redirect_link: "https://callback.ibanity.com/sandbox/fi/aiar/i?state=dmF1bHQ6djE6RlBlQ2RKQ05TU...",
