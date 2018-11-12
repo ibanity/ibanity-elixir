@@ -37,7 +37,7 @@ config :ibanity, :ssl_ca_file, "path/to/ca_file.pem" # Optional, not needed in p
 
 ## Test
 
-`mix test --no-start`
+`mix test`
 
 ## Usage
 
