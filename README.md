@@ -79,13 +79,35 @@ FinancialInstitutions.list
 #  }
 # }
 
+# Set pagination limits
+Request.limit(1)
+|> FinancialInstitutions.list
+# {:ok, %Ibanity.Collection{
+#    after_cursor: nil,
+#    before_cursor: nil,
+#    class: Ibanity.FinancialInstitution,
+#    first_link: nil,
+#    items: [
+#      %Ibanity.FinancialInstitution{
+#        id: "44d3be20-4423-475e-9433-8b5fe48e0c64",
+#        name: "Acme Bank",
+#        sandbox: false,
+#        self_link: "https://api.ibanity.com/financial-institutions/44d3be20-4423-475e-9433-8b5fe48e0c64"
+#      }
+#    ]
+#  }
+# }
+
+
 # Update an existing financial institution
 [name: "WowBank"]
 |> Request.attributes
-|> Request.ids(financialInstitutionId: "0864492c-dbf4-43bd-8764-e0b52f4136d4")
+|> Request.ids(id: "0864492c-dbf4-43bd-8764-e0b52f4136d4")
 |> FinancialInstitution.update
 # => {:ok, %Ibanity.FinancialInstitution{id: "0864492c-dbf4-43bd-8764-e0b52f4136d4", name: "WowBank", ...}}
 ```
 
 ## TODO
+- [X] Get in sync with API documentation ids nomenclature
 - [ ] Deserialize datetime fields
+- [X] Support for pagination in requests

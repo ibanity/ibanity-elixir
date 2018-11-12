@@ -20,7 +20,8 @@ defmodule Ibanity.Client do
       request.uri,
       body,
       request.headers,
-      ssl: Configuration.ssl_options()
+      ssl: Configuration.ssl_options(),
+      params: request.query_params
     )
 
     res

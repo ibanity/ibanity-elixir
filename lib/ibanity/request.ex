@@ -70,6 +70,21 @@ defmodule Ibanity.Request do
     %__MODULE__{request | resource_ids: Keyword.merge(request.resource_ids, ids)}
   end
 
+  def limit(max), do: limit(%__MODULE__{}, max)
+  def limit(%__MODULE__{} = request, max) when is_integer(max) do
+    %__MODULE__{request | limit: max}
+  end
+
+  def before_id(id), do: before_id(%__MODULE__{}, id)
+  def before_id(%__MODULE__{} = request, id) do
+    %__MODULE__{request | before: id}
+  end
+
+  def after_id(id), do: after_id(%__MODULE__{}, id)
+  def after_id(%__MODULE__{} = request, id) do
+    %__MODULE__{request | after: id}
+  end
+
   def has_id?(%__MODULE__{} = request, id) do
     Keyword.has_key?(request.resource_ids, id)
   end

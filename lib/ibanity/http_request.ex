@@ -19,9 +19,10 @@ defmodule Ibanity.HttpRequest do
          {:ok, request} <- Ibanity.ResourceIdentifier.substitute_in_uri(%Ibanity.Request{request | uri: uri})
     do
       %__MODULE__{
-        headers: create_headers(request),
-        data:    create_data(request),
-        method:  http_method
+        headers:      create_headers(request),
+        data:         create_data(request),
+        query_params: create_query_params(request),
+        method:       http_method
       }
       |> uri(request.uri)
       |> resource_type(resource_type)
@@ -104,5 +105,19 @@ defmodule Ibanity.HttpRequest do
     else
       data
     end
+  end
+
+  defp create_query_params(request) do
+    [limit: request.limit]
+    |> add_before_id(request)
+    |> add_after_id(request)
+  end
+
+  defp add_before_id(params, request) do
+    if request.before, do: Keyword.put(params, :before, request.before), else: params
+  end
+
+  defp add_after_id(params, request) do
+    if request.after, do: Keyword.put(params, :after, request.after), else: params
   end
 end
