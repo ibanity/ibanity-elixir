@@ -10,8 +10,8 @@ defmodule Ibanity.Signature do
 
   alias Ibanity.HttpRequest
 
-  def signature_headers(%HttpRequest{} = request, method, uri, private_key, certificate_id) do
-    parsed_uri = URI.parse(uri)
+  def signature_headers(%HttpRequest{} = request, method, private_key, certificate_id) do
+    parsed_uri = URI.parse(request.uri)
     headers = [
       "Date": now_to_string(),
       "Digest":  "SHA-256=" <> payload_digest(request),

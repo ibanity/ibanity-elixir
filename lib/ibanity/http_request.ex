@@ -18,14 +18,16 @@ defmodule Ibanity.HttpRequest do
          {:ok, uri} <- Ibanity.ResourceIdentifier.substitute_in_uri(uri, request.resource_ids),
          {:ok, uri} <- add_query_params(uri, request)
     do
-      %__MODULE__{
-        headers:      create_headers(request),
-        data:         create_data(request),
-        method:       http_method
+      http_request = %__MODULE__{
+        headers: create_headers(request),
+        data:    create_data(request),
+        method:  http_method,
+        uri:     uri
       }
-      |> uri(uri)
+
+      http_request
       |> resource_type(resource_type)
-      |> add_signature(http_method, uri, Configuration.signature_options())
+      |> add_signature(http_method, Configuration.signature_options())
     else
       {:error, reason} -> {:error, reason}
     end
@@ -36,19 +38,17 @@ defmodule Ibanity.HttpRequest do
     if path, do: {:ok, path}, else: {:error, :invalid_path}
   end
 
-  defp add_signature(request, _method, _uri, nil), do: {:ok, request}
-  defp add_signature(request, method, uri, signature_options) do
+  defp add_signature(request, _method, nil), do: {:ok, request}
+  defp add_signature(request, method, signature_options) do
     with {:ok, private_key}    <- Keyword.fetch(signature_options, :signature_key),
          {:ok, certificate_id} <- Keyword.fetch(signature_options, :certificate_id),
-         {:ok, headers}        <- Ibanity.Signature.signature_headers(request, method, uri, private_key, certificate_id)
+         {:ok, headers}        <- Ibanity.Signature.signature_headers(request, method, private_key, certificate_id)
     do
       {:ok, %__MODULE__{request | headers: Keyword.merge(request.headers, headers)}}
     else
       {:error, reason} -> {:error, reason}
     end
   end
-
-  defp uri(%__MODULE__{} = request, uri), do: %__MODULE__{request | uri: uri}
 
   defp resource_type(%__MODULE__{} = request, nil), do: request
   defp resource_type(%__MODULE__{} = request, type) do
