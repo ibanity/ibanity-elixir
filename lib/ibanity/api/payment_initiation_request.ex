@@ -25,7 +25,8 @@ defmodule Ibanity.PaymentInitiationRequest do
     creditor_account_reference_type: nil,
     creditor_account_reference: nil,
     consent_reference: nil,
-    amount: nil
+    amount: nil,
+    redirect_link: nil
   ]
 
   def key_mapping do
@@ -46,7 +47,8 @@ defmodule Ibanity.PaymentInitiationRequest do
       creditor_account_reference_type: ~w(attributes creditorAccountReferenceType),
       creditor_account_reference: ~w(attributes creditorAccountReference),
       consent_reference: ~w(attributes consentReference),
-      amount: ~w(attributes amount)
+      amount: ~w(attributes amount),
+      redirect_link: ~w(links redirect),
     ]
   end
 
