@@ -11,11 +11,11 @@ defmodule Ibanity.Signature do
   alias Ibanity.HttpRequest
 
   def signature_headers(%HttpRequest{} = request, method, uri, private_key, certificate_id) do
-    uri = URI.parse(uri)
+    parsed_uri = URI.parse(uri)
     headers = [
       "Date": now_to_string(),
       "Digest":  "SHA-256=" <> payload_digest(request),
-      "Signature": generate_signature(request, method, uri, private_key, certificate_id)
+      "Signature": generate_signature(request, method, parsed_uri, private_key, certificate_id)
     ]
 
     {:ok, headers}
@@ -53,7 +53,8 @@ defmodule Ibanity.Signature do
   end
 
   defp add_virtual_header(headers, _request, method, uri) do
-    Keyword.put_new(headers, :"(request-target)", "#{method} #{uri.path}")
+    uri_path = if uri.query, do: uri.path <> "?" <> uri.query, else: uri.path
+    Keyword.put_new(headers, :"(request-target)", "#{method} #{uri_path}")
   end
 
   defp add_host(headers, _request, _method, uri) do

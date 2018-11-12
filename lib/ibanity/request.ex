@@ -9,14 +9,13 @@ defmodule Ibanity.Request do
   ]
 
   defstruct [
-    uri: nil,
     headers: @base_headers,
     attributes: %{},
     idempotency_key: nil,
     customer_access_token: nil,
     resource_type: nil,
     resource_ids: [],
-    limit: 10,
+    limit: nil,
     before: nil,
     after: nil
   ]

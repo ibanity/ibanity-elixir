@@ -7,10 +7,10 @@ defmodule Ibanity.ResourceIdentifier do
 
   @ids_matcher ~r/\{(\w+)\}/
 
-  def substitute_in_uri(%Request{} = request) do
-    expected_ids = Regex.scan(@ids_matcher, request.uri)
-    if all_present?(request.resource_ids, expected_ids) do
-      {:ok, %Request{request | uri: substitute_ids(request.uri, request.resource_ids)}}
+  def substitute_in_uri(uri, resource_ids) do
+    expected_ids = Regex.scan(@ids_matcher, uri)
+    if all_present?(resource_ids, expected_ids) do
+      {:ok, substitute_ids(uri, resource_ids)}
     else
       {:error, :missing_ids}
     end
