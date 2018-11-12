@@ -14,21 +14,25 @@ defmodule Ibanity.HttpRequest do
   ]
 
   def build(%Ibanity.Request{} = request, http_method, uri_path, resource_type \\ nil) do
-    with {:ok, uri} <- UriUtils.from_request(request, uri_path)
-    do
-      http_request = %__MODULE__{
-        headers: create_headers(request),
-        data:    create_data(request),
-        method:  http_method,
-        uri:     uri
-      }
+    case UriUtils.from_request(request, uri_path) do
+      {:ok, uri} ->
+        request
+        |> base_http_request(http_method, uri)
+        |> resource_type(resource_type)
+        |> add_signature(http_method, Configuration.signature_options())
 
-      http_request
-      |> resource_type(resource_type)
-      |> add_signature(http_method, Configuration.signature_options())
-    else
-      {:error, reason} -> {:error, reason}
+      {:error, reason} ->
+        {:error, reason}
     end
+  end
+
+  defp base_http_request(request, http_method, uri) do
+    %__MODULE__{
+      headers: create_headers(request),
+      data:    create_data(request),
+      method:  http_method,
+      uri:     uri
+    }
   end
 
   defp add_signature(request, _method, nil), do: {:ok, request}
