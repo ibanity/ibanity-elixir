@@ -21,7 +21,6 @@ defmodule Ibanity.Client do
       body,
       request.headers,
       ssl: Configuration.ssl_options(),
-      params: request.query_params
     )
 
     res
