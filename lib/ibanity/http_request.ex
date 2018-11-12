@@ -3,7 +3,7 @@ defmodule Ibanity.HttpRequest do
   Parameters that will be passed as-is to the HTTP client
   """
 
-  alias Ibanity.{Configuration}
+  alias Ibanity.{Configuration, UriUtils}
 
   defstruct [
     headers: [],
@@ -14,9 +14,7 @@ defmodule Ibanity.HttpRequest do
   ]
 
   def build(%Ibanity.Request{} = request, http_method, uri_path, resource_type \\ nil) do
-    with {:ok, uri} <- find_uri(uri_path),
-         {:ok, uri} <- Ibanity.ResourceIdentifier.substitute_in_uri(uri, request.resource_ids),
-         {:ok, uri} <- add_query_params(uri, request)
+    with {:ok, uri} <- UriUtils.from_request(request, uri_path)
     do
       http_request = %__MODULE__{
         headers: create_headers(request),
@@ -31,11 +29,6 @@ defmodule Ibanity.HttpRequest do
     else
       {:error, reason} -> {:error, reason}
     end
-  end
-
-  defp find_uri(uri_path) do
-    path = get_in(Configuration.api_schema(), uri_path)
-    if path, do: {:ok, path}, else: {:error, :invalid_path}
   end
 
   defp add_signature(request, _method, nil), do: {:ok, request}
@@ -104,32 +97,5 @@ defmodule Ibanity.HttpRequest do
     else
       data
     end
-  end
-
-  defp add_query_params(uri, request) do
-    encoded_params = URI.encode_query(create_query_params(request))
-    res = if encoded_params == "", do: uri, else: uri <> "?" <> encoded_params
-
-    {:ok, res}
-  end
-
-  defp create_query_params(request) do
-    []
-    |> add_limit(request)
-    |> add_before_id(request)
-    |> add_after_id(request)
-    |> Enum.reverse
-  end
-
-  defp add_limit(params, request) do
-    if request.limit, do: Keyword.put(params, :limit, request.limit), else: params
-  end
-
-  defp add_before_id(params, request) do
-    if request.before, do: Keyword.put(params, :before, request.before), else: params
-  end
-
-  defp add_after_id(params, request) do
-    if request.after, do: Keyword.put(params, :after, request.after), else: params
   end
 end

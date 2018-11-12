@@ -1,13 +1,13 @@
-defmodule Ibanity.ResourceIdentifierTest do
+defmodule Ibanity.UriUtilsTest do
   use ExUnit.Case, async: true
-  import Ibanity.ResourceIdentifier
+  import Ibanity.UriUtils
 
-  describe ".substitute_in_uri/1" do
+  describe ".replace_ids/1" do
     test "return an error if there are missing ids" do
       uri = "http://www.example.com/{financialInstitutionId}"
       resource_ids = []
 
-      assert substitute_in_uri(uri, resource_ids) == {:error, :missing_ids}
+      assert replace_ids(uri, resource_ids) == {:error, :missing_ids}
     end
 
     test "substitute all the ids" do
@@ -17,7 +17,7 @@ defmodule Ibanity.ResourceIdentifierTest do
         accountId: "59f86484-6503-42e2-9e0b-de28cc1b7a0c"
       ]
 
-      assert substitute_in_uri(uri, resource_ids) ==
+      assert replace_ids(uri, resource_ids) ==
         {:ok, "http://www.example.com/287d7357-bbe8-455c-89f6-a83c111b1f93/accounts/59f86484-6503-42e2-9e0b-de28cc1b7a0c"}
     end
 
@@ -28,7 +28,7 @@ defmodule Ibanity.ResourceIdentifierTest do
         accountId: ""
       ]
 
-      assert substitute_in_uri(uri, resource_ids) ==
+      assert replace_ids(uri, resource_ids) ==
         {:ok, "http://www.example.com/287d7357-bbe8-455c-89f6-a83c111b1f93/accounts/"}
     end
   end
