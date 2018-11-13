@@ -6,7 +6,7 @@ defmodule Ibanity.PaymentInitiationRequest do
   use Ibanity.Resource
 
   @api_schema_path ~w(customer financialInstitution paymentInitiationRequests)
-  @resource_type "paymentInitiationRequest"
+  @resource_type "payment_initiation_request"
 
   defstruct [
     id: nil,
@@ -54,7 +54,7 @@ defmodule Ibanity.PaymentInitiationRequest do
 
   def create(%Request{} = request, financial_institution_id) do
     request
-    |> Request.id(:financialInstitutionId, financial_institution_id)
+    |> Request.id(:financial_institution_id, financial_institution_id)
     |> create
   end
   def create(%Request{} = request) do
@@ -67,7 +67,7 @@ defmodule Ibanity.PaymentInitiationRequest do
   def find(%Request{} = request, financial_institution_id, initiation_request_id) do
     request
     |> Request.id(:id, financial_institution_id)
-    |> Request.id(:paymentInitiationRequestId, initiation_request_id)
+    |> Request.id(:payment_initiation_request_id, initiation_request_id)
     |> find
   end
   def find(%Request{} = request) do

@@ -47,15 +47,15 @@ All operations take a `Ibanity.Request` structure as only parameter, though some
 
 In a RESTful API you sometimes have to provide multiple resource ids in the URL.
 In order to pass them to the request you should use `Request.ids/2` to set them.
-This function takes a `%Request{}` as first parameter and a Keyword list as second one where the keys are the name of the ids as defined in the documentation, and the values are the matching UUIDs.
+This function takes a `%Request{}` as first parameter and a Keyword list as second one where the keys are the name of the ids as defined in the documentation - but in _snake case_ - and the values are the matching UUIDs.
 See examples below.
 
 ### Usage examples
 
 ```
 # Create an access token, use an optional idempotency key
-[applicationCustomerReference: "12345"]
-|> Request.attributes`
+[application_customer_reference: "12345"]
+|> Request.attributes
 |> Request.idempotency_key("007572ed-77a9-4828-844c-1fc0180b9795")
 |> CustomerAccessToken.create
 # => {:ok, %Ibanity.CustomerAccessToken{id: "b2d81d9a-1a10-4bb6-a354-9910b8b64a01", token: "eyJ0eXAiOiJKV1QiLCJhbGc..."}}

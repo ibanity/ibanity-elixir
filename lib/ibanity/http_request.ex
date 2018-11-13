@@ -4,6 +4,7 @@ defmodule Ibanity.HttpRequest do
   """
 
   alias Ibanity.{Configuration, UriUtils}
+  import Ibanity.CaseUtil
 
   defstruct [
     headers: [],
@@ -52,7 +53,7 @@ defmodule Ibanity.HttpRequest do
     if Map.has_key?(request.data, :type) do
       request
     else
-      %__MODULE__{request | data: Map.put(request.data, :type, type)}
+      %__MODULE__{request | data: Map.put(request.data, :type, to_camel(type))}
     end
   end
 
@@ -91,13 +92,13 @@ defmodule Ibanity.HttpRequest do
     if Enum.empty?(request.attributes) do
       data
     else
-      Map.put(data, :attributes, request.attributes)
+      Map.put(data, :attributes, to_camel(request.attributes))
     end
   end
 
   defp add_type(data, request) do
     if request.resource_type do
-      Map.put(data, :type, request.resource_type)
+      Map.put(data, :type, to_camel(request.resource_type))
     else
       data
     end

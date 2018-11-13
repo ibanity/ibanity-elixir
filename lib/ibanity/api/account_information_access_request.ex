@@ -15,7 +15,7 @@ defmodule Ibanity.AccountInformationAccessRequest do
 
   def create(%Request{} = request) do
     request
-    |> Request.resource_type("accountInformationAccessRequest")
+    |> Request.resource_type("account_information_access_request")
     |> Client.execute(:post, @api_schema_path)
   end
 

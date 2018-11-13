@@ -36,10 +36,10 @@ defmodule Ibanity.Account do
   def list, do: list(%Request{})
   def list(financial_institution_id) when is_binary(financial_institution_id) do
     %Request{}
-    |> Request.id(:financialInstitutionId, financial_institution_id)
+    |> Request.id(:financial_institution_id, financial_institution_id)
     |> list
   end
-  def list(%Request{} = request), do: list(request, Request.get_id(request, :financialInstitutionId))
+  def list(%Request{} = request), do: list(request, Request.get_id(request, :financial_institution_id))
   def list(%Request{} = request, nil) do
     request
     |> Request.id(:id, "")
@@ -48,7 +48,7 @@ defmodule Ibanity.Account do
   def list(%Request{} = request, financial_institution_id) do
     request
     |> Request.id(:id, "")
-    |> Request.id(:financialInstitutionId, financial_institution_id)
+    |> Request.id(:financial_institution_id, financial_institution_id)
     |> Client.execute(:get, ["customer", "financialInstitution", "accounts"])
   end
 
@@ -59,7 +59,7 @@ defmodule Ibanity.Account do
   def find(%Request{} = request, account_id, financial_institution_id) do
     request
     |> Request.id(:id, account_id)
-    |> Request.id(:financialInstitutionId, financial_institution_id)
+    |> Request.id(:financial_institution_id, financial_institution_id)
     |> find
   end
 
@@ -69,7 +69,7 @@ defmodule Ibanity.Account do
   def delete(%Request{} = request, account_id, financial_institution_id) do
     request
     |> Request.id(:id, account_id)
-    |> Request.id(:financialInstitutionId, financial_institution_id)
+    |> Request.id(:financial_institution_id, financial_institution_id)
     |> delete
   end
   def delete(%Request{} = request) do

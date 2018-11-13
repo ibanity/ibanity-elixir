@@ -23,13 +23,13 @@ defmodule Ibanity.FinancialInstitutionAccount do
   def create(%Request{} = request) do
     request
     |> Request.id(:id, "")
-    |> Request.resource_type("financialInstitutionAccount")
+    |> Request.resource_type("financial_institution_account")
     |> Client.execute(:post, @api_schema_path)
   end
 
   def list(institution_id, user_id) do
-    Request.id(:financialInstitutionId, institution_id)
-    |> Request.id(:financialInstitutionUserId, user_id)
+    Request.id(:financial_institution_id, institution_id)
+    |> Request.id(:financial_institution_user_id, user_id)
     |> list
   end
   def list(%Request{} = request) do
@@ -39,8 +39,8 @@ defmodule Ibanity.FinancialInstitutionAccount do
   end
 
   def find(institution_id, user_id, account_id) do
-    Request.id(:financialInstitutionId, institution_id)
-    |> Request.id(:financialInstitutionUserId, user_id)
+    Request.id(:financial_institution_id, institution_id)
+    |> Request.id(:financial_institution_user_id, user_id)
     |> Request.id(:id, account_id)
     |> find
   end
@@ -50,8 +50,8 @@ defmodule Ibanity.FinancialInstitutionAccount do
   end
 
   def delete(institution_id, user_id, account_id) do
-    Request.id(:financialInstitutionId, institution_id)
-    |> Request.id(:financialInstitutionUserId, user_id)
+    Request.id(:financial_institution_id, institution_id)
+    |> Request.id(:financial_institution_user_id, user_id)
     |> Request.id(:id, account_id)
     |> delete
   end
