@@ -34,11 +34,11 @@ defmodule Ibanity.Client do
 
   defp process_response(response) do
     code = response.status_code
-    body = Jason.decode!(response.body)
+    body = Jason.decode!(response.body) |> IO.inspect
 
     cond do
       code >= 200 and code <= 299 ->
-        {:ok, Map.fetch!(body, "data")}
+        {:ok, body}
       code >= 400 and code <= 599 ->
         {:error, Map.fetch!(body, "errors")}
       true ->
@@ -48,13 +48,13 @@ defmodule Ibanity.Client do
 
   defp handle_response_body(%{"message" => reason}), do: {:error, reason}
   defp handle_response_body({:error, _} = error), do: error
-  defp handle_response_body({:ok, items}) when is_list(items) do
+  defp handle_response_body({:ok, %{"data" => data, "meta" => meta, "links" => links}}) when is_list(data) do
     collection =
-      items
+      data
       |> Enum.map(&deserialize/1)
-      |> Collection.new(%{}, %{})
+      |> Collection.new(meta["paging"], links)
 
     {:ok, collection}
   end
-  defp handle_response_body({:ok, item}), do: {:ok, deserialize(item)}
+  defp handle_response_body({:ok, %{"data" => data}}), do: {:ok, deserialize(data)}
 end
