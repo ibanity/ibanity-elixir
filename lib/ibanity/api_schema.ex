@@ -12,28 +12,28 @@ defmodule Ibanity.ApiSchema do
   def fetch(_, :test) do
     %{
       "customer" => %{
-        "accounts" => "https://api.ibanity.localhost/customer/accounts",
+        "accounts" => "https://api.ibanity.com/customer/accounts",
         "financialInstitution" => %{
-          "accountInformationAccessRequests" => "https://api.ibanity.localhost/customer/financial-institutions/{financial_institution_id}/account-information-access-requests",
-          "accounts" => "https://api.ibanity.localhost/customer/financial-institutions/{financial_institution_id}/accounts/{id}",
-          "paymentInitiationRequests" => "https://api.ibanity.localhost/customer/financial-institutions/{financial_institution_id}/payment-initiation-requests/{id}",
-          "transactions" => "https://api.ibanity.localhost/customer/financial-institutions/{financial_institution_id}/accounts/{accountId}/transactions/{id}"
+          "accountInformationAccessRequests" => "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/account-information-access-requests",
+          "accounts" => "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/accounts/{id}",
+          "paymentInitiationRequests" => "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/payment-initiation-requests/{id}",
+          "transactions" => "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/accounts/{accountId}/transactions/{id}"
         },
-        "financialInstitutions" => "https://api.ibanity.localhost/customer/financial-institutions",
-        "self" => "https://api.ibanity.localhost/customer",
-        "synchronizations" => "https://api.ibanity.localhost/customer/synchronizations/{id}"
+        "financialInstitutions" => "https://api.ibanity.com/customer/financial-institutions",
+        "self" => "https://api.ibanity.com/customer",
+        "synchronizations" => "https://api.ibanity.com/customer/synchronizations/{id}"
       },
-      "customerAccessTokens" => "https://api.ibanity.localhost/customer-access-tokens",
-      "financialInstitutions" => "https://api.ibanity.localhost/financial-institutions/{id}",
+      "customerAccessTokens" => "https://api.ibanity.com/customer-access-tokens",
+      "financialInstitutions" => "https://api.ibanity.com/financial-institutions/{id}",
       "sandbox" => %{
         "financialInstitution" => %{
           "financialInstitutionAccount" => %{
-            "financialInstitutionTransactions" => "https://api.ibanity.localhost/sandbox/financial-institutions/{financial_institution_id}/financial-institution-users/{financial_institution_user_id}/financial-institution-accounts/{financial_institution_account_id}/financial-institution-transactions/{id}"
+            "financialInstitutionTransactions" => "https://api.ibanity.com/sandbox/financial-institutions/{financial_institution_id}/financial-institution-users/{financial_institution_user_id}/financial-institution-accounts/{financial_institution_account_id}/financial-institution-transactions/{id}"
           },
-          "financialInstitutionAccounts" => "https://api.ibanity.localhost/sandbox/financial-institutions/{financial_institution_id}/financial-institution-users/{financial_institution_user_id}/financial-institution-accounts/{id}"
+          "financialInstitutionAccounts" => "https://api.ibanity.com/sandbox/financial-institutions/{financial_institution_id}/financial-institution-users/{financial_institution_user_id}/financial-institution-accounts/{id}"
         },
-        "financialInstitutionUsers" => "https://api.ibanity.localhost/sandbox/financial-institution-users/{id}",
-        "financialInstitutions" => "https://api.ibanity.localhost/sandbox/financial-institutions/{id}"
+        "financialInstitutionUsers" => "https://api.ibanity.com/sandbox/financial-institution-users/{id}",
+        "financialInstitutions" => "https://api.ibanity.com/sandbox/financial-institutions/{id}"
       }
     }
   end
