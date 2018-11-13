@@ -3,7 +3,7 @@ defmodule Ibanity.HttpRequest do
   Parameters that will be passed as-is to the HTTP client
   """
 
-  alias Ibanity.{Configuration, UriUtils}
+  alias Ibanity.{Configuration, UriUtil}
   import Ibanity.CaseUtil
 
   defstruct [
@@ -15,7 +15,7 @@ defmodule Ibanity.HttpRequest do
   ]
 
   def build(%Ibanity.Request{} = request, http_method, uri_path, resource_type \\ nil) do
-    case UriUtils.from_request(request, uri_path) do
+    case UriUtil.from_request(request, uri_path) do
       {:ok, uri} ->
         request
         |> base_http_request(http_method, uri)

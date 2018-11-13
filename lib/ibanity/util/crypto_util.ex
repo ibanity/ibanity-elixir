@@ -1,10 +1,10 @@
-defmodule Ibanity.CryptoUtils do
+defmodule Ibanity.CryptoUtil do
   @moduledoc """
   Thin wrapper to Erlang Crypto API
   """
 
   @doc ~S"""
-    iex> Ibanity.CryptoUtils.sha512sum("Foobar")
+    iex> Ibanity.CryptoUtil.sha512sum("Foobar")
     "zq0fWamg0i5Goo-UOmYjON11jW3OOPfqarE7ZhXDEraf__8El4HBabWXV3y1Vm1dE1Q2SsAyqdTVvY74MzQAYQ=="
   """
   @spec sha512sum(binary()) :: String.t()
@@ -15,7 +15,7 @@ defmodule Ibanity.CryptoUtils do
   end
 
   @doc ~S"""
-    iex> Ibanity.CryptoUtils.sha256sum("Foobar")
+    iex> Ibanity.CryptoUtil.sha256sum("Foobar")
     "6BGBj4DZw8ItV3uoPWGWeI5VO7QIU1u0IQXN_3JqYKs="
   """
   @spec sha256sum(binary()) :: String.t()

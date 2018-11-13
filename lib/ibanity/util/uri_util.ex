@@ -1,4 +1,4 @@
-defmodule Ibanity.UriUtils do
+defmodule Ibanity.UriUtil do
   @moduledoc """
   Utilities for URI manipulations
   """
@@ -24,6 +24,33 @@ defmodule Ibanity.UriUtils do
     end
   end
 
+  @doc ~S"""
+  Replace all ids in a URI template with their actual value.
+  Return {:error, :missing_ids} if one id is present in the template but not given
+
+  ## Examples
+    iex> uri = "http://www.example.com/{financial_institution_id}"
+    ...> resource_ids = []
+    ...> Ibanity.UriUtil.replace_ids(uri, resource_ids)
+    {:error, :missing_ids}
+
+    iex> uri = "http://www.example.com/{financial_institution_id}/accounts/{account_id}"
+    ...> resource_ids = [
+    ...>  financial_institution_id: "287d7357-bbe8-455c-89f6-a83c111b1f93",
+    ...>  account_id: "59f86484-6503-42e2-9e0b-de28cc1b7a0c"
+    ...> ]
+    ...> Ibanity.UriUtil.replace_ids(uri, resource_ids)
+    {:ok, "http://www.example.com/287d7357-bbe8-455c-89f6-a83c111b1f93/accounts/59f86484-6503-42e2-9e0b-de28cc1b7a0c"}
+
+    iex> uri = "http://www.example.com/{financial_institution_id}/accounts/{account_id}"
+    ...> resource_ids = [
+    ...>   financial_institution_id: "287d7357-bbe8-455c-89f6-a83c111b1f93",
+    ...>   account_id: ""
+    ...> ]
+    ...> Ibanity.UriUtil.replace_ids(uri, resource_ids)
+    {:ok, "http://www.example.com/287d7357-bbe8-455c-89f6-a83c111b1f93/accounts/"}
+
+  """
   def replace_ids(uri, resource_ids) do
     expected_ids = Regex.scan(@ids_matcher, uri)
     if all_present?(resource_ids, expected_ids) do

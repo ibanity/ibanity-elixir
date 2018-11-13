@@ -9,6 +9,7 @@ defmodule Ibanity.Signature do
   @algorithm "rsa-sha256"
 
   alias Ibanity.HttpRequest
+  import Ibanity.CryptoUtil
 
   def signature_headers(%HttpRequest{} = request, method, private_key, certificate_id) do
     parsed_uri = URI.parse(request.uri)
@@ -25,7 +26,7 @@ defmodule Ibanity.Signature do
   defp payload_digest(request) do
     %{data: request.data}
     |> Jason.encode!
-    |> Ibanity.CryptoUtils.sha256sum
+    |> sha256sum
   end
 
   defp generate_signature(request, method, uri, private_key, certificate_id) do
