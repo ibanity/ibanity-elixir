@@ -34,7 +34,7 @@ defmodule Ibanity.Client do
 
   defp process_response(response) do
     code = response.status_code
-    body = Jason.decode!(response.body) |> IO.inspect
+    body = Jason.decode!(response.body)
 
     cond do
       code >= 200 and code <= 299 ->

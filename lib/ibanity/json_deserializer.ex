@@ -1,7 +1,5 @@
 defmodule Ibanity.JsonDeserializer do
-  @moduledoc """
-  JSON to struct deserializer
-  """
+  @moduledoc false
 
   @type_mappings %{
     "accountInformationAccessRequest" => Ibanity.AccountInformationAccessRequest,

@@ -1,7 +1,5 @@
 defmodule Ibanity.IdReplacer do
-  @moduledoc """
-  Utilities for replacing last id in a URI template with the word 'Id'
-  """
+  @moduledoc false
 
   @id_regex ~r/\{[^\}]*\}/
 

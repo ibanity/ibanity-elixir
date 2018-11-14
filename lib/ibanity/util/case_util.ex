@@ -1,7 +1,5 @@
 defmodule Ibanity.CaseUtil do
-  @moduledoc """
-  Utilities for transforming from one case to another
-  """
+  @moduledoc false
 
   @doc ~S"""
   Transform an atom into its camel case representation

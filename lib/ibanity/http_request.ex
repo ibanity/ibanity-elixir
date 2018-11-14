@@ -1,7 +1,5 @@
 defmodule Ibanity.HttpRequest do
-  @moduledoc """
-  Parameters that will be passed as-is to the HTTP client
-  """
+  @moduledoc false
 
   alias Ibanity.{Configuration, UriUtil}
   import Ibanity.CaseUtil

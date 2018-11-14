@@ -1,9 +1,5 @@
 defmodule Ibanity.Signature do
-  @moduledoc """
-  HTTP Signature: https://documentation.ibanity.com/products#http-signature
-
-  Note that it only support SHA-256 digest at this time
-  """
+  @moduledoc false
 
   @empty_sha256sum "47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU="
   @algorithm "rsa-sha256"

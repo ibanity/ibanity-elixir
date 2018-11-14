@@ -1,7 +1,5 @@
 defmodule Ibanity.Configuration do
-  @moduledoc """
-  Stores the configuration used by the HTTP client: SSL, URLs,...
-  """
+  @moduledoc false
 
   use Agent
   alias Ibanity.ApiSchema

@@ -1,7 +1,5 @@
 defmodule Ibanity.UriUtil do
-  @moduledoc """
-  Utilities for URI manipulations
-  """
+  @moduledoc false
 
   alias Ibanity.{Configuration, Request}
 

@@ -1,7 +1,5 @@
 defmodule Ibanity.CryptoUtil do
-  @moduledoc """
-  Thin wrapper to Erlang Crypto API
-  """
+  @moduledoc false
 
   @doc ~S"""
     iex> Ibanity.CryptoUtil.sha512sum("Foobar")

@@ -1,7 +1,6 @@
 defmodule Ibanity.ApiSchema do
-  @moduledoc """
-  API Schema retriever, with support for hardcoded schema, for test environment
-  """
+  @moduledoc false
+
   alias Ibanity.IdReplacer
 
   @base_headers [

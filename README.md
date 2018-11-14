@@ -2,11 +2,6 @@
 
 The Ibanity Elixir Library provides convenient wrappers around the Ibanity API. The object attributes are dynamically defined based on the API response, supporting minor API changes seamlessly.
 
-## !!! Disclaimer !!!
-
-This library is under **heavy** development and should be considered *alpha* state; its API is unstable and can be changed at any time without any notice.
-It is therefore not yet ready for production !
-
 ## Documentation
 
 Visit our [API docs](https://documentation.ibanity.com/api).
@@ -20,15 +15,37 @@ def deps do
 end
 ```
 
-In your configuration:
+## Configuration
+
+### Signature
+
+When making HTTP requests for _live_ applications, each request *must* be signed, see [API reference](https://documentation.ibanity.com/api#signature). Therefore the `:signature_certificate_file`, `:signature_key_file` and `signature_certificate_id` keys must be set. *Please note that, at this time, Ibanity use the same certificate for both identifying and signing the requests, but it will change in a near future.*
+
+### Required
+
+Key | Description
+--- | -----------
+`:certificate_file` | Path to the certificate used to identify your API client
+`:key_file` | Path to the private key used to generate the identifying certificate. *Note: the key should be in clear text*
+`:signature_certificate_file` | Path to the certificate used to sign HTTP requests to the API
+`:signature_key_file` | Path to the private key used to generate the signing certificate. *Note: the key should be in clear text*
+`:signature_certificate_id` | ID (UUIDv4) of the certificate used for signature
+
+### Optional
+
+Key | Description
+--- | -----------
+`:api_url` | Ibanity API endpoint. Default: `https://api.ibanity.com`
+`:ssl_ca_file` | Path to the intermediate certificate file. Not needed in _production_ environment
+
+### Example
+
 ```elixir
-config :ibanity, :certificate_file, "path/to/your/certificate.pem"
-config :ibanity, :key_file, "path/to/your/private/key.pem" # Note, at this moment it doesn't support encrypted key !
-config :ibanity, :signature_certificate_file, "path/to/your/certificate/used/for/signature.pem" # At this moment, can be the same as the certificate file
-config :ibanity, :signature_certificate_id, "fb3e6bc3-4ba3-461d-b3fd-6f108402320e" # The id (UUIDv4) of the certificate used for signature
-config :ibanity, :signature_key_file, "path/to/your/private/key/used/for/signature.pem"
-config :ibanity, :api_url, "https://api.development.ibanity.com" # Default is "https://api.ibanity.com"
-config :ibanity, :ssl_ca_file, "path/to/ca_file.pem" # Optional, not needed in production
+config :ibanity, :certificate_file, System.get_env("IBANITY_CERTIFICATE")
+config :ibanity, :key_file, System.get_env("IBANITY_KEY")
+config :ibanity, :signature_certificate_file, System.get_env("IBANITY_CERTIFICATE")
+config :ibanity, :signature_key_file, System.get_env("IBANITY_KEY")
+config :ibanity, :signature_certificate_id, System.get_env("IBANITY_CERTIFICATE_ID")
 ```
 
 ### Requirements
@@ -43,6 +60,21 @@ config :ibanity, :ssl_ca_file, "path/to/ca_file.pem" # Optional, not needed in p
 
 All operations take a `Ibanity.Request` structure as only parameter, though some convenience functions have been created in order to ease the use of the API.
 
+For example, these:
+```elixir
+FinancialInstitution.find("3851df38-b78a-447a-910e-5c077f30798b")
+```
+```elixir
+Request.id(:id, "3851df38-b78a-447a-910e-5c077f30798b")
+|> FinancialInstitution.find
+```
+```elixir
+[id: "3851df38-b78a-447a-910e-5c077f30798b"]
+|> Request.ids
+|> FinancialInstitution.find
+```
+are strictly equivalent
+
 ### A note on resource identifiers
 
 In a RESTful API you sometimes have to provide multiple resource ids in the URL.
@@ -52,62 +84,28 @@ See examples below.
 
 ### Usage examples
 
-```
-# Create an access token, use an optional idempotency key
+#### Create a customer access token
+
+```elixir
 [application_customer_reference: "12345"]
 |> Request.attributes
 |> Request.idempotency_key("007572ed-77a9-4828-844c-1fc0180b9795")
 |> CustomerAccessToken.create
-# => {:ok, %Ibanity.CustomerAccessToken{id: "b2d81d9a-1a10-4bb6-a354-9910b8b64a01", token: "eyJ0eXAiOiJKV1QiLCJhbGc..."}}
-
-# List financial institutions
-FinancialInstitutions.list
-# {:ok, %Ibanity.Collection{
-#    after_cursor: nil,
-#    before_cursor: nil,
-#    class: Ibanity.FinancialInstitution,
-#    first_link: nil,
-#    items: [
-#      %Ibanity.FinancialInstitution{
-#        id: "44d3be20-4423-475e-9433-8b5fe48e0c64",
-#        name: "Acme Bank",
-#        sandbox: false,
-#        self_link: "https://api.ibanity.com/financial-institutions/44d3be20-4423-475e-9433-8b5fe48e0c64"
-#      },
-#      %Ibanity.FinancialInstitution{...}
-#    ]
-#  }
-# }
-
-# Set pagination limits
-Request.limit(1)
-|> FinancialInstitutions.list
-# {:ok, %Ibanity.Collection{
-#    after_cursor: nil,
-#    before_cursor: nil,
-#    class: Ibanity.FinancialInstitution,
-#    first_link: nil,
-#    items: [
-#      %Ibanity.FinancialInstitution{
-#        id: "44d3be20-4423-475e-9433-8b5fe48e0c64",
-#        name: "Acme Bank",
-#        sandbox: false,
-#        self_link: "https://api.ibanity.com/financial-institutions/44d3be20-4423-475e-9433-8b5fe48e0c64"
-#      }
-#    ]
-#  }
-# }
-
-
-# Update an existing financial institution
-[name: "WowBank"]
-|> Request.attributes
-|> Request.ids(id: "0864492c-dbf4-43bd-8764-e0b52f4136d4")
-|> FinancialInstitution.update
-# => {:ok, %Ibanity.FinancialInstitution{id: "0864492c-dbf4-43bd-8764-e0b52f4136d4", name: "WowBank", ...}}
 ```
 
-## TODO
-- [X] Get in sync with API documentation ids nomenclature
-- [ ] Deserialize datetime fields
-- [X] Support for pagination in requests
+#### List financial institutions with paging options
+
+```elixir
+Request.limit(1)
+|> FinancialInstitutions.list
+```
+
+#### Update an existing financial institution
+
+```elixir
+[name: "WowBank"]
+|> Request.attributes
+|> Request.idempotency_key("d49e91fb-58c4-4953-a4c3-71365139316d")
+|> Request.ids(id: "0864492c-dbf4-43bd-8764-e0b52f4136d4")
+|> FinancialInstitution.update
+```
