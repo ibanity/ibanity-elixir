@@ -22,7 +22,6 @@ defmodule Ibanity.Client do
     )
 
     res
-    |> IO.inspect
     |> process_response
     |> handle_response_body
   end

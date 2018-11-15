@@ -13,7 +13,6 @@ defmodule Ibanity.AccountInformationAccessRequest do
 
   @api_schema_path  ["customer", "financialInstitution", "accountInformationAccessRequests"]
 
-
   @doc """
   [Creates an account information access request](https://documentation.ibanity.com/api#create-account-information-access-request)
 
