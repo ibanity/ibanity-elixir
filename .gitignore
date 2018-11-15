@@ -19,6 +19,9 @@ erl_crash.dump
 # Also ignore archive artifacts (built via "mix archive.build").
 *.ez
 
+# Custom IEx configuration
+.iex.exs
+
 # Ignore package tarball (built via "mix hex.build").
 ibanity_elixir-*.tar
 
