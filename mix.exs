@@ -4,11 +4,12 @@ defmodule Ibanity.MixProject do
   def project do
     [
       app: :ibanity,
-      version: "0.2.0",
+      version: "0.1.0",
       elixir: "~> 1.6",
       start_permanent: Mix.env() == :prod,
       preferred_cli_env: [espec: :test],
       deps: deps(),
+      package: package(),
       docs: [
         extras: ["README.md"],
         main: "readme",
@@ -33,6 +34,15 @@ defmodule Ibanity.MixProject do
       {:ex_crypto, "~> 0.9.0"},
       {:ex_doc, "~> 0.18.0", only: :dev, runtime: false},
       {:credo, "~> 1.0.0-rc1", only: [:dev, :test], runtime: false}
+    ]
+  end
+
+  defp package do
+    [
+      name: "ibanity",
+      files: ~w(lib mix.exs README* LICENSE*),
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/ibanity/ibanity-elixir"}
     ]
   end
 end
