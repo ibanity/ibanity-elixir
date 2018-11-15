@@ -15,6 +15,7 @@ defmodule Ibanity.Account do
     currency: nil,
     available_balance: nil,
     financial_institution: nil,
+    financial_institution_id: nil,
     transactions: nil
   ]
 
@@ -157,7 +158,8 @@ defmodule Ibanity.Account do
       currency: ~w(attributes currency),
       available_balance: ~w(attributes availableBalance),
       transactions: ~w(relationships transactions links related),
-      financial_institution: ~w(relationships financialInstitution links related)
+      financial_institution: ~w(relationships financialInstitution links related),
+      financial_institution_id: ~w(relationships financialInstitution data id)
     ]
   end
 end
