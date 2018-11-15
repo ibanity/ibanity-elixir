@@ -38,6 +38,7 @@ defmodule Ibanity.Request do
   Adds a header to a request. Override existing header with the same name if it is present.
 
   ## Examples
+
       iex> header(%Request{}, :"X-Http-Dummy", "1708ef66-d37d-4ce0-85d8-6c062863418a")
       %Ibanity.Request{
         headers: [
@@ -71,6 +72,7 @@ defmodule Ibanity.Request do
   Override existing headers with the same name if they are present.
 
   ## Examples
+
       iex> headers(%Request{}, ["X-Dummy1": "1708ef66", "X-Dummy2": "28207dbe"])
       %Ibanity.Request{
         headers: [

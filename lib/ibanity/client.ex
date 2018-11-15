@@ -1,7 +1,5 @@
 defmodule Ibanity.Client do
-  @moduledoc """
-  Wrapper for Ibanity API
-  """
+  @moduledoc false
 
   alias Ibanity.{Collection, Configuration, HttpRequest}
   import Ibanity.JsonDeserializer
@@ -24,6 +22,7 @@ defmodule Ibanity.Client do
     )
 
     res
+    |> IO.inspect
     |> process_response
     |> handle_response_body
   end

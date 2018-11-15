@@ -1,7 +1,5 @@
 defmodule Ibanity.Collection do
-  @moduledoc """
-  Holder for items collections
-  """
+  @moduledoc false
 
   defstruct [
     items: [],

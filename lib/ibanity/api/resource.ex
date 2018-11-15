@@ -1,7 +1,6 @@
 defmodule Ibanity.Resource do
-  @moduledoc """
-  Common properties for resources
-  """
+  @moduledoc false
+
   defmacro __using__(_ \\ []) do
     quote do
       alias Ibanity.Client

@@ -1,6 +1,6 @@
 defmodule Ibanity.PaymentInitiationRequest do
   @moduledoc """
-  Payment initiation requests API wrapper
+  [Payment initiation requests](https://documentation.ibanity.com/api#payment-initiation-request) API wrapper
   """
 
   use Ibanity.Resource
@@ -29,6 +29,7 @@ defmodule Ibanity.PaymentInitiationRequest do
     redirect_link: nil
   ]
 
+  @doc false
   def key_mapping do
     [
       id: ~w(id),
@@ -52,11 +53,36 @@ defmodule Ibanity.PaymentInitiationRequest do
     ]
   end
 
+  @doc """
+  Convenience function for creating a payment initiation request for a financial institution.
+
+  Returns `{:ok, payment_initiation_request}` if successful, `{:error, reason}` otherwise.
+
+  See `create/1`
+  """
   def create(%Request{} = request, financial_institution_id) do
     request
     |> Request.id(:financial_institution_id, financial_institution_id)
     |> create
   end
+
+  @doc """
+  [Creates a payment initiation request](https://documentation.ibanity.com/api#create-payment-initiation-request) for a financial institution.
+
+  Returns `{:ok, payment_initiation_request}` if successful, `{:error, reason}` otherwise.
+
+  ## Example
+
+      iex> [
+      ...>   redirect_uri: "https://fake-tpp.com/payment-initiated",
+      ...>   consent_reference: "b57cca6b-74d6-4ac8-ba5d-4e28160d8dde",
+      ...>   ...
+      ...> ]
+      ...> |> Request.attributes
+      ...> |> Request.id(:financial_institution_id, "b2c76f6b-ab34-4843-8ef3-84300ef98a09")
+      ...> |> PaymentInitiationRequest.create
+      {:ok, %Ibanity.PaymentInitiationRequest{id: "270141aa-0c93-42a5-9adf-e2b9a8ab4cea"}}
+  """
   def create(%Request{} = request) do
     request
     |> Request.id(:id, "")
@@ -64,12 +90,32 @@ defmodule Ibanity.PaymentInitiationRequest do
     |> Client.execute(:post, @api_schema_path)
   end
 
+  @doc """
+  [Retrieves a payment initiation request](https://documentation.ibanity.com/api#get-payment-initiation-request)
+  based on its id and the id of the financial institution.
+
+  See `find/1`
+  """
   def find(%Request{} = request, financial_institution_id, initiation_request_id) do
     request
     |> Request.id(:id, financial_institution_id)
     |> Request.id(:payment_initiation_request_id, initiation_request_id)
     |> find
   end
+
+  @doc """
+  [Retrieves a payment initiation request](https://documentation.ibanity.com/api#get-payment-initiation-request)
+  based on its id and the id of the financial institution.
+
+  Returns `{:ok, payment_initiation_request}` if successful, `{:error, reason}` otherwise.
+
+  ## Example
+
+      iex> Request.id(:financial_institution_id, "b2c76f6b-ab34-4843-8ef3-84300ef98a09")
+      ...> |> Request.id(:id, "270141aa-0c93-42a5-9adf-e2b9a8ab4cea")
+      ...> |> PaymentInitiationRequest.find
+      {:ok, %Ibanity.PaymentInitiationRequest{id: "270141aa-0c93-42a5-9adf-e2b9a8ab4cea"}}
+  """
   def find(%Request{} = request) do
     request
     |> Client.execute(:get, @api_schema_path)
