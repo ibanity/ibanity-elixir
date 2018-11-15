@@ -70,6 +70,22 @@ defmodule Ibanity.RequestTest do
     end
   end
 
+  describe ".id/1" do
+    test "add :id to ids" do
+      request = Request.id("955f8b1f-6cb5-49ae-8429-6a95d8504a43")
+
+      assert request.resource_ids == [id: "955f8b1f-6cb5-49ae-8429-6a95d8504a43"]
+    end
+  end
+
+  describe ".id/2" do
+    test "add :id to ids" do
+      request = Request.id(:id, "955f8b1f-6cb5-49ae-8429-6a95d8504a43")
+
+      assert request.resource_ids == [id: "955f8b1f-6cb5-49ae-8429-6a95d8504a43"]
+    end
+  end
+
   describe ".id/3" do
     test "add an id to the existing ids" do
       request =

@@ -115,10 +115,6 @@ defmodule Ibanity.Request do
   Creates a new request and sets the [customer access token](https://documentation.ibanity.com/api#customer-access-token) to it
   """
   def customer_access_token(token) when is_binary(token), do: customer_access_token(%__MODULE__{}, token)
-
-  @doc """
-  Creates a new request and sets the [customer access token](https://documentation.ibanity.com/api#customer-access-token) to it
-  """
   def customer_access_token(%Ibanity.CustomerAccessToken{} = access), do: customer_access_token(access.token)
 
   @doc """
@@ -174,9 +170,21 @@ defmodule Ibanity.Request do
   end
 
   @doc """
+  Creates a new request and sets the `:id` URI identifier.
+  It is equivalent to `id(:id, value)`.
+  """
+  def id(value), do: id(%__MODULE__{}, :id, value)
+
+  @doc """
   Creates a new request and adds an URI identifier to it.
   """
   def id(name, value), do: id(%__MODULE__{}, name, value)
+
+  @doc """
+  Sets the `:id` URI identifier.
+  It is equivalent to `id(request, :id, value)`.
+  """
+  def id(%__MODULE__{} = request, value), do: id(request, :id, value)
 
   @doc """
   Sets the URI identifier to its corresponding value. Overrides existing value if identifier's already present
