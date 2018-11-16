@@ -11,7 +11,7 @@ Visit our [API docs](https://documentation.ibanity.com/api).
 In the `mix.exs` file:
 ```elixir
 def deps do
-  [{:ibanity, github: "ibanity/ibanity-elixir"}]
+  [{:ibanity, "~> 0.1.0}]
 end
 ```
 

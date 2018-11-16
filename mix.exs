@@ -7,7 +7,7 @@ defmodule Ibanity.MixProject do
       version: "0.1.0",
       elixir: "~> 1.6",
       start_permanent: Mix.env() == :prod,
-      preferred_cli_env: [espec: :test],
+      description: "Wrapper for the Ibanity API",
       deps: deps(),
       package: package(),
       docs: [
@@ -40,7 +40,6 @@ defmodule Ibanity.MixProject do
   defp package do
     [
       name: "ibanity",
-      files: ~w(lib mix.exs README* LICENSE*),
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/ibanity/ibanity-elixir"}
     ]
