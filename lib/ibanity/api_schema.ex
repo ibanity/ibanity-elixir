@@ -16,7 +16,7 @@ defmodule Ibanity.ApiSchema do
           "accountInformationAccessRequests" => "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/account-information-access-requests",
           "accounts" => "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/accounts/{id}",
           "paymentInitiationRequests" => "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/payment-initiation-requests/{id}",
-          "transactions" => "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/accounts/{accountId}/transactions/{id}"
+          "transactions" => "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/accounts/{account_id}/transactions/{id}"
         },
         "financialInstitutions" => "https://api.ibanity.com/customer/financial-institutions",
         "self" => "https://api.ibanity.com/customer",
