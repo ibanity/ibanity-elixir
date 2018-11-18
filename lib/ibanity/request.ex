@@ -176,15 +176,15 @@ defmodule Ibanity.Request do
   def id(value), do: id(%__MODULE__{}, :id, value)
 
   @doc """
-  Creates a new request and adds an URI identifier to it.
-  """
-  def id(name, value), do: id(%__MODULE__{}, name, value)
-
-  @doc """
   Sets the `:id` URI identifier.
   It is equivalent to `id(request, :id, value)`.
   """
   def id(%__MODULE__{} = request, value), do: id(request, :id, value)
+
+  @doc """
+  Creates a new request and adds an URI identifier to it.
+  """
+  def id(name, value), do: id(%__MODULE__{}, name, value)
 
   @doc """
   Sets the URI identifier to its corresponding value. Overrides existing value if identifier's already present
