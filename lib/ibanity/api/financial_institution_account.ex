@@ -20,6 +20,8 @@ defmodule Ibanity.FinancialInstitutionAccount do
 
   @api_schema_path ["sandbox", "financialInstitution", "financialInstitutionAccounts"]
 
+  @resource_type "financial_institution_account"
+
   @doc """
   [Creates a new financial institution account](https://documentation.ibanity.com/api#create-financial-institution-account).
 
@@ -43,7 +45,7 @@ defmodule Ibanity.FinancialInstitutionAccount do
   def create(%Request{} = request) do
     request
     |> Request.id(:id, "")
-    |> Request.resource_type("financial_institution_account")
+    |> Request.resource_type(@resource_type)
     |> Client.execute(:post, @api_schema_path)
   end
 

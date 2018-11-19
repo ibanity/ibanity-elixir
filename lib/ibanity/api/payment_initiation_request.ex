@@ -62,6 +62,7 @@ defmodule Ibanity.PaymentInitiationRequest do
   """
   def create(%Request{} = request, financial_institution_id) do
     request
+    |> Request.resource_type(@resource_type)
     |> Request.id(:financial_institution_id, financial_institution_id)
     |> create
   end

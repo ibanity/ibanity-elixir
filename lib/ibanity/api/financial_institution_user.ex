@@ -17,6 +17,8 @@ defmodule Ibanity.FinancialInstitutionUser do
     updated_at: nil
   ]
 
+  @resource_type "financial_institution_user"
+
   @doc """
   [Creates a new financial institution user](https://documentation.ibanity.com/api#create-financial-institution-user).
 
@@ -37,6 +39,7 @@ defmodule Ibanity.FinancialInstitutionUser do
   def create(%Request{} = request) do
     request
     |> Request.id(:id, "")
+    |> Request.resource_type(@resource_type)
     |> Client.execute(:post, @api_schema_path)
   end
 
@@ -95,6 +98,7 @@ defmodule Ibanity.FinancialInstitutionUser do
   """
   def update(%Request{} = request) do
     request
+    |> Request.resource_type(@resource_type)
     |> Client.execute(:patch, @api_schema_path)
   end
 
