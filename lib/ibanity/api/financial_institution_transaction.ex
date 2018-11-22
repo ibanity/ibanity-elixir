@@ -51,7 +51,6 @@ defmodule Ibanity.FinancialInstitutionTransaction do
     |> Request.id(:financial_institution_id, financial_institution_id)
     |> Request.id(:financial_institution_user_id, financial_institution_user_id)
     |> Request.id(:financial_institution_account_id, financial_institution_account_id)
-    |> Request.id(:id, "")
     |> create
   end
 
@@ -62,6 +61,7 @@ defmodule Ibanity.FinancialInstitutionTransaction do
   """
   def create(%Request{} = request) do
     request
+    |> Request.id(:id, "")
     |> Request.resource_type(@resource_type)
     |> Client.execute(:post, @api_schema_path)
   end
