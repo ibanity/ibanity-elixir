@@ -69,7 +69,7 @@ defmodule Ibanity.FinancialInstitutionUser do
 
       iex>
       ...> |> Request.attribute()
-      ...> |> Ibanity.FinancialInstitutionUser.create
+      ...> |> Ibanity.FinancialInstitutionUser.find
       {:ok, %Ibanity.FinancialInstitutionUser{id: "5178d658-0c33-440a-a3af-616a8e472617", ...}}
   """
   def find(%Request{} = request) do
