@@ -137,13 +137,13 @@ defmodule Ibanity.FinancialInstitutionTransaction do
   Returns `{:ok, transaction}` if successful, `{:error, reason}` otherwise
 
   ## Example
-    iex> %Request{}
-    ...> |> Request.id(:financial_institution_id, "ad6fa583-2616-4a11-8b8d-eb98c53e2905")
-    ...> |> Request.id(:financial_institution_user_id, "740b6ae8-a631-4a32-9afc-a5548ab99d7e")
-    ...> |> Request.id(:financial_institution_account_id, "d9d60751-b741-4fa6-8524-8f9a066ca037")
-    ...> |> Request.id("83e440d7-6bfa-4b08-92b7-c2ae7fc5c0e9")
-    ...> |> FinancialInstitutionTransaction.find
-    %{:ok, Ibanity.FinancialInstitutionTransaction{id: "44cd2dc8-163a-4dbe-b544-869e5f84ea54", ...}}
+      iex> %Request{}
+      ...> |> Request.id(:financial_institution_id, "ad6fa583-2616-4a11-8b8d-eb98c53e2905")
+      ...> |> Request.id(:financial_institution_user_id, "740b6ae8-a631-4a32-9afc-a5548ab99d7e")
+      ...> |> Request.id(:financial_institution_account_id, "d9d60751-b741-4fa6-8524-8f9a066ca037")
+      ...> |> Request.id("83e440d7-6bfa-4b08-92b7-c2ae7fc5c0e9")
+      ...> |> FinancialInstitutionTransaction.find
+      %{:ok, Ibanity.FinancialInstitutionTransaction{id: "44cd2dc8-163a-4dbe-b544-869e5f84ea54", ...}}
   """
   def find(%Request{} = request) do
     request
@@ -186,13 +186,13 @@ defmodule Ibanity.FinancialInstitutionTransaction do
   Returns `{:ok, transaction}` if successful, `{:error, reason}` otherwise
 
   ## Example
-    iex> %Request{}
-    ...> |> Request.id(:financial_institution_id, "ad6fa583-2616-4a11-8b8d-eb98c53e2905")
-    ...> |> Request.id(:financial_institution_user_id, "740b6ae8-a631-4a32-9afc-a5548ab99d7e")
-    ...> |> Request.id(:financial_institution_account_id, "d9d60751-b741-4fa6-8524-8f9a066ca037")
-    ...> |> Request.id("83e440d7-6bfa-4b08-92b7-c2ae7fc5c0e9")
-    ...> |> FinancialInstitutionTransaction.delete
-    %{:ok, Ibanity.FinancialInstitutionTransaction{id: "44cd2dc8-163a-4dbe-b544-869e5f84ea54", ...}}
+      iex> %Request{}
+      ...> |> Request.id(:financial_institution_id, "ad6fa583-2616-4a11-8b8d-eb98c53e2905")
+      ...> |> Request.id(:financial_institution_user_id, "740b6ae8-a631-4a32-9afc-a5548ab99d7e")
+      ...> |> Request.id(:financial_institution_account_id, "d9d60751-b741-4fa6-8524-8f9a066ca037")
+      ...> |> Request.id("83e440d7-6bfa-4b08-92b7-c2ae7fc5c0e9")
+      ...> |> FinancialInstitutionTransaction.delete
+      %{:ok, Ibanity.FinancialInstitutionTransaction{id: "44cd2dc8-163a-4dbe-b544-869e5f84ea54", ...}}
   """
   def delete(%Request{} = request) do
     request
