@@ -6,6 +6,7 @@ defmodule Ibanity.JsonDeserializer do
     "account" => Ibanity.Account,
     "customerAccessToken" => Ibanity.CustomerAccessToken,
     "customer" => Ibanity.Customer,
+    "financialInstitutionTransaction" => Ibanity.FinancialInstitutionTransaction,
     "financialInstitutionAccount" => Ibanity.FinancialInstitutionAccount,
     "financialInstitutionUser" => Ibanity.FinancialInstitutionUser,
     "financialInstitution" => Ibanity.FinancialInstitution,
