@@ -21,7 +21,7 @@ defmodule Ibanity.Collection do
       after_cursor: paging["after"],
       first_link: links["first"],
       next_link: links["next"],
-      previous_link: links["previous"],
+      previous_link: links["prev"],
       synchronized_at: synchronized_at,
       latest_synchronization: latest_synchronization
     }
