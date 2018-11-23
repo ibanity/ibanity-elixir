@@ -1,0 +1,81 @@
+defmodule Ibanity.Synchronization do
+  @moduledoc """
+  [Synchronization](https://documentation.ibanity.com/api#synchronization) API wrapper
+  """
+
+  use Ibanity.Resource
+
+  @api_schema_path ~w(customer synchronizations)
+
+  # Please note that this is NOT the same as the 'resource_type' defined in the struct
+  @resource_type "synchronization"
+
+  defstruct [
+    id: nil,
+    subtype: nil,
+    status: nil,
+    resource_type: nil,
+    resource_id: nil,
+    errors: [],
+    created_at: nil,
+    updated_at: nil
+  ]
+
+  @doc """
+  [Creates a new synchronization resource](https://documentation.ibanity.com/api#create-synchronization).
+
+  *Note that at this moment it only supports `account` as resource type.*
+
+  Returns `{:ok, synchronization}` if successful, `{:error, reason}` otherwise.
+
+  ## Example
+
+      iex> [
+      ...>   resource_type: "account",
+      ...>   resource_id: "88099509-ce43-4a49-ba98-115af962d96d",
+      ...>   subtype: "accountDetails"
+      ...> ]
+      ...> |> Request.attributes
+      ...> |> Request.customer_access_token("...")
+      ...> |> Synchronization.create
+      {:ok, %Ibanity.Synchronization{id: "f92fc927-7c39-48c1-aa4b-2820efbfed00", ...}}
+  """
+  def create(%Request{} = request) do
+    request
+    |> Request.id("")
+    |> Request.resource_type(@resource_type)
+    |> Client.execute(:post, @api_schema_path)
+  end
+
+
+  @doc """
+  [Retrieves a synchronization resource](https://documentation.ibanity.com/api#get-synchronization).
+
+  Returns `{:ok, synchronization}` if successful, `{:error, reason}` otherwise.
+
+  ## Example
+
+      iex> Request.id("0516f501-4a1c-4e37-8716-758f2bff8e37")
+      ...> |> Request.customer_access_token("...")
+      ...> |> Synchronization.find
+      {:ok, %Ibanity.Synchronization{id: "0516f501-4a1c-4e37-8716-758f2bff8e37"}}
+  """
+  def find(%Request{} = request) do
+    request
+    |> Client.execute(:get, @api_schema_path)
+  end
+
+  @doc false
+  def key_mapping do
+    [
+      id: ~w(id),
+      subtype: ~w(attributes subtype),
+      status: ~w(attributes status),
+      resource_type: ~w(attributes resourceType),
+      resource_id: ~w(attributes resourceId),
+      errors: ~w(attributes errors),
+      created_at: ~w(attributes createdAt),
+      updated_at: ~w(attributes updatedAt)
+    ]
+  end
+end

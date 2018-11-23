@@ -11,7 +11,8 @@ defmodule Ibanity.JsonDeserializer do
     "financialInstitutionUser" => Ibanity.FinancialInstitutionUser,
     "financialInstitution" => Ibanity.FinancialInstitution,
     "paymentInitiationRequest" => Ibanity.PaymentInitiationRequest,
-    "transaction" => Ibanity.Transaction
+    "transaction" => Ibanity.Transaction,
+    "synchronization" => Ibanity.Synchronization
   }
 
   def deserialize(item) do
