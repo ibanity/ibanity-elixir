@@ -27,6 +27,6 @@ defmodule Ibanity.Customer do
 
   @doc false
   def key_mapping do
-    [id: ~w(id)]
+    [id: {~w(id), :string}]
   end
 end

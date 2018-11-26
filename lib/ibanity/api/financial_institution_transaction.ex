@@ -202,18 +202,18 @@ defmodule Ibanity.FinancialInstitutionTransaction do
   @doc false
   def key_mapping do
     [
-      id: ~w(id),
-      value_date: ~w(attributes valueDate),
-      updated_at: ~w(attributes updatedAt),
-      remittance_information_type: ~w(attributes remittanceInformationType),
-      remittance_information: ~w(attributes remittanceInformation),
-      execution_date: ~w(attributes executionDate),
-      description: ~w(attributes description),
-      currency: ~w(attributes currency),
-      created_at: ~w(attributes createdAt) ,
-      counterpart_reference: ~w(attributes counterpartReference),
-      counterpart_name: ~w(attributes counterpartName),
-      amount: ~w(attributes amount)
+      id: {~w(id), :string},
+      value_date: {~w(attributes valueDate), :datetime},
+      updated_at: {~w(attributes updatedAt), :datetime},
+      remittance_information_type: {~w(attributes remittanceInformationType), :string},
+      remittance_information: {~w(attributes remittanceInformation), :string},
+      execution_date: {~w(attributes executionDate), :datetime},
+      description: {~w(attributes description), :string},
+      currency: {~w(attributes currency), :string},
+      created_at: {~w(attributes createdAt) , :datetime},
+      counterpart_reference: {~w(attributes counterpartReference), :string},
+      counterpart_name: {~w(attributes counterpartName), :string},
+      amount: {~w(attributes amount), :float}
     ]
   end
 end

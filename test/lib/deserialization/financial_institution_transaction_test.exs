@@ -1,6 +1,7 @@
 defmodule Ibanity.FinancialInstitutionTransaction.DeserializationTest do
   use ExUnit.Case
   import Ibanity.JsonDeserializer
+  alias Ibanity.DateTimeUtil
 
   test "deserialize a financial institution transaction" do
     data = %{
@@ -38,14 +39,14 @@ defmodule Ibanity.FinancialInstitutionTransaction.DeserializationTest do
     actual = deserialize(data)
     expected = %Ibanity.FinancialInstitutionTransaction{
       id: "0b0ffc56-db20-4dc5-b9f3-189e4317812e",
-      value_date: "2017-05-22T00:00:00Z",
-      updated_at: "2018-10-18T15:13:12.365329Z",
+      value_date: DateTimeUtil.parse("2017-05-22T00:00:00Z"),
+      updated_at: DateTimeUtil.parse("2018-10-18T15:13:12.365329Z"),
       remittance_information_type: "unstructured",
       remittance_information: "NEW SHOES",
-      execution_date: "2017-05-25T00:00:00Z",
+      execution_date: DateTimeUtil.parse("2017-05-25T00:00:00Z"),
       description: "Small Cotton Shoes",
       currency: "EUR",
-      created_at: "2018-10-18T15:13:12.365318Z",
+      created_at: DateTimeUtil.parse("2018-10-18T15:13:12.365318Z"),
       counterpart_reference: "BE9786154282554",
       counterpart_name: "Otro Bank",
       amount: 84.42

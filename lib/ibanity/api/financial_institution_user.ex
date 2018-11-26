@@ -121,13 +121,13 @@ defmodule Ibanity.FinancialInstitutionUser do
   @doc false
   def key_mapping do
     [
-      id: ~w(id),
-      first_name: ~w(attributes firstName),
-      last_name: ~w(attributes lastName),
-      login: ~w(attributes login),
-      password: ~w(attributes password),
-      created_at: ~w(attributes createdAt),
-      updated_at: ~w(attributes updatedAt)
+      id: {~w(id), :string},
+      first_name: {~w(attributes firstName), :string},
+      last_name: {~w(attributes lastName), :string},
+      login: {~w(attributes login), :string},
+      password: {~w(attributes password), :string},
+      created_at: {~w(attributes createdAt), :datetime},
+      updated_at: {~w(attributes updatedAt), :datetime}
     ]
   end
 end

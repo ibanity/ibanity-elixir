@@ -32,8 +32,8 @@ defmodule Ibanity.CustomerAccessToken do
   @doc false
   def key_mapping do
     [
-      id: ~w(id),
-      token: ~w(attributes token)
+      id: {~w(id), :string},
+      token: {~w(attributes token), :string}
     ]
   end
 end

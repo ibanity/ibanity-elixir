@@ -68,14 +68,14 @@ defmodule Ibanity.Synchronization do
   @doc false
   def key_mapping do
     [
-      id: ~w(id),
-      subtype: ~w(attributes subtype),
-      status: ~w(attributes status),
-      resource_type: ~w(attributes resourceType),
-      resource_id: ~w(attributes resourceId),
-      errors: ~w(attributes errors),
-      created_at: ~w(attributes createdAt),
-      updated_at: ~w(attributes updatedAt)
+      id: {~w(id), :string},
+      subtype: {~w(attributes subtype), :string},
+      status: {~w(attributes status), :string},
+      resource_type: {~w(attributes resourceType), :string},
+      resource_id: {~w(attributes resourceId), :string},
+      errors: {~w(attributes errors), :string},
+      created_at: {~w(attributes createdAt), :datetime},
+      updated_at: {~w(attributes updatedAt), :datetime}
     ]
   end
 end

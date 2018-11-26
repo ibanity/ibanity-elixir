@@ -165,16 +165,16 @@ defmodule Ibanity.FinancialInstitutionAccount do
   @doc false
   def key_mapping do
     [
-      id: ~w(id),
-      available_balance: ~w(attributes availableBalance),
-      currency: ~w(attributes currency),
-      current_balance: ~w(attributes currentBalance),
-      description: ~w(attributes description),
-      reference: ~w(attributes reference),
-      reference_type: ~w(attributes referenceType),
-      subtype: ~w(attributes subtype),
-      created_at: ~w(attributes createdAt),
-      updated_at: ~w(attributes updatedAt)
+      id:                {~w(id), :string},
+      available_balance: {~w(attributes availableBalance), :float},
+      currency:          {~w(attributes currency), :string},
+      current_balance:   {~w(attributes currentBalance), :float},
+      description:       {~w(attributes description), :string},
+      reference:         {~w(attributes reference), :string},
+      reference_type:    {~w(attributes referenceType), :string},
+      subtype:           {~w(attributes subtype), :string},
+      created_at:        {~w(attributes createdAt), :datetime},
+      updated_at:        {~w(attributes updatedAt), :datetime}
     ]
   end
 end

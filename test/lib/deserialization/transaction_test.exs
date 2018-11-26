@@ -1,6 +1,7 @@
 defmodule Ibanity.Transaction.DeserializationTest do
   use ExUnit.Case
   import Ibanity.JsonDeserializer
+  alias Ibanity.DateTimeUtil
 
   test "deserializes a transaction" do
     data = %{
@@ -36,10 +37,10 @@ defmodule Ibanity.Transaction.DeserializationTest do
     actual = deserialize(data)
     expected = %Ibanity.Transaction{
       id: "c847e0f0-9178-47d7-9c11-1f41f9fca6ff",
-      value_date: "2017-05-22T00:00:00Z",
+      value_date: DateTimeUtil.parse("2017-05-22T00:00:00Z"),
       remittance_information_type: "unstructured",
       remittance_information: "NEW SHOES",
-      execution_date: "2017-05-25T00:00:00Z",
+      execution_date: DateTimeUtil.parse("2017-05-25T00:00:00Z"),
       description: "Small Cotton Shoes",
       currency: "EUR",
       counterpart_reference: "BE1832277133817274",

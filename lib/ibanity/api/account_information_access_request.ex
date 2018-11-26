@@ -48,9 +48,9 @@ defmodule Ibanity.AccountInformationAccessRequest do
   @doc false
   def key_mapping do
     [
-      id: ~w(id),
-      redirect_link: ~w(links redirect),
-      requested_account_references: ~w(attributes requestedAccountReferences)
+      id: {~w(id), :string},
+      redirect_link: {~w(links redirect), :string},
+      requested_account_references: {~w(attributes requestedAccountReferences), :string}
     ]
   end
 end

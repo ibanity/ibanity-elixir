@@ -153,10 +153,10 @@ defmodule Ibanity.FinancialInstitution do
   @doc false
   def key_mapping do
     [
-      id: ~w(id),
-      sandbox: ~w(attributes sandbox),
-      name: ~w(attributes name),
-      self_link: ~w(links self)
+      id: {~w(id), :string},
+      sandbox: {~w(attributes sandbox), :string},
+      name: {~w(attributes name), :string},
+      self_link: {~w(links self), :string}
     ]
   end
 end
