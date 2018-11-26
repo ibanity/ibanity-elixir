@@ -15,6 +15,7 @@ defmodule Ibanity.Account do
     currency: nil,
     available_balance: nil,
     financial_institution: nil,
+    financial_institution_user: nil,
     financial_institution_id: nil,
     transactions: nil
   ]
@@ -146,6 +147,30 @@ defmodule Ibanity.Account do
     |> Client.execute(:delete, ["customer", "financialInstitution", "accounts"])
   end
 
+  @doc """
+  Fetches the transactions associated to this account.
+
+  Returns:
+  * `{:ok, transactions}` if successful, where `transactions` is an `Ibanity.Collection`
+  * `nil` if no transaction link was set on the structure
+  * `{:error, reason}` otherwise
+  """
+  def transactions(%__MODULE__{} = account) do
+    if account.transactions, do: Client.get(account.transactions), else: nil
+  end
+
+  @doc """
+  Fetches the financial institution this account belongs to.
+
+  Returns:
+  * `{:ok, institution}` if successful,
+  * `nil` if no financial institution link was set on the structure
+  * `{:error, reason}` otherwise
+  """
+  def financial_institution(%__MODULE__{} = account) do
+    if account.financial_institution, do: Client.get(account.financial_institution), else: nil
+  end
+
   @doc false
   def key_mapping do
     [
@@ -159,7 +184,8 @@ defmodule Ibanity.Account do
       available_balance: {~w(attributes availableBalance), :float},
       transactions: {~w(relationships transactions links related), :string},
       financial_institution: {~w(relationships financialInstitution links related), :string},
-      financial_institution_id: {~w(relationships financialInstitution data id), :string}
+      financial_institution_id: {~w(relationships financialInstitution data id), :string},
+      financial_institution_user: {~w(relationships financialInstitutionUser links related), :string}
     ]
   end
 end

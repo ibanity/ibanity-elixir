@@ -59,7 +59,9 @@ defmodule Ibanity.FinancialInstitutionAccount.DeserializerTest do
       current_balance: 0,
       currency: "EUR",
       created_at: DateTimeUtil.parse("2018-10-18T15:12:57.950279Z"),
-      available_balance: 0
+      available_balance: 0,
+      financial_institution_user: "https://api.ibanity.com/sandbox/financial-institution-users/a64f42ec-c801-41a7-8801-0f815ca42e9e",
+      transactions: "https://api.ibanity.com/sandbox/financial-institutions/b5d6c5f9-e1d2-4cd1-a2aa-7baf964f7bf7/.../financial-institution-transactions"
     }
 
     assert actual == expected
