@@ -1,5 +1,9 @@
 defmodule Ibanity.Collection do
-  @moduledoc false
+  @moduledoc """
+  Container for collection of resources results.
+  """
+
+  alias Ibanity.Client
 
   defstruct [
     items: [],
@@ -25,5 +29,36 @@ defmodule Ibanity.Collection do
       synchronized_at: synchronized_at,
       latest_synchronization: latest_synchronization
     }
+  end
+
+  @doc """
+  Fetches the next results.
+
+  Returns `{:ok, collection}` if successful, `nil` if there's no more elements to fetch, `{:error, reason}` otherwise.
+  """
+  def next(%__MODULE__{} = collection) do
+    get_link(collection, :next_link)
+  end
+
+  @doc """
+  Fetches the previous results
+
+  Returns `{:ok, collection}` if successful, `nil` if there's no previous elements to fetch, `{:error, reason}` otherwise.
+  """
+  def previous(%__MODULE__{} = collection) do
+    get_link(collection, :previous_link)
+  end
+
+  @doc """
+  Fetches the first results
+
+  Returns `{:ok, collection}` if successful, `{:error, reason}` otherwise.
+  """
+  def first(%__MODULE__{} = collection) do
+    get_link(collection, :first_link)
+  end
+
+  defp get_link(collection, link) do
+    if Map.fetch!(collection, link), do: collection |> Map.fetch!(link) |> Client.get, else: nil
   end
 end

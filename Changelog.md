@@ -5,6 +5,7 @@
 * Fix some typos in the documentation
 * Support for financial institution transactions
 * Support for synchronizations
+* Navigation withing collections (first, next and previous links)
 
 ## 0.1.0
 
