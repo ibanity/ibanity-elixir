@@ -15,7 +15,9 @@ defmodule Ibanity.FinancialInstitutionAccount do
     reference_type: nil,
     subtype: nil,
     created_at: nil,
-    updated_at: nil
+    updated_at: nil,
+    financial_institution_user: nil,
+    transactions: nil
   ]
 
   @api_schema_path ["sandbox", "financialInstitution", "financialInstitutionAccounts"]
@@ -162,6 +164,30 @@ defmodule Ibanity.FinancialInstitutionAccount do
     |> Client.execute(:delete, @api_schema_path)
   end
 
+  @doc """
+  Fetches the transactions associated to this account.
+
+  Returns:
+  * `{:ok, transactions}` if successful, where `transactions` is an `Ibanity.Collection`
+  * `nil` if no transaction link was set on the structure
+  * `{:error, reason}` otherwise
+  """
+  def transactions(%__MODULE__{} = account) do
+    if account.transactions, do: Client.get(account.transactions), else: nil
+  end
+
+  @doc """
+  Fetches the financial institution user this account belongs to.
+
+  Returns:
+  * `{:ok, institution}` if successful,
+  * `nil` if no financial institution user link was set on the structure
+  * `{:error, reason}` otherwise
+  """
+  def financial_institution_user(%__MODULE__{} = account) do
+    if account.financial_institution_user, do: Client.get(account.financial_institution_user), else: nil
+  end
+
   @doc false
   def key_mapping do
     [
@@ -173,6 +199,8 @@ defmodule Ibanity.FinancialInstitutionAccount do
       reference: {~w(attributes reference), :string},
       reference_type: {~w(attributes referenceType), :string},
       subtype: {~w(attributes subtype), :string},
+      transactions: {~w(relationships financialInstitutionTransactions links related), :string},
+      financial_institution_user: {~w(relationships financialInstitutionUser links related), :string},
       created_at: {~w(attributes createdAt), :datetime},
       updated_at: {~w(attributes updatedAt), :datetime}
     ]
