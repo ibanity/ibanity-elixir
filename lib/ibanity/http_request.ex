@@ -18,7 +18,7 @@ defmodule Ibanity.HttpRequest do
         request
         |> base_http_request(http_method, uri)
         |> resource_type(resource_type)
-        |> add_signature(http_method, Configuration.signature_options())
+        |> add_signature(http_method, Configuration.signature_options(request.application))
 
       {:error, reason} ->
         {:error, reason}

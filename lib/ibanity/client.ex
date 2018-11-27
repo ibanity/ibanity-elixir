@@ -11,9 +11,9 @@ defmodule Ibanity.Client do
     end
   end
 
-  def get(url) when is_binary(url) do
+  def get(url, application_name \\ :default) when is_binary(url) do
     url
-    |> HTTPoison.get!([], ssl: Configuration.ssl_options())
+    |> HTTPoison.get!([], ssl: Configuration.ssl_options(application_name))
     |> process_response
     |> handle_response_body
   end

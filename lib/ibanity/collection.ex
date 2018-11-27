@@ -36,8 +36,8 @@ defmodule Ibanity.Collection do
 
   Returns `{:ok, collection}` if successful, `nil` if there's no more elements to fetch, `{:error, reason}` otherwise.
   """
-  def next(%__MODULE__{} = collection) do
-    get_link(collection, :next_link)
+  def next(%__MODULE__{} = collection, application \\ :default) do
+    get_link(collection, :next_link, application)
   end
 
   @doc """
@@ -45,8 +45,8 @@ defmodule Ibanity.Collection do
 
   Returns `{:ok, collection}` if successful, `nil` if there's no previous elements to fetch, `{:error, reason}` otherwise.
   """
-  def previous(%__MODULE__{} = collection) do
-    get_link(collection, :previous_link)
+  def previous(%__MODULE__{} = collection, application \\ :default) do
+    get_link(collection, :previous_link, application)
   end
 
   @doc """
@@ -54,11 +54,11 @@ defmodule Ibanity.Collection do
 
   Returns `{:ok, collection}` if successful, `{:error, reason}` otherwise.
   """
-  def first(%__MODULE__{} = collection) do
-    get_link(collection, :first_link)
+  def first(%__MODULE__{} = collection, application \\ :default) do
+    get_link(collection, :first_link, application)
   end
 
-  defp get_link(collection, link) do
-    if Map.fetch!(collection, link), do: collection |> Map.fetch!(link) |> Client.get, else: nil
+  defp get_link(collection, link, application) do
+    if Map.fetch!(collection, link), do: collection |> Map.fetch!(link) |> Client.get(application), else: nil
   end
 end
