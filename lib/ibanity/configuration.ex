@@ -2,7 +2,8 @@ defmodule Ibanity.Configuration do
   @moduledoc false
 
   use Agent
-  alias Ibanity.{ApiSchema, Configuration.Exception, Configuration.Options}
+  alias Ibanity.{ApiSchema, Configuration.Options}
+  alias Ibanity.Configuration.Exception, as: ConfigurationException
 
   defstruct [
     api_schema: nil,
@@ -37,9 +38,9 @@ defmodule Ibanity.Configuration do
   end
 
   defp init(environment) do
-    api_url = Keyword.get(environment, :api_url, @default_api_url)
+    api_url              = Keyword.get(environment, :api_url, @default_api_url)
     applications_options = extract_applications_options(environment)
-    default_app_options = Keyword.fetch!(applications_options, :default)
+    default_app_options  = Keyword.fetch!(applications_options, :default)
 
     %__MODULE__{
       api_schema: ApiSchema.fetch(api_url, default_app_options.ssl, Mix.env),
@@ -48,16 +49,23 @@ defmodule Ibanity.Configuration do
   end
 
   defp extract_applications_options(environment) do
-    environment
-    |> Keyword.fetch!(:applications)
-    |> Enum.map(fn {app, conf} ->
-      app_config = %Options{
-        ssl: conf |> extract_ssl_options |> add_ca_cert_file(environment),
-        signature: conf |> extract_signature_options
-      }
+    applications_options =
+      environment
+      |> Keyword.fetch!(:applications)
+      |> Enum.map(fn {app, conf} ->
+        app_config = %Options{
+          ssl: conf |> extract_ssl_options |> add_ca_cert_file(environment),
+          signature: conf |> extract_signature_options
+        }
 
-      {app, app_config}
-    end)
+        {app, app_config}
+      end)
+
+    if Keyword.has_key?(applications_options, :default) do
+      applications_options
+    else
+      raise ConfigurationException, "No default application found"
+    end
   end
 
   defp extract_signature_options(environment) do
@@ -108,7 +116,7 @@ defmodule Ibanity.Configuration do
 
     case Keyword.fetch(config.applications_options, app_name) do
       {:ok, applications_options} -> applications_options
-      :error -> raise Ibanity.Configuration.Exception, "No application named '#{app_name}' has been found"
+      :error -> raise ConfigurationException, "No application named '#{app_name}' has been found"
     end
   end
 end
