@@ -2,6 +2,7 @@
 
 ## 0.2.0
 
+* Support for multiple applications
 * Fix some typos in the documentation
 * Support for financial institution transactions
 * Support for synchronizations

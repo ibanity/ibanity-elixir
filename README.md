@@ -17,6 +17,12 @@ end
 
 ## Configuration
 
+The client supports multiple _applications_, that is multiple configurations.
+The reason for this is to enable, for example, _sandbox_ or _live_ environment, each having its own
+configurations options (certificate, private key, ...).
+
+There *must* be at least the `:default` application in your configuration file.
+
 ### Signature
 
 When making HTTP requests for _live_ applications, each request *must* be signed, see [API reference](https://documentation.ibanity.com/api#signature). Therefore the `:signature_certificate_file`, `:signature_key_file` and `signature_certificate_id` keys must be set. *Please note that, at this time, Ibanity use the same certificate for both identifying and signing the requests, but it will change in a near future.*
@@ -40,12 +46,37 @@ Key | Description
 
 ### Example
 
+The minimal configuration must be:
 ```elixir
-config :ibanity, :certificate_file, System.get_env("IBANITY_CERTIFICATE")
-config :ibanity, :key_file, System.get_env("IBANITY_KEY")
-config :ibanity, :signature_certificate_file, System.get_env("IBANITY_CERTIFICATE")
-config :ibanity, :signature_key_file, System.get_env("IBANITY_KEY")
-config :ibanity, :signature_certificate_id, System.get_env("IBANITY_CERTIFICATE_ID")
+config :ibanity, :applications, [
+  default: []
+]
+
+config :ibanity, :api_url, System.get_env("IBANITY_API_URL")
+```
+With that kind of configuration, requests won't use SSL nor HTTP signature.
+
+Here's a full-fledged example with two applications, the `:default` one and `:sandbox`:
+```elixir
+config :ibanity, :applications, [
+  default: [
+    certificate_file: System.get_env("DEFAULT_CERTIFICATE"),
+    key_file: System.get_env("DEFAULT_KEY"),
+    signature_certificate_file: System.get_env("DEFAULT_CERTIFICATE"),
+    signature_certificate_id: System.get_env("DEFAULT_CERTIFICATE_ID"),
+    signature_key_file: System.get_env("DEFAULT_KEY")
+  ],
+  sandbox: [
+    certificate_file: System.get_env("SANDBOX_CERTIFICATE"),
+    key_file: System.get_env("SANDBOX_KEY"),
+    signature_certificate_file: System.get_env("SANDBOX_CERTIFICATE"),
+    signature_certificate_id: System.get_env("SANDBOX_CERTIFICATE_ID"),
+    signature_key_file: System.get_env("SANDBOX_KEY")
+  ]
+]
+
+config :ibanity, :api_url, System.get_env("IBANITY_API_URL")
+config :ibanity, :ssl_ca_file, System.get_env("IBANITY_CA_FILE")
 ```
 
 ### Requirements
@@ -100,12 +131,13 @@ Request.limit(1)
 |> FinancialInstitutions.list
 ```
 
-#### Update an existing financial institution
+#### Update an existing financial institution using the _:sandbox_ application
 
 ```elixir
 [name: "WowBank"]
 |> Request.attributes
 |> Request.idempotency_key("d49e91fb-58c4-4953-a4c3-71365139316d")
 |> Request.ids(id: "0864492c-dbf4-43bd-8764-e0b52f4136d4")
+|> Request.application(:sandbox)
 |> FinancialInstitution.update
 ```
