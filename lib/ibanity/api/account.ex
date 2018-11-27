@@ -15,7 +15,6 @@ defmodule Ibanity.Account do
     currency: nil,
     available_balance: nil,
     financial_institution: nil,
-    financial_institution_user: nil,
     financial_institution_id: nil,
     transactions: nil
   ]
@@ -185,7 +184,6 @@ defmodule Ibanity.Account do
       transactions: {~w(relationships transactions links related), :string},
       financial_institution: {~w(relationships financialInstitution links related), :string},
       financial_institution_id: {~w(relationships financialInstitution data id), :string},
-      financial_institution_user: {~w(relationships financialInstitutionUser links related), :string}
     ]
   end
 end
