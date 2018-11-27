@@ -16,6 +16,7 @@ defmodule Ibanity.Request do
   ]
 
   defstruct [
+    application: :default,
     headers: @base_headers,
     attributes: %{},
     idempotency_key: nil,
@@ -26,6 +27,20 @@ defmodule Ibanity.Request do
     before: nil,
     after: nil
   ]
+
+  @doc """
+  Creates a new request and sets the application name
+
+  See `application/2`.
+  """
+  def application(name), do: application(%__MODULE__{}, name)
+
+  @doc """
+  Sets the request's application name
+  """
+  def application(%__MODULE__{} = request, name) when is_atom(name) do
+    %__MODULE__{request | application: name}
+  end
 
   @doc """
   Creates a new request and adds a header to it.
