@@ -2,14 +2,25 @@ defmodule Ibanity.Configuration do
   @moduledoc false
 
   use Agent
-  alias Ibanity.ApiSchema
+  alias Ibanity.{ApiSchema, Configuration.Exception, Configuration.Options}
 
   defstruct [
     api_schema: nil,
-    api_url: nil,
-    ssl_options: nil,
-    signature_options: nil
+    applications_options: []
   ]
+
+  defmodule Exception do
+    @moduledoc false
+    defexception message: nil
+  end
+
+  defmodule Options do
+    @moduledoc false
+    defstruct ssl: nil, signature: nil
+
+    def ssl(%__MODULE__{} = opts), do: opts.ssl
+    def signature(%__MODULE__{} = opts), do: opts.signature
+  end
 
   @default_api_url "https://api.ibanity.com"
 
@@ -17,21 +28,39 @@ defmodule Ibanity.Configuration do
     Agent.start_link(fn -> init(environment) end, name: __MODULE__)
   end
 
-  def ssl_options, do: Agent.get(__MODULE__, &(&1.ssl_options))
   def api_schema, do: Agent.get(__MODULE__, &(&1.api_schema))
-  def signature_options, do: Agent.get(__MODULE__, &(&1.signature_options))
-
-  defp init(environment) do
-    config = %__MODULE__{
-      api_url: Keyword.get(environment, :api_url, @default_api_url),
-      ssl_options: ssl_options(environment),
-      signature_options: signature_options(environment)
-    }
-
-    %{config | api_schema: ApiSchema.fetch(config, Mix.env)}
+  def ssl_options(app_name \\ :default) do
+    app_name |> get_applications_options |> Options.ssl
+  end
+  def signature_options(app_name \\ :default) do
+    app_name |> get_applications_options |> Options.signature
   end
 
-  defp signature_options(environment) do
+  defp init(environment) do
+    api_url = Keyword.get(environment, :api_url, @default_api_url)
+    applications_options = extract_applications_options(environment)
+    default_app_options = Keyword.fetch!(applications_options, :default)
+
+    %__MODULE__{
+      api_schema: ApiSchema.fetch(api_url, default_app_options.ssl, Mix.env),
+      applications_options: applications_options
+    }
+  end
+
+  defp extract_applications_options(environment) do
+    environment
+    |> Keyword.fetch!(:applications)
+    |> Enum.map(fn {app, conf} ->
+      app_config = %Options{
+        ssl: conf |> extract_ssl_options |> add_ca_cert_file(environment),
+        signature: conf |> extract_signature_options
+      }
+
+      {app, app_config}
+    end)
+  end
+
+  defp extract_signature_options(environment) do
     if Keyword.get(environment, :signature_certificate_file) &&
         Keyword.get(environment, :signature_certificate_id) &&
         Keyword.get(environment, :signature_key_file) do
@@ -43,11 +72,10 @@ defmodule Ibanity.Configuration do
     end
   end
 
-  defp ssl_options(environment) do
+  defp extract_ssl_options(environment) do
     []
     |> add_certificate_file(environment)
     |> add_key_file(environment)
-    |> add_ca_cert_file(environment)
   end
 
   defp add_ca_cert_file(ssl_options, environment) do
@@ -73,5 +101,14 @@ defmodule Ibanity.Configuration do
   defp add_key_file(ssl_options, environment) do
     key_file = Keyword.get(environment, :key_file)
     if key_file, do: Keyword.put_new(ssl_options, :keyfile, key_file), else: ssl_options
+  end
+
+  defp get_applications_options(app_name) do
+    config = Agent.get(__MODULE__, &(&1))
+
+    case Keyword.fetch(config.applications_options, app_name) do
+      {:ok, applications_options} -> applications_options
+      :error -> raise Ibanity.Configuration.Exception, "No application named '#{app_name}' has been found"
+    end
   end
 end

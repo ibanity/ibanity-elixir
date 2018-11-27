@@ -8,7 +8,7 @@ defmodule Ibanity.ApiSchema do
     {"Content-Type", "application/json"}
   ]
 
-  def fetch(_, :test) do
+  def fetch(_, _, :test) do
     %{
       "customer" => %{
         "accounts" => "https://api.ibanity.com/customer/accounts",
@@ -36,11 +36,11 @@ defmodule Ibanity.ApiSchema do
       }
     }
   end
-  def fetch(config, _) do
+  def fetch(api_url, ssl_options, _) do
     res = HTTPoison.get!(
-      config.api_url <> "/",
+      api_url <> "/",
       @base_headers,
-      ssl: config.ssl_options
+      ssl: ssl_options
     )
 
     res.body
