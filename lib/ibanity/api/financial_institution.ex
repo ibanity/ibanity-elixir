@@ -5,17 +5,15 @@ defmodule Ibanity.FinancialInstitution do
 
   use Ibanity.Resource
 
-  defstruct [
-    id: nil,
-    sandbox: true,
-    name: nil,
-    self_link: nil
-  ]
+  defstruct id: nil,
+            sandbox: true,
+            name: nil,
+            self_link: nil
 
   @resource_type "financial_institution"
 
   @sandbox_api_schema_path ["sandbox", "financialInstitutions"]
-  @find_api_schema_path    ["financialInstitutions"]
+  @find_api_schema_path ["financialInstitutions"]
 
   @doc """
   Lists all financial institutions in `sandbox` environment.
@@ -44,6 +42,7 @@ defmodule Ibanity.FinancialInstitution do
     |> Request.id(:id, "")
     |> Client.execute(:get, ["financialInstitutions"])
   end
+
   def list(%Request{} = request) do
     request
     |> Client.execute(:get, ["customer", "financialInstitutions"])
@@ -72,6 +71,7 @@ defmodule Ibanity.FinancialInstitution do
       {:ok, %Ibanity.FinancialInstitution{id: "55c09df6-0bdd-46ef-8e66-e5297e0e8a7f", ...}}
   """
   def find(id) when is_binary(id), do: find(%Request{resource_ids: [id: id]})
+
   def find(%Request{} = request) do
     request
     |> Client.execute(:get, @find_api_schema_path)
@@ -145,6 +145,7 @@ defmodule Ibanity.FinancialInstitution do
       {:ok, %Ibanity.FinancialInstitution{id: "55c09df6-0bdd-46ef-8e66-e5297e0e8a7f", ...}}
   """
   def delete(id) when is_binary(id), do: delete(%Request{resource_ids: [id: id]})
+
   def delete(%Request{} = request) do
     request
     |> Client.execute(:delete, @sandbox_api_schema_path)

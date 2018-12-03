@@ -5,19 +5,17 @@ defmodule Ibanity.Account do
 
   use Ibanity.Resource
 
-  defstruct [
-    id: nil,
-    subtype: nil,
-    reference_type: nil,
-    reference: nil,
-    description: nil,
-    current_balance: nil,
-    currency: nil,
-    available_balance: nil,
-    financial_institution: nil,
-    financial_institution_id: nil,
-    transactions: nil
-  ]
+  defstruct id: nil,
+            subtype: nil,
+            reference_type: nil,
+            reference: nil,
+            description: nil,
+            current_balance: nil,
+            currency: nil,
+            available_balance: nil,
+            financial_institution: nil,
+            financial_institution_id: nil,
+            transactions: nil
 
   @doc """
   [List all accounts](https://documentation.ibanity.com/api#list-accounts)
@@ -39,7 +37,8 @@ defmodule Ibanity.Account do
       ...> |> Account.list
       {:ok, %Ibanity.Collection{items: [...]}}
   """
-  def list(%Request{} = request), do: list(request, Request.get_id(request, :financial_institution_id))
+  def list(%Request{} = request),
+    do: list(request, Request.get_id(request, :financial_institution_id))
 
   @doc false
   def list(%Request{} = request, nil) do
@@ -183,7 +182,7 @@ defmodule Ibanity.Account do
       available_balance: {~w(attributes availableBalance), :float},
       transactions: {~w(relationships transactions links related), :string},
       financial_institution: {~w(relationships financialInstitution links related), :string},
-      financial_institution_id: {~w(relationships financialInstitution data id), :string},
+      financial_institution_id: {~w(relationships financialInstitution data id), :string}
     ]
   end
 end

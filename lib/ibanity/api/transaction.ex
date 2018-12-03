@@ -5,19 +5,17 @@ defmodule Ibanity.Transaction do
 
   use Ibanity.Resource
 
-  defstruct [
-    id: nil,
-    value_date: nil,
-    remittance_information_type: nil,
-    remittance_information: nil,
-    execution_date: nil,
-    description: nil,
-    currency: nil,
-    counterpart_reference: nil,
-    counterpart_name: nil,
-    amount: nil,
-    self: nil
-  ]
+  defstruct id: nil,
+            value_date: nil,
+            remittance_information_type: nil,
+            remittance_information: nil,
+            execution_date: nil,
+            description: nil,
+            currency: nil,
+            counterpart_reference: nil,
+            counterpart_name: nil,
+            amount: nil,
+            self: nil
 
   @api_schema_path ~w(customer financialInstitution transactions)
 

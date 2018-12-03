@@ -8,20 +8,18 @@ defmodule Ibanity.FinancialInstitutionTransaction do
   @api_schema_path ~w(sandbox financialInstitution financialInstitutionAccount financialInstitutionTransactions)
   @resource_type "financial_institution_transaction"
 
-  defstruct [
-    id: nil,
-    value_date: nil,
-    updated_at: nil,
-    remittance_information_type: nil,
-    remittance_information: nil,
-    execution_date: nil,
-    description: nil,
-    currency: nil,
-    created_at: nil,
-    counterpart_reference: nil,
-    counterpart_name: nil,
-    amount: nil
-  ]
+  defstruct id: nil,
+            value_date: nil,
+            updated_at: nil,
+            remittance_information_type: nil,
+            remittance_information: nil,
+            execution_date: nil,
+            description: nil,
+            currency: nil,
+            created_at: nil,
+            counterpart_reference: nil,
+            counterpart_name: nil,
+            amount: nil
 
   @doc """
   Convenience function to [create a new financial institution transaction](https://documentation.ibanity.com/api#create-financial-institution-transaction).
@@ -45,7 +43,13 @@ defmodule Ibanity.FinancialInstitutionTransaction do
       ...> )
       {:ok, %Ibanity.FinancialInstitutionTransaction{id: "44cd2dc8-163a-4dbe-b544-869e5f84ea54", ...}}
   """
-  def create(%Request{} = request, financial_institution_id, financial_institution_user_id, financial_institution_account_id, attributes) do
+  def create(
+        %Request{} = request,
+        financial_institution_id,
+        financial_institution_user_id,
+        financial_institution_account_id,
+        attributes
+      ) do
     request
     |> Request.attributes(attributes)
     |> Request.id(:financial_institution_id, financial_institution_id)
@@ -77,7 +81,12 @@ defmodule Ibanity.FinancialInstitutionTransaction do
       ...> )
       %Ibanity.Collection[items: [Ibanity.FinancialInstitutionTransaction{id: "44cd2dc8-163a-4dbe-b544-869e5f84ea54", ...}], ...]
   """
-  def list(%Request{} = request, financial_institution_id, financial_institution_user_id, financial_institution_account_id) do
+  def list(
+        %Request{} = request,
+        financial_institution_id,
+        financial_institution_user_id,
+        financial_institution_account_id
+      ) do
     request
     |> Request.id(:financial_institution_id, financial_institution_id)
     |> Request.id(:financial_institution_user_id, financial_institution_user_id)
@@ -117,12 +126,12 @@ defmodule Ibanity.FinancialInstitutionTransaction do
       %{:ok, Ibanity.FinancialInstitutionTransaction{id: "44cd2dc8-163a-4dbe-b544-869e5f84ea54", ...}}
   """
   def find(
-    %Request{} = request,
-    financial_institution_id,
-    financial_institution_user_id,
-    financial_institution_account_id,
-    financial_institution_transaction_id
-  ) do
+        %Request{} = request,
+        financial_institution_id,
+        financial_institution_user_id,
+        financial_institution_account_id,
+        financial_institution_transaction_id
+      ) do
     request
     |> Request.id(:financial_institution_id, financial_institution_id)
     |> Request.id(:financial_institution_user_id, financial_institution_user_id)
@@ -166,12 +175,12 @@ defmodule Ibanity.FinancialInstitutionTransaction do
       %{:ok, Ibanity.FinancialInstitutionTransaction{id: "44cd2dc8-163a-4dbe-b544-869e5f84ea54", ...}}
   """
   def delete(
-    %Request{} = request,
-    financial_institution_id,
-    financial_institution_user_id,
-    financial_institution_account_id,
-    financial_institution_transaction_id
-  ) do
+        %Request{} = request,
+        financial_institution_id,
+        financial_institution_user_id,
+        financial_institution_account_id,
+        financial_institution_transaction_id
+      ) do
     request
     |> Request.id(:financial_institution_id, financial_institution_id)
     |> Request.id(:financial_institution_user_id, financial_institution_user_id)
@@ -210,7 +219,7 @@ defmodule Ibanity.FinancialInstitutionTransaction do
       execution_date: {~w(attributes executionDate), :datetime},
       description: {~w(attributes description), :string},
       currency: {~w(attributes currency), :string},
-      created_at: {~w(attributes createdAt) , :datetime},
+      created_at: {~w(attributes createdAt), :datetime},
       counterpart_reference: {~w(attributes counterpartReference), :string},
       counterpart_name: {~w(attributes counterpartName), :string},
       amount: {~w(attributes amount), :float}

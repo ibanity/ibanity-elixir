@@ -9,7 +9,8 @@ defmodule Ibanity.PaymentInitiationRequest.DeserializationTest do
       "relationships" => %{
         "financialInstitution" => %{
           "links" => %{
-            "related" => "https://api.ibanity.com/financial-institutions/b2c76f6b-ab34-4843-8ef3-84300ef98a09"
+            "related" =>
+              "https://api.ibanity.com/financial-institutions/b2c76f6b-ab34-4843-8ef3-84300ef98a09"
           },
           "data" => %{
             "type" => "financialInstitution",
@@ -42,6 +43,7 @@ defmodule Ibanity.PaymentInitiationRequest.DeserializationTest do
     }
 
     actual = deserialize(data)
+
     expected = %PaymentInitiationRequest{
       id: "6c1b78d1-a574-4b84-847f-bb7aa0fe43ef",
       status: nil,

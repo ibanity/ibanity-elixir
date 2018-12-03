@@ -7,12 +7,11 @@ defmodule Ibanity.UriUtil do
 
   def from_request(%Request{} = request, uri_path) do
     with {:ok, uri} <- find_uri(uri_path),
-         {:ok, uri} <- replace_ids(uri, request.resource_ids)
-    do
+         {:ok, uri} <- replace_ids(uri, request.resource_ids) do
       encoded_params =
         request
         |> create_query_params
-        |> URI.encode_query
+        |> URI.encode_query()
 
       res = if encoded_params == "", do: uri, else: uri <> "?" <> encoded_params
 
@@ -51,6 +50,7 @@ defmodule Ibanity.UriUtil do
   """
   def replace_ids(uri, resource_ids) do
     expected_ids = Regex.scan(@ids_matcher, uri)
+
     if all_present?(resource_ids, expected_ids) do
       {:ok, substitute_ids(uri, resource_ids)}
     else
@@ -71,7 +71,7 @@ defmodule Ibanity.UriUtil do
       expected_ids
       |> Enum.map(&List.last/1)
       |> Enum.map(&String.to_atom/1)
-      |> Enum.reject(&(Enum.member?(actual_ids, &1)))
+      |> Enum.reject(&Enum.member?(actual_ids, &1))
 
     Enum.empty?(missing_ids)
   end
@@ -86,7 +86,7 @@ defmodule Ibanity.UriUtil do
     |> add_limit(request)
     |> add_before_id(request)
     |> add_after_id(request)
-    |> Enum.reverse
+    |> Enum.reverse()
   end
 
   defp add_limit(params, request) do

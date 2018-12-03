@@ -8,26 +8,24 @@ defmodule Ibanity.PaymentInitiationRequest do
   @api_schema_path ~w(customer financialInstitution paymentInitiationRequests)
   @resource_type "payment_initiation_request"
 
-  defstruct [
-    id: nil,
-    status: nil,
-    remittance_information_type: nil,
-    remittance_information: nil,
-    product_type: nil,
-    end_to_end_id: nil,
-    debtor_name: nil,
-    debtor_account_reference_type: nil,
-    debtor_account_reference: nil,
-    currency: nil,
-    creditor_name: nil,
-    creditor_agent_type: nil,
-    creditor_agent: nil,
-    creditor_account_reference_type: nil,
-    creditor_account_reference: nil,
-    consent_reference: nil,
-    amount: nil,
-    redirect_link: nil
-  ]
+  defstruct id: nil,
+            status: nil,
+            remittance_information_type: nil,
+            remittance_information: nil,
+            product_type: nil,
+            end_to_end_id: nil,
+            debtor_name: nil,
+            debtor_account_reference_type: nil,
+            debtor_account_reference: nil,
+            currency: nil,
+            creditor_name: nil,
+            creditor_agent_type: nil,
+            creditor_agent: nil,
+            creditor_account_reference_type: nil,
+            creditor_account_reference: nil,
+            consent_reference: nil,
+            amount: nil,
+            redirect_link: nil
 
   @doc false
   def key_mapping do
@@ -49,7 +47,7 @@ defmodule Ibanity.PaymentInitiationRequest do
       creditor_account_reference: {~w(attributes creditorAccountReference), :string},
       consent_reference: {~w(attributes consentReference), :string},
       amount: {~w(attributes amount), :float},
-      redirect_link: {~w(links redirect), :string},
+      redirect_link: {~w(links redirect), :string}
     ]
   end
 

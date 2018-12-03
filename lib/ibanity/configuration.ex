@@ -5,10 +5,8 @@ defmodule Ibanity.Configuration do
   alias Ibanity.{ApiSchema, Configuration.Options}
   alias Ibanity.Configuration.Exception, as: ConfigurationException
 
-  defstruct [
-    api_schema: nil,
-    applications_options: []
-  ]
+  defstruct api_schema: nil,
+            applications_options: []
 
   defmodule Exception do
     @moduledoc false
@@ -29,21 +27,23 @@ defmodule Ibanity.Configuration do
     Agent.start_link(fn -> init(environment) end, name: __MODULE__)
   end
 
-  def api_schema, do: Agent.get(__MODULE__, &(&1.api_schema))
+  def api_schema, do: Agent.get(__MODULE__, & &1.api_schema)
+
   def ssl_options(app_name \\ :default) do
-    app_name |> get_applications_options |> Options.ssl
+    app_name |> get_applications_options |> Options.ssl()
   end
+
   def signature_options(app_name \\ :default) do
-    app_name |> get_applications_options |> Options.signature
+    app_name |> get_applications_options |> Options.signature()
   end
 
   defp init(environment) do
-    api_url              = Keyword.get(environment, :api_url, @default_api_url)
+    api_url = Keyword.get(environment, :api_url, @default_api_url)
     applications_options = extract_applications_options(environment)
-    default_app_options  = Keyword.fetch!(applications_options, :default)
+    default_app_options = Keyword.fetch!(applications_options, :default)
 
     %__MODULE__{
-      api_schema: ApiSchema.fetch(api_url, default_app_options.ssl, Mix.env),
+      api_schema: ApiSchema.fetch(api_url, default_app_options.ssl, Mix.env()),
       applications_options: applications_options
     }
   end
@@ -70,12 +70,12 @@ defmodule Ibanity.Configuration do
 
   defp extract_signature_options(environment) do
     if Keyword.get(environment, :signature_certificate_file) &&
-        Keyword.get(environment, :signature_certificate_id) &&
-        Keyword.get(environment, :signature_key_file) do
+         Keyword.get(environment, :signature_certificate_id) &&
+         Keyword.get(environment, :signature_key_file) do
       [
-        certificate:    environment |> Keyword.get(:signature_certificate_file) |> File.read!,
+        certificate: environment |> Keyword.get(:signature_certificate_file) |> File.read!(),
         certificate_id: environment |> Keyword.get(:signature_certificate_id),
-        signature_key:  environment |> Keyword.get(:signature_key_file) |> ExPublicKey.load!
+        signature_key: environment |> Keyword.get(:signature_key_file) |> ExPublicKey.load!()
       ]
     end
   end
@@ -88,7 +88,10 @@ defmodule Ibanity.Configuration do
 
   defp add_ca_cert_file(ssl_options, environment) do
     ca_cert_file = Keyword.get(environment, :ssl_ca_file)
-    if ca_cert_file, do: Keyword.put_new(ssl_options, :cacertfile, ca_cert_file), else: ssl_options
+
+    if ca_cert_file,
+      do: Keyword.put_new(ssl_options, :cacertfile, ca_cert_file),
+      else: ssl_options
   end
 
   defp add_certificate_file(ssl_options, environment) do
@@ -112,7 +115,7 @@ defmodule Ibanity.Configuration do
   end
 
   defp get_applications_options(app_name) do
-    config = Agent.get(__MODULE__, &(&1))
+    config = Agent.get(__MODULE__, & &1)
 
     case Keyword.fetch(config.applications_options, app_name) do
       {:ok, applications_options} -> applications_options

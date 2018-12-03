@@ -19,6 +19,7 @@ defmodule Ibanity.Synchronization.DeserializationTest do
     }
 
     actual = deserialize(data)
+
     expected = %Synchronization{
       id: "e8b19b5e-068b-4802-a2da-0c641145479c",
       updated_at: DateTimeUtil.parse("2018-10-18T15:11:42.341Z"),

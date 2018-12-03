@@ -4,13 +4,11 @@ defmodule Ibanity.HttpRequest do
   alias Ibanity.{Configuration, UriUtil}
   import Ibanity.CaseUtil
 
-  defstruct [
-    headers: [],
-    data: nil,
-    uri: nil,
-    method: nil,
-    return_type: nil
-  ]
+  defstruct headers: [],
+            data: nil,
+            uri: nil,
+            method: nil,
+            return_type: nil
 
   def build(%Ibanity.Request{} = request, http_method, uri_path, resource_type \\ nil) do
     case UriUtil.from_request(request, uri_path) do
@@ -28,18 +26,19 @@ defmodule Ibanity.HttpRequest do
   defp base_http_request(request, http_method, uri) do
     %__MODULE__{
       headers: create_headers(request),
-      data:    create_data(request),
-      method:  http_method,
-      uri:     uri
+      data: create_data(request),
+      method: http_method,
+      uri: uri
     }
   end
 
   defp add_signature(request, _method, nil), do: {:ok, request}
+
   defp add_signature(request, method, signature_options) do
-    with {:ok, private_key}    <- Keyword.fetch(signature_options, :signature_key),
+    with {:ok, private_key} <- Keyword.fetch(signature_options, :signature_key),
          {:ok, certificate_id} <- Keyword.fetch(signature_options, :certificate_id),
-         {:ok, headers}        <- Ibanity.Signature.signature_headers(request, method, private_key, certificate_id)
-    do
+         {:ok, headers} <-
+           Ibanity.Signature.signature_headers(request, method, private_key, certificate_id) do
       {:ok, %__MODULE__{request | headers: Keyword.merge(request.headers, headers)}}
     else
       {:error, reason} -> {:error, reason}
@@ -47,6 +46,7 @@ defmodule Ibanity.HttpRequest do
   end
 
   defp resource_type(%__MODULE__{} = request, nil), do: request
+
   defp resource_type(%__MODULE__{} = request, type) do
     if Map.has_key?(request.data, :type) do
       request

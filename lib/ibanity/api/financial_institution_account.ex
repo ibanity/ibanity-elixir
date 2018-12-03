@@ -5,20 +5,18 @@ defmodule Ibanity.FinancialInstitutionAccount do
 
   use Ibanity.Resource
 
-  defstruct [
-    id: nil,
-    available_balance: nil,
-    currency: nil,
-    current_balance: nil,
-    description: nil,
-    reference: nil,
-    reference_type: nil,
-    subtype: nil,
-    created_at: nil,
-    updated_at: nil,
-    financial_institution_user: nil,
-    transactions: nil
-  ]
+  defstruct id: nil,
+            available_balance: nil,
+            currency: nil,
+            current_balance: nil,
+            description: nil,
+            reference: nil,
+            reference_type: nil,
+            subtype: nil,
+            created_at: nil,
+            updated_at: nil,
+            financial_institution_user: nil,
+            transactions: nil
 
   @api_schema_path ["sandbox", "financialInstitution", "financialInstitutionAccounts"]
 
@@ -185,7 +183,9 @@ defmodule Ibanity.FinancialInstitutionAccount do
   * `{:error, reason}` otherwise
   """
   def financial_institution_user(%__MODULE__{} = account) do
-    if account.financial_institution_user, do: Client.get(account.financial_institution_user), else: nil
+    if account.financial_institution_user,
+      do: Client.get(account.financial_institution_user),
+      else: nil
   end
 
   @doc false
@@ -200,7 +200,8 @@ defmodule Ibanity.FinancialInstitutionAccount do
       reference_type: {~w(attributes referenceType), :string},
       subtype: {~w(attributes subtype), :string},
       transactions: {~w(relationships financialInstitutionTransactions links related), :string},
-      financial_institution_user: {~w(relationships financialInstitutionUser links related), :string},
+      financial_institution_user:
+        {~w(relationships financialInstitutionUser links related), :string},
       created_at: {~w(attributes createdAt), :datetime},
       updated_at: {~w(attributes updatedAt), :datetime}
     ]

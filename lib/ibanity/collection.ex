@@ -5,17 +5,15 @@ defmodule Ibanity.Collection do
 
   alias Ibanity.Client
 
-  defstruct [
-    items: [],
-    page_limit: nil,
-    before_cursor: nil,
-    after_cursor: nil,
-    first_link: nil,
-    next_link: nil,
-    previous_link: nil,
-    latest_synchronization: nil,
-    synchronized_at: nil
-  ]
+  defstruct items: [],
+            page_limit: nil,
+            before_cursor: nil,
+            after_cursor: nil,
+            first_link: nil,
+            next_link: nil,
+            previous_link: nil,
+            latest_synchronization: nil,
+            synchronized_at: nil
 
   def new(items, paging, links, synchronized_at \\ nil, latest_synchronization \\ nil) do
     %__MODULE__{
@@ -59,6 +57,8 @@ defmodule Ibanity.Collection do
   end
 
   defp get_link(collection, link, application) do
-    if Map.fetch!(collection, link), do: collection |> Map.fetch!(link) |> Client.get(application), else: nil
+    if Map.fetch!(collection, link),
+      do: collection |> Map.fetch!(link) |> Client.get(application),
+      else: nil
   end
 end

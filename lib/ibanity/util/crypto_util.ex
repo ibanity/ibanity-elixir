@@ -8,8 +8,8 @@ defmodule Ibanity.CryptoUtil do
   @spec sha512sum(binary()) :: String.t()
   def sha512sum(bin) do
     bin
-    |> ExCrypto.Hash.sha512!
-    |> Base.url_encode64
+    |> ExCrypto.Hash.sha512!()
+    |> Base.url_encode64()
   end
 
   @doc ~S"""
@@ -19,7 +19,7 @@ defmodule Ibanity.CryptoUtil do
   @spec sha256sum(binary()) :: String.t()
   def sha256sum(bin) do
     bin
-    |> ExCrypto.Hash.sha256!
-    |> Base.url_encode64
+    |> ExCrypto.Hash.sha256!()
+    |> Base.url_encode64()
   end
 end

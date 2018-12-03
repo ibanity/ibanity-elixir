@@ -21,16 +21,19 @@ defmodule Ibanity.CaseUtil do
 
   def to_camel(term) when is_atom(term) do
     term
-    |> Atom.to_string
-    |> Recase.to_camel
-    |> String.to_atom
+    |> Atom.to_string()
+    |> Recase.to_camel()
+    |> String.to_atom()
   end
+
   def to_camel(term) when is_list(term) do
     Enum.map(term, fn {key, value} -> {to_camel(key), value} end)
   end
+
   def to_camel(term) when is_map(term) do
     Enum.reduce(term, %{}, fn {key, value}, acc -> Map.put_new(acc, to_camel(key), value) end)
   end
+
   def to_camel(term) when is_binary(term) do
     Recase.to_camel(term)
   end

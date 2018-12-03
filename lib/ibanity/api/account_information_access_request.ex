@@ -5,13 +5,11 @@ defmodule Ibanity.AccountInformationAccessRequest do
 
   use Ibanity.Resource
 
-  defstruct [
-    id: nil,
-    redirect_link: nil,
-    requested_account_references: nil
-  ]
+  defstruct id: nil,
+            redirect_link: nil,
+            requested_account_references: nil
 
-  @api_schema_path  ["customer", "financialInstitution", "accountInformationAccessRequests"]
+  @api_schema_path ["customer", "financialInstitution", "accountInformationAccessRequests"]
 
   @doc """
   [Creates an account information access request](https://documentation.ibanity.com/api#create-account-information-access-request)

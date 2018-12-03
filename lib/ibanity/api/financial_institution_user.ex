@@ -7,15 +7,13 @@ defmodule Ibanity.FinancialInstitutionUser do
 
   @api_schema_path ["sandbox", "financialInstitutionUsers"]
 
-  defstruct [
-    id: nil,
-    first_name: nil,
-    last_name: nil,
-    login: nil,
-    password: nil,
-    created_at: nil,
-    updated_at: nil
-  ]
+  defstruct id: nil,
+            first_name: nil,
+            last_name: nil,
+            login: nil,
+            password: nil,
+            created_at: nil,
+            updated_at: nil
 
   @resource_type "financial_institution_user"
 

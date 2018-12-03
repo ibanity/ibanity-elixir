@@ -6,7 +6,8 @@ defmodule Ibanity.FinancialInstitution.DeserializationTest do
     data = %{
       "type" => "financialInstitution",
       "links" => %{
-        "self" => "https://api.ibanity.com/financial-institutions/01faf09c-038d-43f3-8e0c-d0aaf3e0e176"
+        "self" =>
+          "https://api.ibanity.com/financial-institutions/01faf09c-038d-43f3-8e0c-d0aaf3e0e176"
       },
       "id" => "01faf09c-038d-43f3-8e0c-d0aaf3e0e176",
       "attributes" => %{
@@ -16,11 +17,13 @@ defmodule Ibanity.FinancialInstitution.DeserializationTest do
     }
 
     actual = deserialize(data)
+
     expected = %Ibanity.FinancialInstitution{
       id: "01faf09c-038d-43f3-8e0c-d0aaf3e0e176",
       sandbox: true,
       name: "ABN AMRO HOARE GOVETT CORPORATE FINANCE LTD. 7",
-      self_link: "https://api.ibanity.com/financial-institutions/01faf09c-038d-43f3-8e0c-d0aaf3e0e176"
+      self_link:
+        "https://api.ibanity.com/financial-institutions/01faf09c-038d-43f3-8e0c-d0aaf3e0e176"
     }
 
     assert expected == actual

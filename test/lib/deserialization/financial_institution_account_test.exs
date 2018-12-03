@@ -9,7 +9,8 @@ defmodule Ibanity.FinancialInstitutionAccount.DeserializerTest do
       "relationships" => %{
         "financialInstitutionUser" => %{
           "links" => %{
-            "related" => "https://api.ibanity.com/sandbox/financial-institution-users/a64f42ec-c801-41a7-8801-0f815ca42e9e"
+            "related" =>
+              "https://api.ibanity.com/sandbox/financial-institution-users/a64f42ec-c801-41a7-8801-0f815ca42e9e"
           },
           "data" => %{
             "type" => "financialInstitutionUser",
@@ -18,7 +19,8 @@ defmodule Ibanity.FinancialInstitutionAccount.DeserializerTest do
         },
         "financialInstitutionTransactions" => %{
           "links" => %{
-            "related" => "https://api.ibanity.com/sandbox/financial-institutions/b5d6c5f9-e1d2-4cd1-a2aa-7baf964f7bf7/.../financial-institution-transactions",
+            "related" =>
+              "https://api.ibanity.com/sandbox/financial-institutions/b5d6c5f9-e1d2-4cd1-a2aa-7baf964f7bf7/.../financial-institution-transactions",
             "meta" => %{
               "type" => "financialInstitutionTransaction"
             }
@@ -32,7 +34,8 @@ defmodule Ibanity.FinancialInstitutionAccount.DeserializerTest do
         }
       },
       "links" => %{
-        "self" => "https://api.ibanity.com/sandbox/financial-institutions/.../financial-institution-accounts/b1c1e046-309b-49b8-bc5d-c4b1f82f61a7"
+        "self" =>
+          "https://api.ibanity.com/sandbox/financial-institutions/.../financial-institution-accounts/b1c1e046-309b-49b8-bc5d-c4b1f82f61a7"
       },
       "id" => "b1c1e046-309b-49b8-bc5d-c4b1f82f61a7",
       "attributes" => %{
@@ -47,6 +50,7 @@ defmodule Ibanity.FinancialInstitutionAccount.DeserializerTest do
         "availableBalance" => 0
       }
     }
+
     actual = deserialize(data)
 
     expected = %FinancialInstitutionAccount{
@@ -60,8 +64,10 @@ defmodule Ibanity.FinancialInstitutionAccount.DeserializerTest do
       currency: "EUR",
       created_at: DateTimeUtil.parse("2018-10-18T15:12:57.950279Z"),
       available_balance: 0,
-      financial_institution_user: "https://api.ibanity.com/sandbox/financial-institution-users/a64f42ec-c801-41a7-8801-0f815ca42e9e",
-      transactions: "https://api.ibanity.com/sandbox/financial-institutions/b5d6c5f9-e1d2-4cd1-a2aa-7baf964f7bf7/.../financial-institution-transactions"
+      financial_institution_user:
+        "https://api.ibanity.com/sandbox/financial-institution-users/a64f42ec-c801-41a7-8801-0f815ca42e9e",
+      transactions:
+        "https://api.ibanity.com/sandbox/financial-institutions/b5d6c5f9-e1d2-4cd1-a2aa-7baf964f7bf7/.../financial-institution-transactions"
     }
 
     assert actual == expected

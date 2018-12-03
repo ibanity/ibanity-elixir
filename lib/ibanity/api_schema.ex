@@ -13,10 +13,14 @@ defmodule Ibanity.ApiSchema do
       "customer" => %{
         "accounts" => "https://api.ibanity.com/customer/accounts",
         "financialInstitution" => %{
-          "accountInformationAccessRequests" => "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/account-information-access-requests",
-          "accounts" => "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/accounts/{id}",
-          "paymentInitiationRequests" => "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/payment-initiation-requests/{id}",
-          "transactions" => "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/accounts/{account_id}/transactions/{id}"
+          "accountInformationAccessRequests" =>
+            "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/account-information-access-requests",
+          "accounts" =>
+            "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/accounts/{id}",
+          "paymentInitiationRequests" =>
+            "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/payment-initiation-requests/{id}",
+          "transactions" =>
+            "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/accounts/{account_id}/transactions/{id}"
         },
         "financialInstitutions" => "https://api.ibanity.com/customer/financial-institutions",
         "self" => "https://api.ibanity.com/customer",
@@ -27,29 +31,34 @@ defmodule Ibanity.ApiSchema do
       "sandbox" => %{
         "financialInstitution" => %{
           "financialInstitutionAccount" => %{
-            "financialInstitutionTransactions" => "https://api.ibanity.com/sandbox/financial-institutions/{financial_institution_id}/financial-institution-users/{financial_institution_user_id}/financial-institution-accounts/{financial_institution_account_id}/financial-institution-transactions/{id}"
+            "financialInstitutionTransactions" =>
+              "https://api.ibanity.com/sandbox/financial-institutions/{financial_institution_id}/financial-institution-users/{financial_institution_user_id}/financial-institution-accounts/{financial_institution_account_id}/financial-institution-transactions/{id}"
           },
-          "financialInstitutionAccounts" => "https://api.ibanity.com/sandbox/financial-institutions/{financial_institution_id}/financial-institution-users/{financial_institution_user_id}/financial-institution-accounts/{id}"
+          "financialInstitutionAccounts" =>
+            "https://api.ibanity.com/sandbox/financial-institutions/{financial_institution_id}/financial-institution-users/{financial_institution_user_id}/financial-institution-accounts/{id}"
         },
-        "financialInstitutionUsers" => "https://api.ibanity.com/sandbox/financial-institution-users/{id}",
+        "financialInstitutionUsers" =>
+          "https://api.ibanity.com/sandbox/financial-institution-users/{id}",
         "financialInstitutions" => "https://api.ibanity.com/sandbox/financial-institutions/{id}"
       }
     }
   end
+
   def fetch(api_url, ssl_options, _) do
-    res = HTTPoison.get!(
-      api_url <> "/",
-      @base_headers,
-      ssl: ssl_options
-    )
+    res =
+      HTTPoison.get!(
+        api_url <> "/",
+        @base_headers,
+        ssl: ssl_options
+      )
 
     res.body
-    |> Jason.decode!
+    |> Jason.decode!()
     |> Map.fetch!("links")
     |> apply_to_values(fn str ->
       str
       |> IdReplacer.replace_all(&Recase.to_snake/1)
-      |> IdReplacer.replace_last
+      |> IdReplacer.replace_last()
     end)
   end
 
@@ -58,6 +67,7 @@ defmodule Ibanity.ApiSchema do
       Map.put_new(acc, key, apply_to_values(value, func))
     end)
   end
+
   defp apply_to_values(str, func) when is_binary(str) do
     func.(str)
   end

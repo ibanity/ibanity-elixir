@@ -15,18 +15,16 @@ defmodule Ibanity.Request do
     "Content-Type": "application/json"
   ]
 
-  defstruct [
-    application: :default,
-    headers: @base_headers,
-    attributes: %{},
-    idempotency_key: nil,
-    customer_access_token: nil,
-    resource_type: nil,
-    resource_ids: [],
-    limit: nil,
-    before: nil,
-    after: nil
-  ]
+  defstruct application: :default,
+            headers: @base_headers,
+            attributes: %{},
+            idempotency_key: nil,
+            customer_access_token: nil,
+            resource_type: nil,
+            resource_ids: [],
+            limit: nil,
+            before: nil,
+            after: nil
 
   @doc """
   Creates a new request and sets the application name
@@ -129,8 +127,11 @@ defmodule Ibanity.Request do
   @doc """
   Creates a new request and sets the [customer access token](https://documentation.ibanity.com/api#customer-access-token) to it
   """
-  def customer_access_token(token) when is_binary(token), do: customer_access_token(%__MODULE__{}, token)
-  def customer_access_token(%Ibanity.CustomerAccessToken{} = access), do: customer_access_token(access.token)
+  def customer_access_token(token) when is_binary(token),
+    do: customer_access_token(%__MODULE__{}, token)
+
+  def customer_access_token(%Ibanity.CustomerAccessToken{} = access),
+    do: customer_access_token(access.token)
 
   @doc """
   Sets the [customer access token](https://documentation.ibanity.com/api#customer-access-token) to the request
@@ -221,6 +222,7 @@ defmodule Ibanity.Request do
   end
 
   def limit(max), do: limit(%__MODULE__{}, max)
+
   @doc """
   Sets the maximum number of items to fetch at once. See [https://documentation.ibanity.com/api#pagination](https://documentation.ibanity.com/api#pagination)
   """

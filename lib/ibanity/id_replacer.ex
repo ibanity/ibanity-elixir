@@ -24,7 +24,7 @@ defmodule Ibanity.IdReplacer do
   def replace_all(url, func) do
     @id_regex
     |> Regex.scan(url)
-    |> List.flatten
+    |> List.flatten()
     |> Enum.reduce(url, fn to_replace, new_url ->
       placeholder = to_replace
       to_replace = Regex.replace(~r/(\{|\})/, to_replace, "")
@@ -58,15 +58,16 @@ defmodule Ibanity.IdReplacer do
   def replace_last(url) do
     url
     |> String.split("/")
-    |> Enum.reverse
+    |> Enum.reverse()
     |> replace_id
-    |> Enum.reverse
+    |> Enum.reverse()
     |> Enum.join("/")
   end
 
   defp replace_id(["", segment | rest]) do
     replace_id([segment | rest])
   end
+
   defp replace_id([segment | rest] = split_url) do
     if Regex.match?(@id_regex, segment), do: ["{id}" | rest], else: split_url
   end

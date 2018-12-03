@@ -9,7 +9,8 @@ defmodule Ibanity.FinancialInstitutionTransaction.DeserializationTest do
       "relationships" => %{
         "financialInstitutionAccount" => %{
           "links" => %{
-            "related" => "https://api.ibanity.com/sandbox/financial-institutions/ad6fa583-2616-4a11-8b8d-eb98c53e2905/financial-institution-users/..."
+            "related" =>
+              "https://api.ibanity.com/sandbox/financial-institutions/ad6fa583-2616-4a11-8b8d-eb98c53e2905/financial-institution-users/..."
           },
           "data" => %{
             "type" => "financialInstitutionAccount",
@@ -18,7 +19,8 @@ defmodule Ibanity.FinancialInstitutionTransaction.DeserializationTest do
         }
       },
       "links" => %{
-        "self" => "https://api.ibanity.com/sandbox/financial-institutions/ad6fa583-2616-4a11-8b8d-eb98c53e2905/..."
+        "self" =>
+          "https://api.ibanity.com/sandbox/financial-institutions/ad6fa583-2616-4a11-8b8d-eb98c53e2905/..."
       },
       "id" => "0b0ffc56-db20-4dc5-b9f3-189e4317812e",
       "attributes" => %{
@@ -37,6 +39,7 @@ defmodule Ibanity.FinancialInstitutionTransaction.DeserializationTest do
     }
 
     actual = deserialize(data)
+
     expected = %Ibanity.FinancialInstitutionTransaction{
       id: "0b0ffc56-db20-4dc5-b9f3-189e4317812e",
       value_date: DateTimeUtil.parse("2017-05-22T00:00:00Z"),

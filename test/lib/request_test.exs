@@ -10,7 +10,7 @@ defmodule Ibanity.RequestTest do
         |> Request.header(:"X-Http-Dummy", "foo")
 
       assert [:Accept, :"Content-Type", :"X-Http-Dummy"]
-        |> Enum.all?(&(Keyword.has_key?(request.headers, &1)))
+             |> Enum.all?(&Keyword.has_key?(request.headers, &1))
     end
   end
 
@@ -19,7 +19,7 @@ defmodule Ibanity.RequestTest do
       request = Request.header(:"X-Http-Dummy", "foo")
 
       assert [:Accept, :"Content-Type", :"X-Http-Dummy"]
-        |> Enum.all?(&(Keyword.has_key?(request.headers, &1)))
+             |> Enum.all?(&Keyword.has_key?(request.headers, &1))
     end
   end
 
@@ -27,10 +27,10 @@ defmodule Ibanity.RequestTest do
     test "add multiple headers at once" do
       request =
         %Request{}
-        |> Request.headers(["X-Http-Dummy": "foo", "X-Header": "bar"])
+        |> Request.headers("X-Http-Dummy": "foo", "X-Header": "bar")
 
-        assert [:Accept, :"Content-Type", :"X-Http-Dummy", :"X-Header"]
-          |> Enum.all?(&(Keyword.has_key?(request.headers, &1)))
+      assert [:Accept, :"Content-Type", :"X-Http-Dummy", :"X-Header"]
+             |> Enum.all?(&Keyword.has_key?(request.headers, &1))
     end
   end
 
@@ -47,6 +47,7 @@ defmodule Ibanity.RequestTest do
   describe ".customer_access_token/2" do
     test "set the token when passing a CustomerAccessToken" do
       customer_access = %CustomerAccessToken{token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."}
+
       request =
         %Request{}
         |> Request.customer_access_token(customer_access)
@@ -62,6 +63,7 @@ defmodule Ibanity.RequestTest do
 
     test "true when set" do
       token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+
       request =
         %Request{}
         |> Request.customer_access_token(token)
@@ -93,7 +95,7 @@ defmodule Ibanity.RequestTest do
         |> Request.id(:financialInstitutionId, "3eff5ae1-547b-464a-bac8-da971c7a0a05")
 
       assert [:customerId, :financialInstitutionId]
-        |> Enum.all?(&(Keyword.has_key?(request.resource_ids, &1)))
+             |> Enum.all?(&Keyword.has_key?(request.resource_ids, &1))
     end
 
     test "override existing id with same name" do
@@ -101,7 +103,8 @@ defmodule Ibanity.RequestTest do
         %Request{resource_ids: [customerId: "f51e3418-ff16-44d4-a081-a932d882dd18"]}
         |> Request.id(:customerId, "3eff5ae1-547b-464a-bac8-da971c7a0a05")
 
-      assert Keyword.fetch!(request.resource_ids, :customerId) == "3eff5ae1-547b-464a-bac8-da971c7a0a05"
+      assert Keyword.fetch!(request.resource_ids, :customerId) ==
+               "3eff5ae1-547b-464a-bac8-da971c7a0a05"
     end
   end
 
@@ -110,29 +113,26 @@ defmodule Ibanity.RequestTest do
       request =
         %Request{resource_ids: [customerId: "f51e3418-ff16-44d4-a081-a932d882dd18"]}
         |> Request.ids(
-          [
-            financialInstitutionId: "3eff5ae1-547b-464a-bac8-da971c7a0a05",
-            userId: "a7dc2ea7-7749-4233-9569-6863e979f6ca"
-          ]
+          financialInstitutionId: "3eff5ae1-547b-464a-bac8-da971c7a0a05",
+          userId: "a7dc2ea7-7749-4233-9569-6863e979f6ca"
         )
 
       assert [:customerId, :financialInstitutionId, :userId]
-          |> Enum.all?(&(Keyword.has_key?(request.resource_ids, &1)))
+             |> Enum.all?(&Keyword.has_key?(request.resource_ids, &1))
     end
 
     test "override existing ids with the same name" do
       request =
         %Request{resource_ids: [customerId: "f51e3418-ff16-44d4-a081-a932d882dd18"]}
         |> Request.ids(
-          [
-            financialInstitutionId: "3eff5ae1-547b-464a-bac8-da971c7a0a05",
-            customerId: "a7dc2ea7-7749-4233-9569-6863e979f6ca"
-          ]
+          financialInstitutionId: "3eff5ae1-547b-464a-bac8-da971c7a0a05",
+          customerId: "a7dc2ea7-7749-4233-9569-6863e979f6ca"
         )
 
-        assert Keyword.has_key?(request.resource_ids, :financialInstitutionId)
-        assert Keyword.get(request.resource_ids, :customerId)
-                  == "a7dc2ea7-7749-4233-9569-6863e979f6ca"
+      assert Keyword.has_key?(request.resource_ids, :financialInstitutionId)
+
+      assert Keyword.get(request.resource_ids, :customerId) ==
+               "a7dc2ea7-7749-4233-9569-6863e979f6ca"
     end
   end
 end

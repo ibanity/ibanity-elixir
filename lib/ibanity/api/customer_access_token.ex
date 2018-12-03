@@ -7,7 +7,7 @@ defmodule Ibanity.CustomerAccessToken do
 
   defstruct id: nil, token: nil
 
-  @api_schema_path  ["customerAccessTokens"]
+  @api_schema_path ["customerAccessTokens"]
 
   @doc """
   [Requests a customer access token](https://documentation.ibanity.com/api#create-customer-access-token)

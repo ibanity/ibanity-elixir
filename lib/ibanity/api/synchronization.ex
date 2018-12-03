@@ -10,16 +10,14 @@ defmodule Ibanity.Synchronization do
   # Please note that this is NOT the same as the 'resource_type' defined in the struct
   @resource_type "synchronization"
 
-  defstruct [
-    id: nil,
-    subtype: nil,
-    status: nil,
-    resource_type: nil,
-    resource_id: nil,
-    errors: [],
-    created_at: nil,
-    updated_at: nil
-  ]
+  defstruct id: nil,
+            subtype: nil,
+            status: nil,
+            resource_type: nil,
+            resource_id: nil,
+            errors: [],
+            created_at: nil,
+            updated_at: nil
 
   @doc """
   [Creates a new synchronization resource](https://documentation.ibanity.com/api#create-synchronization).
@@ -46,7 +44,6 @@ defmodule Ibanity.Synchronization do
     |> Request.resource_type(@resource_type)
     |> Client.execute(:post, @api_schema_path)
   end
-
 
   @doc """
   [Retrieves a synchronization resource](https://documentation.ibanity.com/api#get-synchronization).

@@ -7,7 +7,7 @@ defmodule Ibanity.Client do
   def execute(%Ibanity.Request{} = request, method, uri_path) do
     case HttpRequest.build(request, method, uri_path) do
       {:ok, http_request} -> execute(http_request)
-      {:error, reason}    -> {:error, reason}
+      {:error, reason} -> {:error, reason}
     end
   end
 
@@ -20,13 +20,15 @@ defmodule Ibanity.Client do
 
   defp execute(%HttpRequest{method: method} = request) do
     body = if method_has_body?(method), do: Jason.encode!(%{data: request.data}), else: ""
-    res = HTTPoison.request!(
-      method,
-      request.uri,
-      body,
-      request.headers,
-      ssl: Configuration.ssl_options()
-    )
+
+    res =
+      HTTPoison.request!(
+        method,
+        request.uri,
+        body,
+        request.headers,
+        ssl: Configuration.ssl_options()
+      )
 
     res
     |> process_response
@@ -44,8 +46,10 @@ defmodule Ibanity.Client do
     cond do
       code >= 200 and code <= 299 ->
         {:ok, body}
+
       code >= 400 and code <= 599 ->
         {:error, Map.fetch!(body, "errors")}
+
       true ->
         {:error, :unknown_return_code}
     end
@@ -53,7 +57,9 @@ defmodule Ibanity.Client do
 
   defp handle_response_body(%{"message" => reason}), do: {:error, reason}
   defp handle_response_body({:error, _} = error), do: error
-  defp handle_response_body({:ok, %{"data" => data, "meta" => meta, "links" => links}}) when is_list(data) do
+
+  defp handle_response_body({:ok, %{"data" => data, "meta" => meta, "links" => links}})
+       when is_list(data) do
     collection =
       data
       |> Enum.map(&deserialize/1)
@@ -61,5 +67,6 @@ defmodule Ibanity.Client do
 
     {:ok, collection}
   end
+
   defp handle_response_body({:ok, %{"data" => data}}), do: {:ok, deserialize(data)}
 end

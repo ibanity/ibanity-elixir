@@ -9,28 +9,32 @@ defmodule Ibanity.Signature do
 
   def signature_headers(%HttpRequest{} = request, method, private_key, certificate_id) do
     parsed_uri = URI.parse(request.uri)
+
     headers = [
-      "Date": now_to_string(),
-      "Digest":  "SHA-256=" <> payload_digest(request),
-      "Signature": generate_signature(request, method, parsed_uri, private_key, certificate_id)
+      Date: now_to_string(),
+      Digest: "SHA-256=" <> payload_digest(request),
+      Signature: generate_signature(request, method, parsed_uri, private_key, certificate_id)
     ]
 
     {:ok, headers}
   end
 
   defp payload_digest(%{data: nil}), do: @empty_sha256sum
+
   defp payload_digest(request) do
     %{data: request.data}
-    |> Jason.encode!
+    |> Jason.encode!()
     |> sha256sum
   end
 
   defp generate_signature(request, method, uri, private_key, certificate_id) do
-    headers         = signing_headers(request, method, uri)
-    signing_headers = headers |> Keyword.keys |> Enum.join(" ")
-    signature       = headers |> Enum.join("\n") |> sign(private_key) |> Base.url_encode64
+    headers = signing_headers(request, method, uri)
+    signing_headers = headers |> Keyword.keys() |> Enum.join(" ")
+    signature = headers |> Enum.join("\n") |> sign(private_key) |> Base.url_encode64()
 
-    "keyId=\"#{certificate_id}\" algorithm=\"#{@algorithm}\" headers=\"#{signing_headers}\" signature=\"#{signature}\""
+    "keyId=\"#{certificate_id}\" algorithm=\"#{@algorithm}\" headers=\"#{signing_headers}\" signature=\"#{
+      signature
+    }\""
   end
 
   defp signing_headers(request, method, uri) do
@@ -41,7 +45,7 @@ defmodule Ibanity.Signature do
     |> add_date(request, method, uri)
     |> add_ibanity_headers(request, method, uri)
     |> add_authorization(request, method, uri)
-    |> Enum.reverse
+    |> Enum.reverse()
   end
 
   defp sign(msg, private_key) do
@@ -69,17 +73,17 @@ defmodule Ibanity.Signature do
   defp add_ibanity_headers(headers, request, _method, _uri) do
     ibanity_header? = fn {header, _} ->
       header
-      |> Atom.to_string
-      |> String.downcase
+      |> Atom.to_string()
+      |> String.downcase()
       |> String.starts_with?("ibanity")
     end
 
     downcase_header = fn {header, value} ->
-      {header |> Atom.to_string |> String.downcase |> String.to_atom, value}
+      {header |> Atom.to_string() |> String.downcase() |> String.to_atom(), value}
     end
 
     request.headers
-    |> Enum.filter(&(ibanity_header?.(&1)))
+    |> Enum.filter(&ibanity_header?.(&1))
     |> Enum.map(&downcase_header.(&1))
     |> Keyword.merge(headers)
   end
@@ -93,9 +97,9 @@ defmodule Ibanity.Signature do
   end
 
   defp now_to_string do
-    DateTime.utc_now
+    DateTime.utc_now()
     |> DateTime.truncate(:second)
-    |> DateTime.to_iso8601
+    |> DateTime.to_iso8601()
   end
 end
 
