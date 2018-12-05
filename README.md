@@ -27,17 +27,32 @@ There *must* be at least the `:default` application in your configuration file.
 
 When making HTTP requests for _live_ applications, each request *must* be signed, see [API reference](https://documentation.ibanity.com/api#signature). Therefore the `:signature_certificate_file`, `:signature_key_file` and `signature_certificate_id` keys must be set. *Please note that, at this time, Ibanity use the same certificate for both identifying and signing the requests, but it will change in a near future.*
 
-### Required
+### Per-application configuration
+
+#### A note on certificates and private keys
+
+Since Erlang (and thus Elixir) doesn't support PKCS12 at this time, you will have to use both certificate and private key in [PEM format](https://en.wikipedia.org/wiki/Privacy-Enhanced_Mail).
+Moreover, Erlang doesn't support [AES-256-CBC](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard) either, you will thus have to encrypt the private key with `AES-128-CBC`.
+
+If you use Ibanity's `sandbox` environment, you should have received three generated files: `certificate.pem`, `certificate.pfx`, `private_key.pem`.
+Only the `.pem` files will be used by this client.
+
+You will have to re-encrypt the private key. One way to do it is:
+```
+openssl rsa -aes128 -in private_key.pem -out private_key-aes128.pem
+```
 
 Key | Description
 --- | -----------
-`:certificate_file` | Path to the certificate used to identify your API client
-`:key_file` | Path to the private key used to generate the identifying certificate. *Note: the key should be in clear text*
-`:signature_certificate_file` | Path to the certificate used to sign HTTP requests to the API
-`:signature_key_file` | Path to the private key used to generate the signing certificate. *Note: the key should be in clear text*
-`:signature_certificate_id` | ID (UUIDv4) of the certificate used for signature
+`:certificate` | Certificate used to identify your API client.
+`:key` | Private key used to generate the identifying certificate.
+`:key_passphrase` | Password used to encrypt `:key`.
+`:signature_certificate` | Certificate used to sign HTTP requests to the API.
+`:signature_key` | Private key used to generate the signing certificate.
+`:signature_key_passphrase` | Password used to encrypt `:signature_key`.
+`:signature_certificate_id` | ID (UUIDv4) of the certificate used for signature.
 
-### Optional
+### Global optional configuration
 
 Key | Description
 --- | -----------

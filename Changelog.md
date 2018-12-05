@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.0
+
+* Use certificate/key content instead of file paths for improved security
+* Support for encrypted private key (to a certain extent - limited by Erlang support)
+
 ## 0.2.0
 
 * Support for multiple applications
