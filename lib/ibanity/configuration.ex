@@ -54,7 +54,7 @@ defmodule Ibanity.Configuration do
       |> Keyword.fetch!(:applications)
       |> Enum.map(fn {app, conf} ->
         app_config = %Options{
-          ssl: conf |> extract_ssl_options |> add_ca_cert_file(environment),
+          ssl: conf |> extract_ssl_options |> add_ca_cert(environment),
           signature: conf |> extract_signature_options
         }
 
@@ -69,49 +69,57 @@ defmodule Ibanity.Configuration do
   end
 
   defp extract_signature_options(environment) do
-    if Keyword.get(environment, :signature_certificate_file) &&
+    if Keyword.get(environment, :signature_certificate) &&
          Keyword.get(environment, :signature_certificate_id) &&
-         Keyword.get(environment, :signature_key_file) do
+         Keyword.get(environment, :signature_key) do
+      passphrase = Keyword.get(environment, :signature_key_passphrase)
+
       [
-        certificate: environment |> Keyword.get(:signature_certificate_file) |> File.read!(),
-        certificate_id: environment |> Keyword.get(:signature_certificate_id),
-        signature_key: environment |> Keyword.get(:signature_key_file) |> ExPublicKey.load!()
+        certificate:
+          environment |> Keyword.get(:signature_certificate),
+        certificate_id:
+          environment |> Keyword.get(:signature_certificate_id),
+        signature_key:
+          environment |> Keyword.get(:signature_key) |> ExPublicKey.loads!(passphrase)
       ]
     end
   end
 
   defp extract_ssl_options(environment) do
     []
-    |> add_certificate_file(environment)
-    |> add_key_file(environment)
+    |> add_certificate(environment)
+    |> add_key(environment)
   end
 
-  defp add_ca_cert_file(ssl_options, environment) do
-    ca_cert_file = Keyword.get(environment, :ssl_ca_file)
+  defp add_ca_cert(ssl_options, environment) do
+    case Keyword.get(environment, :ssl_ca) do
+      nil ->
+        ssl_options
 
-    if ca_cert_file,
-      do: Keyword.put_new(ssl_options, :cacertfile, ca_cert_file),
-      else: ssl_options
-  end
-
-  defp add_certificate_file(ssl_options, environment) do
-    cert_file = Keyword.get(environment, :certificate_file)
-    if cert_file, do: Keyword.put_new(ssl_options, :certfile, cert_file), else: ssl_options
+      cert ->
+        Keyword.put_new(ssl_options, :cacerts, [der_encoded_certificate(cert)])
+    end
   end
 
   defp add_certificate(ssl_options, environment) do
-    cert = Keyword.get(environment, :certificate)
-    if cert, do: Keyword.put_new(ssl_options, :cert, cert), else: ssl_options
+    case Keyword.get(environment, :certificate) do
+      nil ->
+        ssl_options
+
+      cert ->
+        Keyword.put_new(ssl_options, :cert, der_encoded_certificate(cert))
+    end
   end
 
   defp add_key(ssl_options, environment) do
-    key = Keyword.get(environment, :key)
-    if key, do: Keyword.put_new(ssl_options, :key, {:RSAPrivateKey, key}), else: ssl_options
-  end
+    case Keyword.get(environment, :key) do
+      nil ->
+        ssl_options
 
-  defp add_key_file(ssl_options, environment) do
-    key_file = Keyword.get(environment, :key_file)
-    if key_file, do: Keyword.put_new(ssl_options, :keyfile, key_file), else: ssl_options
+      key ->
+        passphrase = Keyword.get(environment, :key_passphrase)
+        Keyword.put_new(ssl_options, :key, get_key_der(key, passphrase))
+    end
   end
 
   defp get_applications_options(app_name) do
@@ -121,5 +129,48 @@ defmodule Ibanity.Configuration do
       {:ok, applications_options} -> applications_options
       :error -> raise ConfigurationException, "No application named '#{app_name}' has been found"
     end
+  end
+
+  defp der_encoded_certificate(pem_certificate) do
+    {:Certificate, cert, :not_encrypted} =
+      pem_certificate
+      |> :public_key.pem_decode()
+      |> List.first()
+
+    cert
+  end
+
+
+  # See https://elixirforum.com/t/using-client-certificates-from-a-string-with-httposion/8631/7
+  defp split_type_and_entry(asn1_entry) do
+    asn1_type = asn1_entry |> elem(0)
+    {asn1_type, asn1_entry}
+  end
+
+  defp decode_pem_bin(pem_bin) do
+    pem_bin |> :public_key.pem_decode() |> hd()
+  end
+
+  defp decode_pem_entry(pem_entry, password) do
+    password = String.to_charlist(password)
+    :public_key.pem_entry_decode(pem_entry, password)
+  end
+
+  defp encode_der(ans1_type, ans1_entity) do
+    :public_key.der_encode(ans1_type, ans1_entity)
+  end
+
+  defp get_key_der(priv_key_pem, nil) do
+    {type, encoded, _atom} = decode_pem_bin(priv_key_pem)
+    {type, encoded}
+  end
+  defp get_key_der(priv_key_pem, password) do
+    {key_type, key_entry} =
+      priv_key_pem
+      |> decode_pem_bin()
+      |> decode_pem_entry(password)
+      |> split_type_and_entry()
+
+    {key_type, encode_der(key_type, key_entry)}
   end
 end
