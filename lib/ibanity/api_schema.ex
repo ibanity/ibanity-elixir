@@ -1,6 +1,6 @@
 defmodule Ibanity.ApiSchema do
   @moduledoc false
-
+  use Retry
   alias Ibanity.IdReplacer
 
   @base_headers [
@@ -45,12 +45,7 @@ defmodule Ibanity.ApiSchema do
   end
 
   def fetch(api_url, ssl_options, _) do
-    res =
-      HTTPoison.get!(
-        api_url <> "/",
-        @base_headers,
-        ssl: ssl_options
-      )
+    res = fetch_api_schema(api_url, ssl_options)
 
     res.body
     |> Jason.decode!()
@@ -60,6 +55,36 @@ defmodule Ibanity.ApiSchema do
       |> IdReplacer.replace_all(&Recase.to_snake/1)
       |> IdReplacer.replace_last()
     end)
+  end
+
+  defp fetch_api_schema(api_url, ssl_options) do
+    retry with: backoff(), rescue_only: [HTTPoison.Error] do
+      res = HTTPoison.get!(api_url <> "/", @base_headers, ssl: ssl_options)
+      handle_response(res)
+    after
+      result -> result
+    else
+      _ -> raise HTTPoison.Error, reason: :timeout
+    end
+  end
+
+  # Try maximum 5 times with a delay between attempts
+  # starting at 1s and increasing 500ms each time.
+  # Note that request has a default timeout of 5s.
+  defp backoff, do: 1000 |> linear_backoff(500) |> Stream.take(5)
+
+  defp handle_response(response) do
+    code = response.status_code
+    cond do
+      code in 200..499 ->
+        response
+
+      code in 500..599 ->
+        raise HTTPoison.Error
+
+      true ->
+        raise HTTPoison.Error
+    end
   end
 
   defp apply_to_values(links, func) when is_map(links) do

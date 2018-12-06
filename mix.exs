@@ -20,7 +20,7 @@ defmodule Ibanity.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger],
+      extra_applications: [:logger, :retry],
       mod: {Ibanity.Application, []}
     ]
   end
@@ -32,6 +32,7 @@ defmodule Ibanity.MixProject do
       {:jason, "~> 1.1"},
       {:recase, "~> 0.3"},
       {:ex_crypto, "~> 0.9.0"},
+      {:retry, "~> 0.11"},
       {:ex_doc, "~> 0.18.0", only: :dev, runtime: false},
       {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false}
     ]
