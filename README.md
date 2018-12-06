@@ -75,18 +75,18 @@ Here's a full-fledged example with two applications, the `:default` one and `:sa
 ```elixir
 config :ibanity, :applications, [
   default: [
-    certificate_file: System.get_env("DEFAULT_CERTIFICATE"),
-    key_file: System.get_env("DEFAULT_KEY"),
-    signature_certificate_file: System.get_env("DEFAULT_CERTIFICATE"),
+    certificate: System.get_env("DEFAULT_CERTIFICATE"),
+    key: System.get_env("DEFAULT_KEY"),
+    signature_certificate: System.get_env("DEFAULT_CERTIFICATE"),
     signature_certificate_id: System.get_env("DEFAULT_CERTIFICATE_ID"),
-    signature_key_file: System.get_env("DEFAULT_KEY")
+    signature_key: System.get_env("DEFAULT_KEY")
   ],
   sandbox: [
-    certificate_file: System.get_env("SANDBOX_CERTIFICATE"),
-    key_file: System.get_env("SANDBOX_KEY"),
-    signature_certificate_file: System.get_env("SANDBOX_CERTIFICATE"),
+    certificate: System.get_env("SANDBOX_CERTIFICATE"),
+    key: System.get_env("SANDBOX_KEY"),
+    signature_certificate: System.get_env("SANDBOX_CERTIFICATE"),
     signature_certificate_id: System.get_env("SANDBOX_CERTIFICATE_ID"),
-    signature_key_file: System.get_env("SANDBOX_KEY")
+    signature_key: System.get_env("SANDBOX_KEY")
   ]
 ]
 
