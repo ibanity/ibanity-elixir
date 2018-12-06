@@ -11,14 +11,14 @@ defmodule Ibanity.Client do
     end
   end
 
-  def get(url, application_name \\ :default) when is_binary(url) do
+  def get(url, application \\ :default) when is_binary(url) do
     url
-    |> HTTPoison.get!([], ssl: Configuration.ssl_options(application_name))
+    |> HTTPoison.get!([], ssl: Configuration.ssl_options(application))
     |> process_response
     |> handle_response_body
   end
 
-  defp execute(%HttpRequest{method: method} = request) do
+  defp execute(%HttpRequest{method: method, application: application} = request) do
     body = if method_has_body?(method), do: Jason.encode!(%{data: request.data}), else: ""
 
     res =
@@ -27,7 +27,7 @@ defmodule Ibanity.Client do
         request.uri,
         body,
         request.headers,
-        ssl: Configuration.ssl_options()
+        ssl: Configuration.ssl_options(application)
       )
 
     res
