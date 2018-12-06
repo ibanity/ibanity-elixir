@@ -4,6 +4,8 @@
 
 * Use certificate/key content instead of file paths for improved security
 * Support for encrypted private key (to a certain extent - limited by Erlang support)
+* Fix problems when using other applications than default
+* Retry multiple times when fetching the API schema before failing
 
 ## 0.2.0
 
