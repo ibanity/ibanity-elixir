@@ -8,7 +8,8 @@ defmodule Ibanity.HttpRequest do
             data: nil,
             uri: nil,
             method: nil,
-            return_type: nil
+            return_type: nil,
+            application: :default
 
   def build(%Ibanity.Request{} = request, http_method, uri_path, resource_type \\ nil) do
     case UriUtil.from_request(request, uri_path) do
@@ -25,6 +26,7 @@ defmodule Ibanity.HttpRequest do
 
   defp base_http_request(request, http_method, uri) do
     %__MODULE__{
+      application: request.application,
       headers: create_headers(request),
       data: create_data(request),
       method: http_method,
