@@ -15,7 +15,9 @@ defmodule Ibanity.Account do
             available_balance: nil,
             financial_institution: nil,
             financial_institution_id: nil,
-            transactions: nil
+            transactions: nil,
+            latest_synchronization: nil,
+            synchronized_at: nil
 
   @doc """
   [List all accounts](https://documentation.ibanity.com/api#list-accounts)
@@ -182,7 +184,9 @@ defmodule Ibanity.Account do
       available_balance: {~w(attributes availableBalance), :float},
       transactions: {~w(relationships transactions links related), :string},
       financial_institution: {~w(relationships financialInstitution links related), :string},
-      financial_institution_id: {~w(relationships financialInstitution data id), :string}
+      financial_institution_id: {~w(relationships financialInstitution data id), :string},
+      synchronized_at: {~w(meta synchronizedAt), :datetime},
+      latest_synchronization: {~w(meta latestSynchronization), :struct}
     ]
   end
 end

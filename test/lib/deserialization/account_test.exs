@@ -1,7 +1,7 @@
 defmodule Ibanity.Account.DeserializationTest do
   use ExUnit.Case
   import Ibanity.JsonDeserializer
-  alias Ibanity.Account
+  alias Ibanity.{Account, DateTimeUtil}
 
   test "deserialize an account" do
     data = %{
@@ -74,7 +74,21 @@ defmodule Ibanity.Account.DeserializationTest do
         "https://api.ibanity.com/financial-institutions/0a089c79-bfef-45e7-b647-a4654e4bff9f",
       financial_institution_id: "0a089c79-bfef-45e7-b647-a4654e4bff9f",
       transactions:
-        "https://api.ibanity.com/customer/financial-institutions/0a089c79-bfef-45e7-b647-a4654e4bff9f/accounts/2e016890-70a5-4892-8711-f34ef74c0b02/transactions"
+        "https://api.ibanity.com/customer/financial-institutions/0a089c79-bfef-45e7-b647-a4654e4bff9f/accounts/2e016890-70a5-4892-8711-f34ef74c0b02/transactions",
+      synchronized_at: DateTimeUtil.parse("2018-10-18T15:12:23.075Z"),
+      latest_synchronization: %{
+        "type" => "synchronization",
+        "id" => "fc1b358f-6220-4b84-9d38-fef3eb50b95f",
+        "attributes" => %{
+          "updatedAt" => "2018-10-18T15:12:23.075Z",
+          "subtype" => "accountDetails",
+          "status" => "success",
+          "resourceType" => "account",
+          "resourceId" => "2e016890-70a5-4892-8711-f34ef74c0b02",
+          "errors" => [],
+          "createdAt" => "2018-10-18T15:12:22.699782Z"
+        }
+      }
     }
 
     assert actual == expected
