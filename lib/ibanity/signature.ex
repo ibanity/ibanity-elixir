@@ -19,6 +19,17 @@ defmodule Ibanity.Signature do
     {:ok, headers}
   end
 
+  def signature_headers(uri, method, data, private_key, certificate_id) do
+    request = %HttpRequest{
+      headers: [Accept: "application/json", "Content-Type": "application/json"],
+      uri: uri,
+      data: data,
+      method: method
+    }
+
+    signature_headers(request, method, private_key, certificate_id)
+  end
+
   defp payload_digest(%{data: nil}), do: @empty_sha256sum
 
   defp payload_digest(request) do
