@@ -64,7 +64,7 @@ defmodule Ibanity.Client do
     collection =
       data
       |> Enum.map(&deserialize/1)
-      |> Collection.new(meta["paging"], links)
+      |> Collection.new(meta["paging"], links, meta["synchronizedAt"], meta["latestSynchronization"])
 
     {:ok, collection}
   end
