@@ -4,9 +4,9 @@ defmodule Ibanity.Client do
   alias Ibanity.{Collection, Configuration, HttpRequest}
   import Ibanity.JsonDeserializer
 
-  def execute(%Ibanity.Request{} = request, method, uri_path) do
+  def execute(%Ibanity.Request{} = request, method, uri_path, parse_response \\ true) do
     case HttpRequest.build(request, method, uri_path) do
-      {:ok, http_request} -> execute(http_request)
+      {:ok, http_request} -> execute(http_request, parse_response)
       {:error, reason} -> {:error, reason}
     end
   end
@@ -18,7 +18,7 @@ defmodule Ibanity.Client do
     |> handle_response_body
   end
 
-  defp execute(%HttpRequest{method: method, application: application} = request) do
+  defp execute(%HttpRequest{method: method, application: application} = request, parse_response) do
     body = if method_has_body?(method), do: Jason.encode!(%{data: request.data}), else: ""
 
     res =
@@ -30,9 +30,10 @@ defmodule Ibanity.Client do
         ssl: Configuration.ssl_options(application)
       )
 
-    res
-    |> process_response
-    |> handle_response_body
+    case parse_response do
+      true -> res |> process_response |> handle_response_body
+      false -> res
+    end
   end
 
   defp method_has_body?(method) do

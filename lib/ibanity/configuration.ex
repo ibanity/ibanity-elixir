@@ -43,7 +43,7 @@ defmodule Ibanity.Configuration do
     default_app_options = Keyword.fetch!(applications_options, :default)
 
     %__MODULE__{
-      api_schema: ApiSchema.fetch(api_url, default_app_options.ssl, Mix.env()),
+      api_schema: ApiSchema.fetch(api_url, default_app_options, Mix.env()),
       applications_options: applications_options
     }
   end

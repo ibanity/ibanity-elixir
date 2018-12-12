@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.1
+
+* Sign API schema retrieval with default app key, if available
+
 ## 0.3.0
 
 * Use certificate/key content instead of file paths for improved security

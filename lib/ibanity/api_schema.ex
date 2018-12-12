@@ -2,6 +2,7 @@ defmodule Ibanity.ApiSchema do
   @moduledoc false
   use Retry
   alias Ibanity.IdReplacer
+  import Ibanity.Signature, only: [signature_headers: 5]
 
   @base_headers [
     {"Accept", "application/json"},
@@ -44,8 +45,8 @@ defmodule Ibanity.ApiSchema do
     }
   end
 
-  def fetch(api_url, ssl_options, _) do
-    res = fetch_api_schema(api_url, ssl_options)
+  def fetch(api_url, app_options, _) do
+    res = fetch_api_schema(api_url, app_options)
 
     res.body
     |> Jason.decode!()
@@ -57,15 +58,26 @@ defmodule Ibanity.ApiSchema do
     end)
   end
 
-  defp fetch_api_schema(api_url, ssl_options) do
+  defp fetch_api_schema(api_url, app_options) do
     retry with: backoff(), rescue_only: [HTTPoison.Error] do
-      res = HTTPoison.get!(api_url <> "/", @base_headers, ssl: ssl_options)
+      url = api_url <> "/"
+      res = HTTPoison.get!(url, headers(url, app_options.signature) |> IO.inspect, ssl: app_options.ssl)
+
       handle_response(res)
     after
       result -> result
     else
       _ -> raise HTTPoison.Error, reason: :timeout
     end
+  end
+
+  defp headers(_, nil), do: @base_headers
+  defp headers(url, signature_options) do
+    key = Keyword.get(signature_options, :signature_key)
+    certificate_id = Keyword.get(signature_options, :certificate_id)
+    {:ok, signature_headers} = signature_headers(url, :get, nil, key, certificate_id)
+
+    @base_headers ++ signature_headers
   end
 
   # Try maximum 5 times with a delay between attempts
