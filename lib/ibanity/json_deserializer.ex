@@ -28,10 +28,10 @@ defmodule Ibanity.JsonDeserializer do
     struct(return_type, keys)
   end
 
+  defp deserialize_field(nil, _), do: nil
   defp deserialize_field(field, :datetime) do
     DateTimeUtil.parse(field)
   end
-
   defp deserialize_field(field, _) do
     field
   end
