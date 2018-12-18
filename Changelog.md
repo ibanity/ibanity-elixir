@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.2
+
+* Add relationship ids to resources
+
 ## 0.3.1
 
 * Sign API schema retrieval with default app key, if available
