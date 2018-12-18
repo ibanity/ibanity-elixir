@@ -16,6 +16,8 @@ defmodule Ibanity.FinancialInstitutionAccount do
             created_at: nil,
             updated_at: nil,
             financial_institution_user: nil,
+            financial_institution_user_id: nil,
+            financial_institution_id: nil,
             transactions: nil
 
   @api_schema_path ["sandbox", "financialInstitution", "financialInstitutionAccounts"]
@@ -202,6 +204,9 @@ defmodule Ibanity.FinancialInstitutionAccount do
       transactions: {~w(relationships financialInstitutionTransactions links related), :string},
       financial_institution_user:
         {~w(relationships financialInstitutionUser links related), :string},
+      financial_institution_user_id:
+        {~w(relationships financialInstitutionUser data id), :string},
+      financial_institution_id: {~w(relationships financialInstitution data id), :string},
       created_at: {~w(attributes createdAt), :datetime},
       updated_at: {~w(attributes updatedAt), :datetime}
     ]
