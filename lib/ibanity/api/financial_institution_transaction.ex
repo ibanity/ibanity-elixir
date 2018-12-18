@@ -19,7 +19,8 @@ defmodule Ibanity.FinancialInstitutionTransaction do
             created_at: nil,
             counterpart_reference: nil,
             counterpart_name: nil,
-            amount: nil
+            amount: nil,
+            financial_institution_account_id: nil
 
   @doc """
   Convenience function to [create a new financial institution transaction](https://documentation.ibanity.com/api#create-financial-institution-transaction).
@@ -222,7 +223,8 @@ defmodule Ibanity.FinancialInstitutionTransaction do
       created_at: {~w(attributes createdAt), :datetime},
       counterpart_reference: {~w(attributes counterpartReference), :string},
       counterpart_name: {~w(attributes counterpartName), :string},
-      amount: {~w(attributes amount), :float}
+      amount: {~w(attributes amount), :float},
+      financial_institution_account_id: {~w(relationships financialInstitutionAccount data id), :string}
     ]
   end
 end

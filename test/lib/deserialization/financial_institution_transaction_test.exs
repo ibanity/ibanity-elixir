@@ -52,7 +52,8 @@ defmodule Ibanity.FinancialInstitutionTransaction.DeserializationTest do
       created_at: DateTimeUtil.parse("2018-10-18T15:13:12.365318Z"),
       counterpart_reference: "BE9786154282554",
       counterpart_name: "Otro Bank",
-      amount: 84.42
+      amount: 84.42,
+      financial_institution_account_id: "d9d60751-b741-4fa6-8524-8f9a066ca037"
     }
 
     assert expected == actual

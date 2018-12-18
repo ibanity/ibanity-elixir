@@ -15,6 +15,7 @@ defmodule Ibanity.Transaction do
             counterpart_reference: nil,
             counterpart_name: nil,
             amount: nil,
+            account_id: nil,
             self: nil
 
   @api_schema_path ~w(customer financialInstitution transactions)
@@ -71,6 +72,7 @@ defmodule Ibanity.Transaction do
       counterpart_reference: {~w(attributes counterpartReference), :string},
       counterpart_name: {~w(attributes counterpartName), :string},
       amount: {~w(attributes amount), :string},
+      account_id: {~w(relationships account data id), :string},
       self: {~w(links self), :string}
     ]
   end
