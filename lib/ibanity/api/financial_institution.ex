@@ -8,7 +8,14 @@ defmodule Ibanity.FinancialInstitution do
   defstruct id: nil,
             sandbox: true,
             name: nil,
-            self_link: nil
+            self_link: nil,
+            bic: nil,
+            logo_url: nil,
+            max_requested_account_references: nil,
+            min_requested_account_references: nil,
+            primary_color: nil,
+            secondary_color: nil,
+            requires_credential_storage: nil
 
   @resource_type "financial_institution"
 
@@ -157,7 +164,14 @@ defmodule Ibanity.FinancialInstitution do
       id: {~w(id), :string},
       sandbox: {~w(attributes sandbox), :string},
       name: {~w(attributes name), :string},
-      self_link: {~w(links self), :string}
+      self_link: {~w(links self), :string},
+      bic: {~w(attributes bic), :string},
+      logo_url: {~w(attributes logoUrl), :string},
+      max_requested_account_references: {~w(attributes maxRequestedAccountReferences), :integer},
+      min_requested_account_references: {~w(attributes minRequestedAccountReferences), :integer},
+      primary_color: {~w(attributes primaryColor), :string},
+      secondary_color: {~w(attributes secondaryColor), :string},
+      requires_credential_storage: {~w(attributes requiresCredentialStorage), :boolean}
     ]
   end
 end
