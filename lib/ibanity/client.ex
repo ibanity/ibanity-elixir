@@ -13,21 +13,21 @@ defmodule Ibanity.Client do
 
   def get(url, application \\ :default) when is_binary(url) do
     url
-    |> HTTPoison.get!([], ssl: Configuration.ssl_options(application))
+    |> HTTPoison.get!([], ssl: Configuration.ssl_options(application), hackney: [pool: application])
     |> process_response
     |> handle_response_body
   end
 
   defp execute(%HttpRequest{method: method, application: application} = request, parse_response) do
     body = if method_has_body?(method), do: Jason.encode!(%{data: request.data}), else: ""
-
     res =
       HTTPoison.request!(
         method,
         request.uri,
         body,
         request.headers,
-        ssl: Configuration.ssl_options(application)
+        ssl: Configuration.ssl_options(application),
+        hackney: [pool: application]
       )
 
     case parse_response do
