@@ -48,6 +48,18 @@ defmodule Ibanity.ApiSchema do
     }
   end
 
+  def fetch("https://api.ibanity.com/consent", _, :test) do
+    %{
+      "consent" => %{
+        "processingOperations" =>
+            "https://api.ibanity.com/consent/consents/{consent_id}/processing-operations",
+        "validations" =>
+          "https://api.ibanity.com/consent/consents/{consent_id}/validations",
+      },
+      "consents" => "https://api.ibanity.com/consent/consents/{id}"
+    }
+  end
+
   def fetch(api_url, app_options, _) do
     res = fetch_api_schema(api_url, app_options)
 

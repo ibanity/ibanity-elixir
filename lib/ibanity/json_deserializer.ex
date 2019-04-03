@@ -13,7 +13,9 @@ defmodule Ibanity.JsonDeserializer do
     "financialInstitution" => Ibanity.Xs2a.FinancialInstitution,
     "paymentInitiationRequest" => Ibanity.Xs2a.PaymentInitiationRequest,
     "transaction" => Ibanity.Xs2a.Transaction,
-    "synchronization" => Ibanity.Xs2a.Synchronization
+    "synchronization" => Ibanity.Xs2a.Synchronization,
+    "consent" => Ibanity.Consent.Consent,
+    "processingOperation" => Ibanity.Consent.ProcessingOperation
   }
 
   def deserialize(item) do

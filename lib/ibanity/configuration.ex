@@ -45,6 +45,7 @@ defmodule Ibanity.Configuration do
       api_schema: %{
         "xs2a" => ApiSchema.fetch(URI.merge(URI.parse(api_url), "/xs2a") |> to_string(), default_app_options, Mix.env()),
         "sandbox" => ApiSchema.fetch(URI.merge(URI.parse(api_url), "/sandbox") |> to_string(), default_app_options, Mix.env()),
+        "consent" => ApiSchema.fetch(URI.merge(URI.parse(api_url), "/consent") |> to_string(), default_app_options, Mix.env()),
       },
       applications_options: applications_options
     }
