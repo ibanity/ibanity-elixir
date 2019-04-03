@@ -1,7 +1,8 @@
-defmodule Ibanity.Synchronization.DeserializationTest do
+defmodule Ibanity.Xs2a.Synchronization.DeserializationTest do
   use ExUnit.Case
   import Ibanity.JsonDeserializer
-  alias Ibanity.{DateTimeUtil, Synchronization}
+  alias Ibanity.DateTimeUtil
+  alias Ibanity.Xs2a.Synchronization
 
   test "deserializes a synchronization" do
     data = %{

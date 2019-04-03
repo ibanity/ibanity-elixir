@@ -1,6 +1,6 @@
-defmodule Ibanity.AccountInformationAccessRequest do
+defmodule Ibanity.Xs2a.AccountInformationAccessRequest do
   @moduledoc """
-  [Account information access requests](https://documentation.ibanity.com/api#account-information-access-request) API wrapper
+  [Account information access requests](https://documentation.ibanity.com/xs2a/api#account-information-access-request) API wrapper
   """
 
   use Ibanity.Resource
@@ -9,16 +9,16 @@ defmodule Ibanity.AccountInformationAccessRequest do
             redirect_link: nil,
             requested_account_references: nil
 
-  @api_schema_path ["customer", "financialInstitution", "accountInformationAccessRequests"]
+  @api_schema_path ["xs2a", "customer", "financialInstitution", "accountInformationAccessRequests"]
 
   @doc """
-  [Creates an account information access request](https://documentation.ibanity.com/api#create-account-information-access-request)
+  [Creates an account information access request](https://documentation.ibanity.com/xs2a/api#create-account-information-access-request)
 
-  In order for the request to be successful you must have created a `Ibanity.CustomerAccessToken` beforehand.
+  In order for the request to be successful you must have created a `Ibanity.Xs2a.CustomerAccessToken` beforehand.
 
   ## Example
 
-  This is the transcription of the example found in the [API documentation](https://documentation.ibanity.com/api#create-account-information-access-request)
+  This is the transcription of the example found in the [API documentation](https://documentation.ibanity.com/xs2a/api#create-account-information-access-request)
 
       iex> "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9..."
       ...> |> Request.customer_access_token

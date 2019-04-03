@@ -1,7 +1,7 @@
-defmodule Ibanity.AccountInformationAccessRequest.DeserializationTest do
+defmodule Ibanity.Xs2a.AccountInformationAccessRequest.DeserializationTest do
   use ExUnit.Case
   import Ibanity.JsonDeserializer
-  alias Ibanity.AccountInformationAccessRequest
+  alias Ibanity.Xs2a.AccountInformationAccessRequest
 
   test "deserialize an account information access request" do
     data = %{

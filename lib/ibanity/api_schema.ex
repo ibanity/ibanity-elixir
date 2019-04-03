@@ -9,7 +9,7 @@ defmodule Ibanity.ApiSchema do
     {"Content-Type", "application/json"}
   ]
 
-  def fetch(_, _, :test) do
+  def fetch("https://api.ibanity.com/xs2a", _, :test) do
     %{
       "customer" => %{
         "accounts" => "https://api.ibanity.com/customer/accounts",
@@ -29,19 +29,22 @@ defmodule Ibanity.ApiSchema do
       },
       "customerAccessTokens" => "https://api.ibanity.com/customer-access-tokens",
       "financialInstitutions" => "https://api.ibanity.com/financial-institutions/{id}",
-      "sandbox" => %{
-        "financialInstitution" => %{
-          "financialInstitutionAccount" => %{
-            "financialInstitutionTransactions" =>
-              "https://api.ibanity.com/sandbox/financial-institutions/{financial_institution_id}/financial-institution-users/{financial_institution_user_id}/financial-institution-accounts/{financial_institution_account_id}/financial-institution-transactions/{id}"
-          },
-          "financialInstitutionAccounts" =>
-            "https://api.ibanity.com/sandbox/financial-institutions/{financial_institution_id}/financial-institution-users/{financial_institution_user_id}/financial-institution-accounts/{id}"
+    }
+  end
+
+  def fetch("https://api.ibanity.com/sandbox", _, :test) do
+    %{
+      "financialInstitution" => %{
+        "financialInstitutionAccount" => %{
+          "financialInstitutionTransactions" =>
+            "https://api.ibanity.com/sandbox/financial-institutions/{financial_institution_id}/financial-institution-users/{financial_institution_user_id}/financial-institution-accounts/{financial_institution_account_id}/financial-institution-transactions/{id}"
         },
-        "financialInstitutionUsers" =>
-          "https://api.ibanity.com/sandbox/financial-institution-users/{id}",
-        "financialInstitutions" => "https://api.ibanity.com/sandbox/financial-institutions/{id}"
-      }
+        "financialInstitutionAccounts" =>
+          "https://api.ibanity.com/sandbox/financial-institutions/{financial_institution_id}/financial-institution-users/{financial_institution_user_id}/financial-institution-accounts/{id}"
+      },
+      "financialInstitutionUsers" =>
+        "https://api.ibanity.com/sandbox/financial-institution-users/{id}",
+      "financialInstitutions" => "https://api.ibanity.com/sandbox/financial-institutions/{id}"
     }
   end
 

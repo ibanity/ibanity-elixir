@@ -1,16 +1,16 @@
-defmodule Ibanity.CustomerAccessToken do
+defmodule Ibanity.Xs2a.CustomerAccessToken do
   @moduledoc """
-  [Customer access token](https://documentation.ibanity.com/api#c) API wrapper
+  [Customer access token](https://documentation.ibanity.com/xs2a/api#c) API wrapper
   """
 
   use Ibanity.Resource
 
   defstruct id: nil, token: nil
 
-  @api_schema_path ["customerAccessTokens"]
+  @api_schema_path ["xs2a", "customerAccessTokens"]
 
   @doc """
-  [Requests a customer access token](https://documentation.ibanity.com/api#create-customer-access-token)
+  [Requests a customer access token](https://documentation.ibanity.com/xs2a/api#create-customer-access-token)
 
   ## Example
 

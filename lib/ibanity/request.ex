@@ -130,13 +130,13 @@ defmodule Ibanity.Request do
   def customer_access_token(token) when is_binary(token),
     do: customer_access_token(%__MODULE__{}, token)
 
-  def customer_access_token(%Ibanity.CustomerAccessToken{} = access),
+  def customer_access_token(%Ibanity.Xs2a.CustomerAccessToken{} = access),
     do: customer_access_token(access.token)
 
   @doc """
   Sets the [customer access token](https://documentation.ibanity.com/api#customer-access-token) to the request
   """
-  def customer_access_token(%__MODULE__{} = request, %Ibanity.CustomerAccessToken{} = access) do
+  def customer_access_token(%__MODULE__{} = request, %Ibanity.Xs2a.CustomerAccessToken{} = access) do
     customer_access_token(request, access.token)
   end
 

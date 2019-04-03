@@ -1,6 +1,6 @@
-defmodule Ibanity.Transaction do
+defmodule Ibanity.Xs2a.Transaction do
   @moduledoc """
-  [Transactions](https://documentation.ibanity.com/api#transaction) API wrapper
+  [Transactions](https://documentation.ibanity.com/xs2a/api#transaction) API wrapper
   """
 
   use Ibanity.Resource
@@ -18,13 +18,13 @@ defmodule Ibanity.Transaction do
             account_id: nil,
             self: nil
 
-  @api_schema_path ~w(customer financialInstitution transactions)
+  @api_schema_path ~w(xs2a customer financialInstitution transactions)
 
   @doc """
-  [Lists transactions](https://documentation.ibanity.com/api#list-transactions)
+  [Lists transactions](https://documentation.ibanity.com/xs2a/api#list-transactions)
   linked to an account belonging to a financial institution.
 
-  Returns `{:ok, collection}` where `collection` is a `Ibanity.Collection` where items are of type `Ibanity.Transaction`.
+  Returns `{:ok, collection}` where `collection` is a `Ibanity.Collection` where items are of type `Ibanity.Xs2a.Transaction`.
 
   ## Example
 
@@ -40,7 +40,7 @@ defmodule Ibanity.Transaction do
   end
 
   @doc """
-  [Retrieves a transaction](https://documentation.ibanity.com/api#get-transaction)
+  [Retrieves a transaction](https://documentation.ibanity.com/xs2a/api#get-transaction)
   linked to an account belonging to an account, based on its id.
 
   Returns `{:ok, transaction}` if successful, {:error, reason} otherwise.
@@ -51,7 +51,7 @@ defmodule Ibanity.Transaction do
       ...> |> Request.id(:account_id, "ce3893cd-fff5-435a-bdfc-d55a7e98df6f")
       ...> |> Request.id(:id, "9536e9f2-4ee6-4336-b035-40fc2a0424e4")
       ...> |> Transaction.find
-      {:ok, %Ibanity.Transaction{id: "9536e9f2-4ee6-4336-b035-40fc2a0424e4", ...}}
+      {:ok, %Ibanity.Xs2a.Transaction{id: "9536e9f2-4ee6-4336-b035-40fc2a0424e4", ...}}
 
   """
   def find(%Request{} = request) do

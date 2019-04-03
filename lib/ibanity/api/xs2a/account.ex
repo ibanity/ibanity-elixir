@@ -1,6 +1,6 @@
-defmodule Ibanity.Account do
+defmodule Ibanity.Xs2a.Account do
   @moduledoc """
-  [Accounts](https://documentation.ibanity.com/api#account) API wrapper
+  [Accounts](https://documentation.ibanity.com/xs2a/api#account) API wrapper
   """
 
   use Ibanity.Resource
@@ -20,7 +20,7 @@ defmodule Ibanity.Account do
             synchronized_at: nil
 
   @doc """
-  [List all accounts](https://documentation.ibanity.com/api#list-accounts)
+  [List all accounts](https://documentation.ibanity.com/xs2a/api#list-accounts)
   according to the `financial_institution_id` from the `Ibanity.Request`.
 
   If `financial_institution_id` is `nil` or is not set, it will list all the accounts.
@@ -46,14 +46,14 @@ defmodule Ibanity.Account do
   def list(%Request{} = request, nil) do
     request
     |> Request.id(:id, "")
-    |> Client.execute(:get, ["customer", "accounts"])
+    |> Client.execute(:get, ["xs2a", "customer", "accounts"])
   end
 
   @doc """
-  [List accounts](https://documentation.ibanity.com/api#list-accounts) for a specific financial institution.
+  [List accounts](https://documentation.ibanity.com/xs2a/api#list-accounts) for a specific financial institution.
 
   Returns `{:ok, coll}` with `coll` being an `Ibanity.Collection`
-  with `Ibanity.Account` as items, `{:error, reason}`otherwise
+  with `Ibanity.Xs2a.Account` as items, `{:error, reason}`otherwise
 
   ## Example
 
@@ -69,7 +69,7 @@ defmodule Ibanity.Account do
   end
 
   @doc """
-  [Retrieves an account](https://documentation.ibanity.com/api#get-account)
+  [Retrieves an account](https://documentation.ibanity.com/xs2a/api#get-account)
   based on the `financial_institution_id` and `id` (e.g. the account id) stored in the `Ibanity.Request`.
 
   Returns `{:ok, account}` if found, otherwise `{:error, reason}`
@@ -128,7 +128,7 @@ defmodule Ibanity.Account do
   end
 
   @doc """
-  [Deletes an account](https://documentation.ibanity.com/api#account)
+  [Deletes an account](https://documentation.ibanity.com/xs2a/api#account)
   based on the `financial_institution_id` and `id` (e.g. the account id) stored in the `Ibanity.Request`.
 
   Returns `{:ok, account}` if found, otherwise `{:error, reason}`

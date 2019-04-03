@@ -1,7 +1,8 @@
-defmodule Ibanity.FinancialInstitutionAccount.DeserializerTest do
+defmodule Ibanity.Sandbox.FinancialInstitutionAccount.DeserializerTest do
   use ExUnit.Case
   import Ibanity.JsonDeserializer
-  alias Ibanity.{DateTimeUtil, FinancialInstitutionAccount}
+  alias Ibanity.DateTimeUtil
+  alias Ibanity.Sandbox.FinancialInstitutionAccount
 
   test "deserialize a financial institution account" do
     data = %{

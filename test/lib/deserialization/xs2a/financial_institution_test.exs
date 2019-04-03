@@ -1,4 +1,4 @@
-defmodule Ibanity.FinancialInstitution.DeserializationTest do
+defmodule Ibanity.Xs2a.FinancialInstitution.DeserializationTest do
   use ExUnit.Case
   import Ibanity.JsonDeserializer
 
@@ -18,7 +18,7 @@ defmodule Ibanity.FinancialInstitution.DeserializationTest do
 
     actual = deserialize(data)
 
-    expected = %Ibanity.FinancialInstitution{
+    expected = %Ibanity.Xs2a.FinancialInstitution{
       id: "01faf09c-038d-43f3-8e0c-d0aaf3e0e176",
       sandbox: true,
       name: "ABN AMRO HOARE GOVETT CORPORATE FINANCE LTD. 7",

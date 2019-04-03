@@ -41,9 +41,11 @@ defmodule Ibanity.Configuration do
     api_url = Keyword.get(environment, :api_url, @default_api_url)
     applications_options = extract_applications_options(environment)
     default_app_options = Keyword.fetch!(applications_options, :default)
-
     %__MODULE__{
-      api_schema: ApiSchema.fetch(api_url, default_app_options, Mix.env()),
+      api_schema: %{
+        "xs2a" => ApiSchema.fetch(URI.merge(URI.parse(api_url), "/xs2a") |> to_string(), default_app_options, Mix.env()),
+        "sandbox" => ApiSchema.fetch(URI.merge(URI.parse(api_url), "/sandbox") |> to_string(), default_app_options, Mix.env()),
+      },
       applications_options: applications_options
     }
   end

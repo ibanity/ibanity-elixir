@@ -3,17 +3,17 @@ defmodule Ibanity.JsonDeserializer do
   alias Ibanity.DateTimeUtil
 
   @type_mappings %{
-    "accountInformationAccessRequest" => Ibanity.AccountInformationAccessRequest,
-    "account" => Ibanity.Account,
-    "customerAccessToken" => Ibanity.CustomerAccessToken,
-    "customer" => Ibanity.Customer,
-    "financialInstitutionTransaction" => Ibanity.FinancialInstitutionTransaction,
-    "financialInstitutionAccount" => Ibanity.FinancialInstitutionAccount,
-    "financialInstitutionUser" => Ibanity.FinancialInstitutionUser,
-    "financialInstitution" => Ibanity.FinancialInstitution,
-    "paymentInitiationRequest" => Ibanity.PaymentInitiationRequest,
-    "transaction" => Ibanity.Transaction,
-    "synchronization" => Ibanity.Synchronization
+    "accountInformationAccessRequest" => Ibanity.Xs2a.AccountInformationAccessRequest,
+    "account" => Ibanity.Xs2a.Account,
+    "customerAccessToken" => Ibanity.Xs2a.CustomerAccessToken,
+    "customer" => Ibanity.Xs2a.Customer,
+    "financialInstitutionTransaction" => Ibanity.Sandbox.FinancialInstitutionTransaction,
+    "financialInstitutionAccount" => Ibanity.Sandbox.FinancialInstitutionAccount,
+    "financialInstitutionUser" => Ibanity.Sandbox.FinancialInstitutionUser,
+    "financialInstitution" => Ibanity.Xs2a.FinancialInstitution,
+    "paymentInitiationRequest" => Ibanity.Xs2a.PaymentInitiationRequest,
+    "transaction" => Ibanity.Xs2a.Transaction,
+    "synchronization" => Ibanity.Xs2a.Synchronization
   }
 
   def deserialize(item) do
