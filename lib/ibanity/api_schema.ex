@@ -61,7 +61,7 @@ defmodule Ibanity.ApiSchema do
   defp fetch_api_schema(api_url, app_options) do
     retry with: backoff(), rescue_only: [HTTPoison.Error] do
       url = api_url <> "/"
-      res = HTTPoison.get!(url, headers(url, app_options.signature), ssl: app_options.ssl)
+      res = HTTPoison.get!(url, headers(url, app_options.signature), ssl: app_options.ssl, hackney: [pool: :default])
 
       handle_response(res)
     after
