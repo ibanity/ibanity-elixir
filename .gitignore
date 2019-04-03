@@ -25,6 +25,10 @@ erl_crash.dump
 # Ignore package tarball (built via "mix hex.build").
 ibanity_elixir-*.tar
 
+### IntelliJ ###
+.idea/*
+*.iml
+
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/settings.json
