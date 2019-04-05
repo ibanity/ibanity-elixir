@@ -39,14 +39,18 @@ defmodule Ibanity.Configuration do
 
   defp init(environment) do
     api_url = Keyword.get(environment, :api_url, @default_api_url)
+    products = Keyword.get(environment, :products, ["xs2a"])
     applications_options = extract_applications_options(environment)
     default_app_options = Keyword.fetch!(applications_options, :default)
+    api_schema = %{
+      "sandbox" => ApiSchema.fetch(URI.merge(URI.parse(api_url), "/sandbox") |> to_string(), default_app_options, Mix.env())
+    }
+    Enum.each(products, fn product ->
+      api_schema
+      |> Map.put(product, ApiSchema.fetch(URI.merge(URI.parse(api_url), "/#{product}") |> to_string(), default_app_options, Mix.env()))
+    end)
     %__MODULE__{
-      api_schema: %{
-        "xs2a" => ApiSchema.fetch(URI.merge(URI.parse(api_url), "/xs2a") |> to_string(), default_app_options, Mix.env()),
-        "sandbox" => ApiSchema.fetch(URI.merge(URI.parse(api_url), "/sandbox") |> to_string(), default_app_options, Mix.env()),
-        "consent" => ApiSchema.fetch(URI.merge(URI.parse(api_url), "/consent") |> to_string(), default_app_options, Mix.env()),
-      },
+      api_schema: api_schema,
       applications_options: applications_options
     }
   end

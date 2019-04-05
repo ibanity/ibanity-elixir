@@ -58,6 +58,7 @@ Key | Description
 --- | -----------
 `:api_url` | Ibanity API endpoint. Default: `https://api.ibanity.com`
 `:ssl_ca` | Intermediate certificate. Not needed in _production_ environment
+`:products` | List of Ibanity products that you want to access. Default is `["xs2a"]`
 
 ### Example
 
@@ -92,6 +93,7 @@ config :ibanity, :applications, [
 
 config :ibanity, :api_url, System.get_env("IBANITY_API_URL")
 config :ibanity, :ssl_ca, System.get_env("IBANITY_CA")
+config :ibanity, :products, ["xs2a"]
 ```
 
 ### Requirements
