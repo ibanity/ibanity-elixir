@@ -59,8 +59,8 @@ defmodule Ibanity.Consent.Consent do
       ...> |> Consent.create
       {:ok, %Ibanity.Consent.Consent{id: "270141aa-0c93-42a5-9adf-e2b9a8ab4cea"}}
   """
-  def validate(consent_id) do
-    Request.id(:consent_id, consent_id)
+  def validate(%Request{} = request) do
+    request
     |> Client.execute(:post, @validate_api_schema_path)
   end
 
