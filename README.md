@@ -91,7 +91,7 @@ config :ibanity, :applications, [
 ]
 
 config :ibanity, :api_url, System.get_env("IBANITY_API_URL")
-config :ibanity, :ssl_ca, System.get_env("IBANITY_CA_FILE")
+config :ibanity, :ssl_ca, System.get_env("IBANITY_CA")
 ```
 
 ### Requirements
