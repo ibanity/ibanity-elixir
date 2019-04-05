@@ -4,7 +4,7 @@ defmodule Ibanity.Consent.ProcessingOperation do
 
   use Ibanity.Resource
 
-  @api_schema_path  ~w(consent consents processingOperations)
+  @api_schema_path  ~w(consent consent processingOperations)
 
   @resource_type "processing_operation"
 

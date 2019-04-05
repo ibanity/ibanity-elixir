@@ -45,7 +45,7 @@ defmodule Ibanity.Configuration do
     api_schema = %{
       "sandbox" => ApiSchema.fetch(URI.merge(URI.parse(api_url), "/sandbox") |> to_string(), default_app_options, Mix.env())
     }
-    Enum.each(products, fn product ->
+    api_schema = Enum.reduce(products, api_schema, fn(product, api_schema) ->
       api_schema
       |> Map.put(product, ApiSchema.fetch(URI.merge(URI.parse(api_url), "/#{product}") |> to_string(), default_app_options, Mix.env()))
     end)

@@ -5,7 +5,7 @@ defmodule Ibanity.Consent.Consent do
   use Ibanity.Resource
 
   @api_schema_path  ~w(consent consents)
-  @validate_api_schema_path ~w(consent consents validations)
+  @validate_api_schema_path ~w(consent consent validations)
 
   @resource_type "consent"
 
