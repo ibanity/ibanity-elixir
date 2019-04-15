@@ -40,7 +40,31 @@ defmodule Ibanity.Xs2a.AccountInformationAccessRequest do
   def create(%Request{} = request) do
     request
     |> Request.resource_type("account_information_access_request")
+    |> Request.id(:id, "")
     |> Client.execute(:post, @api_schema_path)
+  end
+
+  @doc """
+  [Retrieves an account information access request](https://documentation.ibanity.com/xs2a/api#get-account-information-access-request)
+
+  ## Example
+
+  This is the transcription of the example found in the [API documentation](https://documentation.ibanity.com/xs2a/api#get-account-information-access-request)
+
+      iex> "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9..."
+      ...> |> Request.customer_access_token
+      ...> |> Request.ids(financial_institution_id: "b031dfe8-ebad-410b-aa77-064f8c876540", id: "42ebed1a-d890-41d6-b4f2-ac1ef6fd0e32")
+      ...> |> AccountInformationAccessRequest.find
+      {:ok,
+        %Ibanity.AccountInformationAccessRequest{
+          id: "fff0f73b-cc51-4a18-8f11-1a8434e66b49",
+          requested_account_references: []
+        }
+      }
+  """
+  def find(%Request{} = request) do
+    request
+    |> Client.execute(:get, @api_schema_path)
   end
 
   @doc false

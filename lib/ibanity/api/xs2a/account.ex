@@ -40,10 +40,10 @@ defmodule Ibanity.Xs2a.Account do
       {:ok, %Ibanity.Collection{items: [...]}}
   """
   def list(%Request{} = request),
-    do: list(request, Request.get_id(request, :financial_institution_id))
+    do: list(request, Request.get_id(request, :financial_institution_id), Request.get_id(request, :account_information_access_request_id))
 
   @doc false
-  def list(%Request{} = request, nil) do
+  def list(%Request{} = request, nil, nil) do
     request
     |> Request.id(:id, "")
     |> Client.execute(:get, ["xs2a", "customer", "accounts"])
@@ -59,13 +59,33 @@ defmodule Ibanity.Xs2a.Account do
 
       iex> token
       ...> |> Request.customer_access_token
-      ...> |> Account.list
+      ...> |> Account.list("b031dfe8-ebad-410b-aa77-064f8c876540")
   """
-  def list(%Request{} = request, financial_institution_id) do
+  def list(%Request{} = request, financial_institution_id, nil) do
     request
     |> Request.id(:id, "")
     |> Request.id(:financial_institution_id, financial_institution_id)
     |> Client.execute(:get, ["customer", "financialInstitution", "accounts"])
+  end
+
+  @doc """
+  [List accounts](https://documentation.ibanity.com/xs2a/api#list-accounts) for a specific financial institution and account information access request.
+
+  Returns `{:ok, coll}` with `coll` being an `Ibanity.Collection`
+  with `Ibanity.Xs2a.Account` as items, `{:error, reason}`otherwise
+
+  ## Example
+
+      iex> token
+      ...> |> Request.customer_access_token
+      ...> |> Account.list("b031dfe8-ebad-410b-aa77-064f8c876540", "42ebed1a-d890-41d6-b4f2-ac1ef6fd0e32")
+  """
+  def list(%Request{} = request, financial_institution_id, account_information_access_request_id) do
+    request
+    |> Request.id(:id, "")
+    |> Request.id(:financial_institution_id, financial_institution_id)
+    |> Request.id(:account_information_access_request_id, account_information_access_request_id)
+    |> Client.execute(:get, ["customer", "financialInstitution", "accountInformationAccessRequest", "accounts"])
   end
 
   @doc """
