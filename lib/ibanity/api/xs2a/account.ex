@@ -65,7 +65,7 @@ defmodule Ibanity.Xs2a.Account do
     request
     |> Request.id(:id, "")
     |> Request.id(:financial_institution_id, financial_institution_id)
-    |> Client.execute(:get, ["customer", "financialInstitution", "accounts"])
+    |> Client.execute(:get, ["xs2a", "customer", "financialInstitution", "accounts"])
   end
 
   @doc """
@@ -85,7 +85,7 @@ defmodule Ibanity.Xs2a.Account do
     |> Request.id(:id, "")
     |> Request.id(:financial_institution_id, financial_institution_id)
     |> Request.id(:account_information_access_request_id, account_information_access_request_id)
-    |> Client.execute(:get, ["customer", "financialInstitution", "accountInformationAccessRequest", "accounts"])
+    |> Client.execute(:get, ["xs2a", "customer", "financialInstitution", "accountInformationAccessRequest", "accounts"])
   end
 
   @doc """
@@ -105,7 +105,7 @@ defmodule Ibanity.Xs2a.Account do
   """
   def find(%Request{} = request) do
     request
-    |> Client.execute(:get, ["customer", "financialInstitution", "accounts"])
+    |> Client.execute(:get, ["xs2a", "customer", "financialInstitution", "accounts"])
   end
 
   @doc """
@@ -164,7 +164,7 @@ defmodule Ibanity.Xs2a.Account do
   """
   def delete(%Request{} = request) do
     request
-    |> Client.execute(:delete, ["customer", "financialInstitution", "accounts"])
+    |> Client.execute(:delete, ["xs2a", "customer", "financialInstitution", "accounts"])
   end
 
   @doc """
