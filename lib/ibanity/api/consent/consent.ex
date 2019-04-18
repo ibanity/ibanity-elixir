@@ -6,6 +6,7 @@ defmodule Ibanity.Consent.Consent do
 
   @api_schema_path  ~w(consent consents)
   @validate_api_schema_path ~w(consent consent validations)
+  @revoke_api_schema_path ~w(consent consent revocations)
 
   @resource_type "consent"
 
@@ -52,17 +53,34 @@ defmodule Ibanity.Consent.Consent do
   ## Example
 
       iex> [
-      ...>   action_type: "https://fake-tpp.com/payment-initiated",
-      ...>   displayed_text: "b57cca6b-74d6-4ac8-ba5d-4e28160d8dde",
-      ...>   ...
+      ...>   consent_id: "270141aa-0c93-42a5-9adf-e2b9a8ab4cea"
       ...> ]
-      ...> |> Request.attributes
-      ...> |> Consent.create
+      ...> |> Request.ids
+      ...> |> Consent.validate
       {:ok, %Ibanity.Consent.Consent{id: "270141aa-0c93-42a5-9adf-e2b9a8ab4cea"}}
   """
   def validate(%Request{} = request) do
     request
     |> Client.execute(:post, @validate_api_schema_path)
+  end
+
+  @doc """
+  [Revokes a consent].
+
+  Returns `{:ok, consent}` if successful, `{:error, reason}` otherwise.
+
+  ## Example
+
+      iex> [
+      ...>   consent_id: "270141aa-0c93-42a5-9adf-e2b9a8ab4cea"
+      ...> ]
+      ...> |> Request.ids
+      ...> |> Consent.revoke
+      {:ok, %Ibanity.Consent.Consent{id: "270141aa-0c93-42a5-9adf-e2b9a8ab4cea"}}
+  """
+  def revoke(%Request{} = request) do
+    request
+    |> Client.execute(:post, @revoke_api_schema_path)
   end
 
   @doc false
@@ -77,7 +95,6 @@ defmodule Ibanity.Consent.Consent do
       data_controller_meta: {~w(attributes data_controller_meta), :string},
       displayed_text: {~w(attributes displayed_text), :string},
       action_type: {~w(attributes action_type), :string},
-      action_date: {~w(attributes action_date), :string},
       status: {~w(attributes status), :string},
     ]
   end

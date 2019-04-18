@@ -5,6 +5,7 @@ defmodule Ibanity.Consent.ProcessingOperation do
   use Ibanity.Resource
 
   @api_schema_path  ~w(consent consent processingOperations)
+  @revoke_api_schema_path ~w(consent consent processingOperations revocations)
 
   @resource_type "processing_operation"
 
@@ -17,7 +18,8 @@ defmodule Ibanity.Consent.ProcessingOperation do
             data_source_type: nil,
             data_source_reference: nil,
             it_service: nil,
-            consent_id: nil
+            consent_id: nil,
+            status: nil
 
   @doc """
   [Creates a processing operation].
@@ -42,6 +44,42 @@ defmodule Ibanity.Consent.ProcessingOperation do
     |> Client.execute(:post, @api_schema_path)
   end
 
+  @doc """
+  [Lists all processing operations belonging to a consent].
+
+  Returns `{:ok, collection}` where `collection` is a `Ibanity.Collection` where items are of type `Ibanity.Consent.ProcessingOperation`,
+  otherwise it returns `{:error, reason}`.
+
+  ## Example
+
+      iex> ProcessingOperation.list
+      {:ok, %Ibanity.Collection{items: [%Ibanity.Consent.ProcessingOperation{...}], ...}
+  """
+  def list(%Request{} = request) do
+    request
+    |> Client.execute(:get, @api_schema_path)
+  end
+
+    @doc """
+  [Revokes a processing operation].
+
+  Returns `{:ok, processing_operation}` if successful, `{:error, reason}` otherwise.
+
+  ## Example
+
+      iex> [
+      ...>   consent_id: "270141aa-0c93-42a5-9adf-e2b9a8ab4cea"
+      ...>   id: "55c09df6-0bdd-46ef-8e66-e5297e0e8a7f"
+      ...> ]
+      ...> |> Request.ids
+      ...> |> ProcessingOperation.revoke
+      {:ok, %Ibanity.Consent.ProcessingOperation{id: "55c09df6-0bdd-46ef-8e66-e5297e0e8a7f"}}
+  """
+  def revoke(%Request{} = request) do
+    request
+    |> Client.execute(:post, @revoke_api_schema_path)
+  end
+
   @doc false
   def key_mapping do
     [
@@ -53,7 +91,8 @@ defmodule Ibanity.Consent.ProcessingOperation do
       data_source_host: {~w(attributes data_source_host), :string},
       data_source_type: {~w(attributes data_source_type), :string},
       data_source_reference: {~w(attributes data_source_reference), :string},
-      it_service: {~w(attributes it_service), :string}
+      it_service: {~w(attributes it_service), :string},
+      status: {~w(attributes status), :string}
     ]
   end
 end
