@@ -46,6 +46,23 @@ defmodule Ibanity.Consent.Consent do
   end
 
   @doc """
+  [Finds a consent].
+
+  Returns `{:ok, consent}` if successful, `{:error, reason}` otherwise.
+
+  ## Example
+
+      iex> "270141aa-0c93-42a5-9adf-e2b9a8ab4cea"
+      ...> |> Request.id
+      ...> |> Consent.find
+      {:ok, %Ibanity.Consent.Consent{id: "270141aa-0c93-42a5-9adf-e2b9a8ab4cea"}}
+  """
+  def find(%Request{} = request) do
+    request
+    |> Client.execute(:get, @api_schema_path)
+  end
+
+  @doc """
   [Validates a consent].
 
   Returns `{:ok, consent}` if successful, `{:error, reason}` otherwise.
