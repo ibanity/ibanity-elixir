@@ -5,7 +5,7 @@ defmodule Ibanity.Consent.ProcessingOperation do
   use Ibanity.Resource
 
   @api_schema_path  ~w(consent consent processingOperations)
-  @revoke_api_schema_path ~w(consent consent processingOperations revocations)
+  @revoke_api_schema_path ~w(consent consent processingOperation revocations)
 
   @resource_type "processing_operation"
 
@@ -84,14 +84,14 @@ defmodule Ibanity.Consent.ProcessingOperation do
   def key_mapping do
     [
       id: {~w(id), :string},
-      business_domain: {~w(attributes data_subject), :string},
-      revoked_at: {~w(attributes revoked_at), :datetime},
+      business_domain: {~w(attributes businessDomain), :string},
+      revoked_at: {~w(attributes revokedAt), :datetime},
       recurrent: {~w(attributes recurrent), :boolean},
-      data_source_category: {~w(attributes data_source_category), :string},
-      data_source_host: {~w(attributes data_source_host), :string},
-      data_source_type: {~w(attributes data_source_type), :string},
-      data_source_reference: {~w(attributes data_source_reference), :string},
-      it_service: {~w(attributes it_service), :string},
+      data_source_category: {~w(attributes dataSourceCategory), :string},
+      data_source_host: {~w(attributes dataSourceHost), :string},
+      data_source_type: {~w(attributes dataSourceType), :string},
+      data_source_reference: {~w(attributes dataSourceReference), :string},
+      it_service: {~w(attributes itService), :string},
       status: {~w(attributes status), :string}
     ]
   end

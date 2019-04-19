@@ -87,14 +87,14 @@ defmodule Ibanity.Consent.Consent do
   def key_mapping do
     [
       id: {~w(id), :string},
-      validated_at: {~w(attributes validated_at), :datetime},
-      revoked_at: {~w(attributes revoked_at), :datetime},
-      data_subject: {~w(attributes data_subject), :string},
-      authorized_representative_type: {~w(attributes authorized_representative_type), :string},
-      authorized_representative_reference: {~w(attributes authorized_representative_reference), :string},
-      data_controller_meta: {~w(attributes data_controller_meta), :string},
-      displayed_text: {~w(attributes displayed_text), :string},
-      action_type: {~w(attributes action_type), :string},
+      validated_at: {~w(attributes validatedAt), :datetime},
+      revoked_at: {~w(attributes revokedAt), :datetime},
+      data_subject: {~w(attributes dataSubject), :string},
+      authorized_representative_type: {~w(attributes authorizedRepresentativeType), :string},
+      authorized_representative_reference: {~w(attributes authorizedRepresentativeReference), :string},
+      data_controller_meta: {~w(attributes dataControllerMeta), :string},
+      displayed_text: {~w(attributes displayedText), :string},
+      action_type: {~w(attributes actionType), :string},
       status: {~w(attributes status), :string},
     ]
   end
