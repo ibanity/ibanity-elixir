@@ -43,7 +43,7 @@ defmodule Ibanity.Configuration do
     applications_options = extract_applications_options(environment)
     default_app_options = Keyword.fetch!(applications_options, :default)
     api_schema = %{
-      "sandbox" => ApiSchema.fetch(URI.merge(URI.parse(api_url), "/sandbox") |> to_string(), default_app_options, Mix.env())
+      "sandbox" => ApiSchema.fetch(URI.merge(URI.parse(api_url), "/xs2a") |> to_string(), default_app_options, Mix.env()) |> Map.fetch!("sandbox")
     }
     api_schema = Enum.reduce(products, api_schema, fn(product, api_schema) ->
       api_schema
