@@ -18,6 +18,7 @@ defmodule Ibanity.Request do
   defstruct application: :default,
             headers: @base_headers,
             attributes: %{},
+            meta: %{},
             idempotency_key: nil,
             customer_access_token: nil,
             resource_type: nil,
@@ -171,6 +172,10 @@ defmodule Ibanity.Request do
   """
   def attributes(%__MODULE__{} = request, attributes) when is_list(attributes) do
     %__MODULE__{request | attributes: Map.merge(request.attributes, Enum.into(attributes, %{}))}
+  end
+
+  def meta(%__MODULE__{} = request, meta) do
+    %__MODULE__{request | meta: meta}
   end
 
   @doc """
