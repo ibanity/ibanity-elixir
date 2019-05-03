@@ -1,4 +1,4 @@
-defmodule Ibanity.CustomerAccessToken.DeserializationTest do
+defmodule Ibanity.Xs2a.CustomerAccessToken.DeserializationTest do
   use ExUnit.Case
 
   import Ibanity.JsonDeserializer

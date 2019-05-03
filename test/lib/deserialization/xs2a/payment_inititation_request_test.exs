@@ -1,7 +1,7 @@
-defmodule Ibanity.PaymentInitiationRequest.DeserializationTest do
+defmodule Ibanity.Xs2a.PaymentInitiationRequest.DeserializationTest do
   use ExUnit.Case
   import Ibanity.JsonDeserializer
-  alias Ibanity.PaymentInitiationRequest
+  alias Ibanity.Xs2a.PaymentInitiationRequest
 
   test "deserializes a payment initiation request" do
     data = %{

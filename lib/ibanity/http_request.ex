@@ -84,6 +84,7 @@ defmodule Ibanity.HttpRequest do
       %{}
       |> add_attributes(request)
       |> add_type(request)
+      |> add_meta(request)
 
     if Enum.empty?(data), do: nil, else: data
   end
@@ -101,6 +102,14 @@ defmodule Ibanity.HttpRequest do
       Map.put(data, :type, to_camel(request.resource_type))
     else
       data
+    end
+  end
+
+  defp add_meta(data, request) do
+    if Enum.empty?(request.meta) do
+      data
+    else
+      Map.put(data, :meta, to_camel(request.meta))
     end
   end
 end

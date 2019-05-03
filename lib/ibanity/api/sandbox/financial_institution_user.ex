@@ -1,6 +1,6 @@
-defmodule Ibanity.FinancialInstitutionUser do
+defmodule Ibanity.Sandbox.FinancialInstitutionUser do
   @moduledoc """
-  [Financial institution user](https://documentation.ibanity.com/api#financial-institution-user) API wrapper
+  [Financial institution user](https://documentation.ibanity.com/xs2a/api#financial-institution-user) API wrapper
   """
 
   use Ibanity.Resource
@@ -18,7 +18,7 @@ defmodule Ibanity.FinancialInstitutionUser do
   @resource_type "financial_institution_user"
 
   @doc """
-  [Creates a new financial institution user](https://documentation.ibanity.com/api#create-financial-institution-user).
+  [Creates a new financial institution user](https://documentation.ibanity.com/xs2a/api#create-financial-institution-user).
 
   Returns `{:ok, user}` when successful, `{:error, reason}` otherwise.
 
@@ -42,7 +42,7 @@ defmodule Ibanity.FinancialInstitutionUser do
   end
 
   @doc """
-  [Lists all financial institution users](https://documentation.ibanity.com/api#list-financial-institution-users).
+  [Lists all financial institution users](https://documentation.ibanity.com/xs2a/api#list-financial-institution-users).
 
   Returns `{:ok, collection}` where `collection` is of type `Ibanity.Collection` and its items are of type `Ibanity.FinancialInstitutionUser`,
   otherwise returns `{:error, reason}`.
@@ -76,7 +76,7 @@ defmodule Ibanity.FinancialInstitutionUser do
   end
 
   @doc """
-  [Updates a financial institution user](https://documentation.ibanity.com/api#update-financial-institution-user).
+  [Updates a financial institution user](https://documentation.ibanity.com/xs2a/api#update-financial-institution-user).
 
   Returns `{:ok, user}` when successful, `{:error, reason}` otherwise.
 
@@ -101,7 +101,7 @@ defmodule Ibanity.FinancialInstitutionUser do
   end
 
   @doc """
-  [Deletes a financial institution user](https://documentation.ibanity.com/api#deletefinancial-institution-user).
+  [Deletes a financial institution user](https://documentation.ibanity.com/xs2a/api#deletefinancial-institution-user).
 
   Returns `{:ok, user}` when successful, `{:error, reason}` otherwise.
 

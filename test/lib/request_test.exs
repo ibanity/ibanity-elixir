@@ -1,7 +1,8 @@
 defmodule Ibanity.RequestTest do
   use ExUnit.Case
 
-  alias Ibanity.{CustomerAccessToken, Request}
+  alias Ibanity.Request
+  alias Ibanity.Xs2a.CustomerAccessToken
 
   describe ".header/3" do
     test "add a new header" do

@@ -1,6 +1,6 @@
-defmodule Ibanity.FinancialInstitutionAccount do
+defmodule Ibanity.Sandbox.FinancialInstitutionAccount do
   @moduledoc """
-  [Financial institution account](https://documentation.ibanity.com/api#financial-institution-account) API wrapper
+  [Financial institution account](https://documentation.ibanity.com/xs2a/api#financial-institution-account) API wrapper
   """
 
   use Ibanity.Resource
@@ -25,7 +25,7 @@ defmodule Ibanity.FinancialInstitutionAccount do
   @resource_type "financial_institution_account"
 
   @doc """
-  [Creates a new financial institution account](https://documentation.ibanity.com/api#create-financial-institution-account).
+  [Creates a new financial institution account](https://documentation.ibanity.com/xs2a/api#create-financial-institution-account).
 
   Returns `{:ok, account}` when successful, `{:error, reason}` otherwise.
 
@@ -52,7 +52,7 @@ defmodule Ibanity.FinancialInstitutionAccount do
   end
 
   @doc """
-  [List all accounts](https://documentation.ibanity.com/api#list-financial-institution-accounts)
+  [List all accounts](https://documentation.ibanity.com/xs2a/api#list-financial-institution-accounts)
   belonging to a user, within a financial institution.
 
   Returns `{:ok, accounts}` where `accounts` is a `Ibanity.Collection` where items are `Ibanity.FinancialInstitutionAccount`.
@@ -64,7 +64,7 @@ defmodule Ibanity.FinancialInstitutionAccount do
   end
 
   @doc """
-  [List all accounts](https://documentation.ibanity.com/api#list-financial-institution-accounts)
+  [List all accounts](https://documentation.ibanity.com/xs2a/api#list-financial-institution-accounts)
   belonging to a user, within a financial institution.
 
   Returns `{:ok, accounts}` where `accounts` is a `Ibanity.Collection` where items are `Ibanity.FinancialInstitutionAccount`.
@@ -83,7 +83,7 @@ defmodule Ibanity.FinancialInstitutionAccount do
   end
 
   @doc """
-  [Retrieves an account](https://documentation.ibanity.com/api#get-financial-institution-account)
+  [Retrieves an account](https://documentation.ibanity.com/xs2a/api#get-financial-institution-account)
   belonging to a user and a financial institution.
 
   Returns `{:ok, account}` when successful, `{:error, reason}` otherwise.
@@ -105,7 +105,7 @@ defmodule Ibanity.FinancialInstitutionAccount do
   end
 
   @doc """
-  [Retrieves an account](https://documentation.ibanity.com/api#get-financial-institution-account)
+  [Retrieves an account](https://documentation.ibanity.com/xs2a/api#get-financial-institution-account)
   belonging to a user and a financial institution.
 
   Returns `{:ok, account}` when successful, `{:error, reason}` otherwise.
@@ -124,7 +124,7 @@ defmodule Ibanity.FinancialInstitutionAccount do
   end
 
   @doc """
-  [Deletes an account](https://documentation.ibanity.com/api#delete-financial-institution-account)
+  [Deletes an account](https://documentation.ibanity.com/xs2a/api#delete-financial-institution-account)
   belonging to a user and a financial institution.
 
   Returns `{:ok, account}` when successful, `{:error, reason}` otherwise.
@@ -146,7 +146,7 @@ defmodule Ibanity.FinancialInstitutionAccount do
   end
 
   @doc """
-  [Deletes an account](https://documentation.ibanity.com/api#delete-financial-institution-account)
+  [Deletes an account](https://documentation.ibanity.com/xs2a/api#delete-financial-institution-account)
   belonging to a user and a financial institution.
 
   Returns `{:ok, account}` when successful, `{:error, reason}` otherwise.

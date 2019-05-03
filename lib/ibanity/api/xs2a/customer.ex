@@ -1,6 +1,6 @@
-defmodule Ibanity.Customer do
+defmodule Ibanity.Xs2a.Customer do
   @moduledoc """
-  [Customer](https://documentation.ibanity.com/api#customer) API wrapper
+  [Customer](https://documentation.ibanity.com/xs2a/api#customer) API wrapper
   """
 
   use Ibanity.Resource
@@ -8,8 +8,8 @@ defmodule Ibanity.Customer do
   defstruct [:id]
 
   @doc """
-  [Deletes a customer](https://documentation.ibanity.com/api#delete-customer)
-  based on the `Ibanity.CustomerAccessToken` set in the request.
+  [Deletes a customer](https://documentation.ibanity.com/xs2a/api#delete-customer)
+  based on the `Ibanity.Xs2a.CustomerAccessToken` set in the request.
 
   Returns `{:ok, customer}` if customer has been deleted, `{:error, reason}` otherwise.
 
@@ -22,7 +22,7 @@ defmodule Ibanity.Customer do
   """
   def delete(%Request{} = request) do
     request
-    |> Client.execute(:delete, ["customer", "self"])
+    |> Client.execute(:delete, ["xs2a", "customer", "self"])
   end
 
   @doc false

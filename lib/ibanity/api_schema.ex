@@ -9,19 +9,22 @@ defmodule Ibanity.ApiSchema do
     {"Content-Type", "application/json"}
   ]
 
-  def fetch(_, _, :test) do
+  def fetch("https://api.ibanity.com/xs2a", _, :test) do
     %{
       "customer" => %{
         "accounts" => "https://api.ibanity.com/customer/accounts",
         "financialInstitution" => %{
           "accountInformationAccessRequests" =>
-            "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/account-information-access-requests",
+            "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/account-information-access-requests/{id}",
           "accounts" =>
             "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/accounts/{id}",
           "paymentInitiationRequests" =>
             "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/payment-initiation-requests/{id}",
           "transactions" =>
-            "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/accounts/{account_id}/transactions/{id}"
+            "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/accounts/{account_id}/transactions/{id}",
+          "accountInformationAccessRequest" => %{
+            "accounts" => "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/account-information-access-requests/{account_information_access_request_id}/accounts",
+          }
         },
         "financialInstitutions" => "https://api.ibanity.com/customer/financial-institutions",
         "self" => "https://api.ibanity.com/customer",
@@ -42,6 +45,34 @@ defmodule Ibanity.ApiSchema do
           "https://api.ibanity.com/sandbox/financial-institution-users/{id}",
         "financialInstitutions" => "https://api.ibanity.com/sandbox/financial-institutions/{id}"
       }
+    }
+  end
+
+  def fetch("https://api.ibanity.com/sandbox", _, :test) do
+    %{
+      "financialInstitution" => %{
+        "financialInstitutionAccount" => %{
+          "financialInstitutionTransactions" =>
+            "https://api.ibanity.com/sandbox/financial-institutions/{financial_institution_id}/financial-institution-users/{financial_institution_user_id}/financial-institution-accounts/{financial_institution_account_id}/financial-institution-transactions/{id}"
+        },
+        "financialInstitutionAccounts" =>
+          "https://api.ibanity.com/sandbox/financial-institutions/{financial_institution_id}/financial-institution-users/{financial_institution_user_id}/financial-institution-accounts/{id}"
+      },
+      "financialInstitutionUsers" =>
+        "https://api.ibanity.com/sandbox/financial-institution-users/{id}",
+      "financialInstitutions" => "https://api.ibanity.com/sandbox/financial-institutions/{id}"
+    }
+  end
+
+  def fetch("https://api.ibanity.com/consent", _, :test) do
+    %{
+      "consent" => %{
+        "processingOperations" =>
+            "https://api.ibanity.com/consent/consents/{consent_id}/processing-operations",
+        "validations" =>
+          "https://api.ibanity.com/consent/consents/{consent_id}/validations",
+      },
+      "consents" => "https://api.ibanity.com/consent/consents/{id}"
     }
   end
 

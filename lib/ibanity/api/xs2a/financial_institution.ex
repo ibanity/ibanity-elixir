@@ -1,6 +1,6 @@
-defmodule Ibanity.FinancialInstitution do
+defmodule Ibanity.Xs2a.FinancialInstitution do
   @moduledoc """
-  [Financial institutions](https://documentation.ibanity.com/api#financial-institution) API wrapper
+  [Financial institutions](https://documentation.ibanity.com/xs2a/api#financial-institution) API wrapper
   """
 
   use Ibanity.Resource
@@ -20,7 +20,7 @@ defmodule Ibanity.FinancialInstitution do
   @resource_type "financial_institution"
 
   @sandbox_api_schema_path ["sandbox", "financialInstitutions"]
-  @find_api_schema_path ["financialInstitutions"]
+  @find_api_schema_path ["xs2a", "financialInstitutions"]
 
   @doc """
   Lists all financial institutions in `sandbox` environment.
@@ -30,13 +30,13 @@ defmodule Ibanity.FinancialInstitution do
   def list, do: list(%Request{})
 
   @doc """
-  [Lists all financial institutions](https://documentation.ibanity.com/api#list-financial-institutions).
+  [Lists all financial institutions](https://documentation.ibanity.com/xs2a/api#list-financial-institutions).
 
-  If the request has a valid [customer access token](https://documentation.ibanity.com/api#customer-access-token) set,
+  If the request has a valid [customer access token](https://documentation.ibanity.com/xs2a/api#customer-access-token) set,
   it will reach the `live` endpoint of the API and list financial institutions the customer linked to this token belongs to.
   If it's not set it will reach the `sandbox` endpoint.
 
-  Returns `{:ok, collection}` where `collection` is a `Ibanity.Collection` where items are of type `Ibanity.FinancialInstitution`,
+  Returns `{:ok, collection}` where `collection` is a `Ibanity.Collection` where items are of type `Ibanity.Xs2a.FinancialInstitution`,
   otherwise it returns `{:error, reason}`.
 
   ## Example
@@ -47,21 +47,21 @@ defmodule Ibanity.FinancialInstitution do
   def list(%Request{customer_access_token: nil} = request) do
     request
     |> Request.id(:id, "")
-    |> Client.execute(:get, ["financialInstitutions"])
+    |> Client.execute(:get, ["xs2a", "financialInstitutions"])
   end
 
   def list(%Request{} = request) do
     request
-    |> Client.execute(:get, ["customer", "financialInstitutions"])
+    |> Client.execute(:get, ["xs2a", "customer", "financialInstitutions"])
   end
 
   @doc """
-  [Retrieves a financial institution](https://documentation.ibanity.com/api#get-financial-institution).
+  [Retrieves a financial institution](https://documentation.ibanity.com/xs2a/api#get-financial-institution).
 
   If the argument is a binary, it will create and empty request and assign the value of the id to that argument.
 
   If it's a request it will use it _as-is_.
-  If the request has a valid [customer access token](https://documentation.ibanity.com/api#customer-access-token) set,
+  If the request has a valid [customer access token](https://documentation.ibanity.com/xs2a/api#customer-access-token) set,
   it will reach the `live` endpoint of the API. If it's not set it will reach the `sandbox` endpoint.
 
   Returns `{:ok, institution}` if sucessful, `{:error, reason}` otherwise.
@@ -85,7 +85,7 @@ defmodule Ibanity.FinancialInstitution do
   end
 
   @doc """
-  [Creates a new financial institution](https://documentation.ibanity.com/api#create-financial-institution).
+  [Creates a new financial institution](https://documentation.ibanity.com/xs2a/api#create-financial-institution).
 
   Note: work only in `sandbox` environment
 
@@ -109,7 +109,7 @@ defmodule Ibanity.FinancialInstitution do
   end
 
   @doc """
-  [Updates an existing financial institution](https://documentation.ibanity.com/api#update-financial-institution).
+  [Updates an existing financial institution](https://documentation.ibanity.com/xs2a/api#update-financial-institution).
 
   Note: works only in `sandbox` environment
 
@@ -133,7 +133,7 @@ defmodule Ibanity.FinancialInstitution do
   end
 
   @doc """
-  [Deletes a financial institution](https://documentation.ibanity.com/api#delete-financial-institution).
+  [Deletes a financial institution](https://documentation.ibanity.com/xs2a/api#delete-financial-institution).
 
   If the argument is a binary, it will create and empty request and assign the value of the id to that argument.
   If it's a request it will use it _as-is_.

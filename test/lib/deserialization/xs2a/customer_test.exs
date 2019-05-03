@@ -1,7 +1,7 @@
-defmodule Ibanity.Customer.DeserializationTest do
+defmodule Ibanity.Xs2a.Customer.DeserializationTest do
   use ExUnit.Case
   import Ibanity.JsonDeserializer
-  alias Ibanity.Customer
+  alias Ibanity.Xs2a.Customer
 
   test "deserialize a customer" do
     data = %{

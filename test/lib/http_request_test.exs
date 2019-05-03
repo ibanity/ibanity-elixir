@@ -2,7 +2,7 @@ defmodule Ibanity.HttpRequestTest do
   use ExUnit.Case
   alias Ibanity.{HttpRequest, Request}
 
-  @api_schema_path ~w(customer accounts)
+  @api_schema_path ~w(xs2a customer accounts)
 
   describe ".build" do
     test "default pagination limit" do

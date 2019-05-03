@@ -1,4 +1,4 @@
-defmodule Ibanity.FinancialInstitutionTransaction do
+defmodule Ibanity.Sandbox.FinancialInstitutionTransaction do
   @moduledoc """
   [Financial institution transaction]() API wrapper
   """
@@ -23,7 +23,7 @@ defmodule Ibanity.FinancialInstitutionTransaction do
             financial_institution_account_id: nil
 
   @doc """
-  Convenience function to [create a new financial institution transaction](https://documentation.ibanity.com/api#create-financial-institution-transaction).
+  Convenience function to [create a new financial institution transaction](https://documentation.ibanity.com/xs2a/api#create-financial-institution-transaction).
 
   See `create/1`
 
@@ -60,7 +60,7 @@ defmodule Ibanity.FinancialInstitutionTransaction do
   end
 
   @doc """
-  [Creates a new financial institution transaction](https://documentation.ibanity.com/api#create-financial-institution-transaction).
+  [Creates a new financial institution transaction](https://documentation.ibanity.com/xs2a/api#create-financial-institution-transaction).
 
   Returns `{:ok, transaction}` if successful, `{:error, reason}` otherwise
   """
@@ -96,7 +96,7 @@ defmodule Ibanity.FinancialInstitutionTransaction do
   end
 
   @doc """
-  [Lists transactions](https://documentation.ibanity.com/api#list-financial-institution-transactions) linked to a financial institution user account
+  [Lists transactions](https://documentation.ibanity.com/xs2a/api#list-financial-institution-transactions) linked to a financial institution user account
 
   ## Example
       iex> %Request{}
@@ -113,7 +113,7 @@ defmodule Ibanity.FinancialInstitutionTransaction do
   end
 
   @doc """
-  [Retrieves transaction](https://documentation.ibanity.com/api#get-financial-institution-transaction)
+  [Retrieves transaction](https://documentation.ibanity.com/xs2a/api#get-financial-institution-transaction)
 
   See `find/1`
 
@@ -142,7 +142,7 @@ defmodule Ibanity.FinancialInstitutionTransaction do
   end
 
   @doc """
-  [Retrieves transaction](https://documentation.ibanity.com/api#get-financial-institution-transaction)
+  [Retrieves transaction](https://documentation.ibanity.com/xs2a/api#get-financial-institution-transaction)
 
   Returns `{:ok, transaction}` if successful, `{:error, reason}` otherwise
 
@@ -161,7 +161,7 @@ defmodule Ibanity.FinancialInstitutionTransaction do
   end
 
   @doc """
-  [Delete transaction](https://documentation.ibanity.com/api#delete-financial-institution-transaction)
+  [Delete transaction](https://documentation.ibanity.com/xs2a/api#delete-financial-institution-transaction)
 
   See `delete/1`
 
@@ -191,7 +191,7 @@ defmodule Ibanity.FinancialInstitutionTransaction do
   end
 
   @doc """
-  [Deletes transaction](https://documentation.ibanity.com/api#delete-financial-institution-transaction)
+  [Deletes transaction](https://documentation.ibanity.com/xs2a/api#delete-financial-institution-transaction)
 
   Returns `{:ok, transaction}` if successful, `{:error, reason}` otherwise
 

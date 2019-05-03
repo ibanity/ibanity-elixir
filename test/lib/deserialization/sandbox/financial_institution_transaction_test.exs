@@ -1,4 +1,4 @@
-defmodule Ibanity.FinancialInstitutionTransaction.DeserializationTest do
+defmodule Ibanity.Sandbox.FinancialInstitutionTransaction.DeserializationTest do
   use ExUnit.Case
   import Ibanity.JsonDeserializer
   alias Ibanity.DateTimeUtil
@@ -40,7 +40,7 @@ defmodule Ibanity.FinancialInstitutionTransaction.DeserializationTest do
 
     actual = deserialize(data)
 
-    expected = %Ibanity.FinancialInstitutionTransaction{
+    expected = %Ibanity.Sandbox.FinancialInstitutionTransaction{
       id: "0b0ffc56-db20-4dc5-b9f3-189e4317812e",
       value_date: DateTimeUtil.parse("2017-05-22T00:00:00Z"),
       updated_at: DateTimeUtil.parse("2018-10-18T15:13:12.365329Z"),
