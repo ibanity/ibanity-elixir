@@ -20,6 +20,8 @@ defmodule Ibanity.Consent.Consent do
             displayed_text: nil,
             action_type: nil,
             action_date: nil,
+            terms_reference: nil,
+            terms_version: nil,
             status: nil
 
   @doc """
@@ -112,6 +114,8 @@ defmodule Ibanity.Consent.Consent do
       data_controller_meta: {~w(attributes dataControllerMeta), :string},
       displayed_text: {~w(attributes displayedText), :string},
       action_type: {~w(attributes actionType), :string},
+      terms_reference: {~w(attributes termsReference), :string},
+      terms_version: {~w(attributes termsVersion), :string},
       status: {~w(attributes status), :string},
     ]
   end
