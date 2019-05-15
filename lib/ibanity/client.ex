@@ -20,8 +20,8 @@ defmodule Ibanity.Client do
 
   defp execute(%HttpRequest{method: method, application: application} = request, parse_response) do
     body = if method_has_body?(method), do: Jason.encode!(%{data: request.data}), else: ""
-    res =
-      HTTPoison.request!(
+    with {:ok, res} <-
+      HTTPoison.request(
         method,
         request.uri,
         body,
@@ -29,10 +29,10 @@ defmodule Ibanity.Client do
         ssl: Configuration.ssl_options(application),
         hackney: [pool: application]
       )
-
-    case parse_response do
-      true -> res |> process_response |> handle_response_body
-      false -> res
+    do
+      res |> process_response |> handle_response_body
+    else
+      {:error, error} -> {:error, error}
     end
   end
 
