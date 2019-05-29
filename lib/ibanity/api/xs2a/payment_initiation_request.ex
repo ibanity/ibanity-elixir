@@ -121,4 +121,9 @@ defmodule Ibanity.Xs2a.PaymentInitiationRequest do
     request
     |> Client.execute(:get, @api_schema_path)
   end
+
+  def delete(%Request{} = request) do
+    request
+    |> Client.execute(:delete, @api_schema_path)
+  end
 end
