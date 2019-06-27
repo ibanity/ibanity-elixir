@@ -86,6 +86,7 @@ defmodule Ibanity.UriUtil do
     |> add_limit(request)
     |> add_before_id(request)
     |> add_after_id(request)
+    |> Map.merge(request.query_params)
     |> Enum.reverse()
   end
 

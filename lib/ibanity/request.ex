@@ -25,7 +25,8 @@ defmodule Ibanity.Request do
             resource_ids: [],
             limit: nil,
             before: nil,
-            after: nil
+            after: nil,
+            query_params: %{}
 
   @doc """
   Creates a new request and sets the application name
