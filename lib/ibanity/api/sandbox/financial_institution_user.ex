@@ -57,6 +57,7 @@ defmodule Ibanity.Sandbox.FinancialInstitutionUser do
     |> Request.id(:id, "")
     |> Client.execute(:get, @api_schema_path)
   end
+  def list, do: list(%Request{})
 
   @doc """
   Finds a financial institution user based on its id.
