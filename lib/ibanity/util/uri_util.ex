@@ -82,7 +82,7 @@ defmodule Ibanity.UriUtil do
   end
 
   defp create_query_params(request) do
-    []
+    %{}
     |> add_limit(request)
     |> add_before_id(request)
     |> add_after_id(request)

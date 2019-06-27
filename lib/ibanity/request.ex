@@ -127,6 +127,20 @@ defmodule Ibanity.Request do
   end
 
   @doc """
+  Creates a new request and adds the query params and their corresponding values to it, all at once.
+  Overrides existing query params with the same name
+  """
+  def query_params(query_params), do: query_params(%__MODULE__{}, query_params)
+
+  @doc """
+  Adds the query params and their corresponding values to the request, all at once.
+  Overrides existing query params with the same name
+  """
+  def query_params(%__MODULE__{} = request, query_params) do
+    %__MODULE__{request | query_params: Map.merge(request.query_params, Enum.into(query_params, %{}))}
+  end
+
+  @doc """
   Creates a new request and sets the [customer access token](https://documentation.ibanity.com/api#customer-access-token) to it
   """
   def customer_access_token(token) when is_binary(token),
