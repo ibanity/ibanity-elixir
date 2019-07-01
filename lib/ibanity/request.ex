@@ -25,7 +25,8 @@ defmodule Ibanity.Request do
             resource_ids: [],
             limit: nil,
             before: nil,
-            after: nil
+            after: nil,
+            query_params: %{}
 
   @doc """
   Creates a new request and sets the application name
@@ -123,6 +124,20 @@ defmodule Ibanity.Request do
   """
   def idempotency_key(%__MODULE__{} = request, key) when is_binary(key) do
     %__MODULE__{request | idempotency_key: key}
+  end
+
+  @doc """
+  Creates a new request and adds the query params and their corresponding values to it, all at once.
+  Overrides existing query params with the same name
+  """
+  def query_params(query_params), do: query_params(%__MODULE__{}, query_params)
+
+  @doc """
+  Adds the query params and their corresponding values to the request, all at once.
+  Overrides existing query params with the same name
+  """
+  def query_params(%__MODULE__{} = request, query_params) do
+    %__MODULE__{request | query_params: Map.merge(request.query_params, Enum.into(query_params, %{}))}
   end
 
   @doc """
