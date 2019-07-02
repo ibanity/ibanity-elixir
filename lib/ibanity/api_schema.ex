@@ -76,6 +76,15 @@ defmodule Ibanity.ApiSchema do
     }
   end
 
+  def fetch("https://api.ibanity.com/billing", _, :test) do
+    %{
+      "customer" => %{
+        "xs2aReport" =>
+            "https://api.ibanity.com/billing/customer/{application_customer_reference}/xs2a-report"
+      }
+    }
+  end
+
   def fetch(api_url, app_options, _) do
     res = fetch_api_schema(api_url, app_options)
 

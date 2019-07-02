@@ -91,14 +91,14 @@ defmodule Ibanity.UriUtil do
   end
 
   defp add_limit(params, request) do
-    if request.limit, do: Keyword.put(params, :limit, request.limit), else: params
+    if request.limit, do: Map.put(params, :limit, request.limit), else: params
   end
 
   defp add_before_id(params, request) do
-    if request.before, do: Keyword.put(params, :before, request.before), else: params
+    if request.before, do: Map.put(params, :before, request.before), else: params
   end
 
   defp add_after_id(params, request) do
-    if request.after, do: Keyword.put(params, :after, request.after), else: params
+    if request.after, do: Map.put(params, :after, request.after), else: params
   end
 end
