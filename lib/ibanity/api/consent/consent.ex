@@ -24,6 +24,12 @@ defmodule Ibanity.Consent.Consent do
             terms_version: nil,
             status: nil
 
+  def list(%Request{} = request) do
+    request
+    |> Request.id(:id, "")
+    |> Client.execute(:get, @api_schema_path)
+  end
+
   @doc """
   [Creates a consent].
 
