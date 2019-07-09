@@ -15,7 +15,11 @@ defmodule Ibanity.Xs2a.FinancialInstitution do
             min_requested_account_references: nil,
             primary_color: nil,
             secondary_color: nil,
-            requires_credential_storage: nil
+            requires_credential_storage: nil,
+            country: nil,
+            future_dated_payments_allowed: nil,
+            requires_customer_ip_address: nil,
+            status: nil
 
   @resource_type "financial_institution"
 
@@ -171,7 +175,11 @@ defmodule Ibanity.Xs2a.FinancialInstitution do
       min_requested_account_references: {~w(attributes minRequestedAccountReferences), :integer},
       primary_color: {~w(attributes primaryColor), :string},
       secondary_color: {~w(attributes secondaryColor), :string},
-      requires_credential_storage: {~w(attributes requiresCredentialStorage), :boolean}
+      requires_credential_storage: {~w(attributes requiresCredentialStorage), :boolean},
+      country: {~w(attributes country), :string},
+      future_dated_payments_allowed: {~w(attributes futureDatedPaymentsAllowed), :boolean},
+      requires_customer_ip_address: {~w(attributes requiresCustomerIpAddress), :boolean},
+      status: {~w(attributes status), :string}
     ]
   end
 end
