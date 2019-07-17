@@ -1,6 +1,7 @@
 defmodule Ibanity.Client do
   @moduledoc false
 
+  use Retry
   alias Ibanity.{Collection, Configuration, HttpRequest}
   import Ibanity.JsonDeserializer
 
@@ -12,29 +13,40 @@ defmodule Ibanity.Client do
   end
 
   def get(url, application \\ :default) when is_binary(url) do
-    url
-    |> HTTPoison.get!([], ssl: Configuration.ssl_options(application), hackney: [pool: application])
-    |> process_response
-    |> handle_response_body
+    retry with: backoff(), rescue_only: [] do
+      url
+      |> HTTPoison.get!([], ssl: Configuration.ssl_options(application), hackney: [pool: application])
+      |> process_response
+    after
+      {:ok, response} -> response |> handle_response_body
+    else
+      error -> error
+    end
   end
 
   defp execute(%HttpRequest{method: method, application: application} = request) do
     body = if method_has_body?(method), do: Jason.encode!(%{data: request.data}), else: ""
-    with {:ok, res} <-
-      HTTPoison.request(
-        method,
-        request.uri,
-        body,
-        request.headers,
-        ssl: Configuration.ssl_options(application),
-        hackney: [pool: application]
-      )
-    do
-      res |> process_response |> handle_response_body
+    retry with: backoff(), rescue_only: [] do
+      case HTTPoison.request(
+          method,
+          request.uri,
+          body,
+          request.headers,
+          ssl: Configuration.ssl_options(application),
+          hackney: [pool: application]
+        )
+      do
+        {:ok, res} -> res |> process_response
+        error      -> error
+      end
+    after
+      {:ok, response} -> response |> handle_response_body
     else
-      {:error, error} -> {:error, error}
+      error -> error
     end
   end
+
+  defp backoff, do: 1000 |> linear_backoff(500) |> Stream.take(5)
 
   defp method_has_body?(method) do
     method == :post or method == :patch
@@ -46,9 +58,12 @@ defmodule Ibanity.Client do
 
     cond do
       code >= 200 and code <= 299 ->
-        {:ok, body}
+        {:ok, {:ok, body}}
 
-      code >= 400 and code <= 599 ->
+      code >= 400 and code <= 500 ->
+        {:ok, {:error, Map.fetch!(body, "errors")}}
+
+      code >= 501 and code <= 599 ->
         {:error, Map.fetch!(body, "errors")}
 
       true ->
