@@ -2,11 +2,13 @@ defmodule Ibanity.Configuration do
   @moduledoc false
 
   use Agent
+  use Retry
   alias Ibanity.{ApiSchema, Configuration.Options}
   alias Ibanity.Configuration.Exception, as: ConfigurationException
 
   defstruct api_schema: nil,
-            applications_options: []
+            applications_options: [],
+            retry_options: []
 
   defmodule Exception do
     @moduledoc false
@@ -22,12 +24,21 @@ defmodule Ibanity.Configuration do
   end
 
   @default_api_url "https://api.ibanity.com"
+  @default_retry_options [initial_delay: 1000, backoff_interval: 500, max_retries: 5]
 
   def start_link(environment) do
     Agent.start_link(fn -> init(environment) end, name: __MODULE__)
   end
 
   def api_schema, do: Agent.get(__MODULE__, & &1.api_schema)
+
+  def retry_options, do: Agent.get(__MODULE__, & &1.retry_options)
+
+  def retry_backoff do
+    retry_options()[:initial_delay]
+    |> linear_backoff(retry_options()[:backoff_interval])
+    |> Stream.take(retry_options()[:max_retries])
+  end
 
   def ssl_options(app_name \\ :default) do
     app_name |> get_applications_options |> Options.ssl()
@@ -40,6 +51,7 @@ defmodule Ibanity.Configuration do
   defp init(environment) do
     api_url = Keyword.get(environment, :api_url, @default_api_url)
     products = Keyword.get(environment, :products, ["xs2a"])
+    retry_options = extract_retry_options(environment)
     applications_options = extract_applications_options(environment)
     default_app_options = Keyword.fetch!(applications_options, :default)
     api_schema = %{
@@ -52,8 +64,14 @@ defmodule Ibanity.Configuration do
     end)
     %__MODULE__{
       api_schema: api_schema,
-      applications_options: applications_options
+      applications_options: applications_options,
+      retry_options: retry_options
     }
+  end
+
+  defp extract_retry_options(environment) do
+    retry_options = environment |> Keyword.get(:retry, []) |> Keyword.take([:initial_delay, :backoff_interval, :max_retries])
+    @default_retry_options |> Keyword.merge(retry_options)
   end
 
   defp extract_applications_options(environment) do

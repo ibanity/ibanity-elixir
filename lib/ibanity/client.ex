@@ -13,7 +13,7 @@ defmodule Ibanity.Client do
   end
 
   def get(url, application \\ :default) when is_binary(url) do
-    retry with: backoff(), rescue_only: [] do
+    retry with: Configuration.retry_backoff(), rescue_only: [] do
       url
       |> HTTPoison.get!([], ssl: Configuration.ssl_options(application), hackney: [pool: application])
       |> process_response
@@ -26,7 +26,7 @@ defmodule Ibanity.Client do
 
   defp execute(%HttpRequest{method: method, application: application} = request) do
     body = if method_has_body?(method), do: Jason.encode!(%{data: request.data}), else: ""
-    retry with: backoff(), rescue_only: [] do
+    retry with: Configuration.retry_backoff(), rescue_only: [] do
       case HTTPoison.request(
           method,
           request.uri,
@@ -45,8 +45,6 @@ defmodule Ibanity.Client do
       error -> error
     end
   end
-
-  defp backoff, do: 1000 |> linear_backoff(500) |> Stream.take(5)
 
   defp method_has_body?(method) do
     method == :post or method == :patch
