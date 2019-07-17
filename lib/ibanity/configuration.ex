@@ -24,7 +24,7 @@ defmodule Ibanity.Configuration do
   end
 
   @default_api_url "https://api.ibanity.com"
-  @default_retry_options [initial_delay: 1000, backoff_interval: 500, max_retries: 5]
+  @default_retry_options [initial_delay: 1000, backoff_interval: 500, max_retries: 0]
 
   def start_link(environment) do
     Agent.start_link(fn -> init(environment) end, name: __MODULE__)
