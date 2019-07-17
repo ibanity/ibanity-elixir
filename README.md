@@ -64,7 +64,7 @@ Key | Description
   [
     initial_delay: 1000,
     backoff_interval: 500,
-    max_retries: 5
+    max_retries: 0
   ]
   ```
 
