@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.0
+
+* Update financial institution attributes
+* Add billing and consent products
+* Provide http request error responses as tuples
+* Fix pagination
+* Decouple sandbox and XS2A resources
+
 ## 0.3.2
 
 * Add relationship ids to resources
