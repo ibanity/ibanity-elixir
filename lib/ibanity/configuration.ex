@@ -56,7 +56,8 @@ defmodule Ibanity.Configuration do
     default_app_options = Keyword.fetch!(applications_options, :default)
     api_schema = %{
       "sandbox" => ApiSchema.fetch(URI.merge(URI.parse(api_url), "/xs2a") |> to_string(), default_app_options, Mix.env()) |> Map.fetch!("sandbox"),
-      "billing" => ApiSchema.fetch(URI.merge(URI.parse(api_url), "/billing") |> to_string(), default_app_options, Mix.env())
+      "billing" => ApiSchema.fetch(URI.merge(URI.parse(api_url), "/billing") |> to_string(), default_app_options, Mix.env()),
+      "reporting" => ApiSchema.fetch(URI.merge(URI.parse(api_url), "/reporting") |> to_string(), default_app_options, Mix.env())
     }
     api_schema = Enum.reduce(products, api_schema, fn(product, api_schema) ->
       api_schema

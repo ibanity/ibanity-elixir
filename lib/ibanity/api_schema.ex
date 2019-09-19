@@ -78,10 +78,26 @@ defmodule Ibanity.ApiSchema do
 
   def fetch("https://api.ibanity.com/billing", _, :test) do
     %{
-      "customer" => %{
-        "xs2aReport" =>
-            "https://api.ibanity.com/billing/customer/{application_customer_reference}/xs2a-report"
+      "xs2a" => %{
+        "customer" => %{
+          "report" =>
+              "https://api.ibanity.com/billing/products/xs2a/customer/report"
+        }
       }
+
+    }
+  end
+
+
+  def fetch("https://api.ibanity.com/reporting", _, :test) do
+    %{
+      "xs2a" => %{
+        "customer" => %{
+          "nbbReport" =>
+              "https://api.ibanity.com/reporting/products/xs2a/customer/nbb-report"
+        }
+      }
+
     }
   end
 
