@@ -16,7 +16,8 @@ defmodule Ibanity.JsonDeserializer do
     "synchronization" => Ibanity.Xs2a.Synchronization,
     "consent" => Ibanity.Consent.Consent,
     "processingOperation" => Ibanity.Consent.ProcessingOperation,
-    "xs2aReport" => Ibanity.Billing.Xs2aReport
+    "xs2aBillingReport" => Ibanity.Billing.Xs2a.Report,
+    "nbbReport" => Ibanity.Reporting.Xs2a.NbbReport
   }
 
   def deserialize(item) do
