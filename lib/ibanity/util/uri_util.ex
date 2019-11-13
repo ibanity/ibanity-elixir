@@ -76,8 +76,8 @@ defmodule Ibanity.UriUtil do
     Enum.empty?(missing_ids)
   end
 
-  defp find_uri(uri_path) do
-    path = get_in(Configuration.api_schema(), uri_path)
+  defp find_uri([product | uri_path]) do
+    path = get_in(Configuration.api_schema(product), uri_path)
     if path, do: {:ok, path}, else: {:error, :invalid_path}
   end
 

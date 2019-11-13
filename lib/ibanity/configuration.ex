@@ -6,7 +6,7 @@ defmodule Ibanity.Configuration do
   alias Ibanity.{ApiSchema, Configuration.Options}
   alias Ibanity.Configuration.Exception, as: ConfigurationException
 
-  defstruct api_schema: nil,
+  defstruct api_schema: %{},
             applications_options: [],
             retry_options: []
 
@@ -30,7 +30,33 @@ defmodule Ibanity.Configuration do
     Agent.start_link(fn -> init(environment) end, name: __MODULE__)
   end
 
-  def api_schema, do: Agent.get(__MODULE__, & &1.api_schema)
+  def api_schema(product) do
+    Map.get(Agent.get(__MODULE__, & &1.api_schema), product) || fetch_and_store_api_schema(product)
+  end
+
+  def fetch_and_store_api_schema(product) do
+    schema = fetch_api_schema(product)
+    Agent.get_and_update(__MODULE__, fn configuration ->
+      merged_schema = Map.merge(configuration.api_schema, %{product => schema})
+      {schema, %__MODULE__{configuration | api_schema: merged_schema}}
+    end)
+  end
+
+  def fetch_api_schema("sandbox") do
+    "xs2a"
+    |> fetch_api_schema()
+    |> Map.fetch!("sandbox")
+  end
+  def fetch_api_schema(product) do
+    :ibanity
+    |> Application.get_env(:api_url, @default_api_url)
+    |> URI.parse()
+    |> URI.merge("/#{product}")
+    |> to_string()
+    |> ApiSchema.fetch(default_app_options(), Mix.env())
+  end
+
+  def default_app_options, do: Agent.get(__MODULE__, & &1.applications_options[:default])
 
   def retry_options, do: Agent.get(__MODULE__, & &1.retry_options)
 
@@ -49,22 +75,9 @@ defmodule Ibanity.Configuration do
   end
 
   defp init(environment) do
-    api_url = Keyword.get(environment, :api_url, @default_api_url)
-    products = Keyword.get(environment, :products, ["xs2a"])
-    retry_options = extract_retry_options(environment)
-    applications_options = extract_applications_options(environment)
-    default_app_options = Keyword.fetch!(applications_options, :default)
-    api_schema = %{
-      "sandbox" => ApiSchema.fetch(URI.merge(URI.parse(api_url), "/xs2a") |> to_string(), default_app_options, Mix.env()) |> Map.fetch!("sandbox")
-    }
-    api_schema = Enum.reduce(products, api_schema, fn(product, api_schema) ->
-      api_schema
-      |> Map.put(product, ApiSchema.fetch(URI.merge(URI.parse(api_url), "/#{product}") |> to_string(), default_app_options, Mix.env()))
-    end)
     %__MODULE__{
-      api_schema: api_schema,
-      applications_options: applications_options,
-      retry_options: retry_options
+      applications_options: extract_applications_options(environment),
+      retry_options: extract_retry_options(environment)
     }
   end
 

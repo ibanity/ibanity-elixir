@@ -58,7 +58,6 @@ Key | Description
 --- | -----------
 `:api_url` | Ibanity API endpoint. Default: `https://api.ibanity.com`
 `:ssl_ca` | Intermediate certificate. Not needed in _production_ environment
-`:products` | List of Ibanity products that you want to access. Default is `["xs2a"]`
 `:retry` | Keyword list to customize the retrying of API calls due to network failures. Keys and their default values are shown below.
   ```elixir
   [
@@ -101,7 +100,6 @@ config :ibanity, :applications, [
 
 config :ibanity, :api_url, System.get_env("IBANITY_API_URL")
 config :ibanity, :ssl_ca, System.get_env("IBANITY_CA")
-config :ibanity, :products, ["xs2a"]
 config :ibanity, :retry, [
   initial_delay: 1000,
   backoff_interval: 1000,
