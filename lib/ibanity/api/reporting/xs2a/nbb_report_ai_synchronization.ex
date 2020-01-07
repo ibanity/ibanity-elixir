@@ -3,12 +3,13 @@ defmodule Ibanity.Reporting.Xs2a.NbbReportAiSynchronization do
 
   @api_schema_path ~w(reporting xs2a customer nbbReportAiSynchronization)
 
-  defstruct accountReferenceHash: nil,
-            aspspName: nil,
-            aspspType: nil,
-            externalCustomerIdHash: nil,
+  defstruct account_reference_hash: nil,
+            aspsp_name: nil,
+            aspsp_type: nil,
+            external_customer_id_hash: nil,
             region: nil,
-            type: nil
+            type: nil,
+            occurred_at: nil
 
   def find(%Request{} = request) do
     request
@@ -17,11 +18,13 @@ defmodule Ibanity.Reporting.Xs2a.NbbReportAiSynchronization do
 
   def key_mapping do
     [
-      accountReferenceHash: {~w(attributes accountReferenceHash), :datetime},
-      aspspName: {~w(attributes aspspName), :datetime},
+      account_reference_hash: {~w(attributes accountReferenceHash), :string},
+      aspsp_name: {~w(attributes aspspName), :string},
       aspspType: {~w(attributes aspspType), :string},
-      externalCustomerIdHash: {~w(attributes externalCustomerIdHash), :integer},
+      external_customer_id_hash: {~w(attributes externalCustomerIdHash), :string},
       region: {~w(attributes region), :string},
-      type: {~w(attributes type), :string}
+      type: {~w(attributes type), :string},
+      occurred_at: {~w(attributes occurredAt), :string}
+    ]
   end
 end
