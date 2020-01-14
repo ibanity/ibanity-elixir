@@ -19,7 +19,13 @@ defmodule Ibanity.Xs2a.FinancialInstitution do
             country: nil,
             future_dated_payments_allowed: nil,
             requires_customer_ip_address: nil,
-            status: nil
+            status: nil,
+            bulk_payments_enabled: nil,
+            payments_enabled: nil,
+            periodic_payments_enabled: nil,
+            bulk_payments_product_types: nil,
+            payments_product_types: nil,
+            periodic_payments_product_types: nil
 
   @resource_type "financial_institution"
 
@@ -179,7 +185,13 @@ defmodule Ibanity.Xs2a.FinancialInstitution do
       country: {~w(attributes country), :string},
       future_dated_payments_allowed: {~w(attributes futureDatedPaymentsAllowed), :boolean},
       requires_customer_ip_address: {~w(attributes requiresCustomerIpAddress), :boolean},
-      status: {~w(attributes status), :string}
+      status: {~w(attributes status), :string},
+      bulk_payments_enabled: {~w(attributes bulkPaymentsEnabled), :boolean},
+      payments_enabled: {~w(attributes paymentsEnabled), :boolean},
+      periodic_payments_enabled: {~w(attributes periodicPaymentsEnabled), :boolean},
+      bulk_payments_product_types: {~w(attributes bulkPaymentsProductTypes), :struct},
+      payments_product_types: {~w(attributes paymentsProductTypes), :struct},
+      periodic_payments_product_types: {~w(attributes periodicPaymentsProductTypes), :struct}
     ]
   end
 end
