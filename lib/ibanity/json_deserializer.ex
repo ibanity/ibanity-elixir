@@ -18,11 +18,16 @@ defmodule Ibanity.JsonDeserializer do
     "processingOperation" => Ibanity.Consent.ProcessingOperation,
     "xs2aBillingReport" => Ibanity.Billing.Xs2a.Report,
     "nbbReport" => Ibanity.Reporting.Xs2a.NbbReport,
-    "nbbReportAiSynchronization" => Ibanity.Reporting.Xs2a.NbbReportAiSynchronization
+    "nbbReportAiSynchronization" => Ibanity.Reporting.Xs2a.NbbReportAiSynchronization,
+    "accountInformationAccessRequestAuthorization" => Ibanity.Xs2a.AccountInformationAccessRequestAuthorization,
+    "paymentInitiationRequestAuthorization" => Ibanity.Xs2a.PaymentInitiationRequestAuthorization
   }
 
-  def deserialize(item) do
-    return_type = Map.fetch!(@type_mappings, Map.fetch!(item, "type"))
+  def deserialize(item, nil) do
+    deserialize(item, Map.fetch!(item, "type"))
+  end
+  def deserialize(item, resource_type) do
+    return_type = Map.fetch!(@type_mappings, resource_type)
     mapping = return_type.key_mapping()
 
     keys =

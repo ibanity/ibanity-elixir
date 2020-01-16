@@ -23,11 +23,12 @@ defmodule Ibanity.Xs2a.AccountInformationAccessRequestAuthorization do
       ...> |> Request.customer_access_token
       ...> |> Request.id(:financial_institution_id, "b031dfe8-ebad-410b-aa77-064f8c876540")
       ...> |> Request.id(:account_information_access_request_id, "b031dfe8-ebad-410b-aa77-064f8c876540")
-      ...> |> Request.attribute("query_parameters", %{code: "lskdfnlsfnlsdfns"})
+      ...> |> Request.attribute("query_parameters", %{code: "SFMyNTY.g3QAAAA..."})
       ...> |> AccountInformationAccessRequestAuthorization.create
       {:ok,
-        %Ibanity.AccountInformationAccessRequestAuthorization{
-          id: "fff0f73b-cc51-4a18-8f11-1a8434e66b49",
+        %Ibanity.Xs2a.AccountInformationAccessRequestAuthorization{
+          id: "3ffd82c0-944a-4cee-bf31-192e3137c76e",
+          status: "succeeded"
         }
       }
 
@@ -36,7 +37,7 @@ defmodule Ibanity.Xs2a.AccountInformationAccessRequestAuthorization do
     request
     |> Request.resource_type("account_information_access_request_authorization")
     |> Request.id(:id, "")
-    |> Client.execute(:post, @api_schema_path)
+    |> Client.execute(:post, @api_schema_path, "accountInformationAccessRequestAuthorization")
   end
 
 

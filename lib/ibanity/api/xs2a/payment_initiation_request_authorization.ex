@@ -23,11 +23,12 @@ defmodule Ibanity.Xs2a.PaymentInitiationRequestAuthorization do
       ...> |> Request.customer_access_token
       ...> |> Request.id(:financial_institution_id, "b031dfe8-ebad-410b-aa77-064f8c876540")
       ...> |> Request.id(:payment_initiation_request_id, "b031dfe8-ebad-410b-aa77-064f8c876540")
-      ...> |> Request.attribute("query_parameters", %{code: "lskdfnlsfnlsdfns"})
+      ...> |> Request.attribute("query_parameters", %{})
       ...> |> PaymentInitiationRequestAuthorization.create
       {:ok,
-        %Ibanity.PaymentInitiationRequestAuthorization{
-          id: "fff0f73b-cc51-4a18-8f11-1a8434e66b49",
+        %Ibanity.Xs2a.PaymentInitiationRequestAuthorization{
+          id: "ce410d99-6382-4463-bfd6-fa606c379dea",
+          status: nil
         }
       }
 
@@ -36,7 +37,7 @@ defmodule Ibanity.Xs2a.PaymentInitiationRequestAuthorization do
     request
     |> Request.resource_type("payment_initiation_request_authorization")
     |> Request.id(:id, "")
-    |> Client.execute(:post, @api_schema_path)
+    |> Client.execute(:post, @api_schema_path, "paymentInitiationRequestAuthorization")
   end
 
 
