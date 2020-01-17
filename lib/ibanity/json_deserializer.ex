@@ -23,6 +23,9 @@ defmodule Ibanity.JsonDeserializer do
     "paymentInitiationRequestAuthorization" => Ibanity.Xs2a.PaymentInitiationRequestAuthorization
   }
 
+  def deserialize(item) do
+    deserialize(item, nil)
+  end
   def deserialize(item, nil) do
     deserialize(item, Map.fetch!(item, "type"))
   end
