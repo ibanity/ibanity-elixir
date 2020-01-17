@@ -76,7 +76,7 @@ defmodule Ibanity.Client do
        when is_list(data) do
     collection =
       data
-      |> Enum.map(fn data -> deserialize(data, type) end)
+      |> Enum.map(&deserialize(&1, type))
       |> Collection.new(meta["paging"], links, meta["synchronizedAt"], meta["latestSynchronization"])
 
     {:ok, collection}
@@ -86,7 +86,7 @@ defmodule Ibanity.Client do
       when is_list(data) do
     collection =
     data
-    |> Enum.map(fn data -> deserialize(data, type) end)
+    |> Enum.map(&deserialize(&1, type))
     |> Collection.new(%{}, %{})
 
     {:ok, collection}
