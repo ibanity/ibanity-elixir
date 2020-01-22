@@ -5,9 +5,9 @@ defmodule Ibanity.Client do
   alias Ibanity.{Collection, Configuration, HttpRequest}
   import Ibanity.JsonDeserializer
 
-  def execute(%Ibanity.Request{} = request, method, uri_path) do
+  def execute(%Ibanity.Request{} = request, method, uri_path, type \\ nil) do
     case HttpRequest.build(request, method, uri_path) do
-      {:ok, http_request} -> execute(http_request)
+      {:ok, http_request} -> execute(http_request, type)
       {:error, reason} -> {:error, reason}
     end
   end
@@ -18,13 +18,13 @@ defmodule Ibanity.Client do
       |> HTTPoison.get!([], ssl: Configuration.ssl_options(application), hackney: [pool: application])
       |> process_response
     after
-      {:ok, response} -> response |> handle_response_body
+      {:ok, response} -> response |> handle_response_body(nil)
     else
       error -> error
     end
   end
 
-  defp execute(%HttpRequest{method: method, application: application} = request) do
+  defp execute(%HttpRequest{method: method, application: application} = request, type) do
     body = if method_has_body?(method), do: Jason.encode!(%{data: request.data}), else: ""
     retry with: Configuration.retry_backoff(), rescue_only: [] do
       case HTTPoison.request(
@@ -40,7 +40,7 @@ defmodule Ibanity.Client do
         error      -> error
       end
     after
-      {:ok, response} -> response |> handle_response_body
+      {:ok, response} -> response |> handle_response_body(type)
     else
       error -> error
     end
@@ -72,25 +72,25 @@ defmodule Ibanity.Client do
   defp handle_response_body(%{"message" => reason}), do: {:error, reason}
   defp handle_response_body({:error, _} = error), do: error
 
-  defp handle_response_body({:ok, %{"data" => data, "meta" => meta, "links" => links}})
+  defp handle_response_body({:ok, %{"data" => data, "meta" => meta, "links" => links}}, type)
        when is_list(data) do
     collection =
       data
-      |> Enum.map(&deserialize/1)
+      |> Enum.map(&deserialize(&1, type))
       |> Collection.new(meta["paging"], links, meta["synchronizedAt"], meta["latestSynchronization"])
 
     {:ok, collection}
   end
 
-  defp handle_response_body({:ok, %{"data" => data}})
+  defp handle_response_body({:ok, %{"data" => data}}, type)
       when is_list(data) do
     collection =
     data
-    |> Enum.map(&deserialize/1)
+    |> Enum.map(&deserialize(&1, type))
     |> Collection.new(%{}, %{})
 
     {:ok, collection}
   end
 
-  defp handle_response_body({:ok, %{"data" => data}}), do: {:ok, deserialize(data)}
+  defp handle_response_body({:ok, %{"data" => data}}, type), do: {:ok, deserialize(data, type)}
 end

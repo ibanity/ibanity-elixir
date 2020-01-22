@@ -20,10 +20,14 @@ defmodule Ibanity.ApiSchema do
             "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/accounts/{id}",
           "paymentInitiationRequests" =>
             "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/payment-initiation-requests/{id}",
+          "paymentInitiationRequest" => %{
+            "authorizations" => "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/payment-initiation-requests/{payment_initiation_request_id}/authorizations"
+          },
           "transactions" =>
             "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/accounts/{account_id}/transactions/{id}",
           "accountInformationAccessRequest" => %{
             "accounts" => "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/account-information-access-requests/{account_information_access_request_id}/accounts",
+            "authorizations" => "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/account-information-access-requests/{account_information_access_request_id}/authorizations",
           }
         },
         "financialInstitutions" => "https://api.ibanity.com/customer/financial-institutions",
