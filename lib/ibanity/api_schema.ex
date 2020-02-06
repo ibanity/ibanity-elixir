@@ -25,6 +25,8 @@ defmodule Ibanity.ApiSchema do
           },
           "transactions" =>
             "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/accounts/{account_id}/transactions/{id}",
+          "holdings" =>
+            "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/accounts/{account_id}/holdings/{id}",
           "accountInformationAccessRequest" => %{
             "accounts" => "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/account-information-access-requests/{account_information_access_request_id}/accounts",
             "authorizations" => "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/account-information-access-requests/{account_information_access_request_id}/authorizations",
@@ -40,7 +42,9 @@ defmodule Ibanity.ApiSchema do
         "financialInstitution" => %{
           "financialInstitutionAccount" => %{
             "financialInstitutionTransactions" =>
-              "https://api.ibanity.com/sandbox/financial-institutions/{financial_institution_id}/financial-institution-users/{financial_institution_user_id}/financial-institution-accounts/{financial_institution_account_id}/financial-institution-transactions/{id}"
+              "https://api.ibanity.com/sandbox/financial-institutions/{financial_institution_id}/financial-institution-users/{financial_institution_user_id}/financial-institution-accounts/{financial_institution_account_id}/financial-institution-transactions/{id}",
+            "financialInstitutionHoldings" =>
+              "https://api.ibanity.com/sandbox/financial-institutions/{financial_institution_id}/financial-institution-users/{financial_institution_user_id}/financial-institution-accounts/{financial_institution_account_id}/financial-institution-holdings/{id}"
           },
           "financialInstitutionAccounts" =>
             "https://api.ibanity.com/sandbox/financial-institutions/{financial_institution_id}/financial-institution-users/{financial_institution_user_id}/financial-institution-accounts/{id}"
@@ -57,7 +61,9 @@ defmodule Ibanity.ApiSchema do
       "financialInstitution" => %{
         "financialInstitutionAccount" => %{
           "financialInstitutionTransactions" =>
-            "https://api.ibanity.com/sandbox/financial-institutions/{financial_institution_id}/financial-institution-users/{financial_institution_user_id}/financial-institution-accounts/{financial_institution_account_id}/financial-institution-transactions/{id}"
+            "https://api.ibanity.com/sandbox/financial-institutions/{financial_institution_id}/financial-institution-users/{financial_institution_user_id}/financial-institution-accounts/{financial_institution_account_id}/financial-institution-transactions/{id}",
+          "financialInstitutionHoldings" =>
+            "https://api.ibanity.com/sandbox/financial-institutions/{financial_institution_id}/financial-institution-users/{financial_institution_user_id}/financial-institution-accounts/{financial_institution_account_id}/financial-institution-holdings/{id}"
         },
         "financialInstitutionAccounts" =>
           "https://api.ibanity.com/sandbox/financial-institutions/{financial_institution_id}/financial-institution-users/{financial_institution_user_id}/financial-institution-accounts/{id}"
