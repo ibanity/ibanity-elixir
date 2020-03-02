@@ -8,7 +8,8 @@ defmodule Ibanity.Configuration do
 
   defstruct api_schema: %{},
             applications_options: [],
-            retry_options: []
+            retry_options: [],
+            timeout_options: []
 
   defmodule Exception do
     @moduledoc false
@@ -25,6 +26,7 @@ defmodule Ibanity.Configuration do
 
   @default_api_url "https://api.ibanity.com"
   @default_retry_options [initial_delay: 1000, backoff_interval: 500, max_retries: 0]
+  @default_timeout_options [timeout: 8000, recv_timeout: 5000]
 
   def start_link(environment) do
     Agent.start_link(fn -> init(environment) end, name: __MODULE__)
@@ -66,6 +68,8 @@ defmodule Ibanity.Configuration do
     |> Stream.take(retry_options()[:max_retries])
   end
 
+  def timeout_options, do: Agent.get(__MODULE__, & &1.timeout_options)
+
   def ssl_options(app_name \\ :default) do
     app_name |> get_applications_options |> Options.ssl()
   end
@@ -77,13 +81,19 @@ defmodule Ibanity.Configuration do
   defp init(environment) do
     %__MODULE__{
       applications_options: extract_applications_options(environment),
-      retry_options: extract_retry_options(environment)
+      retry_options: extract_retry_options(environment),
+      timeout_options: extract_timeout_options(environment)
     }
   end
 
   defp extract_retry_options(environment) do
     retry_options = environment |> Keyword.get(:retry, []) |> Keyword.take([:initial_delay, :backoff_interval, :max_retries])
     @default_retry_options |> Keyword.merge(retry_options)
+  end
+
+  defp extract_timeout_options(environment) do
+    timeout_options = environment |> Keyword.get(:timeout, []) |> Keyword.take([:timeout, :recv_timeout])
+    @default_timeout_options |> Keyword.merge(timeout_options)
   end
 
   defp extract_applications_options(environment) do

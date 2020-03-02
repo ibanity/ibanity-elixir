@@ -15,7 +15,7 @@ defmodule Ibanity.Client do
   def get(url, application \\ :default) when is_binary(url) do
     retry with: Configuration.retry_backoff(), rescue_only: [] do
       url
-      |> HTTPoison.get!([], ssl: Configuration.ssl_options(application), hackney: [pool: application])
+      |> HTTPoison.get!([], options(application))
       |> process_response
     after
       {:ok, response} -> response |> handle_response_body(nil)
@@ -32,8 +32,7 @@ defmodule Ibanity.Client do
           request.uri,
           body,
           request.headers,
-          ssl: Configuration.ssl_options(application),
-          hackney: [pool: application]
+          options(application)
         )
       do
         {:ok, res} -> res |> process_response
@@ -44,6 +43,10 @@ defmodule Ibanity.Client do
     else
       error -> error
     end
+  end
+
+  defp options(application) do
+    Keyword.merge([ssl: Configuration.ssl_options(application), hackney: [pool: application]], Configuration.timeout_options())
   end
 
   defp method_has_body?(method) do
