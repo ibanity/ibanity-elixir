@@ -59,13 +59,20 @@ Key | Description
 `:api_url` | Ibanity API endpoint. Default: `https://api.ibanity.com`
 `:ssl_ca` | Intermediate certificate. Not needed in _production_ environment
 `:retry` | Keyword list to customize the retrying of API calls due to network failures. Keys and their default values are shown below.
-  ```elixir
-  [
+`:timeout` | Keyword list to customize the timeout limits of API calls. Keys and their default values are shown below.
+```elixir
+  config :ibanity, :retry, [
     initial_delay: 1000,
     backoff_interval: 500,
     max_retries: 0
   ]
-  ```
+```
+```elixir
+  config :ibanity, :timeout, [
+    timeout: 8000,
+    recv_timeout: 5000
+  ]
+```
 
 ### Example
 
@@ -104,6 +111,10 @@ config :ibanity, :retry, [
   initial_delay: 1000,
   backoff_interval: 1000,
   max_retries: 3
+]
+config :ibanity, :timeout, [
+  timeout: 10_000,
+  recv_timeout: 30_000
 ]
 ```
 
