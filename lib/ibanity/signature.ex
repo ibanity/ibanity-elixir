@@ -9,11 +9,12 @@ defmodule Ibanity.Signature do
 
   def signature_headers(%HttpRequest{} = request, method, private_key, certificate_id) do
     parsed_uri = URI.parse(request.uri)
+    date = now_to_string()
 
     headers = [
-      Date: now_to_string(),
+      Date: date,
       Digest: "SHA-256=" <> payload_digest(request),
-      Signature: generate_signature(request, method, parsed_uri, private_key, certificate_id)
+      Signature: generate_signature(request, method, parsed_uri, private_key, certificate_id, date)
     ]
 
     {:ok, headers}
@@ -38,8 +39,8 @@ defmodule Ibanity.Signature do
     |> sha256sum
   end
 
-  defp generate_signature(request, method, uri, private_key, certificate_id) do
-    headers = signing_headers(request, method, uri)
+  defp generate_signature(request, method, uri, private_key, certificate_id, date) do
+    headers = signing_headers(request, method, uri, date)
     signing_headers = headers |> Keyword.keys() |> Enum.join(" ")
     signature = headers |> Enum.join("\n") |> sign(private_key) |> Base.url_encode64()
 
@@ -48,12 +49,12 @@ defmodule Ibanity.Signature do
     }\""
   end
 
-  defp signing_headers(request, method, uri) do
+  defp signing_headers(request, method, uri, date) do
     []
     |> add_virtual_header(request, method, uri)
     |> add_host(request, method, uri)
     |> add_digest(request, method, uri)
-    |> add_date(request, method, uri)
+    |> add_date(date)
     |> add_ibanity_headers(request, method, uri)
     |> add_authorization(request, method, uri)
     |> Enum.reverse()
@@ -77,8 +78,8 @@ defmodule Ibanity.Signature do
     Keyword.put_new(headers, :digest, "SHA-256=" <> payload_digest(request))
   end
 
-  defp add_date(headers, _request, _method, _uri) do
-    Keyword.put_new(headers, :date, now_to_string())
+  defp add_date(headers, date) do
+    Keyword.put_new(headers, :date, date)
   end
 
   defp add_ibanity_headers(headers, request, _method, _uri) do
