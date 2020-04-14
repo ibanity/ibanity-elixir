@@ -72,8 +72,8 @@ defmodule Ibanity.Client do
     end
   end
 
-  defp handle_response_body(%{"message" => reason}), do: {:error, reason}
-  defp handle_response_body({:error, _} = error), do: error
+  defp handle_response_body(%{"message" => reason}, _), do: {:error, reason}
+  defp handle_response_body({:error, _} = error, _), do: error
 
   defp handle_response_body({:ok, %{"data" => data, "meta" => meta, "links" => links}}, type)
        when is_list(data) do
