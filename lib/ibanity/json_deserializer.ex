@@ -19,6 +19,7 @@ defmodule Ibanity.JsonDeserializer do
     "consent" => Ibanity.Consent.Consent,
     "processingOperation" => Ibanity.Consent.ProcessingOperation,
     "xs2aBillingReport" => Ibanity.Billing.Xs2a.Report,
+    "financialInstitutionStatus" => Ibanity.Billing.Xs2a.FinancialInstitutionStatus,
     "nbbReport" => Ibanity.Reporting.Xs2a.NbbReport,
     "nbbReportAiSynchronization" => Ibanity.Reporting.Xs2a.NbbReportAiSynchronization,
     "accountInformationAccessRequestAuthorization" => Ibanity.Xs2a.AccountInformationAccessRequestAuthorization,

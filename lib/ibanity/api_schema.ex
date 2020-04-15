@@ -89,6 +89,7 @@ defmodule Ibanity.ApiSchema do
   def fetch("https://api.ibanity.com/billing", _, :test) do
     %{
       "xs2a" => %{
+        "financialInstitutionStatuses" => "https://api.ibanity.com/billing/products/xs2a/financial-institution-statuses",
         "customer" => %{
           "report" =>
               "https://api.ibanity.com/billing/products/xs2a/customer/report"
