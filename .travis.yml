@@ -7,7 +7,7 @@ matrix:
   include:
   - elixir: 1.9
     otp_release: 21.0
-  - elixir: 1.1
+  - elixir: 1.10
     otp_release: 21.0
 before_script:
 - mix deps.get
