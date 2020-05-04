@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/ibanity/ibanity-elixir.svg?branch=master)](https://travis-ci.org/ibanity/ibanity-elixir)
+
 # Ibanity Elixir Library
 
 The Ibanity Elixir Library provides convenient wrappers around the Ibanity API. The object attributes are dynamically defined based on the API response, supporting minor API changes seamlessly.
