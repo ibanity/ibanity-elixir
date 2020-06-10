@@ -25,7 +25,8 @@ defmodule Ibanity.Xs2a.FinancialInstitution do
             periodic_payments_enabled: nil,
             bulk_payments_product_types: nil,
             payments_product_types: nil,
-            periodic_payments_product_types: nil
+            periodic_payments_product_types: nil,
+            authorization_models: nil
 
   @resource_type "financial_institution"
 
@@ -191,7 +192,8 @@ defmodule Ibanity.Xs2a.FinancialInstitution do
       periodic_payments_enabled: {~w(attributes periodicPaymentsEnabled), :boolean},
       bulk_payments_product_types: {~w(attributes bulkPaymentsProductTypes), :struct},
       payments_product_types: {~w(attributes paymentsProductTypes), :struct},
-      periodic_payments_product_types: {~w(attributes periodicPaymentsProductTypes), :struct}
+      periodic_payments_product_types: {~w(attributes periodicPaymentsProductTypes), :struct},
+      authorization_models: {~w(attributes authorizationModels), :struct}
     ]
   end
 end
