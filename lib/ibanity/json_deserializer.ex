@@ -45,6 +45,12 @@ defmodule Ibanity.JsonDeserializer do
   end
 
   defp deserialize_field(nil, _), do: nil
+  defp deserialize_field(field, :string) when is_list(field) do
+    field
+  end
+  defp deserialize_field(field, type) when is_list(field) do
+    Enum.map(field, &(deserialize(&1, type)))
+  end
   defp deserialize_field(field, :datetime) do
     DateTimeUtil.parse(field)
   end
