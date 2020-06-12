@@ -67,7 +67,7 @@ defmodule Ibanity.Xs2a.BulkPaymentInitiationRequest do
   end
 
   @doc """
-  Convenience function for creating a payment initiation request for a financial institution.
+  Convenience function for creating a bulk payment initiation request for a financial institution.
 
   Returns `{:ok, payment_initiation_request}` if successful, `{:error, reason}` otherwise.
 
@@ -81,7 +81,7 @@ defmodule Ibanity.Xs2a.BulkPaymentInitiationRequest do
   end
 
   @doc """
-  [Creates a payment initiation request](https://documentation.ibanity.com/xs2a/api#create-payment-initiation-request) for a financial institution.
+  [Creates a bulk payment initiation request](https://documentation.ibanity.com/xs2a/api#create-payment-initiation-request) for a financial institution.
 
   Returns `{:ok, payment_initiation_request}` if successful, `{:error, reason}` otherwise.
 
@@ -94,8 +94,8 @@ defmodule Ibanity.Xs2a.BulkPaymentInitiationRequest do
       ...> ]
       ...> |> Request.attributes
       ...> |> Request.id(:financial_institution_id, "b2c76f6b-ab34-4843-8ef3-84300ef98a09")
-      ...> |> PaymentInitiationRequest.create
-      {:ok, %Ibanity.PaymentInitiationRequest{id: "270141aa-0c93-42a5-9adf-e2b9a8ab4cea"}}
+      ...> |> BulkPaymentInitiationRequest.create
+      {:ok, %Ibanity.BulkPaymentInitiationRequest{id: "270141aa-0c93-42a5-9adf-e2b9a8ab4cea"}}
   """
   def create(%Request{} = request) do
     request
@@ -105,7 +105,7 @@ defmodule Ibanity.Xs2a.BulkPaymentInitiationRequest do
   end
 
   @doc """
-  [Retrieves a payment initiation request](https://documentation.ibanity.com/xs2a/api#get-payment-initiation-request)
+  [Retrieves a bulk payment initiation request](https://documentation.ibanity.com/xs2a/api#get-payment-initiation-request)
   based on its id and the id of the financial institution.
 
   See `find/1`
@@ -118,7 +118,7 @@ defmodule Ibanity.Xs2a.BulkPaymentInitiationRequest do
   end
 
   @doc """
-  [Retrieves a payment initiation request](https://documentation.ibanity.com/xs2a/api#get-payment-initiation-request)
+  [Retrieves a bulk payment initiation request](https://documentation.ibanity.com/xs2a/api#get-payment-initiation-request)
   based on its id and the id of the financial institution.
 
   Returns `{:ok, payment_initiation_request}` if successful, `{:error, reason}` otherwise.
@@ -127,7 +127,7 @@ defmodule Ibanity.Xs2a.BulkPaymentInitiationRequest do
 
       iex> Request.id(:financial_institution_id, "b2c76f6b-ab34-4843-8ef3-84300ef98a09")
       ...> |> Request.id(:id, "270141aa-0c93-42a5-9adf-e2b9a8ab4cea")
-      ...> |> PaymentInitiationRequest.find
+      ...> |> BulkPaymentInitiationRequest.find
       {:ok, %Ibanity.Xs2a.PaymentInitiationRequest{id: "270141aa-0c93-42a5-9adf-e2b9a8ab4cea"}}
   """
   def find(%Request{} = request), do: Client.execute(request, :get, @api_schema_path)
