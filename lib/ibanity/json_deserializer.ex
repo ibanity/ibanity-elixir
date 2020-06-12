@@ -13,6 +13,8 @@ defmodule Ibanity.JsonDeserializer do
     "financialInstitutionUser" => Ibanity.Sandbox.FinancialInstitutionUser,
     "financialInstitution" => Ibanity.Xs2a.FinancialInstitution,
     "paymentInitiationRequest" => Ibanity.Xs2a.PaymentInitiationRequest,
+    "bulkPaymentInitiationRequest" => Ibanity.Xs2a.BulkPaymentInitiationRequest,
+    "paymentItem" => Ibanity.Xs2a.BulkPaymentInitiationRequest.Payment,
     "transaction" => Ibanity.Xs2a.Transaction,
     "holding" => Ibanity.Xs2a.Holding,
     "synchronization" => Ibanity.Xs2a.Synchronization,
