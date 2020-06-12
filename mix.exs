@@ -30,10 +30,10 @@ defmodule Ibanity.MixProject do
     [
       {:httpoison, "~> 1.4"},
       {:jason, "~> 1.1"},
-      {:recase, "~> 0.3"},
+      {:recase, "~> 0.6.0"},
       {:ex_crypto, "~> 0.9.0"},
       {:retry, "~> 0.11"},
-      {:ex_doc, "~> 0.18.0", only: :dev, runtime: false},
+      {:ex_doc, "~> 0.22.1", only: :dev, runtime: false},
       {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false}
     ]
   end
