@@ -33,15 +33,15 @@ defmodule Ibanity.Xs2a.Transaction.DeserializationTest do
         "counterpartReference" => "BE1832277133817274",
         "counterpartName" => "ABU DHABI ISLAMIC BANK",
         "amount" => 6.99,
-        "internal_reference" => "ref_123",
-        "bank_transaction_code" => "PMNT-IRCT-ESCT",
-        "proprietary_bank_transaction_code "=> "prop123",
-        "end_to_end_id" => "61dd468606594217af9965ad3928280d",
-        "purpose_code" => "CASH",
-        "mandate_id" => "12345678",
-        "creditor_id" => "98765",
+        "internalReference" => "ref_123",
+        "bankTransactionCode" => "PMNT-IRCT-ESCT",
+        "proprietaryBankTransactionCode "=> "prop123",
+        "endToEndId" => "61dd468606594217af9965ad3928280d",
+        "purposeCode" => "CASH",
+        "mandateId" => "12345678",
+        "creditorId" => "98765",
         "digest" => "d59f256988324499809c18a8d4a8be60ff36e3d1e0c89c380be49e032e39a287",
-        "additional_information" => "addional"
+        "additionalInformation" => "addional"
       }
     }
 

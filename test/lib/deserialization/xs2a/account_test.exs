@@ -57,17 +57,17 @@ defmodule Ibanity.Xs2a.Account.DeserializationTest do
         "currentBalance" => 0,
         "currency" => "EUR",
         "availableBalance" => 0,
-        "internal_reference" => "ref_123",
+        "internalReference" => "ref_123",
         "product" => "Easy account",
-        "holder_name" => "John Doe",
-        "current_balance_changed_at" => "2018-10-18T15:12:23.073Z",
-        "current_balance_variation_observed_at" => "2018-10-18T15:12:23.074Z",
-        "current_balance_reference_date" => "2018-10-18T15:12:23.075Z",
-        "available_balance_changed_at" => "2018-10-18T15:12:23.076Z",
-        "available_balance_variation_observed_at" => "2018-10-18T15:12:23.077Z",
-        "available_balance_reference_date" => "2018-10-18T15:12:23.078Z",
-        "authorized_at" => "2018-10-18T15:12:23.079Z",
-        "authorization_expiration_expected_at" => "2018-10-18T15:12:23.080Z"
+        "holderName" => "John Doe",
+        "currentBalanceChangedAt" => "2018-10-18T15:12:23.073Z",
+        "currentBalanceVariationObservedAt" => "2018-10-18T15:12:23.074Z",
+        "currentBalanceReferenceDate" => "2018-10-18T15:12:23.075Z",
+        "availableBalanceChangedAt" => "2018-10-18T15:12:23.076Z",
+        "availableBalanceVariationObservedAt" => "2018-10-18T15:12:23.077Z",
+        "availableBalanceReferenceDate" => "2018-10-18T15:12:23.078Z",
+        "authorizedAt" => "2018-10-18T15:12:23.079Z",
+        "authorizationExpirationExpectedAt" => "2018-10-18T15:12:23.080Z"
       }
     }
 
