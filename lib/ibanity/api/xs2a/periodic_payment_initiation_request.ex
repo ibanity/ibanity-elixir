@@ -28,6 +28,7 @@ defmodule Ibanity.Xs2a.PeriodicPaymentInitiationRequest do
             redirect_link: nil,
             financial_institution_id: nil,
             start_date: nil,
+            end_date: nil,
             execution_rule: nil,
             frequency: nil
 
@@ -52,7 +53,11 @@ defmodule Ibanity.Xs2a.PeriodicPaymentInitiationRequest do
       consent_reference: {~w(attributes consentReference), :string},
       amount: {~w(attributes amount), :float},
       redirect_link: {~w(links redirect), :string},
-      financial_institution_id: {~w(relationships financialInstitution data id), :string}
+      financial_institution_id: {~w(relationships financialInstitution data id), :string},
+      frequency: {~w(attributes frequency), :string},
+      start_date: {~w(attributes startDate), :date},
+      end_date: {~w(attributes endDate), :date},
+      execution_rule: {~w(attributes executionRule), :string},
     ]
   end
 
