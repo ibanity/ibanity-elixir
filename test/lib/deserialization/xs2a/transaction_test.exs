@@ -32,7 +32,16 @@ defmodule Ibanity.Xs2a.Transaction.DeserializationTest do
         "currency" => "EUR",
         "counterpartReference" => "BE1832277133817274",
         "counterpartName" => "ABU DHABI ISLAMIC BANK",
-        "amount" => 6.99
+        "amount" => 6.99,
+        "internal_reference" => "ref_123",
+        "bank_transaction_code" => "PMNT-IRCT-ESCT",
+        "proprietary_bank_transaction_code "=> "prop123",
+        "end_to_end_id" => "61dd468606594217af9965ad3928280d",
+        "purpose_code" => "CASH",
+        "mandate_id" => "12345678",
+        "creditor_id" => "98765",
+        "digest" => "d59f256988324499809c18a8d4a8be60ff36e3d1e0c89c380be49e032e39a287",
+        "additional_information" => "addional"
       }
     }
 
@@ -49,6 +58,15 @@ defmodule Ibanity.Xs2a.Transaction.DeserializationTest do
       counterpart_reference: "BE1832277133817274",
       counterpart_name: "ABU DHABI ISLAMIC BANK",
       amount: 6.99,
+      internal_reference: "ref_123",
+      bank_transaction_code: "PMNT-IRCT-ESCT",
+      proprietary_bank_transaction_code: "prop123",
+      end_to_end_id: "61dd468606594217af9965ad3928280d",
+      purpose_code: "CASH",
+      mandate_id: "12345678",
+      creditor_id:  "98765",
+      digest: "d59f256988324499809c18a8d4a8be60ff36e3d1e0c89c380be49e032e39a287",
+      additional_information: "addional",
       account_id: "ce3893cd-fff5-435a-bdfc-d55a7e98df6f",
       self:
         "https://api.ibanity.com/customer/financial-institutions/0f88f06c-3cfe-4b8f-9338-69981c0c4632/accounts/ce3893cd-fff5-435a-bdfc-d55a7e98df6f/transactions/c847e0f0-9178-47d7-9c11-1f41f9fca6ff"

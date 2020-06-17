@@ -20,6 +20,15 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction do
             counterpart_reference: nil,
             counterpart_name: nil,
             amount: nil,
+            internal_reference: nil,
+            bank_transaction_code: nil,
+            proprietary_bank_transaction_code: nil,
+            end_to_end_id: nil,
+            purpose_code: nil,
+            mandate_id: nil,
+            creditor_id: nil,
+            digest: nil,
+            additional_information: nil,
             financial_institution_account_id: nil
 
   @doc """
@@ -224,6 +233,15 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction do
       counterpart_reference: {~w(attributes counterpartReference), :string},
       counterpart_name: {~w(attributes counterpartName), :string},
       amount: {~w(attributes amount), :float},
+      internal_reference: {~w(attributes internalReference), :string},
+      bank_transaction_code: {~w(attributes bankTransactionCode), :string},
+      proprietary_bank_transaction_code: {~w(attributes proprietaryBankTransactionCode), :string},
+      end_to_end_id: {~w(attributes endToEndId), :string},
+      purpose_code: {~w(attributes purposeCode), :string},
+      mandate_id: {~w(attributes mandateId), :string},
+      creditor_id: {~w(attributes creditorId), :string},
+      digest: {~w(attributes digest), :string},
+      additional_information: {~w(attributes additionalInformation), :string},
       financial_institution_account_id: {~w(relationships financialInstitutionAccount data id), :string}
     ]
   end

@@ -56,7 +56,18 @@ defmodule Ibanity.Xs2a.Account.DeserializationTest do
         "description" => "Checking account",
         "currentBalance" => 0,
         "currency" => "EUR",
-        "availableBalance" => 0
+        "availableBalance" => 0,
+        "internal_reference" => "ref_123",
+        "product" => "Easy account",
+        "holder_name" => "John Doe",
+        "current_balance_changed_at" => "2018-10-18T15:12:23.073Z",
+        "current_balance_variation_observed_at" => "2018-10-18T15:12:23.074Z",
+        "current_balance_reference_date" => "2018-10-18T15:12:23.075Z",
+        "available_balance_changed_at" => "2018-10-18T15:12:23.076Z",
+        "available_balance_variation_observed_at" => "2018-10-18T15:12:23.077Z",
+        "available_balance_reference_date" => "2018-10-18T15:12:23.078Z",
+        "authorized_at" => "2018-10-18T15:12:23.079Z",
+        "authorization_expiration_expected_at" => "2018-10-18T15:12:23.080Z"
       }
     }
 
@@ -71,6 +82,17 @@ defmodule Ibanity.Xs2a.Account.DeserializationTest do
       current_balance: 0,
       currency: "EUR",
       available_balance: 0,
+      internal_reference: "ref_123",
+      product: "Easy account",
+      holder_name: "John Doe",
+      current_balance_changed_at: DateTimeUtil.parse("2018-10-18T15:12:23.073Z"),
+      current_balance_variation_observed_at: DateTimeUtil.parse("2018-10-18T15:12:23.074Z"),
+      current_balance_reference_date: DateTimeUtil.parse("2018-10-18T15:12:23.075Z"),
+      available_balance_changed_at: DateTimeUtil.parse("2018-10-18T15:12:23.076Z"),
+      available_balance_variation_observed_at: DateTimeUtil.parse("2018-10-18T15:12:23.077Z"),
+      available_balance_reference_date: DateTimeUtil.parse("2018-10-18T15:12:23.078Z"),
+      authorized_at: DateTimeUtil.parse("2018-10-18T15:12:23.079Z"),
+      authorization_expiration_expected_at: DateTimeUtil.parse("2018-10-18T15:12:23.080Z"),
       financial_institution:
         "https://api.ibanity.com/financial-institutions/0a089c79-bfef-45e7-b647-a4654e4bff9f",
       financial_institution_id: "0a089c79-bfef-45e7-b647-a4654e4bff9f",
