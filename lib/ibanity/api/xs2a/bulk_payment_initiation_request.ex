@@ -37,7 +37,7 @@ defmodule Ibanity.Xs2a.BulkPaymentInitiationRequest do
       [
         remittance_information: {~w(remittanceInformation), :string},
         remittance_information_type: {~w(remittanceInformationType), :string},
-        requested_execution_date: {~w(requestedExecutionDate), :datetime},
+        requested_execution_date: {~w(requestedExecutionDate), :date},
         currency: {~w(currency), :string},
         amount: {~w(amount), :integer},
         creditor_name: {~w(creditorName), :string},
