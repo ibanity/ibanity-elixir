@@ -37,7 +37,7 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction.DeserializationTest do
         "amount" => 84.42,
         "internalReference" => "ref_123",
         "bankTransactionCode" => "PMNT-IRCT-ESCT",
-        "proprietaryBankTransactionCode "=> "prop123",
+        "proprietaryBankTransactionCode" => "prop123",
         "endToEndId" => "61dd468606594217af9965ad3928280d",
         "purposeCode" => "CASH",
         "mandateId" => "12345678",
