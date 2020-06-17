@@ -13,6 +13,7 @@ defmodule Ibanity.JsonDeserializer do
     "financialInstitutionUser" => Ibanity.Sandbox.FinancialInstitutionUser,
     "financialInstitution" => Ibanity.Xs2a.FinancialInstitution,
     "paymentInitiationRequest" => Ibanity.Xs2a.PaymentInitiationRequest,
+    "periodicPaymentInitiationRequest" => Ibanity.Xs2a.PeriodicPaymentInitiationRequest,
     "bulkPaymentInitiationRequest" => Ibanity.Xs2a.BulkPaymentInitiationRequest,
     "paymentItem" => Ibanity.Xs2a.BulkPaymentInitiationRequest.Payment,
     "transaction" => Ibanity.Xs2a.Transaction,
@@ -31,9 +32,11 @@ defmodule Ibanity.JsonDeserializer do
   def deserialize(item) do
     deserialize(item, nil)
   end
+
   def deserialize(item, nil) do
     deserialize(item, Map.fetch!(item, "type"))
   end
+
   def deserialize(item, resource_type) do
     return_type = Map.fetch!(@type_mappings, resource_type)
     mapping = return_type.key_mapping()
@@ -47,16 +50,16 @@ defmodule Ibanity.JsonDeserializer do
   end
 
   defp deserialize_field(nil, _), do: nil
-  defp deserialize_field(field, :string) when is_list(field) do
-    field
-  end
+
+  defp deserialize_field(field, :string) when is_list(field), do: field
+
   defp deserialize_field(field, type) when is_list(field) do
     Enum.map(field, &(deserialize(&1, type)))
   end
-  defp deserialize_field(field, :datetime) do
-    DateTimeUtil.parse(field)
-  end
-  defp deserialize_field(field, _) do
-    field
-  end
+
+  defp deserialize_field(field, :datetime), do: DateTimeUtil.parse(field)
+
+  defp deserialize_field(field, :date), do: Date.from_iso8601!(field)
+
+  defp deserialize_field(field, _), do: field
 end
