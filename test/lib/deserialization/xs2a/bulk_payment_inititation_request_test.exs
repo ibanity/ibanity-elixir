@@ -68,7 +68,7 @@ defmodule Ibanity.Xs2a.BulkPaymentInitiationRequest.DeserializationTest do
           creditor_account_reference: "BE4359048312132562",
           remittance_information_type: "unstructured",
           remittance_information: "payment",
-          requested_execution_date: Ibanity.DateTimeUtil.parse("2020-06-12"),
+          requested_execution_date: ~D[2020-06-12],
           amount: 59
         }
       ],
