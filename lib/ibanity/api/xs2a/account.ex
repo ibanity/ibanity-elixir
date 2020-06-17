@@ -17,7 +17,18 @@ defmodule Ibanity.Xs2a.Account do
             financial_institution_id: nil,
             transactions: nil,
             latest_synchronization: nil,
-            synchronized_at: nil
+            synchronized_at: nil,
+            internal_reference: nil,
+            product: nil,
+            holder_name: nil,
+            current_balance_changed_at: nil,
+            current_balance_variation_observed_at: nil,
+            current_balance_reference_date: nil,
+            available_balance_changed_at: nil,
+            available_balance_variation_observed_at: nil,
+            available_balance_reference_date: nil,
+            authorized_at: nil,
+            authorization_expiration_expected_at: nil
 
   @doc """
   [List all accounts](https://documentation.ibanity.com/xs2a/api#list-accounts)
@@ -202,6 +213,17 @@ defmodule Ibanity.Xs2a.Account do
       current_balance: {~w(attributes currentBalance), :float},
       currency: {~w(attributes currency), :string},
       available_balance: {~w(attributes availableBalance), :float},
+      internal_reference: {~w(attributes internalReference), :string},
+      product: {~w(attributes product), :string},
+      holder_name: {~w(attributes holderName), :string},
+      current_balance_changed_at: {~w(attributes currentBalanceChangedAt), :datetime},
+      current_balance_variation_observed_at: {~w(attributes currentBalanceVariationObservedAt), :datetime},
+      current_balance_reference_date: {~w(attributes currentBalanceReferenceDate), :datetime},
+      available_balance_changed_at: {~w(attributes availableBalanceChangedAt), :datetime},
+      available_balance_variation_observed_at: {~w(attributes availableBalanceVariationObservedAt), :datetime},
+      available_balance_reference_date: {~w(attributes availableBalanceReferenceDate), :datetime},
+      authorized_at: {~w(attributes authorizedAt), :datetime},
+      authorization_expiration_expected_at: {~w(attributes authorizationExpirationExpectedAt), :datetime},
       transactions: {~w(relationships transactions links related), :string},
       financial_institution: {~w(relationships financialInstitution links related), :string},
       financial_institution_id: {~w(relationships financialInstitution data id), :string},

@@ -15,6 +15,15 @@ defmodule Ibanity.Xs2a.Transaction do
             counterpart_reference: nil,
             counterpart_name: nil,
             amount: nil,
+            internal_reference: nil,
+            bank_transaction_code: nil,
+            proprietary_bank_transaction_code: nil,
+            end_to_end_id: nil,
+            purpose_code: nil,
+            mandate_id: nil,
+            creditor_id: nil,
+            digest: nil,
+            additional_information: nil,
             account_id: nil,
             self: nil
 
@@ -72,6 +81,15 @@ defmodule Ibanity.Xs2a.Transaction do
       counterpart_reference: {~w(attributes counterpartReference), :string},
       counterpart_name: {~w(attributes counterpartName), :string},
       amount: {~w(attributes amount), :string},
+      internal_reference: {~w(attributes internalReference), :string},
+      bank_transaction_code: {~w(attributes bankTransactionCode), :string},
+      proprietary_bank_transaction_code: {~w(attributes proprietaryBankTransactionCode), :string},
+      end_to_end_id: {~w(attributes endToEndId), :string},
+      purpose_code: {~w(attributes purposeCode), :string},
+      mandate_id: {~w(attributes mandateId), :string},
+      creditor_id: {~w(attributes creditorId), :string},
+      digest: {~w(attributes digest), :string},
+      additional_information: {~w(attributes additionalInformation), :string},
       account_id: {~w(relationships account data id), :string},
       self: {~w(links self), :string}
     ]
