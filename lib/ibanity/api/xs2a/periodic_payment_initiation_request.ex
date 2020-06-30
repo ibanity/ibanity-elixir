@@ -89,8 +89,8 @@ defmodule Ibanity.Xs2a.PeriodicPaymentInitiationRequest do
       ...> ]
       ...> |> Request.attributes
       ...> |> Request.id(:financial_institution_id, "b2c76f6b-ab34-4843-8ef3-84300ef98a09")
-      ...> |> PaymentInitiationRequest.create
-      {:ok, %Ibanity.PaymentInitiationRequest{id: "270141aa-0c93-42a5-9adf-e2b9a8ab4cea"}}
+      ...> |> PeriodicPaymentInitiationRequest.create
+      {:ok, %Ibanity.PeriodicPaymentInitiationRequest{id: "270141aa-0c93-42a5-9adf-e2b9a8ab4cea"}}
   """
   def create(%Request{} = request) do
     request
@@ -122,8 +122,8 @@ defmodule Ibanity.Xs2a.PeriodicPaymentInitiationRequest do
 
       iex> Request.id(:financial_institution_id, "b2c76f6b-ab34-4843-8ef3-84300ef98a09")
       ...> |> Request.id(:id, "270141aa-0c93-42a5-9adf-e2b9a8ab4cea")
-      ...> |> PaymentInitiationRequest.find
-      {:ok, %Ibanity.Xs2a.PaymentInitiationRequest{id: "270141aa-0c93-42a5-9adf-e2b9a8ab4cea"}}
+      ...> |> PeriodicPaymentInitiationRequest.find
+      {:ok, %Ibanity.Xs2a.PeriodicPaymentInitiationRequest{id: "270141aa-0c93-42a5-9adf-e2b9a8ab4cea"}}
   """
   def find(%Request{} = request) do
     request
