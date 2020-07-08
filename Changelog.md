@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.5.0
+
+* Add support for periodic and bulk payments
+* Raise exception when a DateTime cannot be parsed from the response
+
 ## 0.4.0
 
 * Update financial institution attributes
