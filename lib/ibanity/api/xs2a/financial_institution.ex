@@ -190,10 +190,10 @@ defmodule Ibanity.Xs2a.FinancialInstitution do
       bulk_payments_enabled: {~w(attributes bulkPaymentsEnabled), :boolean},
       payments_enabled: {~w(attributes paymentsEnabled), :boolean},
       periodic_payments_enabled: {~w(attributes periodicPaymentsEnabled), :boolean},
-      bulk_payments_product_types: {~w(attributes bulkPaymentsProductTypes), :struct},
-      payments_product_types: {~w(attributes paymentsProductTypes), :struct},
-      periodic_payments_product_types: {~w(attributes periodicPaymentsProductTypes), :struct},
-      authorization_models: {~w(attributes authorizationModels), :struct}
+      bulk_payments_product_types: {~w(attributes bulkPaymentsProductTypes), :string},
+      payments_product_types: {~w(attributes paymentsProductTypes), :string},
+      periodic_payments_product_types: {~w(attributes periodicPaymentsProductTypes), :string},
+      authorization_models: {~w(attributes authorizationModels), :string}
     ]
   end
 end
