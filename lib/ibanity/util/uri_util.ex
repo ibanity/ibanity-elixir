@@ -11,7 +11,7 @@ defmodule Ibanity.UriUtil do
       encoded_params =
         request
         |> create_query_params
-        |> URI.encode_query()
+        |> Plug.Conn.Query.encode()
 
       res = if encoded_params == "", do: uri, else: uri <> "?" <> encoded_params
 
