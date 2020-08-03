@@ -1,3 +1,7 @@
+#
+# Credit: code adapted from the function `Plug.Conn.Query.encode/2`
+# from the `elixir-plug` library.
+#
 defmodule Ibanity.QueryParamsUtil do
   @moduledoc false
 
