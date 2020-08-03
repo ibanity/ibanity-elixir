@@ -1,7 +1,7 @@
 defmodule Ibanity.UriUtil do
   @moduledoc false
 
-  alias Ibanity.{Configuration, Request}
+  alias Ibanity.{Configuration, QueryParamsUtil, Request}
 
   @ids_matcher ~r/\{(\w+)\}/
 
@@ -10,8 +10,8 @@ defmodule Ibanity.UriUtil do
          {:ok, uri} <- replace_ids(uri, request.resource_ids) do
       encoded_params =
         request
-        |> create_query_params
-        |> Plug.Conn.Query.encode()
+        |> create_query_params()
+        |> QueryParamsUtil.encode_query()
 
       res = if encoded_params == "", do: uri, else: uri <> "?" <> encoded_params
 

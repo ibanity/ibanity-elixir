@@ -55,5 +55,30 @@ defmodule Ibanity.HttpRequestTest do
                  "before=27e718a7-af87-479f-bf78-b05027080188" <>
                  "&" <> "after=a6299d4d-eb81-4dfb-bb1b-b727000b2621"
     end
+
+    test "specifies country filter" do
+      {:ok, res} =
+        %Request{}
+        |> Request.query_params(filter: %{ country: "BE" })
+        |> HttpRequest.build(:get, @api_schema_path)
+
+      assert res.uri == "https://api.ibanity.com/customer/accounts" <>
+                          "?filter[country]=BE"
+    end
+
+    test "specifies name filter" do
+      filter = %{
+        name: %{
+          contains: "Jack"
+        }
+      }
+      {:ok, res} =
+        %Request{}
+        |> Request.query_params(filter: filter)
+        |> HttpRequest.build(:get, @api_schema_path)
+
+      assert res.uri == "https://api.ibanity.com/customer/accounts" <>
+                          "?filter[name][contains]=Jack"
+    end
   end
 end
