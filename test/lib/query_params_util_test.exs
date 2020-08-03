@@ -1,8 +1,8 @@
 defmodule Ibanity.QueryParamsUtilTest do
   use ExUnit.Case
-  alias Ibanity.{QueryParamsUtil}
+  alias Ibanity.QueryParamsUtil
 
-  describe ".encode_query" do
+  describe "encode_query/1" do
     test "no query params" do
       res = QueryParamsUtil.encode_query([])
 
