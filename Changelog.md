@@ -4,6 +4,8 @@
 
 * Add support for periodic and bulk payments
 * Raise exception when a DateTime cannot be parsed from the response
+* Add support for filtering on XS2A list financial institutions call
+* Fix incorrect field types for financial institution
 
 ## 0.4.0
 
