@@ -1,8 +1,8 @@
 defmodule Ibanity.Signature do
   @moduledoc false
 
-  @empty_sha256sum "47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU="
   @algorithm "rsa-sha256"
+  @empty_sha512sum "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg_SpIdNs6c5H0NE8XYXysP-DGNKHfuwvY7kxvUdBeoGlODJ6-SfaPg=="
 
   alias Ibanity.HttpRequest
   import Ibanity.CryptoUtil
@@ -13,7 +13,7 @@ defmodule Ibanity.Signature do
 
     headers = [
       Date: date,
-      Digest: "SHA-256=" <> payload_digest(request),
+      Digest: "SHA-512=" <> payload_digest(request),
       Signature: generate_signature(request, method, parsed_uri, private_key, certificate_id, date)
     ]
 
@@ -31,12 +31,12 @@ defmodule Ibanity.Signature do
     signature_headers(request, method, private_key, certificate_id)
   end
 
-  defp payload_digest(%{data: nil}), do: @empty_sha256sum
+  defp payload_digest(%{data: nil}), do: @empty_sha512sum
 
   defp payload_digest(request) do
     %{data: request.data}
     |> Jason.encode!()
-    |> sha256sum
+    |> sha512sum()
   end
 
   defp generate_signature(request, method, uri, private_key, certificate_id, date) do
@@ -75,7 +75,7 @@ defmodule Ibanity.Signature do
   end
 
   defp add_digest(headers, request, _method, _uri) do
-    Keyword.put_new(headers, :digest, "SHA-256=" <> payload_digest(request))
+    Keyword.put_new(headers, :digest, "SHA-512=" <> payload_digest(request))
   end
 
   defp add_date(headers, date) do
