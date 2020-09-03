@@ -1,8 +1,8 @@
 defmodule Ibanity.Signature do
   @moduledoc false
 
-  @algorithm "rsa-sha256"
   @empty_sha512sum "z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg_SpIdNs6c5H0NE8XYXysP-DGNKHfuwvY7kxvUdBeoGlODJ6-SfaPg=="
+  @algorithm "hs2019"
 
   alias Ibanity.HttpRequest
   import Ibanity.CryptoUtil
@@ -41,12 +41,17 @@ defmodule Ibanity.Signature do
 
   defp generate_signature(request, method, uri, private_key, certificate_id, date) do
     headers = signing_headers(request, method, uri, date)
+    timestamp = DateTime.to_unix(DateTime.utc_now())
     signing_headers = headers |> Keyword.keys() |> Enum.join(" ")
     signature = headers |> Enum.join("\n") |> sign(private_key) |> Base.url_encode64()
 
-    "keyId=\"#{certificate_id}\" algorithm=\"#{@algorithm}\" headers=\"#{signing_headers}\" signature=\"#{
-      signature
-    }\""
+    [
+      ~s/keyId="#{certificate_id}"/,
+      ~s/created="#{timestamp}"/,
+      ~s/algorithm="#{@algorithm}"/,
+      ~s/headers="#{signing_headers}"/,
+      ~s/signature="#{signature}"/,
+    ] |> Enum.join(", ")
   end
 
   defp signing_headers(request, method, uri, date) do
@@ -61,8 +66,7 @@ defmodule Ibanity.Signature do
   end
 
   defp sign(msg, private_key) do
-    {:ok, signature} = ExPublicKey.sign(msg, :sha256, private_key)
-    signature
+    :public_key.sign(msg, :sha256, private_key, rsa_padding: :rsa_pkcs1_pss_padding)
   end
 
   defp add_virtual_header(headers, _request, method, uri) do
