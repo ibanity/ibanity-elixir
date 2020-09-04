@@ -13,7 +13,7 @@ Visit our [API docs](https://documentation.ibanity.com/api).
 In the `mix.exs` file:
 ```elixir
 def deps do
-  [{:ibanity, "~> 0.3.0}]
+  [{:ibanity, "~> 0.5.0}]
 end
 ```
 
