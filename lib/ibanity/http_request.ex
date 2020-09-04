@@ -43,6 +43,7 @@ defmodule Ibanity.HttpRequest do
       {:ok, %__MODULE__{request | headers: Keyword.merge(request.headers, headers)}}
     else
       {:error, reason} -> {:error, reason}
+      :error -> {:error, :not_found}
     end
   end
 
