@@ -66,7 +66,8 @@ defmodule Ibanity.Signature do
   end
 
   defp sign(msg, private_key) do
-    :public_key.sign(msg, :sha256, private_key, rsa_padding: :rsa_pkcs1_pss_padding)
+    {:ok, pri_key_seq} = ExPublicKey.RSAPrivateKey.as_sequence(private_key)
+    :public_key.sign(msg, :sha256, pri_key_seq, rsa_padding: :rsa_pkcs1_pss_padding)
   end
 
   defp add_virtual_header(headers, _request, method, uri) do
