@@ -64,7 +64,7 @@ defmodule Ibanity.Xs2a.Holding do
   def key_mapping do
     [
       id: {~w(id), :string},
-      last_valuation_date: {~w(attributes lastValuationDate), :date},
+      last_valuation_date: {~w(attributes lastValuationDate), :datetime},
       last_valuation: {~w(attributes lastValuation), :float},
       last_valuation_currency: {~w(attributes totalValuation), :string},
       total_valuation: {~w(attributes totalValuation), :float},
