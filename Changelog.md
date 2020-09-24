@@ -2,6 +2,7 @@
 
 ## 0.5.0
 
+* Update HTTPoison and Hackney to latest versions
 * Default signature algorithm is now ['hs2019'](https://tools.ietf.org/html/draft-cavage-http-signatures-12#appendix-E.2)
 * Add support for periodic and bulk payments
 * Raise exception when a DateTime cannot be parsed from the response
