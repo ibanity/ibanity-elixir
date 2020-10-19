@@ -11,6 +11,7 @@ defmodule Ibanity.JsonDeserializer do
     "financialInstitutionHolding" => Ibanity.Sandbox.FinancialInstitutionHolding,
     "financialInstitutionAccount" => Ibanity.Sandbox.FinancialInstitutionAccount,
     "financialInstitutionUser" => Ibanity.Sandbox.FinancialInstitutionUser,
+    "financialInstitutionCountry" => Ibanity.Xs2a.FinancialInstitutionCountry,
     "financialInstitution" => Ibanity.Xs2a.FinancialInstitution,
     "paymentInitiationRequest" => Ibanity.Xs2a.PaymentInitiationRequest,
     "periodicPaymentInitiationRequest" => Ibanity.Xs2a.PeriodicPaymentInitiationRequest,
