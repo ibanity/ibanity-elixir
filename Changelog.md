@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.1
+
+* Fix missing _(created)_ virtual header in signature
+
 ## 0.5.0
 
 * Update HTTPoison and Hackney to latest versions
