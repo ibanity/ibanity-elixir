@@ -38,8 +38,8 @@ defmodule Ibanity.Signature do
   end
 
   defp generate_signature(request, method, uri, private_key, certificate_id) do
-    headers = signing_headers(request, method, uri)
     timestamp = DateTime.to_unix(DateTime.utc_now())
+    headers = signing_headers(request, method, uri, timestamp)
     signing_headers = headers |> Keyword.keys() |> Enum.join(" ")
     signature = headers |> Enum.join("\n") |> sign(private_key) |> Base.url_encode64()
 
@@ -52,10 +52,11 @@ defmodule Ibanity.Signature do
     ] |> Enum.join(",")
   end
 
-  defp signing_headers(request, method, uri) do
+  defp signing_headers(request, method, uri, timestamp) do
     []
-    |> add_virtual_header(request, method, uri)
+    |> add_request_target(request, method, uri)
     |> add_host(request, method, uri)
+    |> add_created(timestamp)
     |> add_digest(request, method, uri)
     |> add_ibanity_headers(request, method, uri)
     |> add_authorization(request, method, uri)
@@ -67,9 +68,13 @@ defmodule Ibanity.Signature do
     :public_key.sign(msg, :sha256, pri_key_seq, rsa_padding: :rsa_pkcs1_pss_padding)
   end
 
-  defp add_virtual_header(headers, _request, method, uri) do
+  defp add_request_target(headers, _request, method, uri) do
     uri_path = if uri.query, do: uri.path <> "?" <> uri.query, else: uri.path
     Keyword.put_new(headers, :"(request-target)", "#{method} #{uri_path}")
+  end
+
+  defp add_created(headers, timestamp) do
+    Keyword.put_new(headers, :"(created)", timestamp)
   end
 
   defp add_host(headers, _request, _method, uri) do
