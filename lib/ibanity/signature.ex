@@ -29,7 +29,7 @@ defmodule Ibanity.Signature do
     signature_headers(request, method, private_key, certificate_id)
   end
 
-  defp payload_digest(%{data: nil}), do: @empty_sha512sum
+  defp payload_digest(nil), do: @empty_sha512sum
 
   defp payload_digest(request) do
     %{data: request.data}
