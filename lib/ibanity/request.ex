@@ -248,6 +248,24 @@ defmodule Ibanity.Request do
     %__MODULE__{request | page: Map.merge(request.page, %{limit: max})}
   end
 
+  def page_number(value), do: page_number(%__MODULE__{}, value)
+
+  @doc """
+  Sets the page of results to fetch using page-based pagination. See [https://documentation.ibanity.com/api#page-based-pagination](https://documentation.ibanity.com/api#page-based-pagination)
+  """
+  def page_number(%__MODULE__{} = request, value) when is_integer(value) do
+    %__MODULE__{request | page: Map.merge(request.page, %{number: value})}
+  end
+
+  def page_size(value), do: page_size(%__MODULE__{}, value)
+
+  @doc """
+  Sets the maximum number of results to fetch per page. See [https://documentation.ibanity.com/api#page-based-pagination](https://documentation.ibanity.com/api#page-based-pagination)
+  """
+  def page_size(%__MODULE__{} = request, value) when is_integer(value) do
+    %__MODULE__{request | page: Map.merge(request.page, %{size: value})}
+  end
+
   def before_id(id), do: before_id(%__MODULE__{}, id)
 
   @doc """
