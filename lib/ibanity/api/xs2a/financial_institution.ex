@@ -27,7 +27,9 @@ defmodule Ibanity.Xs2a.FinancialInstitution do
             payments_product_types: nil,
             periodic_payments_product_types: nil,
             authorization_models: nil,
-            financial_institution_customer_reference_required: nil
+            financial_institution_customer_reference_required: nil,
+            shared_brand_reference: nil,
+            shared_brand_name: nil
 
   @resource_type "financial_institution"
 
@@ -195,7 +197,9 @@ defmodule Ibanity.Xs2a.FinancialInstitution do
       payments_product_types: {~w(attributes paymentsProductTypes), :string},
       periodic_payments_product_types: {~w(attributes periodicPaymentsProductTypes), :string},
       authorization_models: {~w(attributes authorizationModels), :string},
-      financial_institution_customer_reference_required: {~w(attributes financialInstitutionCustomerReferenceRequired), :boolean}
+      financial_institution_customer_reference_required: {~w(attributes financialInstitutionCustomerReferenceRequired), :boolean},
+      shared_brand_reference: {~w(attributes sharedBrandReference), :string},
+      shared_brand_name: {~w(attributes sharedBrandName), :string}
     ]
   end
 end
