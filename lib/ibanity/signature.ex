@@ -41,7 +41,7 @@ defmodule Ibanity.Signature do
     timestamp = DateTime.to_unix(DateTime.utc_now())
     headers = signing_headers(request, method, uri, timestamp)
     signing_headers = headers |> Keyword.keys() |> Enum.join(" ")
-    signature = headers |> Enum.join("\n") |> sign(private_key) |> Base.url_encode64()
+    signature = headers |> Enum.join("\n") |> sign(private_key) |> Base.encode64()
 
     [
       ~s/keyId="#{certificate_id}"/,
