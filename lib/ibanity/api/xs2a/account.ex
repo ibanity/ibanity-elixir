@@ -28,7 +28,8 @@ defmodule Ibanity.Xs2a.Account do
             available_balance_variation_observed_at: nil,
             available_balance_reference_date: nil,
             authorized_at: nil,
-            authorization_expiration_expected_at: nil
+            authorization_expiration_expected_at: nil,
+            availability: nil
 
   @doc """
   [List all accounts](https://documentation.ibanity.com/xs2a/api#list-accounts)
@@ -228,7 +229,8 @@ defmodule Ibanity.Xs2a.Account do
       financial_institution: {~w(relationships financialInstitution links related), :string},
       financial_institution_id: {~w(relationships financialInstitution data id), :string},
       synchronized_at: {~w(meta synchronizedAt), :datetime},
-      latest_synchronization: {~w(meta latestSynchronization), :struct}
+      latest_synchronization: {~w(meta latestSynchronization), :struct},
+      availability: {~w(meta availability), :string}
     ]
   end
 end
