@@ -26,7 +26,13 @@ defmodule Ibanity.Xs2a.FinancialInstitution do
             bulk_payments_product_types: nil,
             payments_product_types: nil,
             periodic_payments_product_types: nil,
-            authorization_models: nil
+            authorization_models: nil,
+            financial_institution_customer_reference_required: nil,
+            shared_brand_reference: nil,
+            shared_brand_name: nil,
+            maintenance_from: nil,
+            maintenance_to: nil,
+            maintenance_type: nil
 
   @resource_type "financial_institution"
 
@@ -193,7 +199,13 @@ defmodule Ibanity.Xs2a.FinancialInstitution do
       bulk_payments_product_types: {~w(attributes bulkPaymentsProductTypes), :string},
       payments_product_types: {~w(attributes paymentsProductTypes), :string},
       periodic_payments_product_types: {~w(attributes periodicPaymentsProductTypes), :string},
-      authorization_models: {~w(attributes authorizationModels), :string}
+      authorization_models: {~w(attributes authorizationModels), :string},
+      financial_institution_customer_reference_required: {~w(attributes financialInstitutionCustomerReferenceRequired), :boolean},
+      shared_brand_reference: {~w(attributes sharedBrandReference), :string},
+      shared_brand_name: {~w(attributes sharedBrandName), :string},
+      maintenance_from: {~w(attributes maintenanceFrom), :datetime},
+      maintenance_to: {~w(attributes maintenanceTo), :datetime},
+      maintenance_type: {~w(attributes maintenanceType), :string}
     ]
   end
 end

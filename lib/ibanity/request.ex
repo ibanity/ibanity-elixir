@@ -23,9 +23,7 @@ defmodule Ibanity.Request do
             customer_access_token: nil,
             resource_type: nil,
             resource_ids: [],
-            limit: nil,
-            before: nil,
-            after: nil,
+            page: %{},
             query_params: %{}
 
   @doc """
@@ -247,7 +245,25 @@ defmodule Ibanity.Request do
   Sets the maximum number of items to fetch at once. See [https://documentation.ibanity.com/api#pagination](https://documentation.ibanity.com/api#pagination)
   """
   def limit(%__MODULE__{} = request, max) when is_integer(max) do
-    %__MODULE__{request | limit: max}
+    %__MODULE__{request | page: Map.merge(request.page, %{limit: max})}
+  end
+
+  def page_number(value), do: page_number(%__MODULE__{}, value)
+
+  @doc """
+  Sets the page of results to fetch using page-based pagination. See [https://documentation.ibanity.com/api#page-based-pagination](https://documentation.ibanity.com/api#page-based-pagination)
+  """
+  def page_number(%__MODULE__{} = request, value) when is_integer(value) do
+    %__MODULE__{request | page: Map.merge(request.page, %{number: value})}
+  end
+
+  def page_size(value), do: page_size(%__MODULE__{}, value)
+
+  @doc """
+  Sets the maximum number of results to fetch per page. See [https://documentation.ibanity.com/api#page-based-pagination](https://documentation.ibanity.com/api#page-based-pagination)
+  """
+  def page_size(%__MODULE__{} = request, value) when is_integer(value) do
+    %__MODULE__{request | page: Map.merge(request.page, %{size: value})}
   end
 
   def before_id(id), do: before_id(%__MODULE__{}, id)
@@ -256,7 +272,7 @@ defmodule Ibanity.Request do
   Sets the pagination cursor to the given id. See [https://documentation.ibanity.com/api#pagination](https://documentation.ibanity.com/api#pagination)
   """
   def before_id(%__MODULE__{} = request, id) do
-    %__MODULE__{request | before: id}
+    %__MODULE__{request | page: Map.merge(request.page, %{before: id})}
   end
 
   def after_id(id), do: after_id(%__MODULE__{}, id)
@@ -265,7 +281,7 @@ defmodule Ibanity.Request do
   Sets the pagination cursor to the given id. See [https://documentation.ibanity.com/api#pagination](https://documentation.ibanity.com/api#pagination)
   """
   def after_id(%__MODULE__{} = request, id) do
-    %__MODULE__{request | after: id}
+    %__MODULE__{request | page: Map.merge(request.page, %{after: id})}
   end
 
   @doc """

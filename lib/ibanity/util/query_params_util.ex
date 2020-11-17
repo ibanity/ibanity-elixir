@@ -33,7 +33,7 @@ defmodule Ibanity.QueryParamsUtil do
 
   defp encode_kv(kv, parent_field) do
     mapper = fn
-      {_, value} when value in [%{}, []] ->
+      {_, value} when value in [%{}, [], nil] ->
         []
 
       {field, value} ->

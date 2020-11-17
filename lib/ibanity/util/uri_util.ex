@@ -83,22 +83,12 @@ defmodule Ibanity.UriUtil do
 
   defp create_query_params(request) do
     %{}
-    |> add_limit(request)
-    |> add_before_id(request)
-    |> add_after_id(request)
+    |> add_page(request)
     |> Map.merge(request.query_params)
     |> Enum.reverse()
   end
 
-  defp add_limit(params, request) do
-    if request.limit, do: Map.put(params, :limit, request.limit), else: params
-  end
-
-  defp add_before_id(params, request) do
-    if request.before, do: Map.put(params, :before, request.before), else: params
-  end
-
-  defp add_after_id(params, request) do
-    if request.after, do: Map.put(params, :after, request.after), else: params
+  defp add_page(params, request) do
+    if request.page, do: Map.put(params, :page, request.page), else: params
   end
 end
