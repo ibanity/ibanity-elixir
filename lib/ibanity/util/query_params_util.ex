@@ -11,6 +11,11 @@ defmodule Ibanity.QueryParamsUtil do
     IO.iodata_to_binary(encode_pair("", query_params))
   end
 
+  #covers structs
+  defp encode_pair(field, %{__struct__: struct} = map) when is_atom(struct) do
+    [field, ?= | encode_field(map)]
+  end
+
   # covers maps
   defp encode_pair(parent_field, %{} = map) do
     encode_kv(map, parent_field)

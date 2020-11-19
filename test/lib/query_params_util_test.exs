@@ -21,6 +21,17 @@ defmodule Ibanity.QueryParamsUtilTest do
       assert res == "limit=10&before=cursor"
     end
 
+    test "datetime params" do
+      query_params = [
+        start_date: DateTime.from_naive!(~N[2016-05-24 13:26:08.003], "Etc/UTC"),
+        end_date: DateTime.from_naive!(~N[2016-05-24 13:26:08.003], "Etc/UTC")
+      ]
+
+      res = QueryParamsUtil.encode_query(query_params)
+
+      assert res == "start_date=2016-05-24+13%3A26%3A08.003Z&end_date=2016-05-24+13%3A26%3A08.003Z"
+    end
+
     test "nested params" do
       query_params = [
         filter: %{
