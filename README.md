@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/ibanity/ibanity-elixir.svg?branch=master)](https://travis-ci.org/ibanity/ibanity-elixir)
+![Elixir CI](https://github.com/ibanity/ibanity-elixir/workflows/Elixir%20CI/badge.svg?branch=master)
 
 # Ibanity Elixir Library
 
