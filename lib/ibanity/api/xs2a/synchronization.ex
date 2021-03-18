@@ -15,6 +15,8 @@ defmodule Ibanity.Xs2a.Synchronization do
             status: nil,
             resource_type: nil,
             resource_id: nil,
+            customer_online: nil,
+            customer_ip_address: nil,
             errors: [],
             created_at: nil,
             updated_at: nil
@@ -70,6 +72,8 @@ defmodule Ibanity.Xs2a.Synchronization do
       status: {~w(attributes status), :string},
       resource_type: {~w(attributes resourceType), :string},
       resource_id: {~w(attributes resourceId), :string},
+      customer_online: {~w(attributes customerOnline), :string},
+      customer_ip_address: {~w(attributes customerIpAddress), :string},
       errors: {~w(attributes errors), :string},
       created_at: {~w(attributes createdAt), :datetime},
       updated_at: {~w(attributes updatedAt), :datetime}

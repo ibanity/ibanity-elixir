@@ -14,6 +14,8 @@ defmodule Ibanity.Xs2a.Synchronization.DeserializationTest do
         "status" => "success",
         "resourceType" => "account",
         "resourceId" => "a23b8b7e-b118-43da-80d6-cf0b4c6b1707",
+        "customerOnline" => true,
+        "customerIpAddress" => "123.123.123.123",
         "errors" => [],
         "createdAt" => "2018-10-18T15:11:41.489069Z"
       }
@@ -28,6 +30,8 @@ defmodule Ibanity.Xs2a.Synchronization.DeserializationTest do
       status: "success",
       resource_type: "account",
       resource_id: "a23b8b7e-b118-43da-80d6-cf0b4c6b1707",
+      customer_online: true,
+      customer_ip_address: "123.123.123.123",
       errors: [],
       created_at: DateTimeUtil.parse("2018-10-18T15:11:41.489069Z")
     }
