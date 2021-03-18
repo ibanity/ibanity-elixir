@@ -72,7 +72,7 @@ defmodule Ibanity.Xs2a.Synchronization do
       status: {~w(attributes status), :string},
       resource_type: {~w(attributes resourceType), :string},
       resource_id: {~w(attributes resourceId), :string},
-      customer_online: {~w(attributes customerOnline), :string},
+      customer_online: {~w(attributes customerOnline), :boolean},
       customer_ip_address: {~w(attributes customerIpAddress), :string},
       errors: {~w(attributes errors), :string},
       created_at: {~w(attributes createdAt), :datetime},
