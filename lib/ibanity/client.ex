@@ -96,5 +96,5 @@ defmodule Ibanity.Client do
   end
 
   defp handle_response_body({:ok, %{"data" => data}}, type), do: {:ok, deserialize(data, type)}
-  defp handle_response_body({:ok, %{}}), do: {:ok, %{}}
+  defp handle_response_body({:ok, %{}}, _), do: {:ok, %{}}
 end
