@@ -170,6 +170,64 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction do
   end
 
   @doc """
+  [Update transaction](https://documentation.ibanity.com/xs2a/api#update-financial-institution-transaction)
+
+  See `update/1`
+
+  ## Example
+      iex> attributes = [
+      ...>   value_date: "2017-05-22T00:00:00Z",
+      ...>   execution_date: "2017-05-25T00:00:00Z",
+      ...>   amount: 84.42,
+      ...>   remittance_information_type: "NEW SHOES",
+      ...>   remittance_information: "unstructured",
+      ...>   ...
+      ...> ]
+      ...> FinancialInstitutionTransaction.update(
+      ...>   "ad6fa583-2616-4a11-8b8d-eb98c53e2905",
+      ...>   "740b6ae8-a631-4a32-9afc-a5548ab99d7e",
+      ...>   "d9d60751-b741-4fa6-8524-8f9a066ca037",
+      ...>   attributes
+      ...> )
+      {:ok, %Ibanity.FinancialInstitutionTransaction{id: "44cd2dc8-163a-4dbe-b544-869e5f84ea54", ...}}
+  """
+
+  def update(
+        %Request{} = request,
+        financial_institution_id,
+        financial_institution_user_id,
+        financial_institution_account_id,
+        financial_institution_transaction_id,
+        attributes
+      ) do
+    request
+    |> Request.attributes(attributes)
+    |> Request.id(:financial_institution_id, financial_institution_id)
+    |> Request.id(:financial_institution_user_id, financial_institution_user_id)
+    |> Request.id(:financial_institution_account_id, financial_institution_account_id)
+    |> Request.id(:financial_institution_transaction_id, financial_institution_transaction_id)
+    |> Client.execute(:patch, @api_schema_path)
+  end
+
+  @doc """
+  [Updates an existing financial institution transaction](https://documentation.ibanity.com/xs2a/api#update-financial-institution-transaction).
+
+  iex> %Request{}
+      ...> |> Request.id(:financial_institution_id, "ad6fa583-2616-4a11-8b8d-eb98c53e2905")
+      ...> |> Request.id(:financial_institution_user_id, "740b6ae8-a631-4a32-9afc-a5548ab99d7e")
+      ...> |> Request.id(:financial_institution_account_id, "d9d60751-b741-4fa6-8524-8f9a066ca037")
+      ...> |> Request.id(:financial_institution_transaction_id, "83e440d7-6bfa-4b08-92b7-c2ae7fc5c0e9")
+      ...> |> FinancialInstitutionTransaction.update
+
+  Returns `{:ok, transaction}` if successful, `{:error, reason}` otherwise
+  """
+  def update(%Request{} = request) do
+    request
+    |> Request.resource_type(@resource_type)
+    |> Client.execute(:patch, @api_schema_path)
+  end
+
+  @doc """
   [Delete transaction](https://documentation.ibanity.com/xs2a/api#delete-financial-institution-transaction)
 
   See `delete/1`
