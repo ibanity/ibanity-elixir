@@ -187,6 +187,7 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction do
       ...>   "ad6fa583-2616-4a11-8b8d-eb98c53e2905",
       ...>   "740b6ae8-a631-4a32-9afc-a5548ab99d7e",
       ...>   "d9d60751-b741-4fa6-8524-8f9a066ca037",
+      ...>   "b59c4b50-3188-41df-9f69-92777a056fe6",
       ...>   attributes
       ...> )
       {:ok, %Ibanity.FinancialInstitutionTransaction{id: "44cd2dc8-163a-4dbe-b544-869e5f84ea54", ...}}
@@ -205,7 +206,7 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction do
     |> Request.id(:financial_institution_id, financial_institution_id)
     |> Request.id(:financial_institution_user_id, financial_institution_user_id)
     |> Request.id(:financial_institution_account_id, financial_institution_account_id)
-    |> Request.id(:financial_institution_transaction_id, financial_institution_transaction_id)
+    |> Request.id(:id, financial_institution_transaction_id)
     |> Client.execute(:patch, @api_schema_path)
   end
 
