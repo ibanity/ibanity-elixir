@@ -39,7 +39,6 @@ defmodule Ibanity.Xs2a.Transaction do
       {:ok, %Ibanity.Collection{items: [%Ibanity.Transaction{...}], ...}}
   """
   def list(%Request{ resource_ids: [ synchronization_id: _synchronization_id ]} = request) do
-    IO.inspect request
     request
     |> Client.execute(:get, ["xs2a", "customer", "synchronization", "updatedTransactions"])
   end
@@ -58,7 +57,6 @@ defmodule Ibanity.Xs2a.Transaction do
       {:ok, %Ibanity.Collection{items: [%Ibanity.Transaction{...}], ...}}
   """
   def list(%Request{} = request) do
-    IO.inspect request
     request
     |> Request.id(:id, "")
     |> Client.execute(:get, ["xs2a", "customer", "financialInstitution", "transactions"])
