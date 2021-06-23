@@ -30,6 +30,43 @@ defmodule Ibanity.Xs2a.Transaction do
   @api_schema_path ~w(xs2a customer financialInstitution transactions)
 
   @doc """
+  [Lists updated transactions](https://documentation.ibanity.com/xs2a/api#list-transactions) for a specific synchronization.
+
+  Returns `{:ok, collection}` where `collection` is a `Ibanity.Collection` where items are of type `Ibanity.Xs2a.Transaction`.
+
+  ## Example
+
+      iex> Request.id(:synchronization_id, "ce3893cd-fff5-435a-bdfc-d55a7e98df6f")
+      ...> |> Transaction.list
+      {:ok, %Ibanity.Collection{items: [%Ibanity.Transaction{...}], ...}}
+  """
+  def list(%Request{} = request, synchronization_id) do
+    request
+    |> Request.id(:synchronization_id, synchronization_id)
+    |> Client.execute(:get, @api_schema_path)
+  end
+
+  @doc """
+  [Lists updated transactions](https://documentation.ibanity.com/xs2a/api#list-transactions) for a specific synchronization.
+
+  Returns `{:ok, collection}` where `collection` is a `Ibanity.Collection` where items are of type `Ibanity.Xs2a.Transaction`.
+
+  ## Example
+
+      iex> Request.id(:financial_institution_id, "ce3893cd-fff5-435a-bdfc-d55a7e98df6f")
+      ...> |> Request.id(:account_id, "ce3893cd-fff5-435a-bdfc-d55a7e98df6f")
+      ...> |> Transaction.list
+      {:ok, %Ibanity.Collection{items: [%Ibanity.Transaction{...}], ...}}
+  """
+  def list(%Request{} = request, financial_institution_id, account_id) do
+    request
+    |> Request.id(:financial_institution_id, financial_institution_id)
+    |> Request.id(:account_id, account_id)
+    |> Request.id(:id, "")
+    |> Client.execute(:get, @api_schema_path)
+  end
+
+  @doc """
   [Lists transactions](https://documentation.ibanity.com/xs2a/api#list-transactions)
   linked to an account belonging to a financial institution.
 
@@ -44,25 +81,6 @@ defmodule Ibanity.Xs2a.Transaction do
   """
   def list(%Request{} = request) do
     request
-    |> Request.id(:id, "")
-    |> Client.execute(:get, @api_schema_path)
-  end
-
-  @doc """
-  [Lists updated transactions](https://documentation.ibanity.com/xs2a/api#list-transactions) for a specific synchronization.
-
-  Returns `{:ok, collection}` where `collection` is a `Ibanity.Collection` where items are of type `Ibanity.Xs2a.Transaction`.
-
-  ## Example
-
-      iex> Request.id(:financial_institution_id, "0f88f06c-3cfe-4b8f-9338-69981c0c4632")
-      ...> |> Request.id(:synchronization_id, "ce3893cd-fff5-435a-bdfc-d55a7e98df6f")
-      ...> |> Transaction.list
-      {:ok, %Ibanity.Collection{items: [%Ibanity.Transaction{...}], ...}}
-  """
-  def list(%Request{} = request) do
-    request
-    |> Request.get_id(request, :synchronization_id)
     |> Request.id(:id, "")
     |> Client.execute(:get, @api_schema_path)
   end
