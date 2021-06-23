@@ -58,7 +58,7 @@ defmodule Ibanity.Xs2a.Transaction do
       {:ok, %Ibanity.Collection{items: [%Ibanity.Transaction{...}], ...}}
   """
   def list(%Request{} = request) do
-    IO.puts "no params"
+    IO.inspect request
     request
     |> Request.id(:id, "")
     |> Client.execute(:get, ["xs2a", "customer", "financialInstitution", "transactions"])
