@@ -38,7 +38,7 @@ defmodule Ibanity.Xs2a.Transaction do
       ...> |> Transaction.list
       {:ok, %Ibanity.Collection{items: [%Ibanity.Transaction{...}], ...}}
   """
-  def list(%Request{ resource_ids: [ synchronization_id: _synchronization_id ]} = request) do
+  def list(%Request{resource_ids: [synchronization_id: _synchronization_id]} = request) do
     request
     |> Client.execute(:get, ["xs2a", "customer", "synchronization", "updatedTransactions"])
   end
