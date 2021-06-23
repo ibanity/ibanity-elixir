@@ -61,7 +61,7 @@ defmodule Ibanity.Xs2a.Transaction do
     |> Request.id(:financial_institution_id, financial_institution_id)
     |> Request.id(:account_id, account_id)
     |> Request.id(:id, "")
-    |> Client.execute(:get, ["xs2a", "customer", "financialInstitution" "transactions"])
+    |> Client.execute(:get, ["xs2a", "customer", "financialInstitution", "transactions"])
   end
 
   @doc """
@@ -80,7 +80,7 @@ defmodule Ibanity.Xs2a.Transaction do
   def list(%Request{} = request) do
     request
     |> Request.id(:id, "")
-    |> Client.execute(:get, @api_schema_path)
+    |> Client.execute(:get, ["xs2a", "customer", "financialInstitution", "transactions")
   end
 
   @doc """
@@ -100,7 +100,7 @@ defmodule Ibanity.Xs2a.Transaction do
   """
   def find(%Request{} = request) do
     request
-    |> Client.execute(:get, ["xs2a", "customer", "financialInstitution" "transactions"])
+    |> Client.execute(:get, ["xs2a", "customer", "financialInstitution", "transactions"])
   end
 
   @doc false
