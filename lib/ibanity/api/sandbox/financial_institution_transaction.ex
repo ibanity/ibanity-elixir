@@ -207,7 +207,7 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction do
     |> Request.id(:financial_institution_user_id, financial_institution_user_id)
     |> Request.id(:financial_institution_account_id, financial_institution_account_id)
     |> Request.id(:id, financial_institution_transaction_id)
-    |> Client.execute(:patch, @api_schema_path)
+    |> update
   end
 
   @doc """
