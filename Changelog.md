@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.6
+
+* Update sandbox transactions
+* Lists updated transactions
+
 ## 0.5.1
 
 * Fix missing _(created)_ virtual header in signature
