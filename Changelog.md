@@ -2,8 +2,8 @@
 
 ## 0.6
 
-* Update sandbox transactions
-* Lists updated transactions
+* Add support to update sandbox transactions
+* Add support to list updated transactions
 
 ## 0.5.1
 
