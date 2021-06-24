@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.6
+## 0.7.0
 
 * Add support to update sandbox transactions
 * Add support to list updated transactions
