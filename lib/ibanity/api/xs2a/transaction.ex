@@ -27,7 +27,21 @@ defmodule Ibanity.Xs2a.Transaction do
             account_id: nil,
             self: nil
 
-  @api_schema_path ~w(xs2a customer financialInstitution transactions)
+  @doc """
+  [Lists updated transactions](https://documentation.ibanity.com/xs2a/api#list-transactions) for a specific synchronization.
+
+  Returns `{:ok, collection}` where `collection` is a `Ibanity.Collection` where items are of type `Ibanity.Xs2a.Transaction`.
+
+  ## Example
+
+      iex> Request.id(:synchronization_id, "ce3893cd-fff5-435a-bdfc-d55a7e98df6f")
+      ...> |> Transaction.list
+      {:ok, %Ibanity.Collection{items: [%Ibanity.Transaction{...}], ...}}
+  """
+  def list(%Request{resource_ids: [synchronization_id: _synchronization_id]} = request) do
+    request
+    |> Client.execute(:get, ["xs2a", "customer", "synchronization", "updatedTransactions"])
+  end
 
   @doc """
   [Lists transactions](https://documentation.ibanity.com/xs2a/api#list-transactions)
@@ -45,7 +59,7 @@ defmodule Ibanity.Xs2a.Transaction do
   def list(%Request{} = request) do
     request
     |> Request.id(:id, "")
-    |> Client.execute(:get, @api_schema_path)
+    |> Client.execute(:get, ["xs2a", "customer", "financialInstitution", "transactions"])
   end
 
   @doc """
@@ -65,7 +79,7 @@ defmodule Ibanity.Xs2a.Transaction do
   """
   def find(%Request{} = request) do
     request
-    |> Client.execute(:get, @api_schema_path)
+    |> Client.execute(:get, ["xs2a", "customer", "financialInstitution", "transactions"])
   end
 
   @doc false
