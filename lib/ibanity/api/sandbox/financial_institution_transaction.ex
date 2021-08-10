@@ -27,7 +27,6 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction do
             purpose_code: nil,
             mandate_id: nil,
             creditor_id: nil,
-            digest: nil,
             additional_information: nil,
             financial_institution_account_id: nil
 
@@ -299,7 +298,6 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction do
       purpose_code: {~w(attributes purposeCode), :string},
       mandate_id: {~w(attributes mandateId), :string},
       creditor_id: {~w(attributes creditorId), :string},
-      digest: {~w(attributes digest), :string},
       additional_information: {~w(attributes additionalInformation), :string},
       financial_institution_account_id: {~w(relationships financialInstitutionAccount data id), :string}
     ]

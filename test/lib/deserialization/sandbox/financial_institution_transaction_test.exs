@@ -42,7 +42,6 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction.DeserializationTest do
         "purposeCode" => "CASH",
         "mandateId" => "12345678",
         "creditorId" => "98765",
-        "digest" => "d59f256988324499809c18a8d4a8be60ff36e3d1e0c89c380be49e032e39a287",
         "additionalInformation" => "addional"
       }
     }
@@ -69,7 +68,6 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction.DeserializationTest do
       purpose_code: "CASH",
       mandate_id: "12345678",
       creditor_id:  "98765",
-      digest: "d59f256988324499809c18a8d4a8be60ff36e3d1e0c89c380be49e032e39a287",
       additional_information: "addional",
       financial_institution_account_id: "d9d60751-b741-4fa6-8524-8f9a066ca037"
     }
