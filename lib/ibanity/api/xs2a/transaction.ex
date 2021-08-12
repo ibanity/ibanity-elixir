@@ -7,6 +7,8 @@ defmodule Ibanity.Xs2a.Transaction do
 
   defstruct id: nil,
             value_date: nil,
+            created_at: nil,
+            updated_at: nil,
             remittance_information_type: nil,
             remittance_information: nil,
             execution_date: nil,
@@ -87,6 +89,8 @@ defmodule Ibanity.Xs2a.Transaction do
     [
       id: {~w(id), :string},
       value_date: {~w(attributes valueDate), :datetime},
+      updated_at: {~w(attributes updatedAt), :datetime},
+      created_at: {~w(attributes createdAt), :datetime},
       remittance_information_type: {~w(attributes remittanceInformationType), :string},
       remittance_information: {~w(attributes remittanceInformation), :string},
       execution_date: {~w(attributes executionDate), :datetime},
