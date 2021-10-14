@@ -27,6 +27,8 @@ defmodule Ibanity.Xs2a.Transaction do
             digest: nil,
             additional_information: nil,
             fee: nil,
+            card_reference: nil,
+            card_reference_type: nil,
             account_id: nil,
             self: nil
 
@@ -110,6 +112,8 @@ defmodule Ibanity.Xs2a.Transaction do
       digest: {~w(attributes digest), :string},
       additional_information: {~w(attributes additionalInformation), :string},
       fee: {~w(attributes fee), :string},
+      card_reference: {~w(attributes cardReference), :string},
+      card_reference_type: {~w(attributes cardReferenceType), :string},
       account_id: {~w(relationships account data id), :string},
       self: {~w(links self), :string}
     ]

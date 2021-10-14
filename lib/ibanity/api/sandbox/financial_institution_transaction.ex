@@ -29,6 +29,8 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction do
             creditor_id: nil,
             additional_information: nil,
             fee: nil,
+            card_reference: nil,
+            card_reference_type: nil,
             financial_institution_account_id: nil
 
   @doc """
@@ -301,6 +303,8 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction do
       creditor_id: {~w(attributes creditorId), :string},
       additional_information: {~w(attributes additionalInformation), :string},
       fee: {~w(attributes fee), :string},
+      card_reference: {~w(attributes cardReference), :string},
+      card_reference_type: {~w(attributes cardReferenceType), :string},
       financial_institution_account_id: {~w(relationships financialInstitutionAccount data id), :string}
     ]
   end
