@@ -42,7 +42,8 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction.DeserializationTest do
         "purposeCode" => "CASH",
         "mandateId" => "12345678",
         "creditorId" => "98765",
-        "additionalInformation" => "addional"
+        "additionalInformation" => "addional",
+        "fee" => 3.14
       }
     }
 
@@ -69,6 +70,7 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction.DeserializationTest do
       mandate_id: "12345678",
       creditor_id:  "98765",
       additional_information: "addional",
+      fee: 3.14,
       financial_institution_account_id: "d9d60751-b741-4fa6-8524-8f9a066ca037"
     }
 

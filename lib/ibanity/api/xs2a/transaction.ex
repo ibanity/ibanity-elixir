@@ -26,6 +26,7 @@ defmodule Ibanity.Xs2a.Transaction do
             creditor_id: nil,
             digest: nil,
             additional_information: nil,
+            fee: nil,
             account_id: nil,
             self: nil
 
@@ -108,6 +109,7 @@ defmodule Ibanity.Xs2a.Transaction do
       creditor_id: {~w(attributes creditorId), :string},
       digest: {~w(attributes digest), :string},
       additional_information: {~w(attributes additionalInformation), :string},
+      fee: {~w(attributes fee), :string},
       account_id: {~w(relationships account data id), :string},
       self: {~w(links self), :string}
     ]
