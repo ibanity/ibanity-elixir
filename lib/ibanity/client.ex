@@ -96,5 +96,16 @@ defmodule Ibanity.Client do
   end
 
   defp handle_response_body({:ok, %{"data" => data}}, type), do: {:ok, deserialize(data, type)}
+
+  defp handle_response_body({:ok, %{"keys" => keys}}, type)
+      when is_list(keys) do
+    collection =
+      keys
+      |> Enum.map(&deserialize(&1, type))
+      |> Collection.new(%{}, %{})
+
+    {:ok, collection}
+  end
+
   defp handle_response_body({:ok, %{}}, _), do: {:ok, %{}}
 end

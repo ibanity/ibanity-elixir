@@ -28,6 +28,8 @@ defmodule Ibanity.Configuration do
   @default_retry_options [initial_delay: 1000, backoff_interval: 500, max_retries: 0]
   @default_timeout_options [timeout: 8000, recv_timeout: 5000]
 
+  def api_url, do: Application.get_env(:ibanity, :api_url, @default_api_url)
+
   def start_link(environment) do
     Agent.start_link(fn -> init(environment) end, name: __MODULE__)
   end
@@ -50,8 +52,7 @@ defmodule Ibanity.Configuration do
     |> Map.fetch!("sandbox")
   end
   def fetch_api_schema(product) do
-    :ibanity
-    |> Application.get_env(:api_url, @default_api_url)
+    api_url()
     |> URI.parse()
     |> URI.merge("/#{product}")
     |> to_string()
