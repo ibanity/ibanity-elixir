@@ -5,11 +5,13 @@ defmodule Ibanity.Configuration do
   use Retry
   alias Ibanity.{ApiSchema, Configuration.Options}
   alias Ibanity.Configuration.Exception, as: ConfigurationException
+  alias Ibanity.Webhooks.Key
 
   defstruct api_schema: %{},
             applications_options: [],
             retry_options: [],
-            timeout_options: []
+            timeout_options: [],
+            webhook_keys: []
 
   defmodule Exception do
     @moduledoc false
@@ -36,6 +38,20 @@ defmodule Ibanity.Configuration do
 
   def api_schema(product) do
     Map.get(Agent.get(__MODULE__, & &1.api_schema), product) || fetch_and_store_api_schema(product)
+  end
+
+  def webhook_key(kid, app_name \\ :default) do
+    Map.get(Agent.get(__MODULE__, & &1.webhook_keys[app_name]) || %{}, kid) || fetch_and_store_webhook_keys(kid, app_name)
+  end
+
+  def fetch_and_store_webhook_keys(kid, app_name \\ :default) do
+    with {:ok, %{items: keys}} <- Key.list(app_name) do
+      Agent.get_and_update(__MODULE__, fn configuration ->
+        key_map = Enum.into(keys, %{}, fn key -> {key.kid, key} end)
+        merged_webhook_keys = Keyword.put(configuration.webhook_keys, app_name, key_map)
+        {key_map[kid], %__MODULE__{configuration | webhook_keys: merged_webhook_keys}}
+      end)
+    end
   end
 
   def fetch_and_store_api_schema(product) do

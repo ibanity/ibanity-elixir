@@ -46,8 +46,8 @@ defmodule Ibanity.Webhook do
   defp verify_signature_header(url, payload, signature_header, application, tolerance) do
     case Joken.peek_header(signature_header) do
       {:ok, %{"alg" => @signing_algorithm, "kid" => kid}} ->
-        case Key.find(kid, application) do
-          {:ok, %Key{} = signer_key} ->
+        case Ibanity.Configuration.webhook_key(kid, application) do
+          %Key{} = signer_key ->
             signer = Joken.Signer.create(@signing_algorithm, signer_key_map(signer_key))
             Joken.verify_and_validate(
               token_config(),
@@ -56,7 +56,7 @@ defmodule Ibanity.Webhook do
               %{tolerance: tolerance, payload: payload, url: url}
             )
 
-          {:ok, nil} ->
+          nil ->
             {:error, "The key id from the header didn't match an available signing key"}
 
           {:error, _} ->
