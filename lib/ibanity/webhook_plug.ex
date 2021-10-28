@@ -14,8 +14,8 @@ defmodule Ibanity.WebhookPlug do
     Configure this to match whatever you set in the Ibanity Developer Portal.
   - `handler`: Custom event handler module that accepts Ibanity event structs
     and processes them within your application. You must create this module.
-  - `tolerance`: Maximum age (in seconds) allowed for the webhook event.
-    See `Ibanity.Webhook.construct_event/5` for more information.
+  - `tolerance`: Maximum drift (in seconds) allowed for the webhook event
+    timestamps. See `Ibanity.Webhook.construct_event/5` for more information.
   - `application`: Application configuration which should be used to fetch the
     webhook signing keys. See `Ibanity.Webhook.construct_event/5` for more
     information.

@@ -21,8 +21,7 @@ defmodule Ibanity.Webhook do
   `application` is the configured Ibanity application that should be used to
   fetch the webhook signing keys from the API. Defaults to `:default`
   `tolerance` is the allowed deviation in seconds from the current system time
-  to the expiration timestamp found in the `signature` token. Defaults to 30
-  seconds.
+  to the timestamps found in the `signature` token. Defaults to 30 seconds.
   [1]: https://hexdocs.pm/plug/Plug.Parsers.html#module-custom-body-reader
   ## Example
       case Ibanity.Webhook.construct_event(url, payload, signature) do
@@ -75,12 +74,16 @@ defmodule Ibanity.Webhook do
     ]
     |> Joken.Config.default_claims()
     |> Joken.Config.add_claim("digest", nil, &validate_digest/3)
+    |> Joken.Config.add_claim("iat", nil, &validate_issued_at/3)
     |> Joken.Config.add_claim("exp", nil, &validate_expiration/3)
     |> Joken.Config.add_claim("aud", nil, &validate_audience/3)
   end
 
   defp validate_digest(digest, _, %{payload: payload}),
     do: digest == Base.encode64(:crypto.hash(:sha512, payload), case: :lower)
+
+  defp validate_issued_at(iat, _, %{tolerance: tolerance}),
+    do: iat <= (System.system_time(:second) + tolerance)
 
   defp validate_expiration(exp, _, %{tolerance: tolerance}),
     do: exp >= (System.system_time(:second) - tolerance)
