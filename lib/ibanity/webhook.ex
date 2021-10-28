@@ -6,6 +6,7 @@ defmodule Ibanity.Webhook do
   alias Ibanity.Webhooks.Key
 
   @default_tolerance 30
+  @signing_algorithm "RS512"
 
   @doc """
   Verify webhook payload and return an Ibanity webhook event.
@@ -43,10 +44,10 @@ defmodule Ibanity.Webhook do
 
   defp verify_signature_header(url, payload, signature_header, tolerance) do
     case Joken.peek_header(signature_header) do
-      {:ok, %{"alg" => alg, "kid" => kid}} ->
+      {:ok, %{"alg" => @signing_algorithm, "kid" => kid}} ->
         case Key.find(kid) do
           {:ok, %Key{} = signer_key} ->
-            signer = Joken.Signer.create(alg, signer_key_map(signer_key))
+            signer = Joken.Signer.create(@signing_algorithm, signer_key_map(signer_key))
             Joken.verify_and_validate(
               token_config(),
               signature_header,
