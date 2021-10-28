@@ -5,7 +5,7 @@ defmodule Ibanity.Webhook do
 
   alias Ibanity.Webhooks.Key
 
-  @default_tolerance 300
+  @default_tolerance 30
 
   @doc """
   Verify webhook payload and return an Ibanity webhook event.
@@ -13,10 +13,11 @@ defmodule Ibanity.Webhook do
   retrieved with `Plug.Conn.read_body/2`. Note that `Plug.Parsers` will read
   and discard the body, so you must implement a [custom body reader][1] if the
   plug is located earlier in the pipeline.
-  `signature` is the value of `Signature` header, which can be fetched
+  `signature_header` is the value of `Signature` header, which can be fetched
   with `Plug.Conn.get_req_header/2`.
   `tolerance` is the allowed deviation in seconds from the current system time
-  to the timestamp found in `signature`. Defaults to 300 seconds (5 minutes).
+  to the expiration timestamp found in the `signature` token. Defaults to 30
+  seconds.
   [1]: https://hexdocs.pm/plug/Plug.Parsers.html#module-custom-body-reader
   ## Example
       case Ibanity.Webhook.construct_event(payload, signature) do
