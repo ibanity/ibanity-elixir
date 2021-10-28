@@ -18,6 +18,8 @@ defmodule Ibanity.Webhook do
   plug is located earlier in the pipeline.
   `signature_header` is the value of `Signature` header, which can be fetched
   with `Plug.Conn.get_req_header/2`.
+  `application` is the configured Ibanity application that should be used to
+  fetch the webhook signing keys from the API. Defaults to `:default`
   `tolerance` is the allowed deviation in seconds from the current system time
   to the expiration timestamp found in the `signature` token. Defaults to 30
   seconds.
@@ -30,10 +32,10 @@ defmodule Ibanity.Webhook do
           # Reject webhook by responding with non-2XX
       end
   """
-  @spec construct_event(String.t(), String.t(), integer) ::
+  @spec construct_event(String.t(), String.t(), String.t(), atom(), integer) ::
           {:ok, Struct} | {:error, any}
-  def construct_event(url, payload, signature_header, tolerance \\ @default_tolerance) do
-    case verify_signature_header(url, payload, signature_header, tolerance) do
+  def construct_event(url, payload, signature_header, application \\ :default, tolerance \\ @default_tolerance) do
+    case verify_signature_header(url, payload, signature_header, application, tolerance) do
       {:ok, _} ->
         {:ok, convert_to_event!(payload)}
 
@@ -42,10 +44,10 @@ defmodule Ibanity.Webhook do
     end
   end
 
-  defp verify_signature_header(url, payload, signature_header, tolerance) do
+  defp verify_signature_header(url, payload, signature_header, application, tolerance) do
     case Joken.peek_header(signature_header) do
       {:ok, %{"alg" => @signing_algorithm, "kid" => kid}} ->
-        case Key.find(kid) do
+        case Key.find(kid, application) do
           {:ok, %Key{} = signer_key} ->
             signer = Joken.Signer.create(@signing_algorithm, signer_key_map(signer_key))
             Joken.verify_and_validate(
