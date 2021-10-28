@@ -34,6 +34,8 @@ defmodule Ibanity.MixProject do
       {:ex_crypto, "~> 0.9.0"},
       {:retry, "~> 0.11"},
       {:joken, "~> 2.4.1"},
+      {:plug, "~> 1.0", optional: true},
+      {:mime, "~> 1.0", optional: true},
       {:ex_doc, "~> 0.22.1", only: :dev, runtime: false},
       {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false}
     ]
