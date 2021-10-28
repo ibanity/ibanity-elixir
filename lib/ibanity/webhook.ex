@@ -9,6 +9,8 @@ defmodule Ibanity.Webhook do
 
   @doc """
   Verify webhook payload and return an Ibanity webhook event.
+  `url` is the url where the webhook was received. This should match the
+  webhook url set up in the Ibanity Developer Portal.
   `payload` is the raw, unparsed content body sent by Ibanity, which can be
   retrieved with `Plug.Conn.read_body/2`. Note that `Plug.Parsers` will read
   and discard the body, so you must implement a [custom body reader][1] if the
@@ -20,7 +22,7 @@ defmodule Ibanity.Webhook do
   seconds.
   [1]: https://hexdocs.pm/plug/Plug.Parsers.html#module-custom-body-reader
   ## Example
-      case Ibanity.Webhook.construct_event(payload, signature) do
+      case Ibanity.Webhook.construct_event(url, payload, signature) do
         {:ok, event} ->
           # Return 200 to Ibanity and handle event
         {:error, reason} ->
@@ -29,8 +31,8 @@ defmodule Ibanity.Webhook do
   """
   @spec construct_event(String.t(), String.t(), integer) ::
           {:ok, Struct} | {:error, any}
-  def construct_event(payload, signature_header, tolerance \\ @default_tolerance) do
-    case verify_signature_header(payload, signature_header, tolerance) do
+  def construct_event(url, payload, signature_header, tolerance \\ @default_tolerance) do
+    case verify_signature_header(url, payload, signature_header, tolerance) do
       {:ok, _} ->
         {:ok, convert_to_event!(payload)}
 
@@ -39,7 +41,7 @@ defmodule Ibanity.Webhook do
     end
   end
 
-  defp verify_signature_header(payload, signature_header, tolerance) do
+  defp verify_signature_header(url, payload, signature_header, tolerance) do
     case Joken.peek_header(signature_header) do
       {:ok, %{"alg" => alg, "kid" => kid}} ->
         case Key.find(kid) do
@@ -49,7 +51,7 @@ defmodule Ibanity.Webhook do
               token_config(),
               signature_header,
               signer,
-              %{tolerance: tolerance, payload: payload}
+              %{tolerance: tolerance, payload: payload, url: url}
             )
 
           {:ok, nil} ->
@@ -66,12 +68,12 @@ defmodule Ibanity.Webhook do
 
   defp token_config do
     [
-      iss: Ibanity.Configuration.api_url(),
-      skip: [:aud]
+      iss: Ibanity.Configuration.api_url()
     ]
     |> Joken.Config.default_claims()
     |> Joken.Config.add_claim("digest", nil, &validate_digest/3)
     |> Joken.Config.add_claim("exp", nil, &validate_expiration/3)
+    |> Joken.Config.add_claim("aud", nil, &validate_audience/3)
   end
 
   defp validate_digest(digest, _, %{payload: payload}),
@@ -79,6 +81,9 @@ defmodule Ibanity.Webhook do
 
   defp validate_expiration(exp, _, %{tolerance: tolerance}),
     do: exp >= (System.system_time(:second) - tolerance)
+
+  defp validate_audience(aud, _, %{url: url}),
+    do: aud == url
 
   defp signer_key_map(%Key{} = signer_key) do
     signer_key
