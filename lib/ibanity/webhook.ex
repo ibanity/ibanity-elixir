@@ -30,7 +30,7 @@ defmodule Ibanity.Webhook do
           {:ok, Struct} | {:error, any}
   def construct_event(payload, signature_header, tolerance \\ @default_tolerance) do
     case verify_signature_header(payload, signature_header, tolerance) do
-      :ok ->
+      {:ok, _} ->
         {:ok, convert_to_event!(payload)}
 
       error ->
@@ -38,22 +38,18 @@ defmodule Ibanity.Webhook do
     end
   end
 
-  def verify_signature_header(payload, signature_header, tolerance \\ @default_tolerance) do
-    with {:ok, claims} <- verify_signature(signature_header),
-         :ok <- verify_payload(claims["digest"], payload),
-         :ok <- validate_timestamp(claims["exp"], tolerance),
-         :ok <- verify_issuer(claims["iss"]) do
-      :ok
-    end
-  end
-
-  defp verify_signature(signature_header) do
+  defp verify_signature_header(payload, signature_header, tolerance) do
     case Joken.peek_header(signature_header) do
       {:ok, %{"alg" => alg, "kid" => kid}} ->
         case Key.find(kid) do
           {:ok, %Key{} = signer_key} ->
             signer = Joken.Signer.create(alg, signer_key_map(signer_key))
-            Joken.verify(signature_header, signer)
+            Joken.verify_and_validate(
+              token_config(),
+              signature_header,
+              signer,
+              %{tolerance: tolerance, payload: payload}
+            )
 
           {:ok, nil} ->
             {:error, "The key id from the header didn't match an available signing key"}
@@ -67,31 +63,26 @@ defmodule Ibanity.Webhook do
     end
   end
 
-  defp verify_payload(digest, payload) do
-    if digest == Base.encode64(:crypto.hash(:sha512, payload), case: :lower),
-      do: :ok,
-      else: {:error, "The payload does not match the signature digest"}
+  defp token_config do
+    [
+      iss: Ibanity.Configuration.api_url(),
+      skip: [:aud]
+    ]
+    |> Joken.Config.default_claims()
+    |> Joken.Config.add_claim("digest", nil, &validate_digest/3)
+    |> Joken.Config.add_claim("exp", nil, &validate_expiration/3)
   end
 
-  defp verify_issuer(issuer) do
-    if issuer == Ibanity.Configuration.api_url(),
-      do: :ok,
-      else: {:error, "The signature issuer does not match the configured Ibanity API URL"}
-  end
+  defp validate_digest(digest, _, %{payload: payload}),
+    do: digest == Base.encode64(:crypto.hash(:sha512, payload), case: :lower)
+
+  defp validate_expiration(exp, _, %{tolerance: tolerance}),
+    do: exp >= (System.system_time(:second) - tolerance)
 
   defp signer_key_map(%Key{} = signer_key) do
     signer_key
     |> Map.from_struct()
     |> Enum.into(%{}, fn {key, value} -> {to_string(key), value} end)
-  end
-
-  defp validate_timestamp(timestamp, tolerance) do
-    now = System.system_time(:second)
-    tolerance_zone = now - tolerance
-
-    if timestamp >= tolerance_zone,
-      do: :ok,
-      else: {:error, "Timestamp outside the tolerance zone (#{now})"}
   end
 
   defp convert_to_event!(payload) do
