@@ -16,7 +16,7 @@ defmodule Ibanity.Webhooks.Key do
             use: nil
 
   def list, do: list(:default)
-  def list(%Request{} = request), do: Client.execute(request, :get, @api_schema_path)
+  def list(%Request{} = request), do: Client.execute(request, :get, @api_schema_path, "key")
   def list(application), do: list(%Request{application: application})
 
   def find(kid, application \\ :default) do
@@ -31,6 +31,7 @@ defmodule Ibanity.Webhooks.Key do
       alg: {~w(alg), :string},
       e: {~w(e), :string},
       kid: {~w(kid), :string},
+      kty: {~w(kty), :string},
       n: {~w(n), :string},
       status: {~w(status), :string},
       use: {~w(use), :string}

@@ -28,6 +28,7 @@ defmodule Ibanity.JsonDeserializer do
     "nbbReportAiSynchronization" => Ibanity.Reporting.Xs2a.NbbReportAiSynchronization,
     "accountInformationAccessRequestAuthorization" => Ibanity.Xs2a.AccountInformationAccessRequestAuthorization,
     "paymentInitiationRequestAuthorization" => Ibanity.Xs2a.PaymentInitiationRequestAuthorization,
+    "key" => Ibanity.Webhooks.Key,
     "xs2a.synchronization.succeededWithoutChange" => Ibanity.Webhooks.Xs2a.Synchronization.SucceededWithoutChange,
     "xs2a.synchronization.transactionsUpdated" => Ibanity.Webhooks.Xs2a.Synchronization.TransactionsUpdated,
     "xs2a.synchronization.transactionsCreated" => Ibanity.Webhooks.Xs2a.Synchronization.TransactionsCreated,
