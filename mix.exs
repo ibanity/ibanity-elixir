@@ -37,7 +37,8 @@ defmodule Ibanity.MixProject do
       {:plug, "~> 1.0", optional: true},
       {:mime, "~> 1.0", optional: true},
       {:ex_doc, "~> 0.22.1", only: :dev, runtime: false},
-      {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false},
+      {:plug_cowboy, "~> 2.0"}
     ]
   end
 
