@@ -302,7 +302,7 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction do
       mandate_id: {~w(attributes mandateId), :string},
       creditor_id: {~w(attributes creditorId), :string},
       additional_information: {~w(attributes additionalInformation), :string},
-      fee: {~w(attributes fee), :string},
+      fee: {~w(attributes fee), :float},
       card_reference: {~w(attributes cardReference), :string},
       card_reference_type: {~w(attributes cardReferenceType), :string},
       financial_institution_account_id: {~w(relationships financialInstitutionAccount data id), :string}
