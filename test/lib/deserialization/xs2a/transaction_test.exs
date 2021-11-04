@@ -41,7 +41,10 @@ defmodule Ibanity.Xs2a.Transaction.DeserializationTest do
         "mandateId" => "12345678",
         "creditorId" => "98765",
         "digest" => "d59f256988324499809c18a8d4a8be60ff36e3d1e0c89c380be49e032e39a287",
-        "additionalInformation" => "addional"
+        "additionalInformation" => "addional",
+        "fee" => 3.14,
+        "cardReference" => "1234",
+        "cardReferenceType" => "MASKEDPAN"
       }
     }
 
@@ -67,6 +70,9 @@ defmodule Ibanity.Xs2a.Transaction.DeserializationTest do
       creditor_id:  "98765",
       digest: "d59f256988324499809c18a8d4a8be60ff36e3d1e0c89c380be49e032e39a287",
       additional_information: "addional",
+      fee: 3.14,
+      card_reference: "1234",
+      card_reference_type: "MASKEDPAN",
       account_id: "ce3893cd-fff5-435a-bdfc-d55a7e98df6f",
       self:
         "https://api.ibanity.com/customer/financial-institutions/0f88f06c-3cfe-4b8f-9338-69981c0c4632/accounts/ce3893cd-fff5-435a-bdfc-d55a7e98df6f/transactions/c847e0f0-9178-47d7-9c11-1f41f9fca6ff"

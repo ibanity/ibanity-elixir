@@ -26,6 +26,9 @@ defmodule Ibanity.Xs2a.Transaction do
             creditor_id: nil,
             digest: nil,
             additional_information: nil,
+            fee: nil,
+            card_reference: nil,
+            card_reference_type: nil,
             account_id: nil,
             self: nil
 
@@ -98,7 +101,7 @@ defmodule Ibanity.Xs2a.Transaction do
       currency: {~w(attributes currency), :string},
       counterpart_reference: {~w(attributes counterpartReference), :string},
       counterpart_name: {~w(attributes counterpartName), :string},
-      amount: {~w(attributes amount), :string},
+      amount: {~w(attributes amount), :float},
       internal_reference: {~w(attributes internalReference), :string},
       bank_transaction_code: {~w(attributes bankTransactionCode), :string},
       proprietary_bank_transaction_code: {~w(attributes proprietaryBankTransactionCode), :string},
@@ -108,6 +111,9 @@ defmodule Ibanity.Xs2a.Transaction do
       creditor_id: {~w(attributes creditorId), :string},
       digest: {~w(attributes digest), :string},
       additional_information: {~w(attributes additionalInformation), :string},
+      fee: {~w(attributes fee), :float},
+      card_reference: {~w(attributes cardReference), :string},
+      card_reference_type: {~w(attributes cardReferenceType), :string},
       account_id: {~w(relationships account data id), :string},
       self: {~w(links self), :string}
     ]
