@@ -20,8 +20,9 @@ defmodule Ibanity.Configuration do
 
   defmodule Options do
     @moduledoc false
-    defstruct ssl: nil, signature: nil
+    defstruct id: nil, ssl: nil, signature: nil
 
+    def id(%__MODULE__{} = opts), do: opts.id
     def ssl(%__MODULE__{} = opts), do: opts.ssl
     def signature(%__MODULE__{} = opts), do: opts.signature
   end
@@ -95,6 +96,10 @@ defmodule Ibanity.Configuration do
     app_name |> get_applications_options |> Options.signature()
   end
 
+  def application_id(app_name \\ :default) do
+    app_name |> get_applications_options |> Options.id()
+  end
+
   defp init(environment) do
     %__MODULE__{
       applications_options: extract_applications_options(environment),
@@ -119,6 +124,7 @@ defmodule Ibanity.Configuration do
       |> Keyword.fetch!(:applications)
       |> Enum.map(fn {app, conf} ->
         app_config = %Options{
+          id: Keyword.get(conf, :id),
           ssl: conf |> extract_ssl_options |> add_ca_cert(environment),
           signature: conf |> extract_signature_options
         }

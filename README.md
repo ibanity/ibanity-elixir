@@ -31,6 +31,14 @@ When making HTTP requests for _live_ applications, each request *must* be signed
 
 ### Per-application configuration
 
+To verify webhook signatures, the ID of your application is used to compare to the audience in the signed signature header.
+
+Therefore, you must provide the ID in your application configuration to use this feature.
+
+Key | Description
+--- | -----------
+`:id` | ID (UUIDv4) of the application, as provided in the Ibanity Developer Portal
+
 #### A note on certificates and private keys
 
 Since Erlang (and thus Elixir) doesn't support PKCS12 at this time, you will have to use both certificate and private key in [PEM format](https://en.wikipedia.org/wiki/Privacy-Enhanced_Mail).
@@ -92,6 +100,7 @@ Here's a full-fledged example with two applications, the `:default` one and `:sa
 ```elixir
 config :ibanity, :applications, [
   default: [
+    id: System.get_env("DEFAULT_ID"),
     certificate: System.get_env("DEFAULT_CERTIFICATE"),
     key: System.get_env("DEFAULT_KEY"),
     signature_certificate: System.get_env("DEFAULT_CERTIFICATE"),
@@ -99,6 +108,7 @@ config :ibanity, :applications, [
     signature_key: System.get_env("DEFAULT_KEY")
   ],
   sandbox: [
+    id: System.get_env("SANDBOX_ID"),
     certificate: System.get_env("SANDBOX_CERTIFICATE"),
     key: System.get_env("SANDBOX_KEY"),
     signature_certificate: System.get_env("SANDBOX_CERTIFICATE"),

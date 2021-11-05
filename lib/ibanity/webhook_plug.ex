@@ -6,21 +6,18 @@ defmodule Ibanity.WebhookPlug do
   Add the following to `endpoint.ex`, **before** `Plug.Parsers` is loaded.
   ```elixir
   plug Ibanity.WebhookPlug,
-    at: "/webhook/ibanity",
+    path: "/webhook/ibanity",
     handler: MyAppWeb.IbanityHandler
   ```
   ### Supported options
-  - `url`: The full URL where the webhooks are sent. Configure this to match
-    whatever you set in the Ibanity Developer Portal.
+  - `path`: The URL path where your application should listen for Ibanity webhooks.
   - `handler`: Custom event handler module that accepts Ibanity event structs
     and processes them within your application. You must create this module.
-  - `path`: The URL path where your application should listen for Ibanity webhooks.
-    The default is parsed from the url.
   - `tolerance`: Maximum drift (in seconds) allowed for the webhook event
-    timestamps. See `Ibanity.Webhook.construct_event/5` for more information.
+    timestamps. See `Ibanity.Webhook.construct_event/4` for more information.
   - `application`: Application configuration which should be used to fetch the
-    webhook signing keys. See `Ibanity.Webhook.construct_event/5` for more
-    information.
+    webhook signing keys and compare to the webhook audience. See
+    `Ibanity.Webhook.construct_event/4` for more information.
   ## Handling events
   You will need to create a custom event handler module to handle events.
   Your event handler module should implement the `Ibanity.WebhookHandler`
@@ -54,8 +51,7 @@ defmodule Ibanity.WebhookPlug do
 
   @impl true
   def init(opts) do
-    path = opts[:path] || URI.parse(opts[:url]).path
-    path_info = String.split(path, "/", trim: true)
+    path_info = String.split(opts[:path], "/", trim: true)
 
     opts
     |> Enum.into(%{})
@@ -83,12 +79,12 @@ defmodule Ibanity.WebhookPlug do
   @impl true
   def call(conn, _), do: conn
 
-  defp construct_event(payload, signature, %{url: url, application: application, tolerance: tolerance}) do
-    Ibanity.Webhook.construct_event(url, payload, signature, application, tolerance)
+  defp construct_event(payload, signature, %{application: application, tolerance: tolerance}) do
+    Ibanity.Webhook.construct_event(payload, signature, application, tolerance)
   end
 
-  defp construct_event(payload, signature, %{url: url, application: application}) do
-    Ibanity.Webhook.construct_event(url, payload, signature, application)
+  defp construct_event(payload, signature, %{application: application}) do
+    Ibanity.Webhook.construct_event(payload, signature, application)
   end
 
   defp handle_event!(handler, %{} = event) do
