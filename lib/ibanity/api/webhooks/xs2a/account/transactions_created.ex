@@ -1,6 +1,6 @@
-defmodule Ibanity.Webhooks.Xs2a.Synchronization.TransactionsUpdated do
+defmodule Ibanity.Webhooks.Xs2a.Account.TransactionsCreated do
   @moduledoc """
-  xs2a.synchronization.transactionsUpdated webhook event
+  xs2a.account.transactionsCreated webhook event
   """
 
   defstruct id: nil,
