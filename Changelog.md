@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.0
+
+* New attributes on transactions and synchronizations
+
 ## 0.7.0
 
 * Add support to update sandbox transactions
