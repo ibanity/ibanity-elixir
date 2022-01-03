@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.1
+
+* Fix unchecked dependencies
+
 ## 0.9.0
 
 * Add support for webhook signature validation, keys endpoint, and events
