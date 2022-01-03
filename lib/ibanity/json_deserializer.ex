@@ -27,7 +27,13 @@ defmodule Ibanity.JsonDeserializer do
     "nbbReport" => Ibanity.Reporting.Xs2a.NbbReport,
     "nbbReportAiSynchronization" => Ibanity.Reporting.Xs2a.NbbReportAiSynchronization,
     "accountInformationAccessRequestAuthorization" => Ibanity.Xs2a.AccountInformationAccessRequestAuthorization,
-    "paymentInitiationRequestAuthorization" => Ibanity.Xs2a.PaymentInitiationRequestAuthorization
+    "paymentInitiationRequestAuthorization" => Ibanity.Xs2a.PaymentInitiationRequestAuthorization,
+    "key" => Ibanity.Webhooks.Key,
+    "xs2a.synchronization.succeededWithoutChange" => Ibanity.Webhooks.Xs2a.Synchronization.SucceededWithoutChange,
+    "xs2a.account.transactionsUpdated" => Ibanity.Webhooks.Xs2a.Account.TransactionsUpdated,
+    "xs2a.account.transactionsCreated" => Ibanity.Webhooks.Xs2a.Account.TransactionsCreated,
+    "xs2a.synchronization.failed" => Ibanity.Webhooks.Xs2a.Synchronization.Failed,
+    "xs2a.account.detailsUpdated" => Ibanity.Webhooks.Xs2a.Account.DetailsUpdated
   }
 
   def deserialize(item) do

@@ -5,11 +5,13 @@ defmodule Ibanity.Configuration do
   use Retry
   alias Ibanity.{ApiSchema, Configuration.Options}
   alias Ibanity.Configuration.Exception, as: ConfigurationException
+  alias Ibanity.Webhooks.Key
 
   defstruct api_schema: %{},
             applications_options: [],
             retry_options: [],
-            timeout_options: []
+            timeout_options: [],
+            webhook_keys: []
 
   defmodule Exception do
     @moduledoc false
@@ -18,8 +20,9 @@ defmodule Ibanity.Configuration do
 
   defmodule Options do
     @moduledoc false
-    defstruct ssl: nil, signature: nil
+    defstruct id: nil, ssl: nil, signature: nil
 
+    def id(%__MODULE__{} = opts), do: opts.id
     def ssl(%__MODULE__{} = opts), do: opts.ssl
     def signature(%__MODULE__{} = opts), do: opts.signature
   end
@@ -28,12 +31,28 @@ defmodule Ibanity.Configuration do
   @default_retry_options [initial_delay: 1000, backoff_interval: 500, max_retries: 0]
   @default_timeout_options [timeout: 8000, recv_timeout: 5000]
 
+  def api_url, do: Application.get_env(:ibanity, :api_url, @default_api_url)
+
   def start_link(environment) do
     Agent.start_link(fn -> init(environment) end, name: __MODULE__)
   end
 
   def api_schema(product) do
     Map.get(Agent.get(__MODULE__, & &1.api_schema), product) || fetch_and_store_api_schema(product)
+  end
+
+  def webhook_key(kid, app_name \\ :default) do
+    Map.get(Agent.get(__MODULE__, & &1.webhook_keys[app_name]) || %{}, kid) || fetch_and_store_webhook_keys(kid, app_name)
+  end
+
+  def fetch_and_store_webhook_keys(kid, app_name \\ :default) do
+    with {:ok, %{items: keys}} <- Key.list(app_name) do
+      Agent.get_and_update(__MODULE__, fn configuration ->
+        key_map = Enum.into(keys, %{}, fn key -> {key.kid, key} end)
+        merged_webhook_keys = Keyword.put(configuration.webhook_keys, app_name, key_map)
+        {key_map[kid], %__MODULE__{configuration | webhook_keys: merged_webhook_keys}}
+      end)
+    end
   end
 
   def fetch_and_store_api_schema(product) do
@@ -50,8 +69,7 @@ defmodule Ibanity.Configuration do
     |> Map.fetch!("sandbox")
   end
   def fetch_api_schema(product) do
-    :ibanity
-    |> Application.get_env(:api_url, @default_api_url)
+    api_url()
     |> URI.parse()
     |> URI.merge("/#{product}")
     |> to_string()
@@ -78,6 +96,10 @@ defmodule Ibanity.Configuration do
     app_name |> get_applications_options |> Options.signature()
   end
 
+  def application_id(app_name \\ :default) do
+    app_name |> get_applications_options |> Options.id()
+  end
+
   defp init(environment) do
     %__MODULE__{
       applications_options: extract_applications_options(environment),
@@ -102,6 +124,7 @@ defmodule Ibanity.Configuration do
       |> Keyword.fetch!(:applications)
       |> Enum.map(fn {app, conf} ->
         app_config = %Options{
+          id: Keyword.get(conf, :id),
           ssl: conf |> extract_ssl_options |> add_ca_cert(environment),
           signature: conf |> extract_signature_options
         }

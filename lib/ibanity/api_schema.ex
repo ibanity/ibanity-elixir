@@ -99,6 +99,11 @@ defmodule Ibanity.ApiSchema do
     }
   end
 
+  def fetch("https://api.ibanity.com/webhooks", _, :test) do
+    %{
+      "keys" => "https://api.ibanity.com/webhooks/keys"
+    }
+  end
 
   def fetch("https://api.ibanity.com/reporting", _, :test) do
     %{
