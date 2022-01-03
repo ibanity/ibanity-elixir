@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.0
+
+* Add support for webhook signature validation, keys endpoint, and events
+
 ## 0.8.0
 
 * New attributes on transactions and synchronizations
