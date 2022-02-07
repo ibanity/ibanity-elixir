@@ -23,6 +23,22 @@ defmodule Ibanity.Xs2a.Synchronization do
             updated_at: nil
 
   @doc """
+  [Lists account's transactions synchronizations](https://documentation.ibanity.com/xs2a/api#list-synchronizations) for a specific account information access request authorization.
+
+  Returns `{:ok, collection}` where `collection` is a `Ibanity.Collection` where items are of type `Ibanity.Xs2a.Synchronization`.
+
+  ## Example
+
+      iex> Request.id(:account_information_access_request_id, "ce3893cd-fff5-435a-bdfc-d55a7e98df6f")
+      ...> |> Synchronization.list
+      {:ok, %Ibanity.Collection{items: [%Ibanity.Synchronization{...}], ...}}
+  """
+  def list(%Request{resource_ids: [account_information_access_request_id: _account_information_access_request_id]} = request) do
+    request
+    |> Client.execute(:get, ["xs2a", "customer", "accountInformationAccessRequest", "initialAccountTransactionsSynchronizations"])
+  end
+
+  @doc """
   [Creates a new synchronization resource](https://documentation.ibanity.com/xs2a/api#create-synchronization).
 
   *Note that at this moment it only supports `account` as resource type.*
