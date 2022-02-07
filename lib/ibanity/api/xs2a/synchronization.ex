@@ -29,13 +29,14 @@ defmodule Ibanity.Xs2a.Synchronization do
 
   ## Example
 
-      iex> Request.id(:account_information_access_request_id, "ce3893cd-fff5-435a-bdfc-d55a7e98df6f")
+      iex> Request.id(:financial_institution_id, "0f88f06c-3cfe-4b8f-9338-69981c0c4632")
+      ...> |> Request.id(:account_information_access_request_id, "ce3893cd-fff5-435a-bdfc-d55a7e98df6f")
       ...> |> Synchronization.list
       {:ok, %Ibanity.Collection{items: [%Ibanity.Synchronization{...}], ...}}
   """
-  def list(%Request{resource_ids: [account_information_access_request_id: _account_information_access_request_id]} = request) do
+  def list(%Request{resource_ids: [financial_institution_id: _financial_institution_id, account_information_access_request_id: _account_information_access_request_id]} = request) do
     request
-    |> Client.execute(:get, ["xs2a", "customer", "accountInformationAccessRequest", "initialAccountTransactionsSynchronizations"])
+    |> Client.execute(:get, ["xs2a", "customer", "financialInstitution", "accountInformationAccessRequest", "initialAccountTransactionsSynchronizations"])
   end
 
   @doc """
