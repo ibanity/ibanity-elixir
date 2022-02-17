@@ -10,6 +10,7 @@ defmodule Ibanity.Xs2a.BulkPaymentInitiationRequest do
 
   defstruct id: nil,
             status: nil,
+            status_reason: nil,
             product_type: nil,
             end_to_end_id: nil,
             debtor_name: nil,
@@ -54,6 +55,7 @@ defmodule Ibanity.Xs2a.BulkPaymentInitiationRequest do
     [
       id: {~w(id), :string},
       status: {~w(attributes status), :string},
+      status_reason: {~w(attributes status_reason), :string},
       product_type: {~w(attributes productType), :string},
       end_to_end_id: {~w(attributes endToEndId), :string},
       debtor_name: {~w(attributes debtorName), :string},
