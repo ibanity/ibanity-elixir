@@ -10,6 +10,7 @@ defmodule Ibanity.Xs2a.PeriodicPaymentInitiationRequest do
 
   defstruct id: nil,
             status: nil,
+            status_reason: nil,
             remittance_information_type: nil,
             remittance_information: nil,
             product_type: nil,
@@ -37,6 +38,7 @@ defmodule Ibanity.Xs2a.PeriodicPaymentInitiationRequest do
     [
       id: {~w(id), :string},
       status: {~w(attributes status), :string},
+      status_reason: {~w(attributes status_reason), :string},
       remittance_information_type: {~w(attributes remittanceInformationType), :string},
       remittance_information: {~w(attributes remittanceInformation), :string},
       product_type: {~w(attributes productType), :string},
