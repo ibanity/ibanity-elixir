@@ -11,6 +11,7 @@ defmodule Ibanity.ApiSchema do
 
   def fetch("https://api.ibanity.com/xs2a", _, :test) do
     %{
+      "batchSynchronizations" => "https://api.ibanity.com/xs2a/batch-synchronizations",
       "customer" => %{
         "accounts" => "https://api.ibanity.com/customer/accounts",
         "financialInstitution" => %{

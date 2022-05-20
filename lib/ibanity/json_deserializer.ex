@@ -5,6 +5,7 @@ defmodule Ibanity.JsonDeserializer do
   @type_mappings %{
     "accountInformationAccessRequest" => Ibanity.Xs2a.AccountInformationAccessRequest,
     "account" => Ibanity.Xs2a.Account,
+    "batchSynchronization" => Ibanity.Xs2a.BatchSynchronization,
     "customerAccessToken" => Ibanity.Xs2a.CustomerAccessToken,
     "customer" => Ibanity.Xs2a.Customer,
     "financialInstitutionTransaction" => Ibanity.Sandbox.FinancialInstitutionTransaction,
