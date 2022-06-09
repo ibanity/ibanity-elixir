@@ -26,7 +26,9 @@ defmodule Ibanity.Xs2a.PaymentInitiationRequest do
             consent_reference: nil,
             amount: nil,
             redirect_link: nil,
-            financial_institution_id: nil
+            financial_institution_id: nil,
+            skip_ibanity_completion_callback: false,
+            allow_financial_institution_redirect_uri: false,
 
   @doc false
   def key_mapping do
@@ -49,7 +51,9 @@ defmodule Ibanity.Xs2a.PaymentInitiationRequest do
       consent_reference: {~w(attributes consentReference), :string},
       amount: {~w(attributes amount), :float},
       redirect_link: {~w(links redirect), :string},
-      financial_institution_id: {~w(relationships financialInstitution data id), :string}
+      financial_institution_id: {~w(relationships financialInstitution data id), :string},
+      skip_ibanity_completion_callback: {~w(attributes skipIbanityCompletionCallback), :boolean},
+      allow_financial_institution_redirect_uri:  {~w(attributes allowFinancialInstitutionRedirectUri), :boolean}
     ]
   end
 
