@@ -19,7 +19,7 @@ defmodule Ibanity.Xs2a.BulkPaymentInitiationRequest do
             redirect_link: nil,
             financial_institution_id: nil,
             skip_ibanity_completion_callback: false,
-            allow_financial_institution_redirect_uri: false
+            allow_financial_institution_redirect_uri: false,
             payments: []
 
   defmodule Payment do
