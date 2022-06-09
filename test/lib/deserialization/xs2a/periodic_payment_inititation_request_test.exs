@@ -42,7 +42,9 @@ defmodule Ibanity.Xs2a.PeriodicPaymentInitiationRequest.DeserializationTest do
         "frequency" => "daily",
         "startDate" => "2020-06-17",
         "endDate" => "2021-06-17",
-        "executionRule" => "following"
+        "executionRule" => "following",
+        "skipIbanityCompletionCallback" => true,
+        "allowFinancialInstitutionRedirectUri" => true
       }
     }
 
@@ -71,7 +73,9 @@ defmodule Ibanity.Xs2a.PeriodicPaymentInitiationRequest.DeserializationTest do
       frequency: "daily",
       start_date: ~D[2020-06-17],
       end_date: ~D[2021-06-17],
-      execution_rule: "following"
+      execution_rule: "following",
+      skipIbanityCompletionCallback: true,
+      allowFinancialInstitutionRedirectUri: true
     }
 
     assert actual == expected
