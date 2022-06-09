@@ -74,8 +74,8 @@ defmodule Ibanity.Xs2a.PeriodicPaymentInitiationRequest.DeserializationTest do
       start_date: ~D[2020-06-17],
       end_date: ~D[2021-06-17],
       execution_rule: "following",
-      skipIbanityCompletionCallback: true,
-      allowFinancialInstitutionRedirectUri: true
+      skip_ibanity_completion_callback: true,
+      allow_financial_institution_redirect_uri: true
     }
 
     assert actual == expected

@@ -61,7 +61,7 @@ defmodule Ibanity.Xs2a.BulkPaymentInitiationRequest.DeserializationTest do
       debtor_account_reference_type: "IBAN",
       debtor_account_reference: "BE5745665582716888",
       skip_ibanity_completion_callback: true,
-      allowFinancialInstitutionRedirectUri: true,
+      allow_financial_institution_redirect_uri: true,
       payments: [
         %BulkPaymentInitiationRequest.Payment{
           currency: "EUR",
