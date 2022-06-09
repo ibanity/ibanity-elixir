@@ -29,7 +29,7 @@ defmodule Ibanity.Xs2a.PaymentInitiationRequest do
             redirect_link: nil,
             financial_institution_id: nil,
             skip_ibanity_completion_callback: false,
-            allow_financial_institution_redirect_uri: false,
+            allow_financial_institution_redirect_uri: false
 
   @doc false
   def key_mapping do
