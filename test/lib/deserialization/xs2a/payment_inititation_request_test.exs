@@ -38,6 +38,8 @@ defmodule Ibanity.Xs2a.PaymentInitiationRequest.DeserializationTest do
         "creditorAccountReferenceType" => "IBAN",
         "creditorAccountReference" => "BE4359048312132562",
         "consentReference" => "b57cca6b-74d6-4ac8-ba5d-4e28160d8dde",
+        "skipIbanityCompletionCallback" => true,
+        "allowFinancialInstitutionRedirectUri" => true,
         "amount" => 59
       }
     }
@@ -63,7 +65,9 @@ defmodule Ibanity.Xs2a.PaymentInitiationRequest.DeserializationTest do
       consent_reference: "b57cca6b-74d6-4ac8-ba5d-4e28160d8dde",
       amount: 59,
       redirect_link: "https://callback.ibanity.com/sandbox/fi/pir/i?state=dmF1bHQ6djE6V1FLZFp...",
-      financial_institution_id: "b2c76f6b-ab34-4843-8ef3-84300ef98a09"
+      financial_institution_id: "b2c76f6b-ab34-4843-8ef3-84300ef98a09",
+      skip_ibanity_completion_callback: true,
+      allow_financial_institution_redirect_uri: true,
     }
 
     assert actual == expected

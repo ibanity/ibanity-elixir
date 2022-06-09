@@ -30,6 +30,8 @@ defmodule Ibanity.Xs2a.BulkPaymentInitiationRequest.DeserializationTest do
         "debtorAccountReferenceType" => "IBAN",
         "debtorAccountReference" => "BE5745665582716888",
         "consentReference" => "b57cca6b-74d6-4ac8-ba5d-4e28160d8dde",
+        "skipIbanityCompletionCallback" => true,
+        "allowFinancialInstitutionRedirectUri" => true,
         "payments" => [
           %{
             "remittanceInformationType" => "unstructured",
@@ -58,6 +60,8 @@ defmodule Ibanity.Xs2a.BulkPaymentInitiationRequest.DeserializationTest do
       debtor_name: "Cassidy Hahn",
       debtor_account_reference_type: "IBAN",
       debtor_account_reference: "BE5745665582716888",
+      skip_ibanity_completion_callback: true,
+      allowFinancialInstitutionRedirectUri: true,
       payments: [
         %BulkPaymentInitiationRequest.Payment{
           currency: "EUR",
