@@ -19,6 +19,8 @@ defmodule Ibanity.Xs2a.BulkPaymentInitiationRequest do
             consent_reference: nil,
             redirect_link: nil,
             financial_institution_id: nil,
+            skip_ibanity_completion_callback: false,
+            allow_financial_institution_redirect_uri: false
             payments: []
 
   defmodule Payment do
@@ -61,6 +63,8 @@ defmodule Ibanity.Xs2a.BulkPaymentInitiationRequest do
       debtor_name: {~w(attributes debtorName), :string},
       debtor_account_reference_type: {~w(attributes debtorAccountReferenceType), :string},
       debtor_account_reference: {~w(attributes debtorAccountReference), :string},
+      skip_ibanity_completion_callback: {~w(attributes skipIbanityCompletionCallback), :boolean},
+      allow_financial_institution_redirect_uri:  {~w(attributes allowFinancialInstitutionRedirectUri), :boolean},
       consent_reference: {~w(attributes consentReference), :string},
       redirect_link: {~w(links redirect), :string},
       financial_institution_id: {~w(relationships financialInstitution data id), :string},

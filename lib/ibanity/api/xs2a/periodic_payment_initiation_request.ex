@@ -31,7 +31,9 @@ defmodule Ibanity.Xs2a.PeriodicPaymentInitiationRequest do
             start_date: nil,
             end_date: nil,
             execution_rule: nil,
-            frequency: nil
+            frequency: nil,
+            skip_ibanity_completion_callback: false,
+            allow_financial_institution_redirect_uri: false
 
   @doc false
   def key_mapping do
@@ -60,6 +62,8 @@ defmodule Ibanity.Xs2a.PeriodicPaymentInitiationRequest do
       start_date: {~w(attributes startDate), :date},
       end_date: {~w(attributes endDate), :date},
       execution_rule: {~w(attributes executionRule), :string},
+      skip_ibanity_completion_callback: {~w(attributes skipIbanityCompletionCallback), :boolean},
+      allow_financial_institution_redirect_uri:  {~w(attributes allowFinancialInstitutionRedirectUri), :boolean}
     ]
   end
 
