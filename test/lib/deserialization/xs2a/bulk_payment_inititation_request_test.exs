@@ -32,6 +32,7 @@ defmodule Ibanity.Xs2a.BulkPaymentInitiationRequest.DeserializationTest do
         "consentReference" => "b57cca6b-74d6-4ac8-ba5d-4e28160d8dde",
         "skipIbanityCompletionCallback" => true,
         "allowFinancialInstitutionRedirectUri" => true,
+        "batchBookingPreferred" => true,
         "payments" => [
           %{
             "remittanceInformationType" => "unstructured",
@@ -62,6 +63,7 @@ defmodule Ibanity.Xs2a.BulkPaymentInitiationRequest.DeserializationTest do
       debtor_account_reference: "BE5745665582716888",
       skip_ibanity_completion_callback: true,
       allow_financial_institution_redirect_uri: true,
+      batch_booking_preferred: true,
       payments: [
         %BulkPaymentInitiationRequest.Payment{
           currency: "EUR",
