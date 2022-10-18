@@ -7,7 +7,8 @@ defmodule Ibanity.Webhooks.Xs2a.Synchronization.Failed do
             created_at: nil,
             synchronization_subtype: nil,
             account_id: nil,
-            synchronization_id: nil
+            synchronization_id: nil,
+            batch_synchronization_id: nil
 
   def key_mapping do
     [
@@ -15,7 +16,8 @@ defmodule Ibanity.Webhooks.Xs2a.Synchronization.Failed do
       created_at: {~w(attributes createdAt), :datetime},
       synchronization_subtype: {~w(attributes synchronizationSubtype), :string},
       account_id: {~w(relationships account data id), :string},
-      synchronization_id: {~w(relationships synchronization data id), :string}
+      synchronization_id: {~w(relationships synchronization data id), :string},
+      batch_synchronization_id: {~w(relationships batchSynchronization data id), :string}
     ]
   end
 end
