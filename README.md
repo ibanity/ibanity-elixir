@@ -6,14 +6,14 @@ The Ibanity Elixir Library provides convenient wrappers around the Ibanity API. 
 
 ## Documentation
 
-Visit our [API docs](https://documentation.ibanity.com/api).
+Visit our [API docs](https://documentation.ibanity.com/xs2a/1/api/elixir).
 
 ## Installation
 
 In the `mix.exs` file:
 ```elixir
 def deps do
-  [{:ibanity, "~> 0.5.0}]
+  [{:ibanity, "~> 0.11.0}]
 end
 ```
 
