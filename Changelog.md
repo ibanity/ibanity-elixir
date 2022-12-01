@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.11.0
+
+* Add batch_synchronization_id in webhooks resources
+
+## 0.10.0
+
+* Bulk & Periodic Payment with Authorization for TPP Managed flow
+
 ## 0.9.1
 
 * Fix unchecked dependencies
