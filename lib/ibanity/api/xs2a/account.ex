@@ -15,6 +15,7 @@ defmodule Ibanity.Xs2a.Account do
             available_balance: nil,
             financial_institution: nil,
             financial_institution_id: nil,
+            pending_transactions: nil,
             transactions: nil,
             latest_synchronization: nil,
             synchronized_at: nil,
@@ -180,6 +181,18 @@ defmodule Ibanity.Xs2a.Account do
   end
 
   @doc """
+  Fetches the pending_transactions associated to this account.
+
+  Returns:
+  * `{:ok, pending_transactions}` if successful, where `pending_transactions` is an `Ibanity.Collection`
+  * `nil` if no pending transactions link was set on the structure
+  * `{:error, reason}` otherwise
+  """
+  def pending_transactions(%__MODULE__{} = account) do
+    if account.pending_transactions, do: Client.get(account.pending_transactions), else: nil
+  end
+
+  @doc """
   Fetches the transactions associated to this account.
 
   Returns:
@@ -225,6 +238,7 @@ defmodule Ibanity.Xs2a.Account do
       available_balance_reference_date: {~w(attributes availableBalanceReferenceDate), :datetime},
       authorized_at: {~w(attributes authorizedAt), :datetime},
       authorization_expiration_expected_at: {~w(attributes authorizationExpirationExpectedAt), :datetime},
+      pendingTransactions: {~w(relationships pendingTransactions links related), :string},
       transactions: {~w(relationships transactions links related), :string},
       financial_institution: {~w(relationships financialInstitution links related), :string},
       financial_institution_id: {~w(relationships financialInstitution data id), :string},
