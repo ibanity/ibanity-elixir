@@ -31,7 +31,8 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction do
             fee: nil,
             card_reference: nil,
             card_reference_type: nil,
-            financial_institution_account_id: nil
+            financial_institution_account_id: nil,
+            automatic_booking: nil
 
   @doc """
   Convenience function to [create a new financial institution transaction](https://documentation.ibanity.com/xs2a/api#create-financial-institution-transaction).
@@ -305,7 +306,8 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction do
       fee: {~w(attributes fee), :float},
       card_reference: {~w(attributes cardReference), :string},
       card_reference_type: {~w(attributes cardReferenceType), :string},
-      financial_institution_account_id: {~w(relationships financialInstitutionAccount data id), :string}
+      automatic_booking: {~w(attributes automaticBooking), :boolean},
+      financial_institution_account_id: {~w(relationships financialInstitutionAccount data id), :string},
     ]
   end
 end

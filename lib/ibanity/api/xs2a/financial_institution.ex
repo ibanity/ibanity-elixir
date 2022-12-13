@@ -32,7 +32,8 @@ defmodule Ibanity.Xs2a.FinancialInstitution do
             shared_brand_name: nil,
             maintenance_from: nil,
             maintenance_to: nil,
-            maintenance_type: nil
+            maintenance_type: nil,
+            pending_transactions_available: nil
 
   @resource_type "financial_institution"
 
@@ -205,7 +206,8 @@ defmodule Ibanity.Xs2a.FinancialInstitution do
       shared_brand_name: {~w(attributes sharedBrandName), :string},
       maintenance_from: {~w(attributes maintenanceFrom), :datetime},
       maintenance_to: {~w(attributes maintenanceTo), :datetime},
-      maintenance_type: {~w(attributes maintenanceType), :string}
+      maintenance_type: {~w(attributes maintenanceType), :string},
+      pending_transactions_available: {~w(attributes pendingTransactionsAvailable), :boolean}
     ]
   end
 end
