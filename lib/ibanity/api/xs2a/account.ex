@@ -238,7 +238,7 @@ defmodule Ibanity.Xs2a.Account do
       available_balance_reference_date: {~w(attributes availableBalanceReferenceDate), :datetime},
       authorized_at: {~w(attributes authorizedAt), :datetime},
       authorization_expiration_expected_at: {~w(attributes authorizationExpirationExpectedAt), :datetime},
-      pendingTransactions: {~w(relationships pendingTransactions links related), :string},
+      pending_transactions: {~w(relationships pendingTransactions links related), :string},
       transactions: {~w(relationships transactions links related), :string},
       financial_institution: {~w(relationships financialInstitution links related), :string},
       financial_institution_id: {~w(relationships financialInstitution data id), :string},
