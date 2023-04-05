@@ -21,6 +21,7 @@ defmodule Ibanity.JsonDeserializer do
     "bulkPaymentInitiationRequest" => Ibanity.Xs2a.BulkPaymentInitiationRequest,
     "bulkPaymentInitiationRequestAuthorization" => Ibanity.Xs2a.BulkPaymentInitiationRequestAuthorization,
     "paymentItem" => Ibanity.Xs2a.BulkPaymentInitiationRequest.Payment,
+    "pendingTransaction" => Ibanity.Xs2a.PendingTransaction,
     "transaction" => Ibanity.Xs2a.Transaction,
     "holding" => Ibanity.Xs2a.Holding,
     "synchronization" => Ibanity.Xs2a.Synchronization,
@@ -35,6 +36,8 @@ defmodule Ibanity.JsonDeserializer do
     "xs2a.synchronization.succeededWithoutChange" => Ibanity.Webhooks.Xs2a.Synchronization.SucceededWithoutChange,
     "xs2a.account.transactionsUpdated" => Ibanity.Webhooks.Xs2a.Account.TransactionsUpdated,
     "xs2a.account.transactionsCreated" => Ibanity.Webhooks.Xs2a.Account.TransactionsCreated,
+    "xs2a.account.pendingTransactionsUpdated" => Ibanity.Webhooks.Xs2a.Account.PendingTransactionsUpdated,
+    "xs2a.account.pendingTransactionsCreated" => Ibanity.Webhooks.Xs2a.Account.PendingTransactionsCreated,
     "xs2a.synchronization.failed" => Ibanity.Webhooks.Xs2a.Synchronization.Failed,
     "xs2a.account.detailsUpdated" => Ibanity.Webhooks.Xs2a.Account.DetailsUpdated
   }
