@@ -17,6 +17,7 @@ defmodule Ibanity.Xs2a.Synchronization do
             resource_id: nil,
             customer_online: nil,
             customer_ip_address: nil,
+            updated_pending_transactions: nil,
             updated_transactions: nil,
             errors: [],
             created_at: nil,
@@ -95,6 +96,7 @@ defmodule Ibanity.Xs2a.Synchronization do
       errors: {~w(attributes errors), :string},
       created_at: {~w(attributes createdAt), :datetime},
       updated_at: {~w(attributes updatedAt), :datetime},
+      updated_pending_transactions: {~w(relationships updatedPendingTransactions links related), :string},
       updated_transactions: {~w(relationships updatedTransactions links related), :string}
     ]
   end
