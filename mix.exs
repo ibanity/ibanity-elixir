@@ -4,7 +4,7 @@ defmodule Ibanity.MixProject do
   def project do
     [
       app: :ibanity,
-      version: "0.11.0",
+      version: "0.12.0",
       elixir: "~> 1.12.2",
       start_permanent: Mix.env() == :prod,
       description: "Wrapper for the Ibanity API",

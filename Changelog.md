@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.12.0
+
+* [XS2A] Add Ibanity.Xs2a.PendingTransaction.
+* [XS2A] Add additional webhooks
+    * Ibanity.Webhooks.Xs2a.Account.PendingTransactionsCreated
+    * Ibanity.Webhooks.Xs2a.Account.PendingTransactionsUpdated
+
 ## 0.11.0
 
 * Add batch_synchronization_id in webhooks resources
