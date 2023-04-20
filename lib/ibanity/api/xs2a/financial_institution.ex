@@ -33,6 +33,7 @@ defmodule Ibanity.Xs2a.FinancialInstitution do
             maintenance_from: nil,
             maintenance_to: nil,
             maintenance_type: nil,
+            time_zone: nil,
             pending_transactions_available: nil
 
   @resource_type "financial_institution"
@@ -207,6 +208,7 @@ defmodule Ibanity.Xs2a.FinancialInstitution do
       maintenance_from: {~w(attributes maintenanceFrom), :datetime},
       maintenance_to: {~w(attributes maintenanceTo), :datetime},
       maintenance_type: {~w(attributes maintenanceType), :string},
+      time_zone: {~w(attributes timeZone), :string},
       pending_transactions_available: {~w(attributes pendingTransactionsAvailable), :boolean}
     ]
   end
