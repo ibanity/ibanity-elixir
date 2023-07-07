@@ -1,4 +1,4 @@
-defmodule Ibanity.Sandbox.FinancialInstitutionUser do
+defmodule Ibanity.Xs2a.Sandbox.FinancialInstitutionUser do
   @moduledoc """
   [Financial institution user](https://documentation.ibanity.com/xs2a/api#financial-institution-user) API wrapper
   """

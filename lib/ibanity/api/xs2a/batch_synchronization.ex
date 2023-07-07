@@ -1,6 +1,6 @@
 defmodule Ibanity.Xs2a.BatchSynchronization do
   @moduledoc """
-  [Financial institutions](https://documentation.ibanity.com/xs2a/api#batch-synchronization) API wrapper
+  [Batch synchronization](https://documentation.ibanity.com/xs2a/api#batch-synchronization) API wrapper
   """
 
   use Ibanity.Resource

@@ -1,4 +1,4 @@
-defmodule Ibanity.Sandbox.FinancialInstitutionAccount do
+defmodule Ibanity.Xs2a.Sandbox.FinancialInstitutionAccount do
   @moduledoc """
   [Financial institution account](https://documentation.ibanity.com/xs2a/api#financial-institution-account) API wrapper
   """
@@ -68,8 +68,8 @@ defmodule Ibanity.Sandbox.FinancialInstitutionAccount do
 
   Returns `{:ok, accounts}` where `accounts` is a `Ibanity.Collection` where items are `Ibanity.FinancialInstitutionAccount`.
   """
-  def list(institution_id, user_id) do
-    Request.id(:financial_institution_id, institution_id)
+  def list(financial_institution_id, user_id) do
+    Request.id(:financial_institution_id, financial_institution_id)
     |> Request.id(:financial_institution_user_id, user_id)
     |> list
   end
@@ -108,8 +108,8 @@ defmodule Ibanity.Sandbox.FinancialInstitutionAccount do
       ...> )
       {:ok, Ibanity.FinancialInstitutionAccount{id: "b1c1e046-309b-49b8-bc5d-c4b1f82f61a7", ...}}
   """
-  def find(institution_id, user_id, account_id) do
-    Request.id(:financial_institution_id, institution_id)
+  def find(financial_institution_id, user_id, account_id) do
+    Request.id(:financial_institution_id, financial_institution_id)
     |> Request.id(:financial_institution_user_id, user_id)
     |> Request.id(:id, account_id)
     |> find
@@ -149,8 +149,8 @@ defmodule Ibanity.Sandbox.FinancialInstitutionAccount do
       ...> )
       {:ok, FinancialInstitutionAccount{id: "b1c1e046-309b-49b8-bc5d-c4b1f82f61a7", ...}}
   """
-  def delete(institution_id, user_id, account_id) do
-    Request.id(:financial_institution_id, institution_id)
+  def delete(financial_institution_id, user_id, account_id) do
+    Request.id(:financial_institution_id, financial_institution_id)
     |> Request.id(:financial_institution_user_id, user_id)
     |> Request.id(:id, account_id)
     |> delete

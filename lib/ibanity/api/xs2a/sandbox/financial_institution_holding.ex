@@ -1,4 +1,4 @@
-defmodule Ibanity.Sandbox.FinancialInstitutionHolding do
+defmodule Ibanity.Xs2a.Sandbox.FinancialInstitutionHolding do
   @moduledoc """
   [Financial institution holding]() API wrapper
   """

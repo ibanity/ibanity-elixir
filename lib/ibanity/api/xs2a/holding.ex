@@ -19,7 +19,7 @@ defmodule Ibanity.Xs2a.Holding do
             account_id: nil,
             self: nil
 
-  @api_schema_path ~w(xs2a customer financialInstitution holdings)
+  @api_schema_path ~w(xs2a customer financialInstitution account holdings)
 
   @doc """
   [Lists holdings](https://documentation.ibanity.com/xs2a/api#list-holdings)

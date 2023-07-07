@@ -12,6 +12,7 @@ defmodule Ibanity.ApiSchema do
   def fetch("https://api.ibanity.com/xs2a", _, :test) do
     %{
       "batchSynchronizations" => "https://api.ibanity.com/xs2a/batch-synchronizations",
+      "batchTransactionDeleteRequests" => "https://api.ibanity.com/xs2a/batch-transaction-delete-requests",
       "customer" => %{
         "accounts" => "https://api.ibanity.com/customer/accounts",
         "financialInstitution" => %{
@@ -19,11 +20,23 @@ defmodule Ibanity.ApiSchema do
             "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/account-information-access-requests/{id}",
           "accounts" =>
             "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/accounts/{id}",
+          "account" => %{
+            "pendingTransactions" =>
+              "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/accounts/{account_id}/pending-transactions/{id}",
+            "transactions" =>
+              "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/accounts/{account_id}/transactions/{id}",
+            "holdings" =>
+              "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/accounts/{account_id}/holdings/{id}",
+            "transactionDeleteRequests" =>
+              "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/accounts/{account_id}/transaction-delete-requests"
+          },
           "paymentInitiationRequests" =>
             "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/payment-initiation-requests/{id}",
           "paymentInitiationRequest" => %{
             "authorizations" => "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/payment-initiation-requests/{payment_initiation_request_id}/authorizations"
           },
+          "pendingTransactions" =>
+            "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/accounts/{account_id}/pending-transactions/{id}",
           "transactions" =>
             "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/accounts/{account_id}/transactions/{id}",
           "holdings" =>
