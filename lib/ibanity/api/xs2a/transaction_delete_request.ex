@@ -10,16 +10,32 @@ defmodule Ibanity.Xs2a.TransactionDeleteRequest do
   @resource_type "transaction_delete_request"
 
   @doc """
+  [Creates a new transaction delete request] for application (all accounts)(https://documentation.ibanity.com/xs2a/api#create-transaction-delete-request-for-application).
+
+  Returns `{:ok, transaction_delete_request}` if sucessful, `{:error, reason}` otherwise.
+
+  ## Example
+
+      iex> Request.attributes(:before_date, "2022-01-01T00:00:00.000Z")
+      ...> |> TransactionDeleteRequest.create
+      {:ok, %Ibanity.TransactionDeleteRequest{id: "9c57df52-bd8e-42d2-b15a-a664741e3ed2"}}
+  """
+  def create(%Request{} = request) do
+    request
+    |> Request.resource_type(@resource_type)
+    |> Client.execute(:post, ~w(xs2a transactionDeleteRequests))
+  end
+
+  @doc """
   [Creates a new transaction delete request] for customer(https://documentation.ibanity.com/xs2a/api#create-transaction-delete-request-for-customer).
 
   Returns `{:ok, transaction_delete_request}` if sucessful, `{:error, reason}` otherwise.
 
   ## Example
 
-      iex> [
-      ...> beforeDate: "2022-01-01T00:00:00.000Z"
-      ...> ]
-      ...> |> Request.attributes
+      iex> token
+      ...> |> Request.customer_access_token
+      ...> |> Request.attributes(:before_date, "2022-01-01T00:00:00.000Z")
       ...> |> TransactionDeleteRequest.create
       {:ok, %Ibanity.TransactionDeleteRequest{id: "9c57df52-bd8e-42d2-b15a-a664741e3ed2"}}
   """
@@ -36,9 +52,9 @@ defmodule Ibanity.Xs2a.TransactionDeleteRequest do
 
   ## Example
 
-      iex> [
-      ...> beforeDate: "2022-01-01T00:00:00.000Z"
-      ...> ]
+      iex> token
+      ...> |> Request.customer_access_token
+      ...> |> Request.attributes(:before_date, "2022-01-01T00:00:00.000Z")
       ...> |> Request.id(:financial_institution_id, "b2c76f6b-ab34-4843-8ef3-84300ef98a09")
       ...> |> Request.id(:account_id, "616a75d4-0262-4edc-b168-200c9773d8f8")
       ...> |> Request.attributes
