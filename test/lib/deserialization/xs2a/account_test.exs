@@ -11,7 +11,7 @@ defmodule Ibanity.Xs2a.Account.DeserializationTest do
         "transactions" => %{
           "links" => %{
             "related" =>
-              "https://api.ibanity.com/customer/financial-institutions/0a089c79-bfef-45e7-b647-a4654e4bff9f/accounts/2e016890-70a5-4892-8711-f34ef74c0b02/transactions",
+              "https://api.ibanity.com/xs2a/customer/financial-institutions/0a089c79-bfef-45e7-b647-a4654e4bff9f/accounts/2e016890-70a5-4892-8711-f34ef74c0b02/transactions",
             "meta" => %{
               "type" => "transaction"
             }
@@ -46,7 +46,7 @@ defmodule Ibanity.Xs2a.Account.DeserializationTest do
       },
       "links" => %{
         "self" =>
-          "https://api.ibanity.com/customer/financial-institutions/0a089c79-bfef-45e7-b647-a4654e4bff9f/accounts/2e016890-70a5-4892-8711-f34ef74c0b02"
+          "https://api.ibanity.com/xs2a/customer/financial-institutions/0a089c79-bfef-45e7-b647-a4654e4bff9f/accounts/2e016890-70a5-4892-8711-f34ef74c0b02"
       },
       "id" => "2e016890-70a5-4892-8711-f34ef74c0b02",
       "attributes" => %{
@@ -97,7 +97,7 @@ defmodule Ibanity.Xs2a.Account.DeserializationTest do
         "https://api.ibanity.com/financial-institutions/0a089c79-bfef-45e7-b647-a4654e4bff9f",
       financial_institution_id: "0a089c79-bfef-45e7-b647-a4654e4bff9f",
       transactions:
-        "https://api.ibanity.com/customer/financial-institutions/0a089c79-bfef-45e7-b647-a4654e4bff9f/accounts/2e016890-70a5-4892-8711-f34ef74c0b02/transactions",
+        "https://api.ibanity.com/xs2a/customer/financial-institutions/0a089c79-bfef-45e7-b647-a4654e4bff9f/accounts/2e016890-70a5-4892-8711-f34ef74c0b02/transactions",
       synchronized_at: DateTimeUtil.parse("2018-10-18T15:12:23.075Z"),
       latest_synchronization: %{
         "type" => "synchronization",
