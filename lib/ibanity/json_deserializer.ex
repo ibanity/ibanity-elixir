@@ -23,6 +23,7 @@ defmodule Ibanity.JsonDeserializer do
     "paymentItem" => Ibanity.Xs2a.BulkPaymentInitiationRequest.Payment,
     "pendingTransaction" => Ibanity.Xs2a.PendingTransaction,
     "transaction" => Ibanity.Xs2a.Transaction,
+    "transactionDeleteRequest" => Ibanity.Xs2a.TransactionDeleteRequest,
     "holding" => Ibanity.Xs2a.Holding,
     "synchronization" => Ibanity.Xs2a.Synchronization,
     "consent" => Ibanity.Consent.Consent,
