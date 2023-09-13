@@ -186,7 +186,8 @@ defmodule Ibanity.Sandbox.FinancialInstitutionHolding do
         financial_institution_account_id,
         financial_institution_holding_id
       ) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionHolding.delete(request,
+    Ibanity.Xs2a.Sandbox.FinancialInstitutionHolding.delete(
+      request,
       financial_institution_id,
       financial_institution_user_id,
       financial_institution_account_id,

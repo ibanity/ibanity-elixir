@@ -62,7 +62,8 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction do
         financial_institution_account_id,
         attributes
       ) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionTransaction.create(request,
+    Ibanity.Xs2a.Sandbox.FinancialInstitutionTransaction.create(
+      request,
       financial_institution_id,
       financial_institution_user_id,
       financial_institution_account_id,
@@ -98,7 +99,8 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction do
         financial_institution_user_id,
         financial_institution_account_id
       ) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionTransaction.list(request,
+    Ibanity.Xs2a.Sandbox.FinancialInstitutionTransaction.list(
+      request,
       financial_institution_id,
       financial_institution_user_id,
       financial_institution_account_id
@@ -143,7 +145,8 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction do
         financial_institution_account_id,
         financial_institution_transaction_id
       ) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionTransaction.find(request,
+    Ibanity.Xs2a.Sandbox.FinancialInstitutionTransaction.find(
+      request,
       financial_institution_id,
       financial_institution_user_id,
       financial_institution_account_id,
@@ -202,7 +205,8 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction do
         financial_institution_transaction_id,
         attributes
       ) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionTransaction.update(request,
+    Ibanity.Xs2a.Sandbox.FinancialInstitutionTransaction.update(
+      request,
       financial_institution_id,
       financial_institution_user_id,
       financial_institution_account_id,
@@ -251,7 +255,8 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction do
         financial_institution_account_id,
         financial_institution_transaction_id
       ) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionTransaction.delete(request,
+    Ibanity.Xs2a.Sandbox.FinancialInstitutionTransaction.delete(
+      request,
       financial_institution_id,
       financial_institution_user_id,
       financial_institution_account_id,
