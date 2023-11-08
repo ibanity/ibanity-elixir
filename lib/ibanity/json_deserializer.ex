@@ -8,10 +8,10 @@ defmodule Ibanity.JsonDeserializer do
     "batchSynchronization" => Ibanity.Xs2a.BatchSynchronization,
     "customerAccessToken" => Ibanity.Xs2a.CustomerAccessToken,
     "customer" => Ibanity.Xs2a.Customer,
-    "financialInstitutionTransaction" => Ibanity.Sandbox.FinancialInstitutionTransaction,
-    "financialInstitutionHolding" => Ibanity.Sandbox.FinancialInstitutionHolding,
-    "financialInstitutionAccount" => Ibanity.Sandbox.FinancialInstitutionAccount,
-    "financialInstitutionUser" => Ibanity.Sandbox.FinancialInstitutionUser,
+    "financialInstitutionTransaction" => Ibanity.Xs2a.Sandbox.FinancialInstitutionTransaction,
+    "financialInstitutionHolding" => Ibanity.Xs2a.Sandbox.FinancialInstitutionHolding,
+    "financialInstitutionAccount" => Ibanity.Xs2a.Sandbox.FinancialInstitutionAccount,
+    "financialInstitutionUser" => Ibanity.Xs2a.Sandbox.FinancialInstitutionUser,
     "financialInstitutionCountry" => Ibanity.Xs2a.FinancialInstitutionCountry,
     "financialInstitution" => Ibanity.Xs2a.FinancialInstitution,
     "paymentInitiationRequest" => Ibanity.Xs2a.PaymentInitiationRequest,
@@ -23,6 +23,7 @@ defmodule Ibanity.JsonDeserializer do
     "paymentItem" => Ibanity.Xs2a.BulkPaymentInitiationRequest.Payment,
     "pendingTransaction" => Ibanity.Xs2a.PendingTransaction,
     "transaction" => Ibanity.Xs2a.Transaction,
+    "transactionDeleteRequest" => Ibanity.Xs2a.TransactionDeleteRequest,
     "holding" => Ibanity.Xs2a.Holding,
     "synchronization" => Ibanity.Xs2a.Synchronization,
     "consent" => Ibanity.Consent.Consent,
@@ -36,10 +37,17 @@ defmodule Ibanity.JsonDeserializer do
     "xs2a.synchronization.succeededWithoutChange" => Ibanity.Webhooks.Xs2a.Synchronization.SucceededWithoutChange,
     "xs2a.account.transactionsUpdated" => Ibanity.Webhooks.Xs2a.Account.TransactionsUpdated,
     "xs2a.account.transactionsCreated" => Ibanity.Webhooks.Xs2a.Account.TransactionsCreated,
+    "xs2a.account.transactionsDeleted" => Ibanity.Webhooks.Xs2a.Account.TransactionsDeleted,
     "xs2a.account.pendingTransactionsUpdated" => Ibanity.Webhooks.Xs2a.Account.PendingTransactionsUpdated,
     "xs2a.account.pendingTransactionsCreated" => Ibanity.Webhooks.Xs2a.Account.PendingTransactionsCreated,
     "xs2a.synchronization.failed" => Ibanity.Webhooks.Xs2a.Synchronization.Failed,
-    "xs2a.account.detailsUpdated" => Ibanity.Webhooks.Xs2a.Account.DetailsUpdated
+    "xs2a.account.detailsUpdated" => Ibanity.Webhooks.Xs2a.Account.DetailsUpdated,
+    "xs2a.bulkPaymentInitiationRequest.authorizationCompleted" => Ibanity.Webhooks.Xs2a.BulkPaymentInitiationRequest.AuthorizationCompleted,
+    "xs2a.paymentInitiationRequest.authorizationCompleted" => Ibanity.Webhooks.Xs2a.PaymentInitiationRequest.AuthorizationCompleted,
+    "xs2a.periodicPaymentInitiationRequest.authorizationCompleted" => Ibanity.Webhooks.Xs2a.PeriodicPaymentInitiationRequest.AuthorizationCompleted,
+    "xs2a.bulkPaymentInitiationRequest.statusUpdated" => Ibanity.Webhooks.Xs2a.BulkPaymentInitiationRequest.StatusUpdated,
+    "xs2a.paymentInitiationRequest.statusUpdated" => Ibanity.Webhooks.Xs2a.PaymentInitiationRequest.StatusUpdated,
+    "xs2a.periodicPaymentInitiationRequest.statusUpdated" => Ibanity.Webhooks.Xs2a.PeriodicPaymentInitiationRequest.StatusUpdated
   }
 
   def deserialize(item) do

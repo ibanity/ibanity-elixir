@@ -13,31 +13,44 @@ defmodule Ibanity.ApiSchema do
     %{
       "batchSynchronizations" => "https://api.ibanity.com/xs2a/batch-synchronizations",
       "customer" => %{
-        "accounts" => "https://api.ibanity.com/customer/accounts",
+        "accounts" => "https://api.ibanity.com/xs2a/customer/accounts",
         "financialInstitution" => %{
           "accountInformationAccessRequests" =>
-            "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/account-information-access-requests/{id}",
+            "https://api.ibanity.com/xs2a/customer/financial-institutions/{financial_institution_id}/account-information-access-requests/{id}",
           "accounts" =>
-            "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/accounts/{id}",
-          "paymentInitiationRequests" =>
-            "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/payment-initiation-requests/{id}",
-          "paymentInitiationRequest" => %{
-            "authorizations" => "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/payment-initiation-requests/{payment_initiation_request_id}/authorizations"
+            "https://api.ibanity.com/xs2a/customer/financial-institutions/{financial_institution_id}/accounts/{id}",
+          "account" => %{
+            "pendingTransactions" =>
+              "https://api.ibanity.com/xs2a/customer/financial-institutions/{financial_institution_id}/accounts/{account_id}/pending-transactions/{id}",
+            "transactions" =>
+              "https://api.ibanity.com/xs2a/customer/financial-institutions/{financial_institution_id}/accounts/{account_id}/transactions/{id}",
+            "holdings" =>
+              "https://api.ibanity.com/xs2a/customer/financial-institutions/{financial_institution_id}/accounts/{account_id}/holdings/{id}",
+            "transactionDeleteRequests" =>
+              "https://api.ibanity.com/xs2a/customer/financial-institutions/{financial_institution_id}/accounts/{account_id}/transaction-delete-requests"
           },
+          "paymentInitiationRequests" =>
+            "https://api.ibanity.com/xs2a/customer/financial-institutions/{financial_institution_id}/payment-initiation-requests/{id}",
+          "paymentInitiationRequest" => %{
+            "authorizations" => "https://api.ibanity.com/xs2a/customer/financial-institutions/{financial_institution_id}/payment-initiation-requests/{payment_initiation_request_id}/authorizations"
+          },
+          "pendingTransactions" =>
+            "https://api.ibanity.com/xs2a/customer/financial-institutions/{financial_institution_id}/accounts/{account_id}/pending-transactions/{id}",
           "transactions" =>
-            "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/accounts/{account_id}/transactions/{id}",
+            "https://api.ibanity.com/xs2a/customer/financial-institutions/{financial_institution_id}/accounts/{account_id}/transactions/{id}",
           "holdings" =>
-            "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/accounts/{account_id}/holdings/{id}",
+            "https://api.ibanity.com/xs2a/customer/financial-institutions/{financial_institution_id}/accounts/{account_id}/holdings/{id}",
           "accountInformationAccessRequest" => %{
-            "accounts" => "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/account-information-access-requests/{account_information_access_request_id}/accounts",
-            "authorizations" => "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/account-information-access-requests/{account_information_access_request_id}/authorizations",
+            "accounts" => "https://api.ibanity.com/xs2a/customer/financial-institutions/{financial_institution_id}/account-information-access-requests/{account_information_access_request_id}/accounts",
+            "authorizations" => "https://api.ibanity.com/xs2a/customer/financial-institutions/{financial_institution_id}/account-information-access-requests/{account_information_access_request_id}/authorizations",
           }
         },
-        "financialInstitutions" => "https://api.ibanity.com/customer/financial-institutions",
-        "self" => "https://api.ibanity.com/customer",
-        "synchronizations" => "https://api.ibanity.com/customer/synchronizations/{id}"
+        "financialInstitutions" => "https://api.ibanity.com/xs2a/customer/financial-institutions",
+        "self" => "https://api.ibanity.com/xs2a/customer",
+        "synchronizations" => "https://api.ibanity.com/xs2a/customer/synchronizations/{id}",
+        "transactionDeleteRequests" => "https://api.ibanity.com/xs2a/customer/transaction-delete-requests"
       },
-      "customerAccessTokens" => "https://api.ibanity.com/customer-access-tokens",
+      "customerAccessTokens" => "https://api.ibanity.com/xs2a/customer-access-tokens",
       "financialInstitutions" => "https://api.ibanity.com/financial-institutions/{id}",
       "sandbox" => %{
         "financialInstitution" => %{
@@ -53,7 +66,8 @@ defmodule Ibanity.ApiSchema do
         "financialInstitutionUsers" =>
           "https://api.ibanity.com/sandbox/financial-institution-users/{id}",
         "financialInstitutions" => "https://api.ibanity.com/sandbox/financial-institutions/{id}"
-      }
+      },
+      "transactionDeleteRequests" => "https://api.ibanity.com/xs2a/transaction-delete-requests"
     }
   end
 

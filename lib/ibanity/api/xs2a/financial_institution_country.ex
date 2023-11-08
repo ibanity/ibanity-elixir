@@ -7,7 +7,6 @@ defmodule Ibanity.Xs2a.FinancialInstitutionCountry do
 
   defstruct id: nil
 
-  @resource_type "financial_institution_country"
   @api_schema_path ["xs2a", "financialInstitutionCountries"]
 
   @doc """

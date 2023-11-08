@@ -1,10 +1,11 @@
-defmodule Ibanity.Sandbox.FinancialInstitutionUser do
+defmodule Ibanity.Xs2a.Sandbox.FinancialInstitutionUser do
   @moduledoc """
   [Financial institution user](https://documentation.ibanity.com/xs2a/api#financial-institution-user) API wrapper
   """
-  @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionUser instead"
 
   use Ibanity.Resource
+
+  @api_schema_path ["sandbox", "financialInstitutionUsers"]
 
   defstruct id: nil,
             first_name: nil,
@@ -13,6 +14,8 @@ defmodule Ibanity.Sandbox.FinancialInstitutionUser do
             password: nil,
             created_at: nil,
             updated_at: nil
+
+  @resource_type "financial_institution_user"
 
   @doc """
   [Creates a new financial institution user](https://documentation.ibanity.com/xs2a/api#create-financial-institution-user).
@@ -31,9 +34,11 @@ defmodule Ibanity.Sandbox.FinancialInstitutionUser do
       ...> |> Ibanity.FinancialInstitutionUser.create
       {:ok, %Ibanity.FinancialInstitutionUser{id: "5178d658-0c33-440a-a3af-616a8e472617", ...}}
   """
-  @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionUser.create/1 instead"
   def create(%Request{} = request) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionUser.create(request)
+    request
+    |> Request.id(:id, "")
+    |> Request.resource_type(@resource_type)
+    |> Client.execute(:post, @api_schema_path)
   end
 
   @doc """
@@ -47,9 +52,10 @@ defmodule Ibanity.Sandbox.FinancialInstitutionUser do
       iex> Ibanity.FinancialInstitutionUser.list
       {:ok, %Ibanity.Collection{items: [%Ibanity.FinancialInstitutionUser{...}], ...}}
   """
-  @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionUser.list/1 instead"
   def list(%Request{} = request) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionUser.list(request)
+    request
+    |> Request.id(:id, "")
+    |> Client.execute(:get, @api_schema_path)
   end
   def list, do: list(%Request{})
 
@@ -65,9 +71,9 @@ defmodule Ibanity.Sandbox.FinancialInstitutionUser do
       ...> |> Ibanity.FinancialInstitutionUser.find
       {:ok, %Ibanity.FinancialInstitutionUser{id: "5178d658-0c33-440a-a3af-616a8e472617", ...}}
   """
-  @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionUser.find/1 instead"
   def find(%Request{} = request) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionUser.find(request)
+    request
+    |> Client.execute(:get, @api_schema_path)
   end
 
   @doc """
@@ -89,9 +95,10 @@ defmodule Ibanity.Sandbox.FinancialInstitutionUser do
       {:ok, %Ibanity.FinancialInstitutionUser{id: "5178d658-0c33-440a-a3af-616a8e472617", ...}}
 
   """
-  @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionUser.update/1 instead"
   def update(%Request{} = request) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionUser.update(request)
+    request
+    |> Request.resource_type(@resource_type)
+    |> Client.execute(:patch, @api_schema_path)
   end
 
   @doc """
@@ -105,8 +112,21 @@ defmodule Ibanity.Sandbox.FinancialInstitutionUser do
       ...> |> Ibanity.FinancialInstitutionUser.update
       {:ok, %Ibanity.FinancialInstitutionUser{id: "5178d658-0c33-440a-a3af-616a8e472617", ...}}
   """
-  @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionUser.delete/1 instead"
   def delete(%Request{} = request) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionUser.delete(request)
+    request
+    |> Client.execute(:delete, @api_schema_path)
+  end
+
+  @doc false
+  def key_mapping do
+    [
+      id: {~w(id), :string},
+      first_name: {~w(attributes firstName), :string},
+      last_name: {~w(attributes lastName), :string},
+      login: {~w(attributes login), :string},
+      password: {~w(attributes password), :string},
+      created_at: {~w(attributes createdAt), :datetime},
+      updated_at: {~w(attributes updatedAt), :datetime}
+    ]
   end
 end

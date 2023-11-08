@@ -1,10 +1,12 @@
-defmodule Ibanity.Sandbox.FinancialInstitutionTransaction do
+defmodule Ibanity.Xs2a.Sandbox.FinancialInstitutionTransaction do
   @moduledoc """
   [Financial institution transaction]() API wrapper
   """
-  @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionTransaction"
 
   use Ibanity.Resource
+
+  @api_schema_path ~w(sandbox financialInstitution financialInstitutionAccount financialInstitutionTransactions)
+  @resource_type "financial_institution_transaction"
 
   defstruct id: nil,
             value_date: nil,
@@ -54,7 +56,6 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction do
       ...> )
       {:ok, %Ibanity.FinancialInstitutionTransaction{id: "44cd2dc8-163a-4dbe-b544-869e5f84ea54", ...}}
   """
-  @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionTransaction.create/5 instead"
   def create(
         %Request{} = request,
         financial_institution_id,
@@ -62,13 +63,12 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction do
         financial_institution_account_id,
         attributes
       ) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionTransaction.create(
-      request,
-      financial_institution_id,
-      financial_institution_user_id,
-      financial_institution_account_id,
-      attributes
-    )
+    request
+    |> Request.attributes(attributes)
+    |> Request.id(:financial_institution_id, financial_institution_id)
+    |> Request.id(:financial_institution_user_id, financial_institution_user_id)
+    |> Request.id(:financial_institution_account_id, financial_institution_account_id)
+    |> create
   end
 
   @doc """
@@ -76,9 +76,11 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction do
 
   Returns `{:ok, transaction}` if successful, `{:error, reason}` otherwise
   """
-  @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionTransaction.create/1 instead"
   def create(%Request{} = request) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionTransaction.create(request)
+    request
+    |> Request.id(:id, "")
+    |> Request.resource_type(@resource_type)
+    |> Client.execute(:post, @api_schema_path)
   end
 
   @doc """
@@ -92,19 +94,17 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction do
       ...> )
       %Ibanity.Collection[items: [Ibanity.FinancialInstitutionTransaction{id: "44cd2dc8-163a-4dbe-b544-869e5f84ea54", ...}], ...]
   """
-  @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionTransaction.list/4 instead"
   def list(
         %Request{} = request,
         financial_institution_id,
         financial_institution_user_id,
         financial_institution_account_id
       ) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionTransaction.list(
-      request,
-      financial_institution_id,
-      financial_institution_user_id,
-      financial_institution_account_id
-    )
+    request
+    |> Request.id(:financial_institution_id, financial_institution_id)
+    |> Request.id(:financial_institution_user_id, financial_institution_user_id)
+    |> Request.id(:financial_institution_account_id, financial_institution_account_id)
+    |> list
   end
 
   @doc """
@@ -118,9 +118,10 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction do
       ...> |> FinancialInstitutionTransaction.list
       %Ibanity.Collection[items: [Ibanity.FinancialInstitutionTransaction{id: "44cd2dc8-163a-4dbe-b544-869e5f84ea54", ...}], ...]
   """
-  @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionTransaction.list/1 instead"
   def list(%Request{} = request) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionTransaction.list(request)
+    request
+    |> Request.id(:id, "")
+    |> Client.execute(:get, @api_schema_path)
   end
 
   @doc """
@@ -137,7 +138,6 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction do
       ...> )
       %{:ok, Ibanity.FinancialInstitutionTransaction{id: "44cd2dc8-163a-4dbe-b544-869e5f84ea54", ...}}
   """
-  @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionTransaction.find/5 instead"
   def find(
         %Request{} = request,
         financial_institution_id,
@@ -145,13 +145,12 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction do
         financial_institution_account_id,
         financial_institution_transaction_id
       ) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionTransaction.find(
-      request,
-      financial_institution_id,
-      financial_institution_user_id,
-      financial_institution_account_id,
-      financial_institution_transaction_id
-    )
+    request
+    |> Request.id(:financial_institution_id, financial_institution_id)
+    |> Request.id(:financial_institution_user_id, financial_institution_user_id)
+    |> Request.id(:financial_institution_account_id, financial_institution_account_id)
+    |> Request.id(:id, financial_institution_transaction_id)
+    |> find
   end
 
   @doc """
@@ -168,9 +167,9 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction do
       ...> |> FinancialInstitutionTransaction.find
       %{:ok, Ibanity.FinancialInstitutionTransaction{id: "44cd2dc8-163a-4dbe-b544-869e5f84ea54", ...}}
   """
-  @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionTransaction.find/1 instead"
   def find(%Request{} = request) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionTransaction.find(request)
+    request
+    |> Client.execute(:get, @api_schema_path)
   end
 
   @doc """
@@ -196,7 +195,7 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction do
       ...> )
       {:ok, %Ibanity.FinancialInstitutionTransaction{id: "44cd2dc8-163a-4dbe-b544-869e5f84ea54", ...}}
   """
-  @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionTransaction.update/6 instead"
+
   def update(
         %Request{} = request,
         financial_institution_id,
@@ -205,14 +204,13 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction do
         financial_institution_transaction_id,
         attributes
       ) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionTransaction.update(
-      request,
-      financial_institution_id,
-      financial_institution_user_id,
-      financial_institution_account_id,
-      financial_institution_transaction_id,
-      attributes
-    )
+    request
+    |> Request.attributes(attributes)
+    |> Request.id(:financial_institution_id, financial_institution_id)
+    |> Request.id(:financial_institution_user_id, financial_institution_user_id)
+    |> Request.id(:financial_institution_account_id, financial_institution_account_id)
+    |> Request.id(:id, financial_institution_transaction_id)
+    |> update
   end
 
   @doc """
@@ -227,9 +225,10 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction do
 
   Returns `{:ok, transaction}` if successful, `{:error, reason}` otherwise
   """
-  @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionTransaction.update/1 instead"
   def update(%Request{} = request) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionTransaction.update(request)
+    request
+    |> Request.resource_type(@resource_type)
+    |> Client.execute(:patch, @api_schema_path)
   end
 
   @doc """
@@ -247,7 +246,6 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction do
       ...> )
       %{:ok, Ibanity.FinancialInstitutionTransaction{id: "44cd2dc8-163a-4dbe-b544-869e5f84ea54", ...}}
   """
-  @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionTransaction.delete/5 instead"
   def delete(
         %Request{} = request,
         financial_institution_id,
@@ -255,13 +253,12 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction do
         financial_institution_account_id,
         financial_institution_transaction_id
       ) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionTransaction.delete(
-      request,
-      financial_institution_id,
-      financial_institution_user_id,
-      financial_institution_account_id,
-      financial_institution_transaction_id
-    )
+    request
+    |> Request.id(:financial_institution_id, financial_institution_id)
+    |> Request.id(:financial_institution_user_id, financial_institution_user_id)
+    |> Request.id(:financial_institution_account_id, financial_institution_account_id)
+    |> Request.id(:id, financial_institution_transaction_id)
+    |> delete
   end
 
   @doc """
@@ -278,8 +275,39 @@ defmodule Ibanity.Sandbox.FinancialInstitutionTransaction do
       ...> |> FinancialInstitutionTransaction.delete
       %{:ok, Ibanity.FinancialInstitutionTransaction{id: "44cd2dc8-163a-4dbe-b544-869e5f84ea54", ...}}
   """
-  @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionTransaction.delete/1 instead"
   def delete(%Request{} = request) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionTransaction.delete(request)
+    request
+    |> Client.execute(:delete, @api_schema_path)
+  end
+
+  @doc false
+  def key_mapping do
+    [
+      id: {~w(id), :string},
+      value_date: {~w(attributes valueDate), :datetime},
+      updated_at: {~w(attributes updatedAt), :datetime},
+      remittance_information_type: {~w(attributes remittanceInformationType), :string},
+      remittance_information: {~w(attributes remittanceInformation), :string},
+      execution_date: {~w(attributes executionDate), :datetime},
+      description: {~w(attributes description), :string},
+      currency: {~w(attributes currency), :string},
+      created_at: {~w(attributes createdAt), :datetime},
+      counterpart_reference: {~w(attributes counterpartReference), :string},
+      counterpart_name: {~w(attributes counterpartName), :string},
+      amount: {~w(attributes amount), :float},
+      internal_reference: {~w(attributes internalReference), :string},
+      bank_transaction_code: {~w(attributes bankTransactionCode), :string},
+      proprietary_bank_transaction_code: {~w(attributes proprietaryBankTransactionCode), :string},
+      end_to_end_id: {~w(attributes endToEndId), :string},
+      purpose_code: {~w(attributes purposeCode), :string},
+      mandate_id: {~w(attributes mandateId), :string},
+      creditor_id: {~w(attributes creditorId), :string},
+      additional_information: {~w(attributes additionalInformation), :string},
+      fee: {~w(attributes fee), :float},
+      card_reference: {~w(attributes cardReference), :string},
+      card_reference_type: {~w(attributes cardReferenceType), :string},
+      automatic_booking: {~w(attributes automaticBooking), :boolean},
+      financial_institution_account_id: {~w(relationships financialInstitutionAccount data id), :string},
+    ]
   end
 end

@@ -1,8 +1,7 @@
-defmodule Ibanity.Sandbox.FinancialInstitutionAccount do
+defmodule Ibanity.Xs2a.Sandbox.FinancialInstitutionAccount do
   @moduledoc """
   [Financial institution account](https://documentation.ibanity.com/xs2a/api#financial-institution-account) API wrapper
   """
-  @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionAccount instead"
 
   use Ibanity.Resource
 
@@ -32,6 +31,10 @@ defmodule Ibanity.Sandbox.FinancialInstitutionAccount do
             financial_institution_id: nil,
             transactions: nil
 
+  @api_schema_path ["sandbox", "financialInstitution", "financialInstitutionAccounts"]
+
+  @resource_type "financial_institution_account"
+
   @doc """
   [Creates a new financial institution account](https://documentation.ibanity.com/xs2a/api#create-financial-institution-account).
 
@@ -52,9 +55,11 @@ defmodule Ibanity.Sandbox.FinancialInstitutionAccount do
       ...> |> FinancialInstitutionAccount.create
       {:ok, %Ibanity.FinancialInstitutionAccount{id: "3034fe85-29ee-4ebc-9a2d-33df4e2f4602", ...}}
   """
-  @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionAccount.create/1 instead"
   def create(%Request{} = request) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionAccount.create(request)
+    request
+    |> Request.id(:id, "")
+    |> Request.resource_type(@resource_type)
+    |> Client.execute(:post, @api_schema_path)
   end
 
   @doc """
@@ -63,9 +68,10 @@ defmodule Ibanity.Sandbox.FinancialInstitutionAccount do
 
   Returns `{:ok, accounts}` where `accounts` is a `Ibanity.Collection` where items are `Ibanity.FinancialInstitutionAccount`.
   """
-  @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionAccount.list/2 instead"
   def list(financial_institution_id, user_id) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionAccount.list(financial_institution_id, user_id)
+    Request.id(:financial_institution_id, financial_institution_id)
+    |> Request.id(:financial_institution_user_id, user_id)
+    |> list
   end
 
   @doc """
@@ -81,9 +87,10 @@ defmodule Ibanity.Sandbox.FinancialInstitutionAccount do
       ...> |> FinancialInstitutionAccount.list
       {:ok, %Ibanity.Collection{items: [%Ibanity.FinancialInstitutionAccount{...}], ...}}
   """
-  @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionAccount.list/1 instead"
   def list(%Request{} = request) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionAccount.list(request)
+    request
+    |> Request.id(:id, "")
+    |> Client.execute(:get, @api_schema_path)
   end
 
   @doc """
@@ -101,9 +108,11 @@ defmodule Ibanity.Sandbox.FinancialInstitutionAccount do
       ...> )
       {:ok, Ibanity.FinancialInstitutionAccount{id: "b1c1e046-309b-49b8-bc5d-c4b1f82f61a7", ...}}
   """
-  @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionAccount.find/3 instead"
   def find(financial_institution_id, user_id, account_id) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionAccount.find(financial_institution_id, user_id, account_id)
+    Request.id(:financial_institution_id, financial_institution_id)
+    |> Request.id(:financial_institution_user_id, user_id)
+    |> Request.id(:id, account_id)
+    |> find
   end
 
   @doc """
@@ -120,9 +129,9 @@ defmodule Ibanity.Sandbox.FinancialInstitutionAccount do
       ...> |> FinancialInstitutionAccount.find
       {:ok, Ibanity.FinancialInstitutionAccount{id: "b1c1e046-309b-49b8-bc5d-c4b1f82f61a7", ...}}
   """
-  @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionAccount.find/1 instead"
   def find(%Request{} = request) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionAccount.find(request)
+    request
+    |> Client.execute(:get, @api_schema_path)
   end
 
   @doc """
@@ -140,9 +149,11 @@ defmodule Ibanity.Sandbox.FinancialInstitutionAccount do
       ...> )
       {:ok, FinancialInstitutionAccount{id: "b1c1e046-309b-49b8-bc5d-c4b1f82f61a7", ...}}
   """
-  @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionAccount.delete/3 instead"
   def delete(financial_institution_id, user_id, account_id) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionAccount.delete(financial_institution_id, user_id, account_id)
+    Request.id(:financial_institution_id, financial_institution_id)
+    |> Request.id(:financial_institution_user_id, user_id)
+    |> Request.id(:id, account_id)
+    |> delete
   end
 
   @doc """
@@ -159,9 +170,9 @@ defmodule Ibanity.Sandbox.FinancialInstitutionAccount do
       ...> |> FinancialInstitutionAccount.delete
       {:ok, Ibanity.FinancialInstitutionAccount{id: "b1c1e046-309b-49b8-bc5d-c4b1f82f61a7", ...}}
   """
-  @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionAccount.delete/1 instead"
   def delete(%Request{} = request) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionAccount.delete(request)
+    request
+    |> Client.execute(:delete, @api_schema_path)
   end
 
   @doc """
@@ -172,9 +183,8 @@ defmodule Ibanity.Sandbox.FinancialInstitutionAccount do
   * `nil` if no transaction link was set on the structure
   * `{:error, reason}` otherwise
   """
-  @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionAccount.transactions/1 instead"
   def transactions(%__MODULE__{} = account) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionAccount.transactions(account)
+    if account.transactions, do: Client.get(account.transactions), else: nil
   end
 
   @doc """
@@ -185,8 +195,42 @@ defmodule Ibanity.Sandbox.FinancialInstitutionAccount do
   * `nil` if no financial institution user link was set on the structure
   * `{:error, reason}` otherwise
   """
-  @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionAccount.financial_institution_user/1 instead"
   def financial_institution_user(%__MODULE__{} = account) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionAccount.financial_institution_user(account)
+    if account.financial_institution_user,
+      do: Client.get(account.financial_institution_user),
+      else: nil
+  end
+
+  @doc false
+  def key_mapping do
+    [
+      id: {~w(id), :string},
+      available_balance: {~w(attributes availableBalance), :float},
+      currency: {~w(attributes currency), :string},
+      current_balance: {~w(attributes currentBalance), :float},
+      description: {~w(attributes description), :string},
+      reference: {~w(attributes reference), :string},
+      reference_type: {~w(attributes referenceType), :string},
+      subtype: {~w(attributes subtype), :string},
+      internal_reference: {~w(attributes internalReference), :string},
+      product: {~w(attributes product), :string},
+      holder_name: {~w(attributes holderName), :string},
+      current_balance_changed_at: {~w(attributes currentBalanceChangedAt), :datetime},
+      current_balance_variation_observed_at: {~w(attributes currentBalanceVariationObservedAt), :datetime},
+      current_balance_reference_date: {~w(attributes currentBalanceReferenceDate), :datetime},
+      available_balance_changed_at: {~w(attributes availableBalanceChangedAt), :datetime},
+      available_balance_variation_observed_at: {~w(attributes availableBalanceVariationObservedAt), :datetime},
+      available_balance_reference_date: {~w(attributes availableBalanceReferenceDate), :datetime},
+      authorized_at: {~w(attributes authorizedAt), :datetime},
+      authorization_expiration_expected_at: {~w(attributes authorizationExpirationExpectedAt), :datetime},
+      transactions: {~w(relationships financialInstitutionTransactions links related), :string},
+      financial_institution_user:
+        {~w(relationships financialInstitutionUser links related), :string},
+      financial_institution_user_id:
+        {~w(relationships financialInstitutionUser data id), :string},
+      financial_institution_id: {~w(relationships financialInstitution data id), :string},
+      created_at: {~w(attributes createdAt), :datetime},
+      updated_at: {~w(attributes updatedAt), :datetime}
+    ]
   end
 end

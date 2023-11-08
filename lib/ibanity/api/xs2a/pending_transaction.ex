@@ -64,7 +64,7 @@ defmodule Ibanity.Xs2a.PendingTransaction do
   def list(%Request{} = request) do
     request
     |> Request.id(:id, "")
-    |> Client.execute(:get, ["xs2a", "customer", "financialInstitution", "pendingTransactions"])
+    |> Client.execute(:get, ["xs2a", "customer", "financialInstitution", "account", "pendingTransactions"])
   end
 
   @doc """
@@ -84,7 +84,7 @@ defmodule Ibanity.Xs2a.PendingTransaction do
   """
   def find(%Request{} = request) do
     request
-    |> Client.execute(:get, ["xs2a", "customer", "financialInstitution", "pendingTransactions"])
+    |> Client.execute(:get, ["xs2a", "customer", "financialInstitution", "account", "pendingTransactions"])
   end
 
   @doc false

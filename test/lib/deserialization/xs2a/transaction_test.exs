@@ -10,7 +10,7 @@ defmodule Ibanity.Xs2a.Transaction.DeserializationTest do
         "account" => %{
           "links" => %{
             "related" =>
-              "https://api.ibanity.com/customer/financial-institutions/0f88f06c-3cfe-4b8f-9338-69981c0c4632/accounts/ce3893cd-fff5-435a-bdfc-d55a7e98df6f"
+              "https://api.ibanity.com/xs2a/customer/financial-institutions/0f88f06c-3cfe-4b8f-9338-69981c0c4632/accounts/ce3893cd-fff5-435a-bdfc-d55a7e98df6f"
           },
           "data" => %{
             "type" => "account",
@@ -20,7 +20,7 @@ defmodule Ibanity.Xs2a.Transaction.DeserializationTest do
       },
       "links" => %{
         "self" =>
-          "https://api.ibanity.com/customer/financial-institutions/0f88f06c-3cfe-4b8f-9338-69981c0c4632/accounts/ce3893cd-fff5-435a-bdfc-d55a7e98df6f/transactions/c847e0f0-9178-47d7-9c11-1f41f9fca6ff"
+          "https://api.ibanity.com/xs2a/customer/financial-institutions/0f88f06c-3cfe-4b8f-9338-69981c0c4632/accounts/ce3893cd-fff5-435a-bdfc-d55a7e98df6f/transactions/c847e0f0-9178-47d7-9c11-1f41f9fca6ff"
       },
       "id" => "c847e0f0-9178-47d7-9c11-1f41f9fca6ff",
       "attributes" => %{
@@ -75,7 +75,7 @@ defmodule Ibanity.Xs2a.Transaction.DeserializationTest do
       card_reference_type: "MASKEDPAN",
       account_id: "ce3893cd-fff5-435a-bdfc-d55a7e98df6f",
       self:
-        "https://api.ibanity.com/customer/financial-institutions/0f88f06c-3cfe-4b8f-9338-69981c0c4632/accounts/ce3893cd-fff5-435a-bdfc-d55a7e98df6f/transactions/c847e0f0-9178-47d7-9c11-1f41f9fca6ff"
+        "https://api.ibanity.com/xs2a/customer/financial-institutions/0f88f06c-3cfe-4b8f-9338-69981c0c4632/accounts/ce3893cd-fff5-435a-bdfc-d55a7e98df6f/transactions/c847e0f0-9178-47d7-9c11-1f41f9fca6ff"
     }
 
     assert actual == expected

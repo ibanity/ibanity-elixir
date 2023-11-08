@@ -1,8 +1,7 @@
-defmodule Ibanity.Sandbox.FinancialInstitutionAccount.DeserializerTest do
+defmodule Ibanity.Xs2a.Sandbox.FinancialInstitutionAccount.DeserializerTest do
   use ExUnit.Case
   import Ibanity.JsonDeserializer
   alias Ibanity.DateTimeUtil
-  alias Ibanity.Sandbox.FinancialInstitutionAccount
 
   test "deserialize a financial institution account" do
     data = %{
@@ -65,7 +64,7 @@ defmodule Ibanity.Sandbox.FinancialInstitutionAccount.DeserializerTest do
 
     actual = deserialize(data)
 
-    expected = %FinancialInstitutionAccount{
+    expected = %Ibanity.Xs2a.Sandbox.FinancialInstitutionAccount{
       id: "b1c1e046-309b-49b8-bc5d-c4b1f82f61a7",
       updated_at: DateTimeUtil.parse("2018-10-18T15:12:57.950294Z"),
       subtype: "checking",

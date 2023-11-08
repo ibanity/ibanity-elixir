@@ -1,10 +1,12 @@
-defmodule Ibanity.Sandbox.FinancialInstitutionHolding do
+defmodule Ibanity.Xs2a.Sandbox.FinancialInstitutionHolding do
   @moduledoc """
   [Financial institution holding]() API wrapper
   """
-  @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionHolding instead"
 
   use Ibanity.Resource
+
+  @api_schema_path ~w(sandbox financialInstitution financialInstitutionAccount financialInstitutionHoldings)
+  @resource_type "financial_institution_holding"
 
   defstruct id: nil,
             last_valuation_currency: nil,
@@ -43,7 +45,6 @@ defmodule Ibanity.Sandbox.FinancialInstitutionHolding do
       ...> )
       {:ok, %Ibanity.FinancialInstitutionHolding{id: "44cd2dc8-163a-4dbe-b544-869e5f84ea54", ...}}
   """
-  @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionHolding.create/5 instead"
   def create(
         %Request{} = request,
         financial_institution_id,
@@ -51,13 +52,12 @@ defmodule Ibanity.Sandbox.FinancialInstitutionHolding do
         financial_institution_account_id,
         attributes
       ) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionHolding.create(
-      request,
-      financial_institution_id,
-      financial_institution_user_id,
-      financial_institution_account_id,
-      attributes
-    )
+    request
+    |> Request.attributes(attributes)
+    |> Request.id(:financial_institution_id, financial_institution_id)
+    |> Request.id(:financial_institution_user_id, financial_institution_user_id)
+    |> Request.id(:financial_institution_account_id, financial_institution_account_id)
+    |> create
   end
 
   @doc """
@@ -65,9 +65,11 @@ defmodule Ibanity.Sandbox.FinancialInstitutionHolding do
 
   Returns `{:ok, holding}` if successful, `{:error, reason}` otherwise
   """
-  @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionHolding.create/1 instead"
   def create(%Request{} = request) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionHolding.create(request)
+    request
+    |> Request.id(:id, "")
+    |> Request.resource_type(@resource_type)
+    |> Client.execute(:post, @api_schema_path)
   end
 
   @doc """
@@ -81,19 +83,17 @@ defmodule Ibanity.Sandbox.FinancialInstitutionHolding do
       ...> )
       %Ibanity.Collection[items: [Ibanity.FinancialInstitutionHolding{id: "44cd2dc8-163a-4dbe-b544-869e5f84ea54", ...}], ...]
   """
-  @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionHolding.list/4 instead"
   def list(
         %Request{} = request,
         financial_institution_id,
         financial_institution_user_id,
         financial_institution_account_id
       ) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionHolding.list(
-      request,
-      financial_institution_id,
-      financial_institution_user_id,
-      financial_institution_account_id
-    )
+    request
+    |> Request.id(:financial_institution_id, financial_institution_id)
+    |> Request.id(:financial_institution_user_id, financial_institution_user_id)
+    |> Request.id(:financial_institution_account_id, financial_institution_account_id)
+    |> list
   end
 
   @doc """
@@ -107,9 +107,10 @@ defmodule Ibanity.Sandbox.FinancialInstitutionHolding do
       ...> |> FinancialInstitutionHolding.list
       %Ibanity.Collection[items: [Ibanity.FinancialInstitutionHolding{id: "44cd2dc8-163a-4dbe-b544-869e5f84ea54", ...}], ...]
   """
-  @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionHolding.list/1 instead"
   def list(%Request{} = request) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionHolding.list(request)
+    request
+    |> Request.id(:id, "")
+    |> Client.execute(:get, @api_schema_path)
   end
 
   @doc """
@@ -127,7 +128,6 @@ defmodule Ibanity.Sandbox.FinancialInstitutionHolding do
       ...> )
       %{:ok, Ibanity.FinancialInstitutionHolding{id: "44cd2dc8-163a-4dbe-b544-869e5f84ea54", ...}}
   """
-  @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionHolding.find/5 instead"
   def find(
         %Request{} = request,
         financial_institution_id,
@@ -135,13 +135,12 @@ defmodule Ibanity.Sandbox.FinancialInstitutionHolding do
         financial_institution_account_id,
         financial_institution_holding_id
       ) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionHolding.find(
-      request,
-      financial_institution_id,
-      financial_institution_user_id,
-      financial_institution_account_id,
-      financial_institution_holding_id
-    )
+    request
+    |> Request.id(:financial_institution_id, financial_institution_id)
+    |> Request.id(:financial_institution_user_id, financial_institution_user_id)
+    |> Request.id(:financial_institution_account_id, financial_institution_account_id)
+    |> Request.id(:id, financial_institution_holding_id)
+    |> find
   end
 
   @doc """
@@ -158,9 +157,9 @@ defmodule Ibanity.Sandbox.FinancialInstitutionHolding do
       ...> |> FinancialInstitutionHolding.find
       %{:ok, Ibanity.FinancialInstitutionHolding{id: "44cd2dc8-163a-4dbe-b544-869e5f84ea54", ...}}
   """
-  @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionHolding.find/1 instead"
   def find(%Request{} = request) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionHolding.find(request)
+    request
+    |> Client.execute(:get, @api_schema_path)
   end
 
   @doc """
@@ -178,7 +177,6 @@ defmodule Ibanity.Sandbox.FinancialInstitutionHolding do
       ...> )
       %{:ok, Ibanity.FinancialInstitutionHolding{id: "44cd2dc8-163a-4dbe-b544-869e5f84ea54", ...}}
   """
-  @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionHolding.delete/5 instead"
   def delete(
         %Request{} = request,
         financial_institution_id,
@@ -186,13 +184,12 @@ defmodule Ibanity.Sandbox.FinancialInstitutionHolding do
         financial_institution_account_id,
         financial_institution_holding_id
       ) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionHolding.delete(
-      request,
-      financial_institution_id,
-      financial_institution_user_id,
-      financial_institution_account_id,
-      financial_institution_holding_id
-    )
+    request
+    |> Request.id(:financial_institution_id, financial_institution_id)
+    |> Request.id(:financial_institution_user_id, financial_institution_user_id)
+    |> Request.id(:financial_institution_account_id, financial_institution_account_id)
+    |> Request.id(:id, financial_institution_holding_id)
+    |> delete
   end
 
   @doc """
@@ -209,8 +206,26 @@ defmodule Ibanity.Sandbox.FinancialInstitutionHolding do
       ...> |> FinancialInstitutionHolding.delete
       %{:ok, Ibanity.FinancialInstitutionHolding{id: "44cd2dc8-163a-4dbe-b544-869e5f84ea54", ...}}
   """
-  @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionHolding.delete/1 instead"
   def delete(%Request{} = request) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionHolding.delete(request)
+    request
+    |> Client.execute(:delete, @api_schema_path)
+  end
+
+  @doc false
+  def key_mapping do
+    [
+      id: {~w(id), :string},
+      last_valuation_date: {~w(attributes lastValuationDate), :datetime},
+      last_valuation: {~w(attributes lastValuation), :float},
+      last_valuation_currency: {~w(attributes totalValuation), :string},
+      total_valuation: {~w(attributes totalValuation), :float},
+      total_valuation_currency: {~w(attributes totalValuation), :string},
+      name: {~w(attributes name), :string},
+      reference: {~w(attributes reference), :string},
+      reference_type: {~w(attributes referenceType), :string},
+      subtype: {~w(attributes subtype), :string},
+      quantity: {~w(attributes quantity), :float},
+      financial_institution_account_id: {~w(relationships financialInstitutionAccount data id), :string}
+    ]
   end
 end
