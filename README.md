@@ -132,7 +132,7 @@ config :ibanity, :timeout, [
 
 ### Requirements
 
-* Elixir 1.6+.
+* Elixir 1.15+.
 
 ## Test
 
