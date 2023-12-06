@@ -45,7 +45,7 @@ defmodule Ibanity.QueryParamsUtilTest do
       ]
       res = QueryParamsUtil.encode_query(query_params)
 
-      assert res == "filter[country][eq]=DE&filter[name][eq]=Einstein"
+      assert res == "filter[name][eq]=Einstein&filter[country][eq]=DE"
     end
   end
 end
