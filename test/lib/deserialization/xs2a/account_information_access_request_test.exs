@@ -3,7 +3,7 @@ defmodule Ibanity.Xs2a.AccountInformationAccessRequest.DeserializationTest do
   import Ibanity.JsonDeserializer
   alias Ibanity.Xs2a.AccountInformationAccessRequest
 
-  test "deserialize an account information access request" do
+  test "deserialize an account information access request without errors" do
     data = %{
       "type" => "accountInformationAccessRequest",
       "links" => %{
@@ -24,6 +24,39 @@ defmodule Ibanity.Xs2a.AccountInformationAccessRequest.DeserializationTest do
 
     expected = %AccountInformationAccessRequest{
       id: "18f5fc93-0659-4734-b1e4-e274537db6ff",
+      redirect_link:
+        "https://callback.ibanity.com/sandbox/fi/aiar/i?state=dmF1bHQ6djE6RlBlQ2RKQ05TU...",
+      requested_account_references: ["BE6338957016536095"],
+      skip_ibanity_completion_callback: true,
+      allow_financial_institution_redirect_uri: true
+    }
+
+    assert actual == expected
+  end
+
+  test "deserialize an account information access request with errors" do
+    data = %{
+      "type" => "accountInformationAccessRequest",
+      "links" => %{
+        "redirect" =>
+          "https://callback.ibanity.com/sandbox/fi/aiar/i?state=dmF1bHQ6djE6RlBlQ2RKQ05TU..."
+      },
+      "id" => "18f5fc93-0659-4734-b1e4-e274537db6ff",
+      "attributes" => %{
+        "errors" => ["authorizationInvalid"],
+        "requestedAccountReferences" => [
+          "BE6338957016536095"
+        ],
+        "skipIbanityCompletionCallback" => true,
+        "allowFinancialInstitutionRedirectUri" => true
+      }
+    }
+
+    actual = deserialize(data)
+
+    expected = %AccountInformationAccessRequest{
+      id: "18f5fc93-0659-4734-b1e4-e274537db6ff",
+      errors: ["authorizationInvalid"],
       redirect_link:
         "https://callback.ibanity.com/sandbox/fi/aiar/i?state=dmF1bHQ6djE6RlBlQ2RKQ05TU...",
       requested_account_references: ["BE6338957016536095"],

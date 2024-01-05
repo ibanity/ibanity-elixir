@@ -8,6 +8,7 @@ defmodule Ibanity.Xs2a.AccountInformationAccessRequest do
   defstruct id: nil,
             redirect_link: nil,
             requested_account_references: nil,
+            errors: nil,
             skip_ibanity_completion_callback: false,
             allow_financial_institution_redirect_uri: false
 
@@ -75,6 +76,7 @@ defmodule Ibanity.Xs2a.AccountInformationAccessRequest do
       id: {~w(id), :string},
       redirect_link: {~w(links redirect), :string},
       requested_account_references: {~w(attributes requestedAccountReferences), :string},
+      errors: {~w(attributes errors), :string},
       skip_ibanity_completion_callback: {~w(attributes skipIbanityCompletionCallback), :boolean},
       allow_financial_institution_redirect_uri:  {~w(attributes allowFinancialInstitutionRedirectUri), :boolean},
     ]
