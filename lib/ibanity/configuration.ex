@@ -165,8 +165,7 @@ defmodule Ibanity.Configuration do
   defp add_ca_cert(ssl_options, environment) do
     case Keyword.get(environment, :ssl_ca) do
       nil ->
-        ssl_options
-
+        Keyword.put_new(ssl_options, :cacertfile, :certifi.cacertfile())
       cert ->
         Keyword.put_new(ssl_options, :cacerts, [der_encoded_certificate(cert)])
     end
