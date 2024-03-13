@@ -154,7 +154,7 @@ defmodule Ibanity.ApiSchema do
     after
       result -> result
     else
-      _ -> raise HTTPoison.Error, reason: :timeout
+      error -> IO.inspect(error) && raise HTTPoison.Error, reason: :timeout
     end
   end
 
