@@ -154,7 +154,9 @@ defmodule Ibanity.ApiSchema do
     after
       result -> result
     else
-      _ -> raise HTTPoison.Error, reason: :timeout
+      error ->
+          IO.inspect(error, label: "Fetch API schema")
+          raise HTTPoison.Error, reason: :timeout
     end
   end
 
