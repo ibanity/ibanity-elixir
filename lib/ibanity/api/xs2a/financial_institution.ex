@@ -34,7 +34,11 @@ defmodule Ibanity.Xs2a.FinancialInstitution do
             maintenance_to: nil,
             maintenance_type: nil,
             time_zone: nil,
-            pending_transactions_available: nil
+            pending_transactions_available: nil,
+            bulk_payment_instructions_limit: nil,
+            expected_authorization_lifetime: nil,
+            payment_debtor_account_reference_required: nil,
+            bulk_payment_debtor_account_reference_required: nil
 
   @resource_type "financial_institution"
 
@@ -209,7 +213,11 @@ defmodule Ibanity.Xs2a.FinancialInstitution do
       maintenance_to: {~w(attributes maintenanceTo), :datetime},
       maintenance_type: {~w(attributes maintenanceType), :string},
       time_zone: {~w(attributes timeZone), :string},
-      pending_transactions_available: {~w(attributes pendingTransactionsAvailable), :boolean}
+      pending_transactions_available: {~w(attributes pendingTransactionsAvailable), :boolean},
+      bulk_payment_instructions_limit: {~w(attributes bulkPaymentInstructionsLimit), :integer},
+      expected_authorization_lifetime: {~w(attributes expectedAuthorizationLifetime), :integer},
+      payment_debtor_account_reference_required: {~w(attributes paymentDebtorAccountReferenceRequired), :boolean},
+      bulk_payment_debtor_account_reference_required: {~w(attributes bulkPaymentDebtorAccountReferenceRequired), :boolean}
     ]
   end
 end
