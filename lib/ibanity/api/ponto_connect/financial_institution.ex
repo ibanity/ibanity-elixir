@@ -8,7 +8,7 @@ defmodule Ibanity.PontoConnect.FinancialInstitution do
     :id,
     :name,
     :status,
-    :depricated,
+    :deprecated,
     :country,
     :bic,
     :bulk_payments_enabled,
@@ -119,7 +119,7 @@ defmodule Ibanity.PontoConnect.FinancialInstitution do
           id: "953934eb-229a-4fd2-8675-07794078cc7d",
           name: "Fake Bank",
           status: "stable",
-          depricated: nil,
+          deprecated: nil,
           country: "BE",
           bic: "NBBEBEBB203",
           bulk_payments_enabled: nil,
@@ -147,7 +147,7 @@ defmodule Ibanity.PontoConnect.FinancialInstitution do
           id: "953934eb-229a-4fd2-8675-07794078cc7d",
           name: "Fake Bank",
           status: "stable",
-          depricated: nil,
+          deprecated: nil,
           country: "BE",
           bic: "NBBEBEBB203",
           bulk_payments_enabled: nil,
@@ -244,12 +244,13 @@ defmodule Ibanity.PontoConnect.FinancialInstitution do
     """
   end
 
+  @doc false
   def key_mapping do
     [
       id: {~w(id), :string},
       name: {~w(attributes name), :string},
       status: {~w(attributes status), :string},
-      depricated: {~w(attributes depricated), :boolean},
+      deprecated: {~w(attributes deprecated), :boolean},
       country: {~w(attributes country), :string},
       bic: {~w(attributes bic), :string},
       bulk_payments_enabled: {~w(attributes bulk_payments_enabled), :boolean},

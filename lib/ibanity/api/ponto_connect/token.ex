@@ -11,7 +11,8 @@ defmodule Ibanity.PontoConnect.Token do
             expires_in: nil,
             refresh_token: nil,
             scope: nil,
-            token_type: "bearer"
+            token_type: "bearer",
+            application: :default
 
   @api_schema_path ["ponto-connect", "oauth2", "token"]
   @api_schema_delete_path ["ponto-connect", "oauth2", "revoke"]
@@ -121,6 +122,39 @@ defmodule Ibanity.PontoConnect.Token do
     |> Request.resource_type(__MODULE__)
     |> PontoConnect.create_token_default_request()
     |> Client.execute_basic(:post, @api_schema_path)
+    |> put_application(request.application)
+  end
+
+  defp put_application({:ok, %__MODULE__{} = token}, application),
+    do: {:ok, %__MODULE__{token | application: application}}
+
+  defp put_application(response, _application), do: response
+
+  @doc """
+  Convenience function to receive a new token using a `%Ibanity.PontoConnect.Token{}` struct.
+
+  Equivalent to
+
+      iex> attrs = [refresh_token: token.refresh_token]
+      iex> request = Request.application(:my_application)
+      iex> request |> Request.attributes(attrs) |> PontoConnect.Token.create()
+
+  ## Examples
+
+      iex> valid_attrs = [
+      ...>   code: "nwma9L6Ca_Hx_95RZNbYvZbf7bDuw-H7F1s0tiaYt1c.kd9X3R61y8KaEdFvYo_OMdZ5Ufm8EYbpxekYv0RlQRQ",
+      ...>   redirect_uri: "https://fake-tpp.com/ponto-authorization",
+      ...>   code_verifier: "71855516a563705a2f13e4a10375efa2a0e7584ed89accaa69"
+      ...> ]
+      iex> {:ok, token} = PontoConnect.Token.create(valid_attrs)
+      iex> PontoConnect.Token.refresh(token)
+      {:ok, %PontoConnect.Token{}}
+  """
+  def refresh(%__MODULE__{} = token) do
+    token.application
+    |> Request.application()
+    |> Request.attributes(refresh_token: token.refresh_token)
+    |> create()
   end
 
   @doc """
