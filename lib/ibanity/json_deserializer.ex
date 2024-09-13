@@ -17,9 +17,11 @@ defmodule Ibanity.JsonDeserializer do
     "paymentInitiationRequest" => Ibanity.Xs2a.PaymentInitiationRequest,
     "paymentInitiationRequestAuthorization" => Ibanity.Xs2a.PaymentInitiationRequestAuthorization,
     "periodicPaymentInitiationRequest" => Ibanity.Xs2a.PeriodicPaymentInitiationRequest,
-    "periodicPaymentInitiationRequestAuthorization" => Ibanity.Xs2a.PeriodicPaymentInitiationRequestAuthorization,
+    "periodicPaymentInitiationRequestAuthorization" =>
+      Ibanity.Xs2a.PeriodicPaymentInitiationRequestAuthorization,
     "bulkPaymentInitiationRequest" => Ibanity.Xs2a.BulkPaymentInitiationRequest,
-    "bulkPaymentInitiationRequestAuthorization" => Ibanity.Xs2a.BulkPaymentInitiationRequestAuthorization,
+    "bulkPaymentInitiationRequestAuthorization" =>
+      Ibanity.Xs2a.BulkPaymentInitiationRequestAuthorization,
     "paymentItem" => Ibanity.Xs2a.BulkPaymentInitiationRequest.Payment,
     "pendingTransaction" => Ibanity.Xs2a.PendingTransaction,
     "transaction" => Ibanity.Xs2a.Transaction,
@@ -32,22 +34,32 @@ defmodule Ibanity.JsonDeserializer do
     "financialInstitutionStatus" => Ibanity.Billing.Xs2a.FinancialInstitutionStatus,
     "nbbReport" => Ibanity.Reporting.Xs2a.NbbReport,
     "nbbReportAiSynchronization" => Ibanity.Reporting.Xs2a.NbbReportAiSynchronization,
-    "accountInformationAccessRequestAuthorization" => Ibanity.Xs2a.AccountInformationAccessRequestAuthorization,
+    "accountInformationAccessRequestAuthorization" =>
+      Ibanity.Xs2a.AccountInformationAccessRequestAuthorization,
     "key" => Ibanity.Webhooks.Key,
-    "xs2a.synchronization.succeededWithoutChange" => Ibanity.Webhooks.Xs2a.Synchronization.SucceededWithoutChange,
+    "xs2a.synchronization.succeededWithoutChange" =>
+      Ibanity.Webhooks.Xs2a.Synchronization.SucceededWithoutChange,
     "xs2a.account.transactionsUpdated" => Ibanity.Webhooks.Xs2a.Account.TransactionsUpdated,
     "xs2a.account.transactionsCreated" => Ibanity.Webhooks.Xs2a.Account.TransactionsCreated,
     "xs2a.account.transactionsDeleted" => Ibanity.Webhooks.Xs2a.Account.TransactionsDeleted,
-    "xs2a.account.pendingTransactionsUpdated" => Ibanity.Webhooks.Xs2a.Account.PendingTransactionsUpdated,
-    "xs2a.account.pendingTransactionsCreated" => Ibanity.Webhooks.Xs2a.Account.PendingTransactionsCreated,
+    "xs2a.account.pendingTransactionsUpdated" =>
+      Ibanity.Webhooks.Xs2a.Account.PendingTransactionsUpdated,
+    "xs2a.account.pendingTransactionsCreated" =>
+      Ibanity.Webhooks.Xs2a.Account.PendingTransactionsCreated,
     "xs2a.synchronization.failed" => Ibanity.Webhooks.Xs2a.Synchronization.Failed,
     "xs2a.account.detailsUpdated" => Ibanity.Webhooks.Xs2a.Account.DetailsUpdated,
-    "xs2a.bulkPaymentInitiationRequest.authorizationCompleted" => Ibanity.Webhooks.Xs2a.BulkPaymentInitiationRequest.AuthorizationCompleted,
-    "xs2a.paymentInitiationRequest.authorizationCompleted" => Ibanity.Webhooks.Xs2a.PaymentInitiationRequest.AuthorizationCompleted,
-    "xs2a.periodicPaymentInitiationRequest.authorizationCompleted" => Ibanity.Webhooks.Xs2a.PeriodicPaymentInitiationRequest.AuthorizationCompleted,
-    "xs2a.bulkPaymentInitiationRequest.statusUpdated" => Ibanity.Webhooks.Xs2a.BulkPaymentInitiationRequest.StatusUpdated,
-    "xs2a.paymentInitiationRequest.statusUpdated" => Ibanity.Webhooks.Xs2a.PaymentInitiationRequest.StatusUpdated,
-    "xs2a.periodicPaymentInitiationRequest.statusUpdated" => Ibanity.Webhooks.Xs2a.PeriodicPaymentInitiationRequest.StatusUpdated
+    "xs2a.bulkPaymentInitiationRequest.authorizationCompleted" =>
+      Ibanity.Webhooks.Xs2a.BulkPaymentInitiationRequest.AuthorizationCompleted,
+    "xs2a.paymentInitiationRequest.authorizationCompleted" =>
+      Ibanity.Webhooks.Xs2a.PaymentInitiationRequest.AuthorizationCompleted,
+    "xs2a.periodicPaymentInitiationRequest.authorizationCompleted" =>
+      Ibanity.Webhooks.Xs2a.PeriodicPaymentInitiationRequest.AuthorizationCompleted,
+    "xs2a.bulkPaymentInitiationRequest.statusUpdated" =>
+      Ibanity.Webhooks.Xs2a.BulkPaymentInitiationRequest.StatusUpdated,
+    "xs2a.paymentInitiationRequest.statusUpdated" =>
+      Ibanity.Webhooks.Xs2a.PaymentInitiationRequest.StatusUpdated,
+    "xs2a.periodicPaymentInitiationRequest.statusUpdated" =>
+      Ibanity.Webhooks.Xs2a.PeriodicPaymentInitiationRequest.StatusUpdated
   }
 
   def deserialize(item) do
@@ -59,7 +71,7 @@ defmodule Ibanity.JsonDeserializer do
   end
 
   def deserialize(item, resource_type) do
-    return_type = Map.fetch!(@type_mappings, resource_type)
+    return_type = return_type_module(resource_type)
     mapping = return_type.key_mapping()
 
     keys =
@@ -70,12 +82,15 @@ defmodule Ibanity.JsonDeserializer do
     struct(return_type, keys)
   end
 
+  defp return_type_module(key) when is_bitstring(key), do: Map.fetch!(@type_mappings, key)
+  defp return_type_module(module) when is_atom(module), do: module
+
   defp deserialize_field(nil, _), do: nil
 
   defp deserialize_field(field, :string) when is_list(field), do: field
 
   defp deserialize_field(field, type) when is_list(field) do
-    Enum.map(field, &(deserialize(&1, type)))
+    Enum.map(field, &deserialize(&1, type))
   end
 
   defp deserialize_field(field, :datetime), do: DateTimeUtil.parse(field)
