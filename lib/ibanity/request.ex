@@ -135,7 +135,10 @@ defmodule Ibanity.Request do
   Overrides existing query params with the same name
   """
   def query_params(%__MODULE__{} = request, query_params) do
-    %__MODULE__{request | query_params: Map.merge(request.query_params, Enum.into(query_params, %{}))}
+    %__MODULE__{
+      request
+      | query_params: Map.merge(request.query_params, Enum.into(query_params, %{}))
+    }
   end
 
   @doc """
@@ -147,11 +150,18 @@ defmodule Ibanity.Request do
   def customer_access_token(%Ibanity.Xs2a.CustomerAccessToken{} = access),
     do: customer_access_token(access.token)
 
+  def customer_access_token(%Ibanity.PontoConnect.Token{} = token),
+    do: customer_access_token(token.access_token)
+
   @doc """
   Sets the [customer access token](https://documentation.ibanity.com/api#customer-access-token) to the request
   """
   def customer_access_token(%__MODULE__{} = request, %Ibanity.Xs2a.CustomerAccessToken{} = access) do
     customer_access_token(request, access.token)
+  end
+
+  def customer_access_token(%__MODULE__{} = request, %Ibanity.PontoConnect.Token{} = token) do
+    customer_access_token(request, token.access_token)
   end
 
   @doc """
