@@ -7,8 +7,31 @@ defmodule Ibanity.Client do
 
   def execute(%Ibanity.Request{} = request, method, uri_path, type \\ nil) do
     case HttpRequest.build(request, method, uri_path) do
-      {:ok, http_request} -> execute(http_request, type)
-      {:error, reason} -> {:error, reason}
+      {:ok, http_request} ->
+        body =
+          if method_has_body?(http_request.method),
+            do: Jason.encode!(%{data: http_request.data}),
+            else: ""
+
+        send_request(http_request, body, type)
+
+      {:error, reason} ->
+        {:error, reason}
+    end
+  end
+
+  def execute_basic(%Ibanity.Request{} = request, method, uri_path) do
+    case HttpRequest.build(request, method, uri_path) do
+      {:ok, http_request} ->
+        body =
+          if method_has_body?(http_request.method),
+            do: Jason.encode!(http_request.data),
+            else: ""
+
+        send_request(http_request, body, request.resource_type)
+
+      {:error, reason} ->
+        {:error, reason}
     end
   end
 
@@ -24,19 +47,21 @@ defmodule Ibanity.Client do
     end
   end
 
-  defp execute(%HttpRequest{method: method, application: application} = request, type) do
-    body = if method_has_body?(method), do: Jason.encode!(%{data: request.data}), else: ""
+  defp send_request(
+         %HttpRequest{method: method, application: application} = request,
+         body,
+         type
+       ) do
     retry with: Configuration.retry_backoff(), rescue_only: [] do
       case HTTPoison.request(
-          method,
-          request.uri,
-          body,
-          request.headers,
-          options(application)
-        )
-      do
-        {:ok, res} -> res |> process_response
-        error      -> error
+             method,
+             request.uri,
+             body,
+             request.headers,
+             options(application)
+           ) do
+        {:ok, res} -> res |> process_response()
+        error -> error
       end
     after
       {:ok, response} -> response |> handle_response_body(type)
@@ -46,7 +71,10 @@ defmodule Ibanity.Client do
   end
 
   defp options(application) do
-    Keyword.merge([ssl: Configuration.ssl_options(application), hackney: [pool: application]], Configuration.timeout_options())
+    Keyword.merge(
+      [ssl: Configuration.ssl_options(application), hackney: [pool: application]],
+      Configuration.timeout_options()
+    )
   end
 
   defp method_has_body?(method) do
@@ -62,15 +90,18 @@ defmodule Ibanity.Client do
         {:ok, {:ok, body}}
 
       code >= 400 and code <= 500 ->
-        {:ok, {:error, Map.fetch!(body, "errors")}}
+        {:ok, {:error, fetch_errors(body)}}
 
       code >= 501 and code <= 599 ->
-        {:error, Map.fetch!(body, "errors")}
+        {:error, fetch_errors(body)}
 
       true ->
         {:error, :unknown_return_code}
     end
   end
+
+  defp fetch_errors(%{"errors" => errors}), do: errors
+  defp fetch_errors(%{"error" => _} = error), do: error
 
   defp handle_response_body(%{"message" => reason}, _), do: {:error, reason}
   defp handle_response_body({:error, _} = error, _), do: error
@@ -80,17 +111,22 @@ defmodule Ibanity.Client do
     collection =
       data
       |> Enum.map(&deserialize(&1, type))
-      |> Collection.new(meta["paging"], links, meta["synchronizedAt"], meta["latestSynchronization"])
+      |> Collection.new(
+        meta["paging"],
+        links,
+        meta["synchronizedAt"],
+        meta["latestSynchronization"]
+      )
 
     {:ok, collection}
   end
 
   defp handle_response_body({:ok, %{"data" => data}}, type)
-      when is_list(data) do
+       when is_list(data) do
     collection =
-    data
-    |> Enum.map(&deserialize(&1, type))
-    |> Collection.new(%{}, %{})
+      data
+      |> Enum.map(&deserialize(&1, type))
+      |> Collection.new(%{}, %{})
 
     {:ok, collection}
   end
@@ -98,7 +134,7 @@ defmodule Ibanity.Client do
   defp handle_response_body({:ok, %{"data" => data}}, type), do: {:ok, deserialize(data, type)}
 
   defp handle_response_body({:ok, %{"keys" => keys}}, type)
-      when is_list(keys) do
+       when is_list(keys) do
     collection =
       keys
       |> Enum.map(&deserialize(&1, type))
@@ -107,5 +143,11 @@ defmodule Ibanity.Client do
     {:ok, collection}
   end
 
-  defp handle_response_body({:ok, %{}}, _), do: {:ok, %{}}
+  defp handle_response_body({:ok, response}, type) do
+    if response == %{} do
+      {:ok, %{}}
+    else
+      handle_response_body({:ok, %{"data" => response}}, type)
+    end
+  end
 end
