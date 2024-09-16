@@ -171,4 +171,34 @@ defmodule Ibanity.PontoConnect do
     Got: #{inspect(other)}
     """
   end
+
+  @common_docs %{
+    account_id: """
+    Fetch an account before each example, or use a valid account id
+
+        iex> {:ok, account_or_id} = token |> Ibanity.PontoConnect.Account.find("03ebe0ae-f630-4414-b37b-afde7de67229")
+        {:ok,
+          %Ibanity.PontoConnect.Account{
+          id: "03ebe0ae-f630-4414-b37b-afde7de67229"
+        }}
+
+        iex> account_or_id = "03ebe0ae-f630-4414-b37b-afde7de67229"
+        "03ebe0ae-f630-4414-b37b-afde7de67229"
+    """,
+    synchronization_id: """
+    Fetch an synchronization before each example, or use a valid synchronization id
+
+        iex> {:ok, synchronization_or_id} = token |> Ibanity.PontoConnect.Suynchronization.find("03ebe0ae-f630-4414-b37b-afde7de67229")
+        {:ok,
+          %Ibanity.PontoConnect.Account{
+          id: "03ebe0ae-f630-4414-b37b-afde7de67229"
+        }}
+
+        iex> synchronization_or_id = "03ebe0ae-f630-4414-b37b-afde7de67229"
+        "03ebe0ae-f630-4414-b37b-afde7de67229"
+    """
+  }
+
+  @doc false
+  def common_docs!(key), do: Map.fetch!(@common_docs, key)
 end
