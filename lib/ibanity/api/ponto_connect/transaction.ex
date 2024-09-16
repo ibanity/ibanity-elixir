@@ -37,33 +37,6 @@ defmodule Ibanity.PontoConnect.Transaction do
   @api_schema_synchronization_path ["ponto-connect", "synchronization"]
   @api_schema_account_path ["ponto-connect", "account"]
 
-  @common_docs %{
-    account_id: """
-    Fetch an account before each example, or use a valid account id
-
-        iex> {:ok, account_or_id} = token |> Ibanity.PontoConnect.Account.find("03ebe0ae-f630-4414-b37b-afde7de67229")
-        {:ok,
-          %Ibanity.PontoConnect.Account{
-          id: "03ebe0ae-f630-4414-b37b-afde7de67229"
-        }}
-
-        iex> account_or_id = "03ebe0ae-f630-4414-b37b-afde7de67229"
-        "03ebe0ae-f630-4414-b37b-afde7de67229"
-    """,
-    synchronization_id: """
-    Fetch an synchronization before each example, or use a valid synchronization id
-
-        iex> {:ok, synchronization_or_id} = token |> Ibanity.PontoConnect.Suynchronization.find("03ebe0ae-f630-4414-b37b-afde7de67229")
-        {:ok,
-          %Ibanity.PontoConnect.Account{
-          id: "03ebe0ae-f630-4414-b37b-afde7de67229"
-        }}
-
-        iex> synchronization_or_id = "03ebe0ae-f630-4414-b37b-afde7de67229"
-        "03ebe0ae-f630-4414-b37b-afde7de67229"
-    """
-  }
-
   @doc """
   [List transactions](https://documentation.ibanity.com/ponto-connect/2/api#list-transactions)
 
@@ -73,7 +46,7 @@ defmodule Ibanity.PontoConnect.Transaction do
 
   ## Examples
 
-  #{@common_docs.account_id}
+  #{PontoConnect.common_docs!(:account_id)}
 
   Use account or id to list transactions:
 
@@ -127,7 +100,7 @@ defmodule Ibanity.PontoConnect.Transaction do
   - `:synchronization``Ibanity.PontoConnect.Synchronization` struct or account ID as a string
   - `:id` Transaction ID as a string
 
-  #{@common_docs.synchronization_id}
+  #{PontoConnect.common_docs!(:synchronization_id)}
 
   ## Examples
 
@@ -195,7 +168,7 @@ defmodule Ibanity.PontoConnect.Transaction do
   - `:synchronization``Ibanity.PontoConnect.Synchronization` struct or account ID as a string
   - `:id` Transaction ID as a string
 
-  #{@common_docs.synchronization_id}
+  #{PontoConnect.common_docs!(:synchronization_id)}
 
   ## Examples
 
@@ -261,7 +234,7 @@ defmodule Ibanity.PontoConnect.Transaction do
 
   ## Examples
 
-  #{@common_docs.account_id}
+  #{PontoConnect.common_docs!(:account_id)}
 
   Use account or id to list transactions:
 
@@ -320,7 +293,7 @@ defmodule Ibanity.PontoConnect.Transaction do
   - `:account_id``Ibanity.PontoConnect.Account` struct or account ID as a string
   - `:id` Transaction ID as a string
 
-  #{@common_docs.account_id}
+  #{PontoConnect.common_docs!(:account_id)}
 
   ## Examples
 
@@ -377,7 +350,7 @@ defmodule Ibanity.PontoConnect.Transaction do
   - `:account_id``Ibanity.PontoConnect.Account` struct or account ID as a string
   - `:id` Transaction ID as a string
 
-  #{@common_docs.account_id}
+  #{PontoConnect.common_docs!(:account_id)}
 
   ## Examples
 
