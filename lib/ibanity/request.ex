@@ -245,6 +245,11 @@ defmodule Ibanity.Request do
   @doc """
   Sets URI template identifiers to their corresponding values. Overrides existing values if identifiers are already present
   """
+  def ids(%__MODULE__{} = request, ids) when is_map(ids) do
+    ids_keyword_list = Enum.into(ids, [])
+    ids(request, ids_keyword_list)
+  end
+
   def ids(%__MODULE__{} = request, ids) when is_list(ids) do
     %__MODULE__{request | resource_ids: Keyword.merge(request.resource_ids, ids)}
   end
