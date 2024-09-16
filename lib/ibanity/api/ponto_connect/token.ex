@@ -109,7 +109,7 @@ defmodule Ibanity.PontoConnect.Token do
         }
       }
   """
-  def create, do: create(%Request{})
+  def create(request_or_attributes \\ %Request{})
 
   def create(attrs) when is_list(attrs) do
     attrs
@@ -136,8 +136,8 @@ defmodule Ibanity.PontoConnect.Token do
   Equivalent to
 
       iex> attrs = [refresh_token: token.refresh_token]
-      iex> request = Request.application(:my_application)
-      iex> request |> Request.attributes(attrs) |> PontoConnect.Token.create()
+      iex> %Ibanity.Request{} |> Request.attributes(attrs) |> PontoConnect.Token.create()
+      {:ok, %PontoConnect.Token{}}
 
   ## Examples
 
