@@ -132,7 +132,33 @@ defmodule Ibanity.PontoConnect.Account do
   end
 
   @doc """
-  [Revoke Account by id](https://documentation.ibanity.com/ponto-connect/2/api#get-account)
+  [Revoke Account by id](https://documentation.ibanity.com/ponto-connect/2/api#revoke-account)
+
+  ## Examples
+
+      iex> %Ibanity.PontoConnect.Token{}
+      ...> |> Ibanity.PontoConnect.Account.delete("953934eb-229a-4fd2-8675-07794078cc7d")
+      {:ok, %Ibanity.PontoConnect.Account{id: "953934eb-229a-4fd2-8675-07794078cc7d"}}
+
+      iex> %Ibanity.PontoConnect.Token{}
+      ...> |> Ibanity.Request.customer_access_token()
+      ...> |> Ibanity.Request.application(:my_application)
+      ...> |> Ibanity.PontoConnect.Account.delete("953934eb-229a-4fd2-8675-07794078cc7d")
+      {:ok, %Ibanity.PontoConnect.Account{id: "953934eb-229a-4fd2-8675-07794078cc7d"}}
+
+      iex> %Ibanity.PontoConnect.Token{}
+      ...> |> Ibanity.PontoConnect.Account.delete("does-not-exist")
+      {:error,
+        [
+          %{
+            "code" => "resourceNotFound",
+            "detail" => "The requested resource was not found.",
+            "meta" => %{
+              "requestId" => "00077F00000184847F0000011F4066E44223327005A",
+              "resource" => "account"
+            }
+          }
+        ]}
   """
   def delete(%Request{customer_access_token: customer_access_token} = request, id)
       when not is_nil(customer_access_token) do
