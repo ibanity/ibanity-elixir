@@ -159,4 +159,16 @@ defmodule Ibanity.PontoConnect do
     Application.get_env(:ibanity, :applications, [])
     |> get_in([request.application, :ponto_connect_client_id])
   end
+
+  @doc false
+  def token_argument_error_msg(resource_name, other) do
+    """
+    Cannot access #{resource_name} with given arguments.
+    Expected one of:
+    - `%Ibanity.Request{}` with `:customer_access_token` set
+    - `%Ibanity.PontoConnect.Token{}`
+
+    Got: #{inspect(other)}
+    """
+  end
 end
