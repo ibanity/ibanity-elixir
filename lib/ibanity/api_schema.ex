@@ -134,8 +134,8 @@ defmodule Ibanity.ApiSchema do
 
   def fetch("https://api.ibanity.com/ponto-connect", _, :test) do
     %{
-      "userinf" => "https://api.ibanity.com/ponto-connect/userinfo",
-      "accoun" => %{
+      "userinfo" => "https://api.ibanity.com/ponto-connect/userinfo",
+      "account" => %{
         "bulkPayments" =>
           "https://api.ibanity.com/ponto-connect/accounts/{accountId}/bulk-payments/{bulkPaymentId}",
         "paymentRequests" =>
@@ -149,7 +149,7 @@ defmodule Ibanity.ApiSchema do
         "transactions" =>
           "https://api.ibanity.com/ponto-connect/accounts/{accountId}/transactions/{transactionId}"
       },
-      "account" => "https://api.ibanity.com/ponto-connect/accounts/{accountId}",
+      "accounts" => "https://api.ibanity.com/ponto-connect/accounts/{accountId}",
       "financialInstitutions" =>
         "https://api.ibanity.com/ponto-connect/financial-institutions/{financialInstitutionId}",
       "integrationAccount" => "https://api.ibanity.com/ponto-connect/integration-accounts",
@@ -157,7 +157,7 @@ defmodule Ibanity.ApiSchema do
         "toke" => "https://api.ibanity.com/ponto-connect/oauth2/token",
         "revok" => "https://api.ibanity.com/ponto-connect/oauth2/revoke"
       },
-      "onboardingDetail" => "https://api.ibanity.com/ponto-connect/onboarding-details",
+      "onboardingDetails" => "https://api.ibanity.com/ponto-connect/onboarding-details",
       "organization" => %{
         "usage" =>
           "https://api.ibanity.com/ponto-connect/organizations/{organizationId}/usage/{month}",
@@ -166,9 +166,9 @@ defmodule Ibanity.ApiSchema do
       },
       "paymentActivationRequests" =>
         "https://api.ibanity.com/ponto-connect/payment-activation-requests",
-      "sandbo" => %{
-        "financialInstitutio" => %{
-          "financialInstitutionAccoun" => %{
+      "sandbox" => %{
+        "financialInstitution" => %{
+          "financialInstitutionAccount" => %{
             "financialInstitutionTransactions" =>
               "https://api.ibanity.com/ponto-connect/sandbox/financial-institutions/{financialInstitutionId}/financial-institution-accounts/{financialInstitutionAccountId}/financial-institution-transactions/{financialInstitutionTransactionId}"
           },
@@ -176,7 +176,7 @@ defmodule Ibanity.ApiSchema do
             "https://api.ibanity.com/ponto-connect/sandbox/financial-institutions/{financialInstitutionId}/financial-institution-accounts/{financialInstitutionAccountId}"
         }
       },
-      "synchronizatio" => %{
+      "synchronization" => %{
         "updatedPendingTransactions" =>
           "https://api.ibanity.com/ponto-connect/synchronizations/{synchronizationId}/updated-pending-transactions",
         "updatedTransactions" =>

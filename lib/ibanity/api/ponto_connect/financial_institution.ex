@@ -34,7 +34,7 @@ defmodule Ibanity.PontoConnect.FinancialInstitution do
   @api_schema_path ["ponto-connect", "financialInstitutions"]
 
   @doc """
-  [List all public financial institutions](https://documentation.ibanity.com/ponto-connect/2/api#list-financial-institutions)
+  [List public financial institutions](https://documentation.ibanity.com/ponto-connect/2/api#list-financial-institutions)
 
   ## Examples
 
@@ -70,7 +70,9 @@ defmodule Ibanity.PontoConnect.FinancialInstitution do
   end
 
   @doc """
+  [List organization's financial institutions](https://documentation.ibanity.com/ponto-connect/2/api#list-organization-financial-institutions)
 
+  Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:customer_access_token` as argument.
   ## Examples
 
       iex> Ibanity.PontoConnect.Token{} |> Ibanity.PontoConnect.FinancialInstitution.list_organization()
@@ -105,7 +107,8 @@ defmodule Ibanity.PontoConnect.FinancialInstitution do
   end
 
   def list_organization(other) do
-    raise ArgumentError, message: token_argument_error_msg(other)
+    raise ArgumentError,
+      message: PontoConnect.token_argument_error_msg("Financial Institutions", other)
   end
 
   @doc """
@@ -185,7 +188,7 @@ defmodule Ibanity.PontoConnect.FinancialInstitution do
   end
 
   @doc """
-  [Find public financial institution by id](https://documentation.ibanity.com/ponto-connect/2/api#get-organization-financial-institution)
+  [Find organization's financial institution by id](https://documentation.ibanity.com/ponto-connect/2/api#get-organization-financial-institution)
 
   Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:customer_access_token` as first argument, and a Financial Institution
   ID as second argument.
@@ -230,18 +233,8 @@ defmodule Ibanity.PontoConnect.FinancialInstitution do
   end
 
   def find_organization(other, _id) do
-    raise ArgumentError, message: token_argument_error_msg(other)
-  end
-
-  defp token_argument_error_msg(other) do
-    """
-    Cannot access Financial Institution(s) with given arguments.
-    Expected one of:
-    - `%Ibanity.Request{}` with `:customer_access_token` set
-    - `%Ibanity.PontoConnect.Token{}`
-
-    Got: #{inspect(other)}
-    """
+    raise ArgumentError,
+      message: PontoConnect.token_argument_error_msg("Financial Institution", other)
   end
 
   @doc false
