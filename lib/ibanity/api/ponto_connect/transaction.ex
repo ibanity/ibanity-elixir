@@ -289,13 +289,11 @@ defmodule Ibanity.PontoConnect.Transaction do
 
   Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:customer_access_token` as first argument.
 
-  Takes a map with the following keys as second argument:
-  - `:account_id``Ibanity.PontoConnect.Account` struct or account ID as a string
-  - `:id` Transaction ID as a string
-
-  #{PontoConnect.common_docs!(:account_id)}
+  #{PontoConnect.common_docs!(:account_and_id_second_arg)}
 
   ## Examples
+
+  #{PontoConnect.common_docs!(:account_id)}
 
       iex> %Ibanity.PontoConnect.Token{}
       ...> |> Ibanity.PontoConnect.Transaction.find(%{account_id: account_or_id, id: "d0e23b50-e150-403b-aa50-581a2329b5f5"})
@@ -323,7 +321,7 @@ defmodule Ibanity.PontoConnect.Transaction do
   """
   def find(%Request{customer_access_token: customer_access_token} = request, ids)
       when not is_nil(customer_access_token) do
-    formatted_ids = format_account_ids(ids)
+    formatted_ids = PontoConnect.format_account_ids(ids)
 
     request
     |> Request.ids(formatted_ids)
@@ -383,7 +381,7 @@ defmodule Ibanity.PontoConnect.Transaction do
         ids
       )
       when not is_nil(customer_access_token) do
-    formatted_ids = format_account_ids(ids)
+    formatted_ids = PontoConnect.format_account_ids(ids)
 
     request
     |> Request.ids(formatted_ids)
@@ -400,11 +398,6 @@ defmodule Ibanity.PontoConnect.Transaction do
     raise ArgumentError,
       message: PontoConnect.token_argument_error_msg("Transaction", other)
   end
-
-  defp format_account_ids(%{account_id: %PontoConnect.Account{id: account_id}} = ids),
-    do: Map.put(ids, :account_id, account_id)
-
-  defp format_account_ids(ids), do: ids
 
   @doc false
   def key_mapping do
