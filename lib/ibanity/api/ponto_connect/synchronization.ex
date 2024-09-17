@@ -53,6 +53,7 @@ defmodule Ibanity.PontoConnect.Synchronization do
 
       iex> %PontoConnect.Token{}
       ...> |> PontoConnect.Synchronization.create(attributes)
+      {:ok, %PontoConnect.Synchronization{id: "f92fc927-7c39-48c1-aa4b-2820efbfed00"}}
   """
   def create(request_or_token, attrs)
 
@@ -86,7 +87,7 @@ defmodule Ibanity.PontoConnect.Synchronization do
         customer_ip_address: "123.123.123.123"
       ]
 
-  Set attributes and customer_acceess_token to create a synchronization
+  Set attributes and customer_access_token to create a synchronization
 
       iex> attributes
       ...> |> Request.attributes()

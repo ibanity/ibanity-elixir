@@ -83,7 +83,7 @@ defmodule Ibanity.PontoConnect.Payment do
 
   ## Examples
 
-  Set id and customer_acceess_token to request a Payment
+  Set id and customer_access_token to request a Payment
 
       iex> %PontoConnect.Token{}
       ...> |> Request.customer_access_token()

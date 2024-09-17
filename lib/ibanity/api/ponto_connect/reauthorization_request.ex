@@ -53,7 +53,7 @@ defmodule Ibanity.PontoConnect.ReauthorizationRequest do
 
   ## Examples
 
-  Set id and customer_acceess_token to request a reauthorization
+  Set id and customer_access_token to request a reauthorization
 
       iex> %PontoConnect.Token{}
       ...> |> Request.customer_access_token()
