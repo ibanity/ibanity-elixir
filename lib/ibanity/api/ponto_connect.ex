@@ -185,6 +185,11 @@ defmodule Ibanity.PontoConnect do
         iex> account_or_id = "03ebe0ae-f630-4414-b37b-afde7de67229"
         "03ebe0ae-f630-4414-b37b-afde7de67229"
     """,
+    account_and_id_second_arg: """
+    Takes a map with the following keys as second argument:
+    - `:account_id``Ibanity.PontoConnect.Account` struct or account ID as a string
+    - `:id` resource ID as a string
+    """,
     synchronization_id: """
     Fetch an synchronization before each example, or use a valid synchronization id
 
@@ -201,4 +206,17 @@ defmodule Ibanity.PontoConnect do
 
   @doc false
   def common_docs!(key), do: Map.fetch!(@common_docs, key)
+
+  @doc false
+  def format_account_ids(ids), do: format_ids(ids, [:account_id, :id])
+
+  defp format_ids(ids, []), do: ids
+
+  defp format_ids(ids, [key | rest]) do
+    case Map.fetch!(ids, key) do
+      %{id: id} -> Map.put(ids, key, id)
+      _ -> ids
+    end
+    |> format_ids(rest)
+  end
 end
