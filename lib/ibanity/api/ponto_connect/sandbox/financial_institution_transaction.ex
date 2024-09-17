@@ -41,6 +41,106 @@ defmodule Ibanity.PontoConnect.Sandbox.FinancialInstitutionTransaction do
   alias Ibanity.PontoConnect
 
   @doc """
+  [Creates a sandbox Financial Institution Transaction](https://documentation.ibanity.com/ponto-connect/api#create-financial-institution-transaction).
+
+  Returns `{:ok, %__MODULE__{}}` if successful, `{:error, reason}` otherwise.
+
+  #{PontoConnect.common_docs!(:financial_institution_and_account_second_arg)}
+
+  ## Examples
+
+  #{PontoConnect.common_docs!(:financial_institution_and_account_ids)}
+
+  Attributes
+
+      iex> attributes = [
+      ...>   valueDate: "2020-05-22T00:00:00Z",
+      ...>   executionDate: "2020-05-25T00:00:00Z",
+      ...>   amount: 84.42,
+      ...>   currency: "EUR",
+      ...>   counterpartName: "Otro Bank",
+      ...>   counterpartReference: "BE9786154282554",
+      ...>   description: "Small Cotton Shoes",
+      ...>   remittanceInformation: "NEW SHOES",
+      ...>   remittanceInformationType: "unstructured",
+      ...>   endToEndId: "ref.243435343",
+      ...>   purposeCode: "CASH",
+      ...>   mandateId: "234",
+      ...>   creditorId: "123498765421",
+      ...>   additionalInformation: "Online payment on fake-tpp.com",
+      ...>   proprietaryBankTransactionCode: "12267",
+      ...>   bankTransactionCode: "PMNT-IRCT-ESCT",
+      ...>   cardReferenceType: "MASKEDPAN",
+      ...>   cardReference: "6666",
+      ...>   fee: 3.14
+      ...> ]
+
+  IDs
+
+      iex> ids = %{
+      ...>   financial_institution_id: financial_institution_or_id,
+      ...>   financial_institution_account_id: financial_institution_account_or_id
+      ...> }
+
+  Use attribues and ids:
+
+      iex> PontoConnect.Sandbox.FinancialInstitutionTransaction.create(token, ids, attributes)
+      {:ok, %PontoConnect.Sandbox.FinancialInstitutionTransaction{id: "343e64e5-4882-4559-96d0-221c398288f3"}}
+
+      iex> request = Request.customer_access_token(token)
+      iex> PontoConnect.Sandbox.FinancialInstitutionTransaction.create(request, ids, attributes)
+      {:ok, %PontoConnect.Sandbox.FinancialInstitutionTransaction{id: "343e64e5-4882-4559-96d0-221c398288f3"}}
+  """
+  def create(%PontoConnect.Token{} = request_or_token, ids, attrs) do
+    request_or_token
+    |> Request.customer_access_token()
+    |> create(ids, attrs)
+  end
+
+  def create(
+        %Request{customer_access_token: token} = request_or_token,
+        %{
+          financial_institution_id: financial_institution_or_id,
+          financial_institution_account_id: financial_institution_account_or_id
+        } = ids,
+        attrs
+      )
+      when not is_nil(token) and not is_nil(financial_institution_or_id) and
+             not is_nil(financial_institution_account_or_id) and is_list(attrs) do
+    formatted_ids = PontoConnect.format_ids(ids)
+
+    request_or_token
+    |> Request.ids(formatted_ids)
+    |> Request.attributes(attrs)
+    |> create()
+  end
+
+  def create(other, _ids, _attrs) do
+    raise ArgumentError,
+      message: PontoConnect.token_argument_error_msg("FinancialInstitutionTransaction", other)
+  end
+
+  @doc """
+  Same as create/3, but `:attributes`, `:account_id`, and `:customer_access_token` must be set in request.
+
+  ## Examples
+
+  Set id and customer_access_token to create a FinancialInstitutionTransaction
+
+      iex> %PontoConnect.Token{}
+      ...> |> Request.customer_access_token()
+      ...> |> Request.ids(financial_institution_id: financial_institution_id, financial_institution_account_id: financial_institution_account_id)
+      ...> |> Request.attributes(attributes)
+      ...> |> PontoConnect.FinancialInstitutionTransaction.create()
+      {:ok, %PontoConnect.FinancialInstitutionTransaction{id: "343e64e5-4882-4559-96d0-221c398288f3"}}
+  """
+  def create(%Request{} = request) do
+    request
+    |> Request.id("")
+    |> Client.execute(:post, @api_schema_path, __MODULE__)
+  end
+
+  @doc """
   [List sandbox Financial Institution Transactions](https://documentation.ibanity.com/ponto-connect/2/api#list-financial-institution-transactions)
 
   Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:customer_access_token` as argument.
@@ -78,13 +178,13 @@ defmodule Ibanity.PontoConnect.Sandbox.FinancialInstitutionTransaction do
 
   """
   def list(
-        %Request{customer_access_token: customer_access_token} = request_or_token,
+        %Request{customer_access_token: token} = request_or_token,
         %{
           financial_institution_id: financial_institution_or_id,
           financial_institution_account_id: financial_institution_account_or_id
         } = ids
       )
-      when not is_nil(customer_access_token) and not is_nil(financial_institution_or_id) and
+      when not is_nil(token) and not is_nil(financial_institution_or_id) and
              not is_nil(financial_institution_account_or_id) do
     formatted_ids =
       ids
@@ -184,7 +284,78 @@ defmodule Ibanity.PontoConnect.Sandbox.FinancialInstitutionTransaction do
       message: PontoConnect.token_argument_error_msg("FinancialInstitutionTransaction", other)
   end
 
-  alias Ibanity.PontoConnect
+  @doc """
+  [Updates an existing financial institution transaction](https://documentation.ibanity.com/xs2a/api#update-financial-institution-transaction)
+
+  Returns `{:ok, %__MODULE__{}}` if successful, `{:error, reason}` otherwise.
+
+  #{PontoConnect.common_docs!(:financial_institution_and_account_second_arg)}
+
+  ## Examples
+
+  #{PontoConnect.common_docs!(:financial_institution_and_account_ids)}
+
+  Attributes
+
+      iex> attributes = [
+      ...>   counterpart_name: "Otro Bank",
+      ...>   description: "Small Cotton Shoes",
+      ...>   remittance_information: "NEW SHOES",
+      ...>   end_to_end_id: "ref.243435343",
+      ...>   purpose_code: "CASH",
+      ...>   mandate_id: "234",
+      ...>   creditor_id: "123498765421",
+      ...>   additional_information: "Online payment on fake-tpp.com",
+      ...>   proprietary_bank_transaction_code: "12267",
+      ...>   bank_transaction_code: "PMNT-IRCT-ESCT"
+      ...> ]
+
+  IDs
+
+      iex> ids = %{
+      ...>   financial_institution_id: financial_institution_or_id,
+      ...>   financial_institution_account_id: financial_institution_account_or_id,
+      ...>   id: financial_institution_transaction_or_id
+      ...> }
+
+  Use `attributes` and `ids`
+
+      iex> PontoConnect.Sandbox.FinancialInstitutionTransaction.update(token, ids, attributes)
+      {:ok, %PontoConnect.Sandbox.FinancialInstitutionTransaction{}}
+
+      iex> request = token |> Request.customer_access_token() |> Request.application(:my_application)
+      iex> PontoConnect.Sandbox.FinancialInstitutionTransaction.update(request, ids, attributes)
+      {:ok, %PontoConnect.Sandbox.FinancialInstitutionTransaction{}}
+  """
+  def update(%PontoConnect.Token{} = request_or_token, ids, attrs) do
+    request_or_token
+    |> Request.customer_access_token()
+    |> update(ids, attrs)
+  end
+
+  def update(
+        %Request{customer_access_token: token} = request_or_token,
+        %{
+          financial_institution_id: financial_institution_or_id,
+          financial_institution_account_id: financial_institution_account_or_id,
+          id: id
+        } = ids,
+        attrs
+      )
+      when not is_nil(token) and not is_nil(financial_institution_or_id) and not is_nil(id) and
+             not is_nil(financial_institution_account_or_id) do
+    formatted_ids = PontoConnect.format_ids(ids)
+
+    request_or_token
+    |> Request.ids(formatted_ids)
+    |> Request.attributes(attrs)
+    |> Client.execute(:patch, @api_schema_path, __MODULE__)
+  end
+
+  def update(other, _ids, _attrs) do
+    raise ArgumentError,
+      message: PontoConnect.token_argument_error_msg("FinancialInstitutionTransaction", other)
+  end
 
   @doc false
   def key_mapping do
