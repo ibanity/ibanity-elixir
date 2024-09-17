@@ -94,7 +94,7 @@ defmodule Ibanity.PontoConnect.BulkPayment do
 
   ## Examples
 
-  Set id and customer_acceess_token to request a BulkPayment
+  Set id and customer_access_token to request a BulkPayment
 
       iex> %PontoConnect.Token{}
       ...> |> Request.customer_access_token()
@@ -146,7 +146,7 @@ defmodule Ibanity.PontoConnect.BulkPayment do
   """
   def find(%Request{customer_access_token: customer_access_token} = request_or_token, ids)
       when not is_nil(customer_access_token) do
-    formatted_ids = PontoConnect.format_account_ids(ids)
+    formatted_ids = PontoConnect.format_ids(ids)
 
     request_or_token
     |> Request.ids(formatted_ids)
@@ -208,7 +208,7 @@ defmodule Ibanity.PontoConnect.BulkPayment do
   """
   def delete(%Request{} = request_or_token, %{account_id: account_id} = ids)
       when not is_nil(account_id) do
-    formatted_ids = PontoConnect.format_account_ids(ids)
+    formatted_ids = PontoConnect.format_ids(ids)
 
     request_or_token
     |> Request.ids(formatted_ids)

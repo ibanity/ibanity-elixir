@@ -321,7 +321,7 @@ defmodule Ibanity.PontoConnect.Transaction do
   """
   def find(%Request{customer_access_token: customer_access_token} = request, ids)
       when not is_nil(customer_access_token) do
-    formatted_ids = PontoConnect.format_account_ids(ids)
+    formatted_ids = PontoConnect.format_ids(ids)
 
     request
     |> Request.ids(formatted_ids)
@@ -381,7 +381,7 @@ defmodule Ibanity.PontoConnect.Transaction do
         ids
       )
       when not is_nil(customer_access_token) do
-    formatted_ids = PontoConnect.format_account_ids(ids)
+    formatted_ids = PontoConnect.format_ids(ids)
 
     request
     |> Request.ids(formatted_ids)
