@@ -45,7 +45,7 @@ defmodule Ibanity.PontoConnect.PaymentRequest do
       ...>   redirectUri: "https://fake-tpp.com/payment-request-confirmation?paymentRequest=123"
       ...> ]
 
-  Use attribues and account_or_id:
+  Use attributes and account_or_id:
 
       iex> PontoConnect.PaymentRequest.create(%Ibanity.PontoConnect.Token{}, account_or_id, attributes)
       {:ok, %PontoConnect.PaymentRequest{id: "343e64e5-4882-4559-96d0-221c398288f3"}}

@@ -51,7 +51,7 @@ defmodule Ibanity.PontoConnect.Payment do
       ...>   end_to_end_id: "1234567890"
       ...> ]
 
-  Use attribues and account_or_id:
+  Use attributes and account_or_id:
 
       iex> PontoConnect.Payment.create(%Ibanity.PontoConnect.Token{}, account_or_id, attributes)
       {:ok, %PontoConnect.Payment{id: "343e64e5-4882-4559-96d0-221c398288f3"}}

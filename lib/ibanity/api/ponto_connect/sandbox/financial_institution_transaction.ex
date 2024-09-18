@@ -82,7 +82,7 @@ defmodule Ibanity.PontoConnect.Sandbox.FinancialInstitutionTransaction do
       ...>   financial_institution_account_id: financial_institution_account_or_id
       ...> }
 
-  Use attribues and ids:
+  Use attributes and ids:
 
       iex> PontoConnect.Sandbox.FinancialInstitutionTransaction.create(token, ids, attributes)
       {:ok, %PontoConnect.Sandbox.FinancialInstitutionTransaction{id: "343e64e5-4882-4559-96d0-221c398288f3"}}
