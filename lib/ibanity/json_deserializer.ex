@@ -59,7 +59,29 @@ defmodule Ibanity.JsonDeserializer do
     "xs2a.paymentInitiationRequest.statusUpdated" =>
       Ibanity.Webhooks.Xs2a.PaymentInitiationRequest.StatusUpdated,
     "xs2a.periodicPaymentInitiationRequest.statusUpdated" =>
-      Ibanity.Webhooks.Xs2a.PeriodicPaymentInitiationRequest.StatusUpdated
+      Ibanity.Webhooks.Xs2a.PeriodicPaymentInitiationRequest.StatusUpdated,
+    "pontoConnect.synchronization.succeededWithoutChange" =>
+      Ibanity.Webhooks.PontoConnect.Synchronization.SucceededWithoutChange,
+    "pontoConnect.synchronization.failed" => Ibanity.Webhooks.PontoConnect.Synchronization.Failed,
+    "pontoConnect.account.detailsUpdated" => Ibanity.Webhooks.PontoConnect.Account.DetailsUpdated,
+    "pontoConnect.account.transactionsCreated" =>
+      Ibanity.Webhooks.PontoConnect.Account.TransactionsCreated,
+    "pontoConnect.account.transactionsUpdated" =>
+      Ibanity.Webhooks.PontoConnect.Account.TransactionsUpdated,
+    "pontoConnect.account.pendingTransactionsCreated" =>
+      Ibanity.Webhooks.PontoConnect.Account.PendingTransactionsCreated,
+    "pontoConnect.account.pendingTransactionsUpdated" =>
+      Ibanity.Webhooks.PontoConnect.Account.PendingTransactionsUpdated,
+    "pontoConnect.account.reauthorized" => Ibanity.Webhooks.PontoConnect.Account.Reauthorized,
+    "pontoConnect.organization.blocked" => Ibanity.Webhooks.PontoConnect.Organization.Blocked,
+    "pontoConnect.organization.unblocked" => Ibanity.Webhooks.PontoConnect.Organization.Unblocked,
+    "pontoConnect.integration.accountAdded" =>
+      Ibanity.Webhooks.PontoConnect.Integration.AccountAdded,
+    "pontoConnect.integration.accountRevoked" =>
+      Ibanity.Webhooks.PontoConnect.Integration.AccountRevoked,
+    "pontoConnect.integration.created" => Ibanity.Webhooks.PontoConnect.Integration.Created,
+    "pontoConnect.integration.revoked" => Ibanity.Webhooks.PontoConnect.Integration.Revoked,
+    "pontoConnect.paymentRequest.closed" => Ibanity.Webhooks.PontoConnect.PaymentRequest.Closed
   }
 
   def deserialize(item) do
