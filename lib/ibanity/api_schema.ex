@@ -158,7 +158,7 @@ defmodule Ibanity.ApiSchema do
         "revok" => "https://api.ibanity.com/ponto-connect/oauth2/revoke"
       },
       "onboardingDetails" => "https://api.ibanity.com/ponto-connect/onboarding-details",
-      "organization" => %{
+      "organizations" => %{
         "usage" =>
           "https://api.ibanity.com/ponto-connect/organizations/{organizationId}/usage/{month}",
         "integration" =>
