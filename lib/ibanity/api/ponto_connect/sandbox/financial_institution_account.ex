@@ -67,7 +67,10 @@ defmodule Ibanity.PontoConnect.Sandbox.FinancialInstitutionAccount do
       )
       when not is_nil(customer_access_token) and not is_nil(financial_institution_or_id) do
     formatted_ids =
-      PontoConnect.format_ids(%{id: "", financial_institution_id: financial_institution_or_id})
+      PontoConnect.RequestUtils.format_ids(%{
+        id: "",
+        financial_institution_id: financial_institution_or_id
+      })
 
     request
     |> Request.ids(formatted_ids)
@@ -82,7 +85,8 @@ defmodule Ibanity.PontoConnect.Sandbox.FinancialInstitutionAccount do
 
   def list(other, _financial_institution__or_id) do
     raise ArgumentError,
-      message: PontoConnect.token_argument_error_msg("FinancialInstitutionAccount", other)
+      message:
+        PontoConnect.RequestUtils.token_argument_error_msg("FinancialInstitutionAccount", other)
   end
 
   @doc """
@@ -135,7 +139,7 @@ defmodule Ibanity.PontoConnect.Sandbox.FinancialInstitutionAccount do
       )
       when not is_nil(financial_institution_or_id) and not is_nil(id) and
              not is_nil(financial_institution_or_id) do
-    formatted_ids = PontoConnect.format_ids(ids)
+    formatted_ids = PontoConnect.RequestUtils.format_ids(ids)
 
     request_or_token
     |> Request.ids(formatted_ids)
@@ -150,7 +154,8 @@ defmodule Ibanity.PontoConnect.Sandbox.FinancialInstitutionAccount do
 
   def find(other, _id) do
     raise ArgumentError,
-      message: PontoConnect.token_argument_error_msg("FinancialInstitutionAccount", other)
+      message:
+        PontoConnect.RequestUtils.token_argument_error_msg("FinancialInstitutionAccount", other)
   end
 
   @doc false

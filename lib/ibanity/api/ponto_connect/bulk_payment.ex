@@ -91,7 +91,11 @@ defmodule Ibanity.PontoConnect.BulkPayment do
 
   def create(other, _account_id, _attrs) do
     raise ArgumentError,
-      message: PontoConnect.token_argument_error_msg("FinancialInstitutionTransaction", other)
+      message:
+        PontoConnect.RequestUtils.token_argument_error_msg(
+          "FinancialInstitutionTransaction",
+          other
+        )
   end
 
   @doc """
@@ -151,7 +155,7 @@ defmodule Ibanity.PontoConnect.BulkPayment do
   """
   def find(%Request{customer_access_token: customer_access_token} = request_or_token, ids)
       when not is_nil(customer_access_token) do
-    formatted_ids = PontoConnect.format_ids(ids)
+    formatted_ids = PontoConnect.RequestUtils.format_ids(ids)
 
     request_or_token
     |> Request.ids(formatted_ids)
@@ -166,7 +170,7 @@ defmodule Ibanity.PontoConnect.BulkPayment do
 
   def find(other, _ids) do
     raise ArgumentError,
-      message: PontoConnect.token_argument_error_msg("BulkPayment", other)
+      message: PontoConnect.RequestUtils.token_argument_error_msg("BulkPayment", other)
   end
 
   @doc """
@@ -213,7 +217,7 @@ defmodule Ibanity.PontoConnect.BulkPayment do
   """
   def delete(%Request{} = request_or_token, %{account_id: account_id} = ids)
       when not is_nil(account_id) do
-    formatted_ids = PontoConnect.format_ids(ids)
+    formatted_ids = PontoConnect.RequestUtils.format_ids(ids)
 
     request_or_token
     |> Request.ids(formatted_ids)
@@ -228,7 +232,7 @@ defmodule Ibanity.PontoConnect.BulkPayment do
 
   def delete(other, _ids) do
     raise ArgumentError,
-      message: PontoConnect.token_argument_error_msg("BulkPayment", other)
+      message: PontoConnect.RequestUtils.token_argument_error_msg("BulkPayment", other)
   end
 
   @doc false

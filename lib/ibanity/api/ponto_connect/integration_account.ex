@@ -61,7 +61,7 @@ defmodule Ibanity.PontoConnect.IntegrationAccount do
 
   def list(other) do
     raise ArgumentError,
-      message: PontoConnect.token_argument_error_msg("Accounts", other)
+      message: PontoConnect.RequestUtils.token_argument_error_msg("Accounts", other)
   end
 
   @doc false
