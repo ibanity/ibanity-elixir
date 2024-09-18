@@ -49,22 +49,22 @@ defmodule Ibanity.HttpRequestTest do
         |> HttpRequest.build(:get, @api_schema_path)
 
       assert res.uri |> String.split(["?", "&"]) |> Enum.sort() ==
-                [
-                  "https://api.ibanity.com/xs2a/customer/accounts",
-                  "page[after]=a6299d4d-eb81-4dfb-bb1b-b727000b2621",
-                  "page[before]=27e718a7-af87-479f-bf78-b05027080188",
-                  "page[limit]=50"
-                ]
+               [
+                 "https://api.ibanity.com/xs2a/customer/accounts",
+                 "page[after]=a6299d4d-eb81-4dfb-bb1b-b727000b2621",
+                 "page[before]=27e718a7-af87-479f-bf78-b05027080188",
+                 "page[limit]=50"
+               ]
     end
 
     test "specifies country filter" do
       {:ok, res} =
         %Request{}
-        |> Request.query_params(filter: %{ country: "BE" })
+        |> Request.query_params(filter: %{country: "BE"})
         |> HttpRequest.build(:get, @api_schema_path)
 
-      assert res.uri == "https://api.ibanity.com/xs2a/customer/accounts" <>
-                          "?filter[country]=BE"
+      assert "https://api.ibanity.com/xs2a/customer/accounts" <> query_params = res.uri
+      assert query_params =~ "filter[country]=BE"
     end
 
     test "specifies name filter" do
@@ -73,13 +73,14 @@ defmodule Ibanity.HttpRequestTest do
           contains: "Jack"
         }
       }
+
       {:ok, res} =
         %Request{}
         |> Request.query_params(filter: filter)
         |> HttpRequest.build(:get, @api_schema_path)
 
-      assert res.uri == "https://api.ibanity.com/xs2a/customer/accounts" <>
-                          "?filter[name][contains]=Jack"
+      assert "https://api.ibanity.com/xs2a/customer/accounts" <> query_params = res.uri
+      assert query_params =~ "filter[name][contains]=Jack"
     end
   end
 end

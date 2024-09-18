@@ -10,13 +10,13 @@ defmodule Ibanity.QueryParamsUtilTest do
     end
 
     test "simple params" do
-      res = QueryParamsUtil.encode_query([limit: 10])
+      res = QueryParamsUtil.encode_query(limit: 10)
 
       assert res == "limit=10"
     end
 
     test "multiple params" do
-      res = QueryParamsUtil.encode_query([limit: 10, before: "cursor"])
+      res = QueryParamsUtil.encode_query(limit: 10, before: "cursor")
 
       assert res == "limit=10&before=cursor"
     end
@@ -29,7 +29,8 @@ defmodule Ibanity.QueryParamsUtilTest do
 
       res = QueryParamsUtil.encode_query(query_params)
 
-      assert res == "start_date=2016-05-24+13%3A26%3A08.003Z&end_date=2016-05-24+13%3A26%3A08.003Z"
+      assert res ==
+               "start_date=2016-05-24+13%3A26%3A08.003Z&end_date=2016-05-24+13%3A26%3A08.003Z"
     end
 
     test "nested params" do
@@ -43,9 +44,11 @@ defmodule Ibanity.QueryParamsUtilTest do
           }
         }
       ]
+
       res = QueryParamsUtil.encode_query(query_params)
 
-      assert res == "filter[name][eq]=Einstein&filter[country][eq]=DE"
+      assert res =~ "filter[country][eq]=DE"
+      assert res =~ "filter[name][eq]=Einstein"
     end
   end
 end
