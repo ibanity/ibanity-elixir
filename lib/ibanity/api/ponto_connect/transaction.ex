@@ -46,7 +46,7 @@ defmodule Ibanity.PontoConnect.Transaction do
 
   ## Examples
 
-  #{PontoConnect.common_docs!(:account_id)}
+  #{PontoConnect.CommonDocs.fetch!(:account_id)}
 
   Use account or id to list transactions:
 
@@ -100,7 +100,7 @@ defmodule Ibanity.PontoConnect.Transaction do
   - `:synchronization``Ibanity.PontoConnect.Synchronization` struct or account ID as a string
   - `:id` Transaction ID as a string
 
-  #{PontoConnect.common_docs!(:synchronization_id)}
+  #{PontoConnect.CommonDocs.fetch!(:synchronization_id)}
 
   ## Examples
 
@@ -168,7 +168,7 @@ defmodule Ibanity.PontoConnect.Transaction do
   - `:synchronization``Ibanity.PontoConnect.Synchronization` struct or account ID as a string
   - `:id` Transaction ID as a string
 
-  #{PontoConnect.common_docs!(:synchronization_id)}
+  #{PontoConnect.CommonDocs.fetch!(:synchronization_id)}
 
   ## Examples
 
@@ -234,7 +234,7 @@ defmodule Ibanity.PontoConnect.Transaction do
 
   ## Examples
 
-  #{PontoConnect.common_docs!(:account_id)}
+  #{PontoConnect.CommonDocs.fetch!(:account_id)}
 
   Use account or id to list transactions:
 
@@ -289,11 +289,11 @@ defmodule Ibanity.PontoConnect.Transaction do
 
   Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:customer_access_token` as first argument.
 
-  #{PontoConnect.common_docs!(:account_and_id_second_arg)}
+  #{PontoConnect.CommonDocs.fetch!(:account_and_id_second_arg)}
 
   ## Examples
 
-  #{PontoConnect.common_docs!(:account_id)}
+  #{PontoConnect.CommonDocs.fetch!(:account_id)}
 
       iex> %Ibanity.PontoConnect.Token{}
       ...> |> Ibanity.PontoConnect.Transaction.find(%{account_id: account_or_id, id: "d0e23b50-e150-403b-aa50-581a2329b5f5"})
@@ -348,7 +348,7 @@ defmodule Ibanity.PontoConnect.Transaction do
   - `:account_id``Ibanity.PontoConnect.Account` struct or account ID as a string
   - `:id` Transaction ID as a string
 
-  #{PontoConnect.common_docs!(:account_id)}
+  #{PontoConnect.CommonDocs.fetch!(:account_id)}
 
   ## Examples
 

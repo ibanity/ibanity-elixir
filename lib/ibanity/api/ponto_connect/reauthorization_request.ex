@@ -17,7 +17,7 @@ defmodule Ibanity.PontoConnect.ReauthorizationRequest do
 
   ## Example
 
-  #{PontoConnect.common_docs!(:account_id)}
+  #{PontoConnect.CommonDocs.fetch!(:account_id)}
 
       iex> PontoConnect.ReauthorizationRequest.create(%{
       ...>   account_id: account_or_id,

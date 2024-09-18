@@ -2,7 +2,7 @@ defmodule Ibanity.PontoConnect.IntegrationAccount do
   @moduledoc """
   [Integration Account](https://documentation.ibanity.com/ponto-connect/api#integration-account) API wrapper
 
-  #{Ibanity.PontoConnect.common_docs!(:client_token)}
+  #{Ibanity.PontoConnect.CommonDocs.fetch!(:client_token)}
   """
 
   use Ibanity.Resource

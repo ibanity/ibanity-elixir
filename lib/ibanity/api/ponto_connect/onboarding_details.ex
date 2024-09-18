@@ -2,7 +2,7 @@ defmodule Ibanity.PontoConnect.OnboardingDetails do
   @moduledoc """
   [Onboarding Detials](https://documentation.ibanity.com/xs2a/api#onboarding-details) API wrapper
 
-  #{Ibanity.PontoConnect.common_docs!(:client_token)}
+  #{Ibanity.PontoConnect.CommonDocs.fetch!(:client_token)}
   """
 
   use Ibanity.Resource

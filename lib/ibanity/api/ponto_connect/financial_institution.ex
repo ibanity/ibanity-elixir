@@ -73,6 +73,7 @@ defmodule Ibanity.PontoConnect.FinancialInstitution do
   [List organization's financial institutions](https://documentation.ibanity.com/ponto-connect/2/api#list-organization-financial-institutions)
 
   Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:customer_access_token` as argument.
+
   ## Examples
 
       iex> Ibanity.PontoConnect.Token{} |> Ibanity.PontoConnect.FinancialInstitution.list_organization()

@@ -36,7 +36,7 @@ defmodule Ibanity.PontoConnect.Sandbox.FinancialInstitutionAccount do
 
   Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:customer_access_token` as argument.
 
-  #{PontoConnect.common_docs!(:financial_institution_id)}
+  #{PontoConnect.CommonDocs.fetch!(:financial_institution_id)}
 
   ## Examples
 
@@ -90,11 +90,11 @@ defmodule Ibanity.PontoConnect.Sandbox.FinancialInstitutionAccount do
 
   Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:customer_access_token` as first argument.
 
-  #{PontoConnect.common_docs!(:financial_institution_and_id_second_arg)}
+  #{PontoConnect.CommonDocs.fetch!(:financial_institution_and_id_second_arg)}
 
   ## Examples
 
-  #{PontoConnect.common_docs!(:financial_institution_id)}
+  #{PontoConnect.CommonDocs.fetch!(:financial_institution_id)}
 
       iex> token
       ...> |> Ibanity.PontoConnect.Sandbox.FinancialInstitutionAccount.find(%{
