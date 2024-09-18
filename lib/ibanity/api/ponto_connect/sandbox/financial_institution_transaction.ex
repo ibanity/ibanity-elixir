@@ -107,7 +107,7 @@ defmodule Ibanity.PontoConnect.Sandbox.FinancialInstitutionTransaction do
       )
       when not is_nil(token) and not is_nil(financial_institution_or_id) and
              not is_nil(financial_institution_account_or_id) and is_list(attrs) do
-    formatted_ids = PontoConnect.format_ids(ids)
+    formatted_ids = PontoConnect.RequestUtils.format_ids(ids)
 
     request_or_token
     |> Request.ids(formatted_ids)
@@ -117,7 +117,11 @@ defmodule Ibanity.PontoConnect.Sandbox.FinancialInstitutionTransaction do
 
   def create(other, _ids, _attrs) do
     raise ArgumentError,
-      message: PontoConnect.token_argument_error_msg("FinancialInstitutionTransaction", other)
+      message:
+        PontoConnect.RequestUtils.token_argument_error_msg(
+          "FinancialInstitutionTransaction",
+          other
+        )
   end
 
   @doc """
@@ -189,7 +193,7 @@ defmodule Ibanity.PontoConnect.Sandbox.FinancialInstitutionTransaction do
     formatted_ids =
       ids
       |> Map.put_new(:id, "")
-      |> PontoConnect.format_ids()
+      |> PontoConnect.RequestUtils.format_ids()
 
     request_or_token
     |> Request.ids(formatted_ids)
@@ -204,7 +208,11 @@ defmodule Ibanity.PontoConnect.Sandbox.FinancialInstitutionTransaction do
 
   def list(other, _ids) do
     raise ArgumentError,
-      message: PontoConnect.token_argument_error_msg("FinancialInstitutionTransaction", other)
+      message:
+        PontoConnect.RequestUtils.token_argument_error_msg(
+          "FinancialInstitutionTransaction",
+          other
+        )
   end
 
   @doc """
@@ -266,7 +274,7 @@ defmodule Ibanity.PontoConnect.Sandbox.FinancialInstitutionTransaction do
       )
       when not is_nil(token) and not is_nil(financial_institution_or_id) and not is_nil(id) and
              not is_nil(financial_institution_account_or_id) do
-    formatted_ids = PontoConnect.format_ids(ids)
+    formatted_ids = PontoConnect.RequestUtils.format_ids(ids)
 
     request_or_token
     |> Request.ids(formatted_ids)
@@ -281,7 +289,11 @@ defmodule Ibanity.PontoConnect.Sandbox.FinancialInstitutionTransaction do
 
   def find(other, _id) do
     raise ArgumentError,
-      message: PontoConnect.token_argument_error_msg("FinancialInstitutionTransaction", other)
+      message:
+        PontoConnect.RequestUtils.token_argument_error_msg(
+          "FinancialInstitutionTransaction",
+          other
+        )
   end
 
   @doc """
@@ -344,7 +356,7 @@ defmodule Ibanity.PontoConnect.Sandbox.FinancialInstitutionTransaction do
       )
       when not is_nil(token) and not is_nil(financial_institution_or_id) and not is_nil(id) and
              not is_nil(financial_institution_account_or_id) do
-    formatted_ids = PontoConnect.format_ids(ids)
+    formatted_ids = PontoConnect.RequestUtils.format_ids(ids)
 
     request_or_token
     |> Request.ids(formatted_ids)
@@ -354,7 +366,11 @@ defmodule Ibanity.PontoConnect.Sandbox.FinancialInstitutionTransaction do
 
   def update(other, _ids, _attrs) do
     raise ArgumentError,
-      message: PontoConnect.token_argument_error_msg("FinancialInstitutionTransaction", other)
+      message:
+        PontoConnect.RequestUtils.token_argument_error_msg(
+          "FinancialInstitutionTransaction",
+          other
+        )
   end
 
   @doc false

@@ -78,7 +78,7 @@ defmodule Ibanity.PontoConnect.Account do
 
   def list(other) do
     raise ArgumentError,
-      message: PontoConnect.token_argument_error_msg("Accounts", other)
+      message: PontoConnect.RequestUtils.token_argument_error_msg("Accounts", other)
   end
 
   @doc """
@@ -128,7 +128,7 @@ defmodule Ibanity.PontoConnect.Account do
 
   def find(other, _id) do
     raise ArgumentError,
-      message: PontoConnect.token_argument_error_msg("Account", other)
+      message: PontoConnect.RequestUtils.token_argument_error_msg("Account", other)
   end
 
   @doc """
@@ -175,7 +175,7 @@ defmodule Ibanity.PontoConnect.Account do
 
   def delete(other, _id) do
     raise ArgumentError,
-      message: PontoConnect.token_argument_error_msg("Account", other)
+      message: PontoConnect.RequestUtils.token_argument_error_msg("Account", other)
   end
 
   @doc false

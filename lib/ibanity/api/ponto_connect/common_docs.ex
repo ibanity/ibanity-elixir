@@ -1,4 +1,6 @@
 defmodule Ibanity.PontoConnect.CommonDocs do
+  @moduledoc false
+
   @common_docs %{
     client_token: """
     **NOTE:** This resource needs a client token!

@@ -159,7 +159,7 @@ defmodule Ibanity.PontoConnect.Payment do
 
   def find(other, _id) do
     raise ArgumentError,
-      message: PontoConnect.token_argument_error_msg("Payment", other)
+      message: PontoConnect.RequestUtils.token_argument_error_msg("Payment", other)
   end
 
   @doc """
@@ -222,7 +222,7 @@ defmodule Ibanity.PontoConnect.Payment do
 
   def delete(other, _ids) do
     raise ArgumentError,
-      message: PontoConnect.token_argument_error_msg("Payment", other)
+      message: PontoConnect.RequestUtils.token_argument_error_msg("Payment", other)
   end
 
   @doc false

@@ -49,7 +49,8 @@ defmodule Ibanity.PontoConnect.PaymentActivationRequest do
 
   def create(other, _attrs) do
     raise ArgumentError,
-      message: PontoConnect.token_argument_error_msg("PaymentActivationRequest", other)
+      message:
+        PontoConnect.RequestUtils.token_argument_error_msg("PaymentActivationRequest", other)
   end
 
   @doc """

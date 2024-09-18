@@ -135,7 +135,7 @@ defmodule Ibanity.PontoConnect.PaymentRequest do
   """
   def find(%Request{} = request, %{account_id: account_id, id: id} = ids)
       when not is_nil(account_id) and not is_nil(id) do
-    formatted_ids = PontoConnect.format_ids(ids)
+    formatted_ids = PontoConnect.RequestUtils.format_ids(ids)
 
     request
     |> Request.ids(formatted_ids)
@@ -150,7 +150,7 @@ defmodule Ibanity.PontoConnect.PaymentRequest do
 
   def find(other, _id) do
     raise ArgumentError,
-      message: PontoConnect.token_argument_error_msg("PaymentRequest", other)
+      message: PontoConnect.RequestUtils.token_argument_error_msg("PaymentRequest", other)
   end
 
   @doc """
@@ -197,7 +197,7 @@ defmodule Ibanity.PontoConnect.PaymentRequest do
   """
   def delete(%Request{} = request_or_token, %{account_id: account_id} = ids)
       when not is_nil(account_id) do
-    formatted_ids = PontoConnect.format_ids(ids)
+    formatted_ids = PontoConnect.RequestUtils.format_ids(ids)
 
     request_or_token
     |> Request.ids(formatted_ids)
@@ -212,7 +212,7 @@ defmodule Ibanity.PontoConnect.PaymentRequest do
 
   def delete(other, _ids) do
     raise ArgumentError,
-      message: PontoConnect.token_argument_error_msg("PaymentRequest", other)
+      message: PontoConnect.RequestUtils.token_argument_error_msg("PaymentRequest", other)
   end
 
   @doc false

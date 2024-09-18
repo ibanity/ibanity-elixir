@@ -120,7 +120,7 @@ defmodule Ibanity.PontoConnect.Token do
   def create(%Request{} = request) do
     request
     |> Request.resource_type(__MODULE__)
-    |> PontoConnect.create_token_default_request()
+    |> PontoConnect.RequestUtils.create_token_default_request()
     |> Client.execute_basic(:post, @api_schema_path)
     |> put_application(request.application)
   end
@@ -177,7 +177,7 @@ defmodule Ibanity.PontoConnect.Token do
       when not is_nil(refresh_token) do
     request
     |> Request.resource_type(__MODULE__)
-    |> PontoConnect.delete_token_default_request()
+    |> PontoConnect.RequestUtils.delete_token_default_request()
     |> Client.execute_basic(:post, @api_schema_delete_path)
   end
 

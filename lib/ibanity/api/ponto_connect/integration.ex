@@ -67,7 +67,7 @@ defmodule Ibanity.PontoConnect.Integration do
 
   def delete(other, _id) do
     raise ArgumentError,
-      message: PontoConnect.token_argument_error_msg("Integration", other)
+      message: PontoConnect.RequestUtils.token_argument_error_msg("Integration", other)
   end
 
   @doc false
