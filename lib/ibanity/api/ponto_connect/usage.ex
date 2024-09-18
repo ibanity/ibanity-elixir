@@ -2,7 +2,7 @@ defmodule Ibanity.PontoConnect.Usage do
   @moduledoc """
   [Payment Activation Request](https://documentation.ibanity.com/ponto-connect/api#payment-activation-request) API wrapper
 
-  #{Ibanity.PontoConnect.common_docs!(:client_token)}
+  #{Ibanity.PontoConnect.CommonDocs.fetch!(:client_token)}
   """
 
   use Ibanity.Resource

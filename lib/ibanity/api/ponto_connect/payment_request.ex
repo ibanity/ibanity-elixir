@@ -33,7 +33,7 @@ defmodule Ibanity.PontoConnect.PaymentRequest do
 
   ## Example
 
-  #{PontoConnect.common_docs!(:account_id)}
+  #{PontoConnect.CommonDocs.fetch!(:account_id)}
 
   Attributes
 
@@ -97,11 +97,11 @@ defmodule Ibanity.PontoConnect.PaymentRequest do
 
   Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:customer_access_token` as first argument.
 
-  #{PontoConnect.common_docs!(:account_and_id_second_arg)}
+  #{PontoConnect.CommonDocs.fetch!(:account_and_id_second_arg)}
 
   ## Examples
 
-  #{PontoConnect.common_docs!(:account_id)}
+  #{PontoConnect.CommonDocs.fetch!(:account_id)}
 
       iex> %Ibanity.PontoConnect.Token{}
       ...> |> Ibanity.PontoConnect.PaymentRequest.find(%{
@@ -156,11 +156,11 @@ defmodule Ibanity.PontoConnect.PaymentRequest do
   @doc """
   [Delete a Payment Request by id](https://documentation.ibanity.com/ponto-connect/2/api#delete-payment-request)
 
-  #{PontoConnect.common_docs!(:account_and_id_second_arg)}
+  #{PontoConnect.CommonDocs.fetch!(:account_and_id_second_arg)}
 
   ## Examples
 
-  #{PontoConnect.common_docs!(:account_id)}
+  #{PontoConnect.CommonDocs.fetch!(:account_id)}
 
   Use `account_or_id` to delete a Payment Request:
 

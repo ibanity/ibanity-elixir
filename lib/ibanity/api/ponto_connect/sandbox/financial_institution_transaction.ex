@@ -45,11 +45,11 @@ defmodule Ibanity.PontoConnect.Sandbox.FinancialInstitutionTransaction do
 
   Returns `{:ok, %__MODULE__{}}` if successful, `{:error, reason}` otherwise.
 
-  #{PontoConnect.common_docs!(:financial_institution_and_account_second_arg)}
+  #{PontoConnect.CommonDocs.fetch!(:financial_institution_and_account_second_arg)}
 
   ## Examples
 
-  #{PontoConnect.common_docs!(:financial_institution_and_account_ids)}
+  #{PontoConnect.CommonDocs.fetch!(:financial_institution_and_account_ids)}
 
   Attributes
 
@@ -145,11 +145,11 @@ defmodule Ibanity.PontoConnect.Sandbox.FinancialInstitutionTransaction do
 
   Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:customer_access_token` as argument.
 
-  #{PontoConnect.common_docs!(:financial_institution_and_account_second_arg)}
+  #{PontoConnect.CommonDocs.fetch!(:financial_institution_and_account_second_arg)}
 
   ## Examples
 
-  #{PontoConnect.common_docs!(:financial_institution_and_account_ids)}
+  #{PontoConnect.CommonDocs.fetch!(:financial_institution_and_account_ids)}
 
   Use `financial_institution_or_id` and `financial_institution_account_or_id` to list Financial Institution Transactions
 
@@ -212,11 +212,11 @@ defmodule Ibanity.PontoConnect.Sandbox.FinancialInstitutionTransaction do
 
   Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:customer_access_token` as first argument.
 
-  #{PontoConnect.common_docs!(:financial_institution_and_account_second_arg)}
+  #{PontoConnect.CommonDocs.fetch!(:financial_institution_and_account_second_arg)}
 
   ## Examples
 
-  #{PontoConnect.common_docs!(:financial_institution_and_account_ids)}
+  #{PontoConnect.CommonDocs.fetch!(:financial_institution_and_account_ids)}
 
   Use `financial_institution_or_id` and `financial_institution_account_or_id` to find a Financial Institution Transactions
 
@@ -289,11 +289,11 @@ defmodule Ibanity.PontoConnect.Sandbox.FinancialInstitutionTransaction do
 
   Returns `{:ok, %__MODULE__{}}` if successful, `{:error, reason}` otherwise.
 
-  #{PontoConnect.common_docs!(:financial_institution_and_account_second_arg)}
+  #{PontoConnect.CommonDocs.fetch!(:financial_institution_and_account_second_arg)}
 
   ## Examples
 
-  #{PontoConnect.common_docs!(:financial_institution_and_account_ids)}
+  #{PontoConnect.CommonDocs.fetch!(:financial_institution_and_account_ids)}
 
   Attributes
 

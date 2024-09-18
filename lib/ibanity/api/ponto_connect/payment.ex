@@ -32,7 +32,7 @@ defmodule Ibanity.PontoConnect.Payment do
 
   ## Example
 
-  #{PontoConnect.common_docs!(:account_id)}
+  #{PontoConnect.CommonDocs.fetch!(:account_id)}
 
   Attributes
 
@@ -103,11 +103,11 @@ defmodule Ibanity.PontoConnect.Payment do
 
   Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:customer_access_token` as first argument.
 
-  #{PontoConnect.common_docs!(:account_and_id_second_arg)}
+  #{PontoConnect.CommonDocs.fetch!(:account_and_id_second_arg)}
 
   ## Examples
 
-  #{PontoConnect.common_docs!(:account_id)}
+  #{PontoConnect.CommonDocs.fetch!(:account_id)}
 
       iex> %Ibanity.PontoConnect.Token{}
       ...> |> Ibanity.PontoConnect.Payment.find(%{
@@ -165,11 +165,11 @@ defmodule Ibanity.PontoConnect.Payment do
   @doc """
   [Delete a Payment by id](https://documentation.ibanity.com/ponto-connect/2/api#delete-payment)
 
-  #{PontoConnect.common_docs!(:account_and_id_second_arg)}
+  #{PontoConnect.CommonDocs.fetch!(:account_and_id_second_arg)}
 
   ## Examples
 
-  #{PontoConnect.common_docs!(:account_id)}
+  #{PontoConnect.CommonDocs.fetch!(:account_id)}
 
       iex> %Ibanity.PontoConnect.Token{}
       ...> |> Ibanity.PontoConnect.Payment.delete(%{

@@ -25,7 +25,7 @@ defmodule Ibanity.PontoConnect.BulkPayment do
 
   ## Example
 
-  #{PontoConnect.common_docs!(:account_id)}
+  #{PontoConnect.CommonDocs.fetch!(:account_id)}
 
   Attributes
 
@@ -119,11 +119,11 @@ defmodule Ibanity.PontoConnect.BulkPayment do
 
   Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:customer_access_token` as first argument.
 
-  #{PontoConnect.common_docs!(:account_and_id_second_arg)}
+  #{PontoConnect.CommonDocs.fetch!(:account_and_id_second_arg)}
 
   ## Examples
 
-  #{PontoConnect.common_docs!(:account_id)}
+  #{PontoConnect.CommonDocs.fetch!(:account_id)}
 
       iex> %Ibanity.PontoConnect.Token{}
       ...> |> Ibanity.PontoConnect.BulkPayment.find(%{account_id: account_or_id, id: "d0e23b50-e150-403b-aa50-581a2329b5f5"})
@@ -172,11 +172,11 @@ defmodule Ibanity.PontoConnect.BulkPayment do
   @doc """
   [Delete a Bulk Payment by id](https://documentation.ibanity.com/ponto-connect/2/api#delete-bulk-payment)
 
-  #{PontoConnect.common_docs!(:account_and_id_second_arg)}
+  #{PontoConnect.CommonDocs.fetch!(:account_and_id_second_arg)}
 
   ## Examples
 
-  #{PontoConnect.common_docs!(:account_id)}
+  #{PontoConnect.CommonDocs.fetch!(:account_id)}
 
   Use `account_or_id` to delete a bulk payment:
 
