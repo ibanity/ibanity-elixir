@@ -62,14 +62,14 @@ defmodule Ibanity.PontoConnect.BulkPayment do
       ...>  ]
       ...> ]
 
-  Use attribues and account_or_id:
+  Use attributes and account_or_id:
 
-      iex> PontoConnect.Payment.create(%Ibanity.PontoConnect.Token{}, account_or_id, attributes)
-      {:ok, %PontoConnect.PaymentRequest{id: "343e64e5-4882-4559-96d0-221c398288f3"}}
+      iex> PontoConnect.BulkPayment.create(%Ibanity.PontoConnect.Token{}, account_or_id, attributes)
+      {:ok, %PontoConnect.BulkPayment{id: "343e64e5-4882-4559-96d0-221c398288f3"}}
 
       iex> request = Request.customer_access_token(%PontoConnect.Token{})
-      iex> PontoConnect.Payment.create(request, account_or_id, attributes)
-      {:ok, %PontoConnect.PaymentRequest{id: "343e64e5-4882-4559-96d0-221c398288f3"}}
+      iex> PontoConnect.BulkPayment.create(request, account_or_id, attributes)
+      {:ok, %PontoConnect.BulkPayment{id: "343e64e5-4882-4559-96d0-221c398288f3"}}
   """
   def create(%PontoConnect.Token{} = request_or_token, account_or_id, attrs) do
     request_or_token
@@ -87,6 +87,11 @@ defmodule Ibanity.PontoConnect.BulkPayment do
     |> Request.id(:account_id, account_id)
     |> Request.attributes(attrs)
     |> create()
+  end
+
+  def create(other, _account_id, _attrs) do
+    raise ArgumentError,
+      message: PontoConnect.token_argument_error_msg("FinancialInstitutionTransaction", other)
   end
 
   @doc """

@@ -173,6 +173,11 @@ defmodule Ibanity.PontoConnect do
   end
 
   @common_docs %{
+    client_token: """
+    **NOTE:** This resource needs a client token!
+
+    See `Ibanity.PontoConnect.Token.create/1` to find out how to request a client token.
+    """,
     account_id: """
     Fetch an account before each example, or use a valid account id
 
