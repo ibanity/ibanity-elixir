@@ -13,7 +13,7 @@ defmodule Ibanity.PontoConnect.UserInfo do
     :payments_activated,
     :payments_activation_requested,
     :payment_requests_activated,
-    :payment_requestsActivation_requested,
+    :payment_requests_activation_requested,
     :onboarding_complete
   ]
 
@@ -60,7 +60,7 @@ defmodule Ibanity.PontoConnect.UserInfo do
       payments_activated: {["paymentsActivated"], :boolean},
       payments_activation_requested: {["paymentsActivationRequested"], :boolean},
       payment_requests_activated: {["paymentRequestsActivated"], :boolean},
-      payment_requestsActivation_requested: {["paymentRequestsActivationRequested"], :boolean},
+      payment_requests_activation_requested: {["paymentRequestsActivationRequested"], :boolean},
       onboarding_complete: {["onboardingComplete"], :boolean}
     ]
   end
