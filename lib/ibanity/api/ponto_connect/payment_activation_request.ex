@@ -19,28 +19,30 @@ defmodule Ibanity.PontoConnect.PaymentActivationRequest do
 
   Returns `{:ok, %__MODULE__{}}` if successful, `{:error, reason}` otherwise.
 
-  ## Example
+  ## Examples
 
   Attributes
 
       iex> attributes = [redirect_uri: "https://fake-tpp.com/payment-activation-request-confirmation"]
 
-  Use attributes:
+  With token
 
       iex> Ibanity.PontoConnect.PaymentActivationRequest.create(token, attributes)
       {:ok, %Ibanity.PontoConnect.PaymentActivationRequest{id: "343e64e5-4882-4559-96d0-221c398288f3"}}
 
-      iex> request = Request.customer_access_token(token)
+  With request
+
+      iex> request = Ibanity.Request.token(token)
       iex> Ibanity.PontoConnect.PaymentActivationRequest.create(request, attributes)
       {:ok, %Ibanity.PontoConnect.PaymentActivationRequest{id: "343e64e5-4882-4559-96d0-221c398288f3"}}
   """
   def create(%PontoConnect.Token{} = request_or_token, attrs) do
     request_or_token
-    |> Request.customer_access_token()
+    |> Request.token()
     |> create(attrs)
   end
 
-  def create(%Request{customer_access_token: token} = request_or_token, attrs)
+  def create(%Request{token: token} = request_or_token, attrs)
       when not is_nil(token) and is_list(attrs) do
     request_or_token
     |> Request.attributes(attrs)
@@ -54,17 +56,17 @@ defmodule Ibanity.PontoConnect.PaymentActivationRequest do
   end
 
   @doc """
-  Same as `create/2`, but `:attributes`, `:account_id`, and `:customer_access_token` must be set in request.
+  Same as `create/2`, but `:attributes` and `:token` must be set in request.
 
   ## Examples
 
-  Set id and customer_access_token to request a BulkPayment
+  Set id and token to create a PaymentActivationRequest
 
-      iex> %PontoConnect.Token{}
-      ...> |> Request.customer_access_token()
+      iex> token
+      ...> |> Request.token()
       ...> |> Request.attributes(attributes)
-      ...> |> PontoConnect.BulkPayment.create()
-      {:ok, %PontoConnect.BulkPayment{id: "343e64e5-4882-4559-96d0-221c398288f3"}}
+      ...> |> PontoConnect.PaymentActivationRequest.create()
+      {:ok, %PontoConnect.PaymentActivationRequest{id: "343e64e5-4882-4559-96d0-221c398288f3"}}
   """
   def create(%Request{} = request) do
     Client.execute(request, :post, @api_schema_path, __MODULE__)

@@ -61,10 +61,9 @@ defmodule Ibanity.PontoConnect.FinancialInstitution do
         next_link: "https://api.ibanity.com/ponto-connect/financial-institutions?page[after]=953934eb-229a-4fd2-8675-07794078cc7d&page[limit]=1",
       }
   """
-  def list_public, do: list_public(%Request{})
-
-  def list_public(%Request{} = request) do
+  def list_public(%Request{} = request \\ %Request{}) do
     request
+    |> Request.token(nil)
     |> Request.id(:id, "")
     |> Client.execute(:get, @api_schema_path, __MODULE__)
   end
@@ -72,16 +71,16 @@ defmodule Ibanity.PontoConnect.FinancialInstitution do
   @doc """
   [List organization's financial institutions](https://documentation.ibanity.com/ponto-connect/2/api#list-organization-financial-institutions)
 
-  Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:customer_access_token` as argument.
+  Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:token` as argument.
 
   ## Examples
 
-      iex> Ibanity.PontoConnect.Token{} |> Ibanity.PontoConnect.FinancialInstitution.list_organization()
+      iex> token |> Ibanity.PontoConnect.FinancialInstitution.list_organization()
       {:ok, %Ibanity.Collection{
         items: [%Ibanity.PontoConnect.FinancialInstitution{}]
       }}
 
-      iex> "access-token" |> Ibanity.Request.customer_access_token() |> Ibanity.PontoConnect.FinancialInstitutions.list_organizations()
+      iex> token |> Ibanity.Request.token() |> Ibanity.PontoConnect.FinancialInstitutions.list_organizations()
       {:ok, %Ibanity.Collection{
         items: [%Ibanity.PontoConnect.FinancialInstitution{}]
       }}
@@ -97,13 +96,16 @@ defmodule Ibanity.PontoConnect.FinancialInstitution do
         ]}
 
   """
-  def list_organization(%Request{customer_access_token: customer_access_token} = request)
-      when not is_nil(customer_access_token),
-      do: list_public(request)
+  def list_organization(%Request{token: token} = request)
+      when not is_nil(token) do
+    request
+    |> Request.id("")
+    |> Client.execute(:get, @api_schema_path, __MODULE__)
+  end
 
   def list_organization(%PontoConnect.Token{} = token) do
     token
-    |> Request.customer_access_token()
+    |> Request.token()
     |> list_organization()
   end
 
@@ -172,26 +174,27 @@ defmodule Ibanity.PontoConnect.FinancialInstitution do
           time_zone: nil
         }}
   """
-  def find_public(%Request{} = request) do
-    Client.execute(request, :get, @api_schema_path, __MODULE__)
-  end
-
-  def find_public(id) when is_bitstring(id) do
-    id
-    |> Request.id()
-    |> find_public()
-  end
-
-  def find_public(%Request{} = request, id) do
-    request
+  def find_public(%Request{token: token} = request_or_token, id) when not is_nil(token) do
+    request_or_token
     |> Request.id(id)
-    |> find_public()
+    |> Client.execute(:get, @api_schema_path, __MODULE__)
+  end
+
+  def find_public(%PontoConnect.Token{} = request_or_token, id) do
+    request_or_token
+    |> Request.token()
+    |> find_public(id)
+  end
+
+  def find_public(other, _id) do
+    raise ArgumentError,
+      message: PontoConnect.RequestUtils.token_argument_error_msg("FinancialInstitution", other)
   end
 
   @doc """
   [Find organization's financial institution by id](https://documentation.ibanity.com/ponto-connect/2/api#get-organization-financial-institution)
 
-  Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:customer_access_token` as first argument, and a Financial Institution
+  Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:token` as first argument, and a Financial Institution
   ID as second argument.
 
   ## Examples
@@ -201,7 +204,7 @@ defmodule Ibanity.PontoConnect.FinancialInstitution do
       {:ok, %Ibanity.PontoConnect.FinancialInstitution{id: "953934eb-229a-4fd2-8675-07794078cc7d", name: "Fake Bank"}}
 
       iex> %Ibanity.PontoConnect.Token{}
-      ...> |> Ibanity.Request.customer_access_token()
+      ...> |> Ibanity.Request.token()
       ...> |> Ibanity.Request.application(:my_application)
       ...> |> Ibanity.PontoConnect.FinancialInstitution.find_organization("953934eb-229a-4fd2-8675-07794078cc7d")
       {:ok, %Ibanity.PontoConnect.FinancialInstitution{id: "953934eb-229a-4fd2-8675-07794078cc7d", name: "Fake Bank"}}
@@ -220,22 +223,22 @@ defmodule Ibanity.PontoConnect.FinancialInstitution do
           }
         ]}
   """
-  def find_organization(%Request{customer_access_token: customer_access_token} = request, id)
-      when not is_nil(customer_access_token) do
-    request
+  def find_organization(%Request{token: token} = request_or_token, id)
+      when not is_nil(token) do
+    request_or_token
     |> Request.id(id)
     |> Client.execute(:get, @api_schema_path, __MODULE__)
   end
 
-  def find_organization(%PontoConnect.Token{} = token, id) do
-    token
-    |> Request.customer_access_token()
+  def find_organization(%PontoConnect.Token{} = request_or_token, id) do
+    request_or_token
+    |> Request.token()
     |> find_organization(id)
   end
 
   def find_organization(other, _id) do
     raise ArgumentError,
-      message: PontoConnect.RequestUtils.token_argument_error_msg("Financial Institution", other)
+      message: PontoConnect.RequestUtils.token_argument_error_msg("FinancialInstitution", other)
   end
 
   @doc false

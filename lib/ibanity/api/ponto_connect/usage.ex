@@ -22,7 +22,7 @@ defmodule Ibanity.PontoConnect.Usage do
   @doc """
   [Find organization's Usage for a given month](https://documentation.ibanity.com/ponto-connect/2/api#get-organization-usage)
 
-  Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:customer_access_token` as first argument.
+  Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:token` as first argument.
 
   Takes a map with the following keys as second argument:
   - `:organization_id`: a valid organization ID as string
@@ -45,7 +45,7 @@ defmodule Ibanity.PontoConnect.Usage do
   With request
 
       iex> client_token
-      ...> |> Ibanity.Request.customer_access_token()
+      ...> |> Ibanity.Request.token()
       ...> |> Ibanity.Request.application(:my_application)
       ...> |> Ibanity.PontoConnect.Usage.find(attributes)
       {:ok, %Ibanity.PontoConnect.Sandbox.Usage{id: "953934eb-229a-4fd2-8675-07794078cc7d"}}
@@ -66,7 +66,7 @@ defmodule Ibanity.PontoConnect.Usage do
         ]}
   """
   def find(
-        %Request{customer_access_token: token} = request_or_token,
+        %Request{token: token} = request_or_token,
         %{
           month: month,
           organization_id: organization_id
@@ -82,7 +82,7 @@ defmodule Ibanity.PontoConnect.Usage do
 
   def find(%PontoConnect.Token{} = request_or_token, ids) do
     request_or_token
-    |> Request.customer_access_token()
+    |> Request.token()
     |> find(ids)
   end
 

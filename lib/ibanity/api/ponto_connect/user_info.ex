@@ -29,19 +29,19 @@ defmodule Ibanity.PontoConnect.UserInfo do
       iex> Ibanity.PontoConnect.UserInfo.myself(client_token)
       {:ok, %Ibanity.PontoConnect.UserInfo{}}
 
-  Or a request with client token set as `:customer_access_token`
+  Or a request with client token set as `:token`
 
-      iex> request = Ibanity.Request.customer_access_token(client_token)
+      iex> request = Ibanity.Request.token(client_token)
       iex> Ibanity.PontoConnect.UserInfo.myself(request)
       {:ok, %Ibanity.PontoConnect.UserInfo{}}
   """
   def myself(%PontoConnect.Token{} = request_or_token) do
     request_or_token
-    |> Request.customer_access_token()
+    |> Request.token()
     |> myself()
   end
 
-  def myself(%Request{customer_access_token: client_token} = request_or_token)
+  def myself(%Request{token: client_token} = request_or_token)
       when not is_nil(client_token) do
     request_or_token
     |> Client.execute(:get, @api_schema_path, __MODULE__)

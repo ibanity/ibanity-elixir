@@ -1,6 +1,6 @@
 defmodule Ibanity.PontoConnect.Synchronization do
   @moduledoc """
-  [Synchronization](https://documentation.ibanity.com/xs2a/api#synchronization) API wrapper
+  [Synchronization](https://documentation.ibanity.com/ponto-connect/api#synchronization) API wrapper
   """
 
   use Ibanity.Resource
@@ -59,7 +59,7 @@ defmodule Ibanity.PontoConnect.Synchronization do
 
   def create(%PontoConnect.Token{} = token, attrs) do
     token
-    |> Request.customer_access_token()
+    |> Request.token()
     |> create(attrs)
   end
 
@@ -70,7 +70,7 @@ defmodule Ibanity.PontoConnect.Synchronization do
   end
 
   @doc """
-  Same as create/2, but `:attributes` and `:customer_access_token` must be set in request.
+  Same as create/2, but `:attributes` and `:token` must be set in request.
 
   ## Examples
 
@@ -87,11 +87,11 @@ defmodule Ibanity.PontoConnect.Synchronization do
         customer_ip_address: "123.123.123.123"
       ]
 
-  Set attributes and customer_access_token to create a synchronization
+  Set attributes and token to create a synchronization
 
       iex> attributes
       ...> |> Request.attributes()
-      ...> |> Request.customer_access_token(%PontoConnect.Token{})
+      ...> |> Request.token(%PontoConnect.Token{})
       ...> |> PontoConnect.Synchronization.create()
       {:ok, %PontoConnect.Synchronization{id: "f92fc927-7c39-48c1-aa4b-2820efbfed00"}}
   """
@@ -106,7 +106,7 @@ defmodule Ibanity.PontoConnect.Synchronization do
   @doc """
   [Find Synchronization by id](https://documentation.ibanity.com/ponto-connect/2/api#get-synchronization)
 
-  Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:customer_access_token` as first argument, and a Synchronization
+  Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:token` as first argument, and a Synchronization
   ID as second argument.
 
   ## Examples
@@ -116,7 +116,7 @@ defmodule Ibanity.PontoConnect.Synchronization do
       {:ok, %Ibanity.PontoConnect.Synchronization{id: "953934eb-229a-4fd2-8675-07794078cc7d"}}
 
       iex> %Ibanity.PontoConnect.Token{}
-      ...> |> Ibanity.Request.customer_access_token()
+      ...> |> Ibanity.Request.token()
       ...> |> Ibanity.Request.application(:my_application)
       ...> |> Ibanity.PontoConnect.Synchronization.find("953934eb-229a-4fd2-8675-07794078cc7d")
       {:ok, %Ibanity.PontoConnect.Synchronization{id: "953934eb-229a-4fd2-8675-07794078cc7d"}}
@@ -135,8 +135,8 @@ defmodule Ibanity.PontoConnect.Synchronization do
           }
         ]}
   """
-  def find(%Request{customer_access_token: customer_access_token} = request, id)
-      when not is_nil(customer_access_token) do
+  def find(%Request{token: token} = request, id)
+      when not is_nil(token) do
     request
     |> Request.id(id)
     |> Client.execute(:get, @api_schema_path, __MODULE__)
@@ -144,7 +144,7 @@ defmodule Ibanity.PontoConnect.Synchronization do
 
   def find(%PontoConnect.Token{} = token, id) do
     token
-    |> Request.customer_access_token()
+    |> Request.token()
     |> find(id)
   end
 

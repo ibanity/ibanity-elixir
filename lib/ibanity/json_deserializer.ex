@@ -97,8 +97,12 @@ defmodule Ibanity.JsonDeserializer do
     mapping = return_type.key_mapping()
 
     keys =
-      Enum.map(mapping, fn {key, {path, type}} ->
-        {key, item |> get_in(path) |> deserialize_field(type)}
+      Enum.map(mapping, fn
+        {key, {fun, :function}} ->
+          {key, fun.(item)}
+
+        {key, {path, type}} ->
+          {key, item |> get_in(path) |> deserialize_field(type)}
       end)
 
     struct(return_type, keys)

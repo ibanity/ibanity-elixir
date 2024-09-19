@@ -20,7 +20,8 @@ defmodule Ibanity.PontoConnect.Payment do
     :creditor_agent,
     :creditor_agent_type,
     :creditor_name,
-    :requested_execution_date
+    :requested_execution_date,
+    :redirect
   ]
 
   alias Ibanity.PontoConnect
@@ -30,7 +31,7 @@ defmodule Ibanity.PontoConnect.Payment do
 
   Returns `{:ok, %__MODULE__{}}` if successful, `{:error, reason}` otherwise.
 
-  ## Example
+  ## Examples
 
   #{PontoConnect.CommonDocs.fetch!(:account_id)}
 
@@ -47,46 +48,51 @@ defmodule Ibanity.PontoConnect.Payment do
       ...>   creditor_account_reference_type: "IBAN",
       ...>   creditor_agent: "NBBEBEBB203",
       ...>   creditor_agent_type: "BIC",
-      ...>   redirect_tri: "https://fake-tpp.com/payment-confirmation?payment=123",
+      ...>   redirect_uri: "https://fake-tpp.com/payment-confirmation?payment=123",
       ...>   end_to_end_id: "1234567890"
       ...> ]
 
   Use attributes and account_or_id:
 
-      iex> PontoConnect.Payment.create(%Ibanity.PontoConnect.Token{}, account_or_id, attributes)
-      {:ok, %PontoConnect.Payment{id: "343e64e5-4882-4559-96d0-221c398288f3"}}
+      iex> Ibanity.PontoConnect.Payment.create(token, account_or_id, attributes)
+      {:ok, %Ibanity.PontoConnect.Payment{id: "343e64e5-4882-4559-96d0-221c398288f3"}}
 
-      iex> request = Request.customer_access_token(%PontoConnect.Token{})
-      iex> PontoConnect.Payment.create(request, account_or_id, attributes)
-      {:ok, %PontoConnect.Payment{id: "343e64e5-4882-4559-96d0-221c398288f3"}}
+  With request
+
+      iex> request = Ibanity.Request.token(token)
+      iex> Ibanity.PontoConnect.Payment.create(request, account_or_id, attributes)
+      {:ok, %Ibanity.PontoConnect.Payment{id: "343e64e5-4882-4559-96d0-221c398288f3"}}
   """
-  def create(%PontoConnect.Token{} = token, account_or_id, attrs) do
-    token
-    |> Request.customer_access_token()
+  def create(%PontoConnect.Token{} = request_or_token, account_or_id, attrs) do
+    request_or_token
+    |> Request.token()
     |> create(account_or_id, attrs)
   end
 
-  def create(%Request{} = request, %PontoConnect.Account{id: account_id}, attrs) do
-    create(request, account_id, attrs)
-  end
+  def create(%Request{token: token} = request_or_token, account_or_id, attrs)
+      when not is_nil(token) and is_list(attrs) do
+    formatted_ids = PontoConnect.RequestUtils.format_ids(%{account_id: account_or_id})
 
-  def create(%Request{} = request, account_id, attrs)
-      when is_bitstring(account_id) and is_list(attrs) do
-    request
-    |> Request.id(:account_id, account_id)
+    request_or_token
+    |> Request.ids(formatted_ids)
     |> Request.attributes(attrs)
     |> create()
   end
 
+  def create(other, _account_or_id, _attrs) do
+    raise ArgumentError,
+      message: PontoConnect.RequestUtils.token_argument_error_msg("Payment", other)
+  end
+
   @doc """
-  Same as create/3, but `:attributes`, `:account_id`, and `:customer_access_token` must be set in request.
+  Same as create/3, but `:attributes`, `:account_id`, and `:token` must be set in request.
 
   ## Examples
 
-  Set id and customer_access_token to request a Payment
+  Set id and token to request a Payment
 
       iex> %PontoConnect.Token{}
-      ...> |> Request.customer_access_token()
+      ...> |> Request.token()
       ...> |> Request.id(:account_id, account_id)
       ...> |> Request.attributes(attributes)
       ...> |> PontoConnect.Payment.create()
@@ -101,7 +107,7 @@ defmodule Ibanity.PontoConnect.Payment do
   @doc """
   [Find Payment by id](https://documentation.ibanity.com/ponto-connect/2/api#get-payment)
 
-  Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:customer_access_token` as first argument.
+  Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:token` as first argument.
 
   #{PontoConnect.CommonDocs.fetch!(:account_and_id_second_arg)}
 
@@ -109,24 +115,27 @@ defmodule Ibanity.PontoConnect.Payment do
 
   #{PontoConnect.CommonDocs.fetch!(:account_id)}
 
-      iex> %Ibanity.PontoConnect.Token{}
-      ...> |> Ibanity.PontoConnect.Payment.find(%{
+  IDs
+
+      iex> ids = %{
       ...>   account_id: account_or_id,
       ...>   id: "953934eb-229a-4fd2-8675-07794078cc7d"
-      ...> })
+      ...> }
+
+  With token
+
+      iex> Ibanity.PontoConnect.Payment.find(token, ids)
       {:ok, %Ibanity.PontoConnect.Payment{id: "953934eb-229a-4fd2-8675-07794078cc7d"}}
 
-      iex> %Ibanity.PontoConnect.Token{}
-      ...> |> Ibanity.Request.customer_access_token()
+  With request
+
+      iex> token
+      ...> |> Ibanity.Request.token()
       ...> |> Ibanity.Request.application(:my_application)
-      ...> |> Ibanity.PontoConnect.Payment.find(%{
-      ...>   account_id: account_or_id,
-      ...>   id: "953934eb-229a-4fd2-8675-07794078cc7d"
-      ...> })
+      ...> |> Ibanity.PontoConnect.Payment.find(ids)
       {:ok, %Ibanity.PontoConnect.Payment{id: "953934eb-229a-4fd2-8675-07794078cc7d"}}
 
-      iex> %Ibanity.PontoConnect.Token{}
-      ...> |> Ibanity.PontoConnect.Payment.find(%{account_id: account_or_id, id: "does-not-exist"})
+      iex> Ibanity.PontoConnect.Payment.find(token, %{account_id: account_or_id, id: "does-not-exist"})
       {:error,
         [
           %{
@@ -139,25 +148,22 @@ defmodule Ibanity.PontoConnect.Payment do
           }
         ]}
   """
-  def find(%Request{} = request, %{account_id: account_id} = ids)
-      when is_bitstring(account_id) do
-    request
-    |> Request.ids(ids)
+  def find(%Request{token: token} = request_or_token, ids)
+      when not is_nil(token) do
+    formatted_ids = PontoConnect.RequestUtils.format_ids(ids)
+
+    request_or_token
+    |> Request.ids(formatted_ids)
     |> Client.execute(:get, @api_schema_path, __MODULE__)
   end
 
-  def find(%Request{} = request, %{account_id: %PontoConnect.Account{id: account_id}} = ids) do
-    updated_ids = Map.put(ids, :account_id, account_id)
-    find(request, updated_ids)
-  end
-
-  def find(%PontoConnect.Token{} = token, ids) do
-    token
-    |> Request.customer_access_token()
+  def find(%PontoConnect.Token{} = request_or_token, ids) do
+    request_or_token
+    |> Request.token()
     |> find(ids)
   end
 
-  def find(other, _id) do
+  def find(other, _ids) do
     raise ArgumentError,
       message: PontoConnect.RequestUtils.token_argument_error_msg("Payment", other)
   end
@@ -171,22 +177,29 @@ defmodule Ibanity.PontoConnect.Payment do
 
   #{PontoConnect.CommonDocs.fetch!(:account_id)}
 
-      iex> %Ibanity.PontoConnect.Token{}
-      ...> |> Ibanity.PontoConnect.Payment.delete(%{
-      ...>   id: "953934eb-229a-4fd2-8675-07794078cc7d", account_id: account_or_id
-      ...> })
+  IDs
+
+      iex> ids = %{
+      ...>   account_id: account_or_id,
+      ...>   id: "953934eb-229a-4fd2-8675-07794078cc7d"
+      ...> }
+
+  With token
+
+      iex> Ibanity.PontoConnect.Payment.delete(token, ids)
       {:ok, %Ibanity.PontoConnect.Payment{id: "953934eb-229a-4fd2-8675-07794078cc7d"}}
 
-      iex> %Ibanity.PontoConnect.Token{}
-      ...> |> Ibanity.Request.customer_access_token()
+  With request
+
+      iex> token
+      ...> |> Ibanity.Request.token()
       ...> |> Ibanity.Request.application(:my_application)
-      ...> |> Ibanity.PontoConnect.Payment.delete(%{
-      ...>   id: "953934eb-229a-4fd2-8675-07794078cc7d", account_id: account_or_id
-      ...> })
+      ...> |> Ibanity.PontoConnect.Payment.delete(ids)
       {:ok, %Ibanity.PontoConnect.Payment{id: "953934eb-229a-4fd2-8675-07794078cc7d"}}
 
-      iex> %Ibanity.PontoConnect.Token{}
-      ...> |> Ibanity.PontoConnect.Payment.delete(%{
+  Error
+
+      iex> Ibanity.PontoConnect.Payment.delete(token, %{
       ...>   id: "does-not-exist",
       ...>   account_id: account_or_id
       ...> })
@@ -202,21 +215,18 @@ defmodule Ibanity.PontoConnect.Payment do
           }
         ]}
   """
-  def delete(%Request{} = request, %{account_id: account_id} = ids)
-      when is_bitstring(account_id) do
-    request
-    |> Request.ids(ids)
+  def delete(%Request{token: token} = request_or_token, ids)
+      when not is_nil(token) do
+    formatted_ids = PontoConnect.RequestUtils.format_ids(ids)
+
+    request_or_token
+    |> Request.ids(formatted_ids)
     |> Client.execute(:delete, @api_schema_path, __MODULE__)
   end
 
-  def delete(%Request{} = request, %{account_id: %PontoConnect.Account{id: account_id}} = ids) do
-    updated_ids = Map.put(ids, :account_id, account_id)
-    delete(request, updated_ids)
-  end
-
-  def delete(%PontoConnect.Token{} = token, ids) do
-    token
-    |> Request.customer_access_token()
+  def delete(%PontoConnect.Token{} = request_or_token, ids) do
+    request_or_token
+    |> Request.token()
     |> delete(ids)
   end
 
@@ -240,7 +250,8 @@ defmodule Ibanity.PontoConnect.Payment do
       creditor_agent: {["attributes", "creditorAgent"], :string},
       creditor_agent_type: {["attributes", "creditorAgentType"], :string},
       creditor_name: {["attributes", "creditorName"], :string},
-      requested_execution_date: {["attributes", "requestedExecutionDate"], :date}
+      requested_execution_date: {["attributes", "requestedExecutionDate"], :date},
+      redirect: {["links", "redirect"], :string}
     ]
   end
 end

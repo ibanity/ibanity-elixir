@@ -1,6 +1,6 @@
 defmodule Ibanity.PontoConnect.OnboardingDetails do
   @moduledoc """
-  [Onboarding Detials](https://documentation.ibanity.com/xs2a/api#onboarding-details) API wrapper
+  [Onboarding Details](https://documentation.ibanity.com/ponto-connect/api#onboarding-details) API wrapper
 
   #{Ibanity.PontoConnect.CommonDocs.fetch!(:client_token)}
   """
@@ -21,8 +21,13 @@ defmodule Ibanity.PontoConnect.OnboardingDetails do
     :enterprise_number,
     :vat_number,
     :phone_number,
+    :automatic_submission_on_completed_forms,
     :initial_financial_institution_id,
-    :organization_name
+    :organization_name,
+    :organization_type,
+    :preferred_opt_method,
+    :requested_organization_id,
+    :partner_reference
   ]
 
   alias Ibanity.PontoConnect
@@ -56,17 +61,17 @@ defmodule Ibanity.PontoConnect.OnboardingDetails do
       iex> Ibanity.PontoConnect.OnboardingDetails.create(client_token, attributes)
       {:ok, %Ibanity.PontoConnect.OnboardingDetails{id: "343e64e5-4882-4559-96d0-221c398288f3"}}
 
-      iex> request = Request.customer_access_token(client_token)
+      iex> request = Request.token(client_token)
       iex> Ibanity.PontoConnect.OnboardingDetails.create(request, attributes)
       {:ok, %Ibanity.PontoConnect.OnboardingDetails{id: "343e64e5-4882-4559-96d0-221c398288f3"}}
   """
   def create(%PontoConnect.Token{} = request_or_token, attrs) do
     request_or_token
-    |> Request.customer_access_token()
+    |> Request.token()
     |> create(attrs)
   end
 
-  def create(%Request{customer_access_token: token} = request_or_token, attrs)
+  def create(%Request{token: token} = request_or_token, attrs)
       when not is_nil(token) and is_list(attrs) do
     request_or_token
     |> Request.attributes(attrs)
@@ -79,14 +84,14 @@ defmodule Ibanity.PontoConnect.OnboardingDetails do
   end
 
   @doc """
-  Same as `create/2`, but `:attributes`, `:account_id`, and `:customer_access_token` must be set in request.
+  Same as `create/2`, but `:attributes`, `:account_id`, and `:token` must be set in request.
 
   ## Examples
 
-  Set id and customer_access_token to request a BulkPayment
+  Set id and token to request a BulkPayment
 
       iex> %PontoConnect.Token{}
-      ...> |> Request.customer_access_token()
+      ...> |> Request.token()
       ...> |> Request.attributes(attributes)
       ...> |> PontoConnect.BulkPayment.create()
       {:ok, %PontoConnect.BulkPayment{id: "343e64e5-4882-4559-96d0-221c398288f3"}}
@@ -113,7 +118,13 @@ defmodule Ibanity.PontoConnect.OnboardingDetails do
       phone_number: {["attributes", "phoneNumber"], :string},
       initial_financial_institution_id:
         {["attributes", "initialFinancialInstitutionId"], :string},
-      organization_name: {["attributes", "organizationName"], :string}
+      organization_name: {["attributes", "organizationName"], :string},
+      organization_type: {["attributes", "organizationType"], :string},
+      automatic_submission_on_completed_forms:
+        {["attributes", "automaticSubmissionOnCompletedForms"], :boolean},
+      preferred_opt_method: {["attributes", "preferredOtpMethod"], :string},
+      requested_organization_id: {["attributes", "requestedOrganizationId"], :string},
+      partner_reference: {["attributes", "partnerReference"], :string}
     ]
   end
 end

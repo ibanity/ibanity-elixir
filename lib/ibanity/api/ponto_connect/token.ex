@@ -7,12 +7,15 @@ defmodule Ibanity.PontoConnect.Token do
 
   alias Ibanity.PontoConnect
 
-  defstruct access_token: nil,
-            expires_in: nil,
-            refresh_token: nil,
-            scope: nil,
-            token_type: "bearer",
-            application: :default
+  defstruct [
+    :access_token,
+    :expires_in,
+    :refresh_token,
+    :scope,
+    :issued_at,
+    token_type: "bearer",
+    application: :default
+  ]
 
   @api_schema_path ["ponto-connect", "oauth2", "token"]
   @api_schema_delete_path ["ponto-connect", "oauth2", "revoke"]
@@ -181,6 +184,13 @@ defmodule Ibanity.PontoConnect.Token do
     |> Client.execute_basic(:post, @api_schema_delete_path)
   end
 
+  def expired?(%__MODULE__{issued_at: issued_at, expires_in: expires_in}) do
+    expiration_dt = DateTime.add(issued_at, expires_in)
+    now = DateTime.utc_now()
+
+    DateTime.before?(expiration_dt, now)
+  end
+
   @doc false
   def key_mapping do
     [
@@ -188,7 +198,8 @@ defmodule Ibanity.PontoConnect.Token do
       expires_in: {~w(expires_in), :integer},
       refresh_token: {~w(refresh_token), :string},
       scope: {~w(scope), :string},
-      token_type: {~w(token_type), :string}
+      token_type: {~w(token_type), :string},
+      issued_at: {fn _ -> DateTime.utc_now() end, :function}
     ]
   end
 end

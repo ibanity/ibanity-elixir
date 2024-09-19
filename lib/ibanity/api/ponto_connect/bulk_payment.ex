@@ -1,6 +1,6 @@
 defmodule Ibanity.PontoConnect.BulkPayment do
   @moduledoc """
-  [Bulk Payment](https://documentation.ibanity.com/xs2a/api#bulk-payment) API wrapper
+  [Bulk Payment](https://documentation.ibanity.com/ponto-connect/api#bulk-payment) API wrapper
   """
 
   use Ibanity.Resource
@@ -64,16 +64,16 @@ defmodule Ibanity.PontoConnect.BulkPayment do
 
   Use attributes and account_or_id:
 
-      iex> PontoConnect.BulkPayment.create(%Ibanity.PontoConnect.Token{}, account_or_id, attributes)
-      {:ok, %PontoConnect.BulkPayment{id: "343e64e5-4882-4559-96d0-221c398288f3"}}
+      iex> Ibanity.PontoConnect.BulkPayment.create(%Ibanity.PontoConnect.Token{}, account_or_id, attributes)
+      {:ok, %Ibanity.PontoConnect.BulkPayment{id: "343e64e5-4882-4559-96d0-221c398288f3"}}
 
-      iex> request = Request.customer_access_token(%PontoConnect.Token{})
-      iex> PontoConnect.BulkPayment.create(request, account_or_id, attributes)
-      {:ok, %PontoConnect.BulkPayment{id: "343e64e5-4882-4559-96d0-221c398288f3"}}
+      iex> request = Ibanity.Request.token(%PontoConnect.Token{})
+      iex> Ibanity.PontoConnect.BulkPayment.create(request, account_or_id, attributes)
+      {:ok, %Ibanity.PontoConnect.BulkPayment{id: "343e64e5-4882-4559-96d0-221c398288f3"}}
   """
   def create(%PontoConnect.Token{} = request_or_token, account_or_id, attrs) do
     request_or_token
-    |> Request.customer_access_token()
+    |> Request.token()
     |> create(account_or_id, attrs)
   end
 
@@ -91,26 +91,22 @@ defmodule Ibanity.PontoConnect.BulkPayment do
 
   def create(other, _account_id, _attrs) do
     raise ArgumentError,
-      message:
-        PontoConnect.RequestUtils.token_argument_error_msg(
-          "FinancialInstitutionTransaction",
-          other
-        )
+      message: PontoConnect.RequestUtils.token_argument_error_msg("BulkPayment", other)
   end
 
   @doc """
-  Same as create/3, but `:attributes`, `:account_id`, and `:customer_access_token` must be set in request.
+  Same as `create/3`, but `:attributes`, `:account_id`, and `:token` must be set in request.
 
   ## Examples
 
-  Set id and customer_access_token to request a BulkPayment
+  Set id and token to request a BulkPayment
 
-      iex> %PontoConnect.Token{}
-      ...> |> Request.customer_access_token()
-      ...> |> Request.id(:account_id, account_id)
-      ...> |> Request.attributes(attributes)
-      ...> |> PontoConnect.BulkPayment.create()
-      {:ok, %PontoConnect.BulkPayment{id: "343e64e5-4882-4559-96d0-221c398288f3"}}
+      iex> %Ibanity.PontoConnect.Token{}
+      ...> |> Ibanity.Request.token()
+      ...> |> Ibanity.Request.id(:account_id, account_id)
+      ...> |> Ibanity.Request.attributes(attributes)
+      ...> |> Ibanity.PontoConnect.BulkPayment.create()
+      {:ok, %Ibanity.PontoConnect.BulkPayment{id: "343e64e5-4882-4559-96d0-221c398288f3"}}
   """
   def create(%Request{} = request) do
     request
@@ -121,7 +117,7 @@ defmodule Ibanity.PontoConnect.BulkPayment do
   @doc """
   [Find Bulk Payment by id](https://documentation.ibanity.com/ponto-connect/2/api#get-payment)
 
-  Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:customer_access_token` as first argument.
+  Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:token` as first argument.
 
   #{PontoConnect.CommonDocs.fetch!(:account_and_id_second_arg)}
 
@@ -134,7 +130,7 @@ defmodule Ibanity.PontoConnect.BulkPayment do
       {:ok, %Ibanity.PontoConnect.BulkPayment{id: "d0e23b50-e150-403b-aa50-581a2329b5f5"}}
 
       iex> %Ibanity.PontoConnect.Token{}
-      ...> |> Ibanity.Request.customer_access_token()
+      ...> |> Ibanity.Request.token()
       ...> |> Ibanity.Request.application(:my_application)
       ...> |> Ibanity.PontoConnect.BulkPayment.find(%{account_id: account_or_id, id: "d0e23b50-e150-403b-aa50-581a2329b5f5"})
       {:ok, %Ibanity.PontoConnect.BulkPayment{id: "d0e23b50-e150-403b-aa50-581a2329b5f5"}}
@@ -148,13 +144,13 @@ defmodule Ibanity.PontoConnect.BulkPayment do
             "detail" => "The requested resource was not found.",
             "meta" => %{
               "requestId" => "00077F00000184847F0000011F4066E44223327005A",
-              "resource" => "bulk_payment"
+              "resource" => "bulkPayment"
             }
           }
         ]}
   """
-  def find(%Request{customer_access_token: customer_access_token} = request_or_token, ids)
-      when not is_nil(customer_access_token) do
+  def find(%Request{token: token} = request_or_token, ids)
+      when not is_nil(token) do
     formatted_ids = PontoConnect.RequestUtils.format_ids(ids)
 
     request_or_token
@@ -164,7 +160,7 @@ defmodule Ibanity.PontoConnect.BulkPayment do
 
   def find(%PontoConnect.Token{} = request_or_token, ids) do
     request_or_token
-    |> Request.customer_access_token()
+    |> Request.token()
     |> find(ids)
   end
 
@@ -191,7 +187,7 @@ defmodule Ibanity.PontoConnect.BulkPayment do
       {:ok, %Ibanity.PontoConnect.BulkPayment{id: "953934eb-229a-4fd2-8675-07794078cc7d"}}
 
       iex> %Ibanity.PontoConnect.Token{}
-      ...> |> Ibanity.Request.customer_access_token()
+      ...> |> Ibanity.Request.token()
       ...> |> Ibanity.Request.application(:my_application)
       ...> |> Ibanity.PontoConnect.BulkPayment.delete(%{
       ...>   id: "953934eb-229a-4fd2-8675-07794078cc7d", account_id: account_or_id
@@ -210,7 +206,7 @@ defmodule Ibanity.PontoConnect.BulkPayment do
             "detail" => "The requested resource was not found.",
             "meta" => %{
               "requestId" => "00077F00000184847F0000011F4066E44223327005A",
-              "resource" => "bulk_payment"
+              "resource" => "bulkPayment"
             }
           }
         ]}
@@ -226,7 +222,7 @@ defmodule Ibanity.PontoConnect.BulkPayment do
 
   def delete(%PontoConnect.Token{} = request_or_token, ids) do
     request_or_token
-    |> Request.customer_access_token()
+    |> Request.token()
     |> delete(ids)
   end
 

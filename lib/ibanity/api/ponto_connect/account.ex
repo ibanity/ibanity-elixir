@@ -38,16 +38,16 @@ defmodule Ibanity.PontoConnect.Account do
   @doc """
   [List accounts](https://documentation.ibanity.com/ponto-connect/2/api#list-accounts)
 
-  Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:customer_access_token` as argument.
+  Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:token` as argument.
 
   ## Examples
 
-      iex> Ibanity.PontoConnect.Token{} |> Ibanity.PontoConnect.Account.list()
+      iex> Ibanity.PontoConnect.Account.list(token)
       {:ok, %Ibanity.Collection{
         items: [%Ibanity.PontoConnect.Account{}]
       }}
 
-      iex> "access-token" |> Ibanity.Request.customer_access_token() |> Ibanity.PontoConnect.Accounts.list()
+      iex> token |> Ibanity.Request.token() |> Ibanity.PontoConnect.Accounts.list()
       {:ok, %Ibanity.Collection{
         items: [%Ibanity.PontoConnect.Account{}]
       }}
@@ -63,16 +63,16 @@ defmodule Ibanity.PontoConnect.Account do
         ]}
 
   """
-  def list(%Request{customer_access_token: customer_access_token} = request)
-      when not is_nil(customer_access_token) do
-    request
+  def list(%Request{token: token} = request_or_token)
+      when not is_nil(token) do
+    request_or_token
     |> Request.id(:id, "")
     |> Client.execute(:get, @api_schema_path, __MODULE__)
   end
 
-  def list(%PontoConnect.Token{} = token) do
-    token
-    |> Request.customer_access_token()
+  def list(%PontoConnect.Token{} = request_or_token) do
+    request_or_token
+    |> Request.token()
     |> list()
   end
 
@@ -84,23 +84,21 @@ defmodule Ibanity.PontoConnect.Account do
   @doc """
   [Find Account by id](https://documentation.ibanity.com/ponto-connect/2/api#get-account)
 
-  Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:customer_access_token` as first argument, and a Account
+  Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:token` as first argument, and a Account
   ID as second argument.
 
   ## Examples
 
-      iex> %Ibanity.PontoConnect.Token{}
-      ...> |> Ibanity.PontoConnect.Account.find("953934eb-229a-4fd2-8675-07794078cc7d")
+      iex> Ibanity.PontoConnect.Account.find(token, "953934eb-229a-4fd2-8675-07794078cc7d")
       {:ok, %Ibanity.PontoConnect.Account{id: "953934eb-229a-4fd2-8675-07794078cc7d"}}
 
-      iex> %Ibanity.PontoConnect.Token{}
-      ...> |> Ibanity.Request.customer_access_token()
+      iex> token
+      ...> |> Ibanity.Request.token()
       ...> |> Ibanity.Request.application(:my_application)
       ...> |> Ibanity.PontoConnect.Account.find("953934eb-229a-4fd2-8675-07794078cc7d")
       {:ok, %Ibanity.PontoConnect.Account{id: "953934eb-229a-4fd2-8675-07794078cc7d"}}
 
-      iex> %Ibanity.PontoConnect.Token{}
-      ...> |> Ibanity.PontoConnect.Account.find("does-not-exist")
+      iex> Ibanity.PontoConnect.Account.find(token, "does-not-exist")
       {:error,
         [
           %{
@@ -113,16 +111,16 @@ defmodule Ibanity.PontoConnect.Account do
           }
         ]}
   """
-  def find(%Request{customer_access_token: customer_access_token} = request, id)
-      when not is_nil(customer_access_token) do
-    request
+  def find(%Request{token: token} = request_or_token, id)
+      when not is_nil(token) do
+    request_or_token
     |> Request.id(id)
     |> Client.execute(:get, @api_schema_path, __MODULE__)
   end
 
-  def find(%PontoConnect.Token{} = token, id) do
-    token
-    |> Request.customer_access_token()
+  def find(%PontoConnect.Token{} = request_or_token, id) do
+    request_or_token
+    |> Request.token()
     |> find(id)
   end
 
@@ -136,18 +134,16 @@ defmodule Ibanity.PontoConnect.Account do
 
   ## Examples
 
-      iex> %Ibanity.PontoConnect.Token{}
-      ...> |> Ibanity.PontoConnect.Account.delete("953934eb-229a-4fd2-8675-07794078cc7d")
+      iex> Ibanity.PontoConnect.Account.delete(token, "953934eb-229a-4fd2-8675-07794078cc7d")
       {:ok, %Ibanity.PontoConnect.Account{id: "953934eb-229a-4fd2-8675-07794078cc7d"}}
 
-      iex> %Ibanity.PontoConnect.Token{}
-      ...> |> Ibanity.Request.customer_access_token()
+      iex> token
+      ...> |> Ibanity.Request.token()
       ...> |> Ibanity.Request.application(:my_application)
       ...> |> Ibanity.PontoConnect.Account.delete("953934eb-229a-4fd2-8675-07794078cc7d")
       {:ok, %Ibanity.PontoConnect.Account{id: "953934eb-229a-4fd2-8675-07794078cc7d"}}
 
-      iex> %Ibanity.PontoConnect.Token{}
-      ...> |> Ibanity.PontoConnect.Account.delete("does-not-exist")
+      iex> Ibanity.PontoConnect.Account.delete(token, "does-not-exist")
       {:error,
         [
           %{
@@ -160,16 +156,18 @@ defmodule Ibanity.PontoConnect.Account do
           }
         ]}
   """
-  def delete(%Request{customer_access_token: customer_access_token} = request, id)
-      when not is_nil(customer_access_token) do
-    request
-    |> Request.id(id)
+  def delete(%Request{token: token} = request_or_token, id)
+      when not is_nil(token) do
+    formatted_ids = PontoConnect.RequestUtils.format_ids(%{id: id})
+
+    request_or_token
+    |> Request.ids(formatted_ids)
     |> Client.execute(:delete, @api_schema_path, __MODULE__)
   end
 
-  def delete(%PontoConnect.Token{} = token, id) do
-    token
-    |> Request.customer_access_token()
+  def delete(%PontoConnect.Token{} = request_or_token, id) do
+    request_or_token
+    |> Request.token()
     |> delete(id)
   end
 

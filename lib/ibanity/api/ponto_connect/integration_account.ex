@@ -21,21 +21,27 @@ defmodule Ibanity.PontoConnect.IntegrationAccount do
   alias Ibanity.PontoConnect
 
   @doc """
-  [List Integration Accounts](https://documentation.ibanity.com/ponto-connect/2/api#list-integration-accounts)
+  [List Integration Accounts](https://documentation.ibanity.com/ponto-connect/2/api#list-integration-account)
 
-  Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:customer_access_token` as argument.
+  Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:token` as argument.
 
   ## Examples
+
+  With client token
 
       iex> Ibanity.PontoConnect.IntegrationAccount.list(client_token)
       {:ok, %Ibanity.Collection{
         items: [%Ibanity.PontoConnect.IntegrationAccount{}]
       }}
 
-      iex> client_token |> Ibanity.Request.customer_access_token() |> Ibanity.PontoConnect.IntegrationAccounts.list()
+  With request
+
+      iex> client_token |> Ibanity.Request.token() |> Ibanity.PontoConnect.IntegrationAccounts.list()
       {:ok, %Ibanity.Collection{
         items: [%Ibanity.PontoConnect.IntegrationAccount{}]
       }}
+
+  Error
 
       iex> invalid_token |> Ibanity.PontoConnect.IntegrationAccount.list()
       {:error,
@@ -48,20 +54,20 @@ defmodule Ibanity.PontoConnect.IntegrationAccount do
         ]}
 
   """
-  def list(%Request{customer_access_token: customer_access_token} = request)
-      when not is_nil(customer_access_token) do
-    Client.execute(request, :get, @api_schema_path, __MODULE__)
+  def list(%Request{token: token} = request_or_token)
+      when not is_nil(token) do
+    Client.execute(request_or_token, :get, @api_schema_path, __MODULE__)
   end
 
-  def list(%PontoConnect.Token{} = token) do
-    token
-    |> Request.customer_access_token()
+  def list(%PontoConnect.Token{} = request_or_token) do
+    request_or_token
+    |> Request.token()
     |> list()
   end
 
   def list(other) do
     raise ArgumentError,
-      message: PontoConnect.RequestUtils.token_argument_error_msg("Accounts", other)
+      message: PontoConnect.RequestUtils.token_argument_error_msg("Integration Accounts", other)
   end
 
   @doc false

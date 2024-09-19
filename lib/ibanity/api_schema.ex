@@ -152,7 +152,7 @@ defmodule Ibanity.ApiSchema do
       "accounts" => "https://api.ibanity.com/ponto-connect/accounts/{accountId}",
       "financialInstitutions" =>
         "https://api.ibanity.com/ponto-connect/financial-institutions/{financialInstitutionId}",
-      "integrationAccount" => "https://api.ibanity.com/ponto-connect/integration-accounts",
+      "integrationAccounts" => "https://api.ibanity.com/ponto-connect/integration-accounts",
       "oauth" => %{
         "toke" => "https://api.ibanity.com/ponto-connect/oauth2/token",
         "revok" => "https://api.ibanity.com/ponto-connect/oauth2/revoke"

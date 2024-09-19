@@ -34,7 +34,7 @@ defmodule Ibanity.PontoConnect.Sandbox.FinancialInstitutionAccount do
   @doc """
   [List sandbox Financial Institution Accounts](https://documentation.ibanity.com/ponto-connect/2/api#list-financial-institution-accounts)
 
-  Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:customer_access_token` as argument.
+  Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:token` as argument.
 
   #{PontoConnect.CommonDocs.fetch!(:financial_institution_id)}
 
@@ -45,7 +45,7 @@ defmodule Ibanity.PontoConnect.Sandbox.FinancialInstitutionAccount do
         items: [%Ibanity.PontoConnect.Sandbox.FinancialInstitutionAccount{}]
       }}
 
-      iex> token |> Ibanity.Request.customer_access_token() |> Ibanity.PontoConnect.Sandbox.FinancialInstitutionAccount.list(financial_institution_or_id)
+      iex> token |> Ibanity.Request.token() |> Ibanity.PontoConnect.Sandbox.FinancialInstitutionAccount.list(financial_institution_or_id)
       {:ok, %Ibanity.Collection{
         items: [%Ibanity.PontoConnect.Sandbox.FinancialInstitutionAccount{}]
       }}
@@ -62,10 +62,10 @@ defmodule Ibanity.PontoConnect.Sandbox.FinancialInstitutionAccount do
 
   """
   def list(
-        %Request{customer_access_token: customer_access_token} = request,
+        %Request{token: token} = request,
         financial_institution_or_id
       )
-      when not is_nil(customer_access_token) and not is_nil(financial_institution_or_id) do
+      when not is_nil(token) and not is_nil(financial_institution_or_id) do
     formatted_ids =
       PontoConnect.RequestUtils.format_ids(%{
         id: "",
@@ -79,7 +79,7 @@ defmodule Ibanity.PontoConnect.Sandbox.FinancialInstitutionAccount do
 
   def list(%PontoConnect.Token{} = token, financial_institution__or_id) do
     token
-    |> Request.customer_access_token()
+    |> Request.token()
     |> list(financial_institution__or_id)
   end
 
@@ -92,7 +92,7 @@ defmodule Ibanity.PontoConnect.Sandbox.FinancialInstitutionAccount do
   @doc """
   [Find sandbox Financial Institution Account by id](https://documentation.ibanity.com/ponto-connect/2/api#get-financial-institution-account)
 
-  Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:customer_access_token` as first argument.
+  Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:token` as first argument.
 
   #{PontoConnect.CommonDocs.fetch!(:financial_institution_and_id_second_arg)}
 
@@ -108,7 +108,7 @@ defmodule Ibanity.PontoConnect.Sandbox.FinancialInstitutionAccount do
       {:ok, %Ibanity.PontoConnect.Sandbox.FinancialInstitutionAccount{id: "953934eb-229a-4fd2-8675-07794078cc7d"}}
 
       iex> token
-      ...> |> Ibanity.Request.customer_access_token()
+      ...> |> Ibanity.Request.token()
       ...> |> Ibanity.Request.application(:my_application)
       ...> |> Ibanity.PontoConnect.Sandbox.FinancialInstitutionAccount.find(%{
       ...>   financial_institution_id: financial_institution_or_id,
@@ -148,7 +148,7 @@ defmodule Ibanity.PontoConnect.Sandbox.FinancialInstitutionAccount do
 
   def find(%PontoConnect.Token{} = request_or_token, ids) do
     request_or_token
-    |> Request.customer_access_token()
+    |> Request.token()
     |> find(ids)
   end
 
