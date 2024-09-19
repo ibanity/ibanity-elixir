@@ -56,10 +56,12 @@ defmodule Ibanity.PontoConnect.OnboardingDetails do
       ...>   initial_financial_institution_id: "953934eb-229a-4fd2-8675-07794078cc7d"
       ...> ]
 
-  Use attributes:
+  With token
 
       iex> Ibanity.PontoConnect.OnboardingDetails.create(client_token, attributes)
       {:ok, %Ibanity.PontoConnect.OnboardingDetails{id: "343e64e5-4882-4559-96d0-221c398288f3"}}
+
+  With request
 
       iex> request = Request.token(client_token)
       iex> Ibanity.PontoConnect.OnboardingDetails.create(request, attributes)
