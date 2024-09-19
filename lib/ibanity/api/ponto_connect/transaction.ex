@@ -28,7 +28,8 @@ defmodule Ibanity.PontoConnect.Transaction do
     :remittance_information,
     :remittance_information_type,
     :value_date,
-    :internal_reference
+    :internal_reference,
+    :account_id
   ]
 
   alias Ibanity.PontoConnect
@@ -48,17 +49,23 @@ defmodule Ibanity.PontoConnect.Transaction do
 
   #{PontoConnect.CommonDocs.fetch!(:account_id)}
 
-  Use account or id to list transactions:
+  With token
 
       iex> Ibanity.PontoConnect.Token{} |> Ibanity.PontoConnect.Transaction.list(account_or_id)
       {:ok, %Ibanity.Collection{
         items: [%Ibanity.PontoConnect.Transaction{}]
       }}
 
-      iex> "access-token" |> Ibanity.Request.token() |> Ibanity.PontoConnect.Transaction.list(account_or_id)
+  With request
+
+      iex> token
+      ...> |> Ibanity.Request.token()
+      ...> |> Ibanity.PontoConnect.Transaction.list(account_or_id)
       {:ok, %Ibanity.Collection{
         items: [%Ibanity.PontoConnect.Transaction{}]
       }}
+
+  Error
 
       iex> invalid_token |> Ibanity.PontoConnect.Transaction.list(account_or_id)
       {:error,
@@ -70,20 +77,19 @@ defmodule Ibanity.PontoConnect.Transaction do
           }
         ]}
   """
-  def list(request_or_token, %PontoConnect.Account{id: account_id}),
-    do: list(request_or_token, account_id)
+  def list(%Request{token: token} = request, account_or_id)
+      when not is_nil(token) do
+    formatted_ids = PontoConnect.RequestUtils.format_ids(id: "", account_id: account_or_id)
 
-  def list(%Request{token: token} = request, account_id)
-      when not is_nil(token) and is_bitstring(account_id) do
     request
-    |> Request.ids(id: "", account_id: account_id)
+    |> Request.ids(formatted_ids)
     |> Client.execute(:get, @api_schema_path, __MODULE__)
   end
 
-  def list(%PontoConnect.Token{} = token, account_id) do
+  def list(%PontoConnect.Token{} = token, account_or_id) do
     token
     |> Request.token()
-    |> list(account_id)
+    |> list(account_or_id)
   end
 
   def list(other, _account_id) do
@@ -104,19 +110,26 @@ defmodule Ibanity.PontoConnect.Transaction do
 
   ## Examples
 
-  Use synchronization or id to list updated transactions:
+  With token
 
-      iex> Ibanity.PontoConnect.Token{} |> Ibanity.PontoConnect.Transaction.list_updated_for_transaction(account_or_id)
+      iex> token |> Ibanity.PontoConnect.Transaction.list_updated_for_transaction(account_or_id)
       {:ok, %Ibanity.Collection{
         items: [%Ibanity.PontoConnect.Transaction{}]
       }}
 
-      iex> "access-token" |> Ibanity.Request.token() |> Ibanity.PontoConnect.Transaction.list_updated_for_transaction(account_or_id)
+  With request
+
+      iex> token |>
+      ...> |> Ibanity.Request.token()
+      ...> |> Ibanity.PontoConnect.Transaction.list_updated_for_transaction(account_or_id)
       {:ok, %Ibanity.Collection{
         items: [%Ibanity.PontoConnect.Transaction{}]
       }}
 
-      iex> invalid_token |> Ibanity.PontoConnect.Transaction.list_updated_for_transaction(account_or_id)
+  Error
+
+      iex> invalid_token
+      ...> |> Ibanity.PontoConnect.Transaction.list_updated_for_transaction(account_or_id)
       {:error,
         [
           %{
@@ -129,29 +142,24 @@ defmodule Ibanity.PontoConnect.Transaction do
       iex> 
   """
   def list_updated_for_synchronization(
-        %Request{} = request_or_token,
-        %PontoConnect.Synchronization{
-          id: synchronization_id
-        }
-      ),
-      do: list_updated_for_synchronization(request_or_token, synchronization_id)
-
-  def list_updated_for_synchronization(
         %Request{token: token} = request,
-        synchronization_id
+        synchronization_or_id
       )
-      when not is_nil(token) and is_bitstring(synchronization_id) do
+      when not is_nil(token) do
     api_schema_path = List.insert_at(@api_schema_synchronization_path, -1, "updatedTransactions")
 
+    formatted_ids =
+      PontoConnect.RequestUtils.format_ids(id: "", synchronization_id: synchronization_or_id)
+
     request
-    |> Request.ids(id: "", synchronization_id: synchronization_id)
+    |> Request.ids(formatted_ids)
     |> Client.execute(:get, api_schema_path, __MODULE__)
   end
 
-  def list_updated_for_synchronization(%PontoConnect.Token{} = token, synchronization_id) do
+  def list_updated_for_synchronization(%PontoConnect.Token{} = token, synchronization_or_id) do
     token
     |> Request.token()
-    |> list_updated_for_synchronization(synchronization_id)
+    |> list_updated_for_synchronization(synchronization_or_id)
   end
 
   def list_updated_for_synchronization(other, _synchronization_id) do
@@ -172,19 +180,27 @@ defmodule Ibanity.PontoConnect.Transaction do
 
   ## Examples
 
-  Use synchronization or id to list updated transactions:
+  With token
 
-      iex> Ibanity.PontoConnect.Token{} |> Ibanity.PontoConnect.Transaction.list_updated_pending_for_synchronization(synchronization_or_id)
+      iex> token
+      ...> |> Ibanity.PontoConnect.Transaction.list_updated_pending_for_synchronization(synchronization_or_id)
       {:ok, %Ibanity.Collection{
         items: [%Ibanity.PontoConnect.Transaction{}]
       }}
 
-      iex> "access-token" |> Ibanity.Request.token() |> Ibanity.PontoConnect.Transaction.list_updated_pending_for_synchronization(synchronization_or_id)
+  With request
+
+      iex> token
+      ...> |> Ibanity.Request.token()
+      ...> |> Ibanity.PontoConnect.Transaction.list_updated_pending_for_synchronization(synchronization_or_id)
       {:ok, %Ibanity.Collection{
         items: [%Ibanity.PontoConnect.Transaction{}]
       }}
 
-      iex> invalid_token |> Ibanity.PontoConnect.Transaction.list_updated_pending_for_synchronization(synchronization_or_id)
+  Error
+
+      iex> invalid_token
+      ...> |> Ibanity.PontoConnect.Transaction.list_updated_pending_for_synchronization(synchronization_or_id)
       {:error,
         [
           %{
@@ -195,32 +211,30 @@ defmodule Ibanity.PontoConnect.Transaction do
         ]}
   """
   def list_updated_pending_for_synchronization(
-        %Request{} = request_or_token,
-        %PontoConnect.Synchronization{
-          id: synchronization_id
-        }
-      ),
-      do: list_updated_pending_for_synchronization(request_or_token, synchronization_id)
-
-  def list_updated_pending_for_synchronization(
         %Request{token: token} = request,
-        synchronization_id
+        synchronization_or_id
       )
-      when not is_nil(token) and is_bitstring(synchronization_id) do
+      when not is_nil(token) do
     api_schema_path = List.insert_at(@api_schema_synchronization_path, -1, "updatedTransactions")
 
+    formatted_ids =
+      PontoConnect.RequestUtils.format_ids(id: "", synchronization_id: synchronization_or_id)
+
     request
-    |> Request.ids(id: "", synchronization_id: synchronization_id)
+    |> Request.ids(formatted_ids)
     |> Client.execute(:get, api_schema_path, __MODULE__)
   end
 
-  def list_updated_pending_for_synchronization(%PontoConnect.Token{} = token, synchronization_id) do
+  def list_updated_pending_for_synchronization(
+        %PontoConnect.Token{} = token,
+        synchronization_or_id
+      ) do
     token
     |> Request.token()
-    |> list_updated_pending_for_synchronization(synchronization_id)
+    |> list_updated_pending_for_synchronization(synchronization_or_id)
   end
 
-  def list_updated_pending_for_synchronization(other, _synchronization_id) do
+  def list_updated_pending_for_synchronization(other, _synchronization_or_id) do
     raise ArgumentError,
       message: PontoConnect.RequestUtils.token_argument_error_msg("Transactions", other)
   end
@@ -236,19 +250,27 @@ defmodule Ibanity.PontoConnect.Transaction do
 
   #{PontoConnect.CommonDocs.fetch!(:account_id)}
 
-  Use account or id to list transactions:
+  With token
 
-      iex> Ibanity.PontoConnect.Token{} |> Ibanity.PontoConnect.Transaction.list_pending_for_account(account_or_id)
+      iex> token
+      ...> |> Ibanity.PontoConnect.Transaction.list_pending_for_account(account_or_id)
       {:ok, %Ibanity.Collection{
         items: [%Ibanity.PontoConnect.Transaction{}]
       }}
 
-      iex> "access-token" |> Ibanity.Request.token() |> Ibanity.PontoConnect.Transaction.list_pending_for_account(account_or_id)
+  With request
+
+      iex> token
+      ...> |> Ibanity.Request.token()
+      ...> |> Ibanity.PontoConnect.Transaction.list_pending_for_account(account_or_id)
       {:ok, %Ibanity.Collection{
         items: [%Ibanity.PontoConnect.Transaction{}]
       }}
 
-      iex> invalid_token |> Ibanity.PontoConnect.Transaction.list_pending_for_account(account_or_id)
+  Error
+
+      iex> invalid_token
+      ...> |> Ibanity.PontoConnect.Transaction.list_pending_for_account(account_or_id)
       {:error,
         [
           %{
@@ -258,28 +280,26 @@ defmodule Ibanity.PontoConnect.Transaction do
           }
         ]}
   """
-  def list_pending_for_account(request_or_token, %PontoConnect.Account{id: account_id}),
-    do: list_pending_for_account(request_or_token, account_id)
-
   def list_pending_for_account(
         %Request{token: token} = request,
-        account_id
+        account_or_id
       )
-      when not is_nil(token) and is_bitstring(account_id) do
+      when not is_nil(token) do
     api_schema_path = List.insert_at(@api_schema_account_path, -1, "pendingTransactions")
+    formatted_ids = PontoConnect.RequestUtils.format_ids(id: "", account_id: account_or_id)
 
     request
-    |> Request.ids(id: "", account_id: account_id)
+    |> Request.ids(formatted_ids)
     |> Client.execute(:get, api_schema_path, __MODULE__)
   end
 
-  def list_pending_for_account(%PontoConnect.Token{} = token, account_id) do
+  def list_pending_for_account(%PontoConnect.Token{} = token, account_or_id) do
     token
     |> Request.token()
-    |> list_pending_for_account(account_id)
+    |> list_pending_for_account(account_or_id)
   end
 
-  def list_pending_for_account(other, _account_id) do
+  def list_pending_for_account(other, _account_or_id) do
     raise ArgumentError,
       message: PontoConnect.RequestUtils.token_argument_error_msg("Transactions", other)
   end
@@ -352,17 +372,17 @@ defmodule Ibanity.PontoConnect.Transaction do
 
   ## Examples
 
-      iex> %Ibanity.PontoConnect.Token{}
+      iex> token
       ...> |> Ibanity.PontoConnect.Transaction.find_pending_for_account(%{account_id: account_or_id, id: "d0e23b50-e150-403b-aa50-581a2329b5f5"})
       {:ok, %Ibanity.PontoConnect.Transaction{id: "d0e23b50-e150-403b-aa50-581a2329b5f5"}}
 
-      iex> %Ibanity.PontoConnect.Token{}
+      iex> token
       ...> |> Ibanity.Request.token()
       ...> |> Ibanity.Request.application(:my_application)
       ...> |> Ibanity.PontoConnect.Transaction.find_pending_for_account(%{account_id: account_or_id, id: "d0e23b50-e150-403b-aa50-581a2329b5f5"})
       {:ok, %Ibanity.PontoConnect.Transaction{id: "d0e23b50-e150-403b-aa50-581a2329b5f5"}}
 
-      iex> %Ibanity.PontoConnect.Token{}
+      iex> token
       ...> |> Ibanity.PontoConnect.Transaction.find_pending_for_account(%{account_id: account_or_id, id: "does-not-exist"})
       {:error,
         [
@@ -426,7 +446,8 @@ defmodule Ibanity.PontoConnect.Transaction do
       remittance_information: {["attributes", "remittanceInformation"], :string},
       remittance_information_type: {["attributes", "remittanceInformationType"], :string},
       value_date: {["attributes", "valueDate"], :datetime},
-      internal_reference: {["attributes", "internalReference"], :string}
+      internal_reference: {["attributes", "internalReference"], :string},
+      account_id: {["relationships", "account", "data", "id"], :string}
     ]
   end
 end

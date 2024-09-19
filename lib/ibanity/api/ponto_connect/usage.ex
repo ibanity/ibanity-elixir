@@ -50,7 +50,7 @@ defmodule Ibanity.PontoConnect.Usage do
       ...> |> Ibanity.PontoConnect.Usage.find(attributes)
       {:ok, %Ibanity.PontoConnect.Sandbox.Usage{id: "953934eb-229a-4fd2-8675-07794078cc7d"}}
 
-  error
+  Error
 
       iex> Ibanity.PontoConnect.Usage.find(client_token, %{organization_id: "does-not-exist", month: "2024-09"})
       {:error,

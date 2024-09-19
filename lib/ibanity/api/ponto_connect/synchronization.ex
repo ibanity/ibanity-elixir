@@ -38,35 +38,35 @@ defmodule Ibanity.PontoConnect.Synchronization do
       ...>   subtype: "accountDetails",
       ...>   customer_ip_address: "123.123.123.123"
       ...> ]
-      [  
-        resource_id: "88099509-ce43-4a49-ba98-115af962d96d",
-        subtype: "accountDetails",
-        customer_ip_address: "123.123.123.123"
-      ]
 
-  Use attributes to create a synchronization
+  With request
 
       iex> attributes
-      ...> |> Request.attributes()
-      ...> |> PontoConnect.Synchronization.create()
-      {:ok, %PontoConnect.Synchronization{id: "f92fc927-7c39-48c1-aa4b-2820efbfed00"}}
+      ...> |> Ibanity.Request.attributes()
+      ...> |> Ibanity.Request.token(token)
+      ...> |> Ibanity.PontoConnect.Synchronization.create()
+      {:ok, %Ibanity.PontoConnect.Synchronization{id: "f92fc927-7c39-48c1-aa4b-2820efbfed00"}}
 
-      iex> %PontoConnect.Token{}
-      ...> |> PontoConnect.Synchronization.create(attributes)
-      {:ok, %PontoConnect.Synchronization{id: "f92fc927-7c39-48c1-aa4b-2820efbfed00"}}
+  With token
+
+      iex> Ibanity.PontoConnect.Synchronization.create(token, attributes)
+      {:ok, %Ibanity.PontoConnect.Synchronization{id: "f92fc927-7c39-48c1-aa4b-2820efbfed00"}}
   """
-  def create(request_or_token, attrs)
-
-  def create(%PontoConnect.Token{} = token, attrs) do
-    token
+  def create(%PontoConnect.Token{} = request_or_token, attrs) do
+    request_or_token
     |> Request.token()
     |> create(attrs)
   end
 
-  def create(%Request{} = request, attrs) do
-    request
+  def create(%Request{token: token} = request_or_token, attrs) when not is_nil(token) do
+    request_or_token
     |> Request.attributes(attrs)
     |> create()
+  end
+
+  def create(other, _attrs) do
+    raise ArgumentError,
+      message: PontoConnect.RequestUtils.token_argument_error_msg("Synchronization", other)
   end
 
   @doc """
@@ -81,26 +81,21 @@ defmodule Ibanity.PontoConnect.Synchronization do
       ...>   subtype: "accountDetails",
       ...>   customer_ip_address: "123.123.123.123"
       ...> ]
-      [  
-        resource_id: "88099509-ce43-4a49-ba98-115af962d96d",
-        subtype: "accountDetails",
-        customer_ip_address: "123.123.123.123"
-      ]
 
   Set attributes and token to create a synchronization
 
       iex> attributes
-      ...> |> Request.attributes()
-      ...> |> Request.token(%PontoConnect.Token{})
-      ...> |> PontoConnect.Synchronization.create()
-      {:ok, %PontoConnect.Synchronization{id: "f92fc927-7c39-48c1-aa4b-2820efbfed00"}}
+      ...> |> Ibanity.Request.attributes()
+      ...> |> Ibanity.Request.token(token)
+      ...> |> Ibanity.PontoConnect.Synchronization.create()
+      {:ok, %Ibanity.PontoConnect.Synchronization{id: "f92fc927-7c39-48c1-aa4b-2820efbfed00"}}
   """
   def create(%Request{} = request) do
     request
     |> Request.id("")
     |> Request.attribute(:resource_type, @resource_type)
     |> Request.resource_type(@resource_type)
-    |> Client.execute(:post, @api_schema_path)
+    |> Client.execute(:post, @api_schema_path, __MODULE__)
   end
 
   @doc """
@@ -111,18 +106,17 @@ defmodule Ibanity.PontoConnect.Synchronization do
 
   ## Examples
 
-      iex> %Ibanity.PontoConnect.Token{}
+      iex> token
       ...> |> Ibanity.PontoConnect.Synchronization.find("953934eb-229a-4fd2-8675-07794078cc7d")
       {:ok, %Ibanity.PontoConnect.Synchronization{id: "953934eb-229a-4fd2-8675-07794078cc7d"}}
 
-      iex> %Ibanity.PontoConnect.Token{}
+      iex> token
       ...> |> Ibanity.Request.token()
       ...> |> Ibanity.Request.application(:my_application)
       ...> |> Ibanity.PontoConnect.Synchronization.find("953934eb-229a-4fd2-8675-07794078cc7d")
       {:ok, %Ibanity.PontoConnect.Synchronization{id: "953934eb-229a-4fd2-8675-07794078cc7d"}}
 
-      iex> %Ibanity.PontoConnect.Token{}
-      ...> |> Ibanity.PontoConnect.Synchronization.find("does-not-exist")
+      iex> Ibanity.PontoConnect.Synchronization.find(token, "does-not-exist")
       {:error,
         [
           %{
@@ -130,20 +124,20 @@ defmodule Ibanity.PontoConnect.Synchronization do
             "detail" => "The requested resource was not found.",
             "meta" => %{
               "requestId" => "00077F00000184847F0000011F4066E44223327005A",
-              "resource" => "account"
+              "resource" => "synchronization"
             }
           }
         ]}
   """
-  def find(%Request{token: token} = request, id)
+  def find(%Request{token: token} = request_or_token, id)
       when not is_nil(token) do
-    request
+    request_or_token
     |> Request.id(id)
     |> Client.execute(:get, @api_schema_path, __MODULE__)
   end
 
-  def find(%PontoConnect.Token{} = token, id) do
-    token
+  def find(%PontoConnect.Token{} = request_or_token, id) do
+    request_or_token
     |> Request.token()
     |> find(id)
   end
