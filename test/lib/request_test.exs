@@ -57,6 +57,18 @@ defmodule Ibanity.RequestTest do
     end
   end
 
+  describe ".token/2" do
+    test "set the token when passing a PontoConnect.Token struct" do
+      token = %Ibanity.PontoConnect.Token{access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."}
+
+      request =
+        %Request{}
+        |> Request.token(token)
+
+      assert request.token == "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+    end
+  end
+
   describe ".has_customer_access_token?/1" do
     test "false when creating empty request" do
       refute Request.has_customer_access_token?(%Request{})

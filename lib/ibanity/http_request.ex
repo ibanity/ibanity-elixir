@@ -75,8 +75,10 @@ defmodule Ibanity.HttpRequest do
   end
 
   defp add_customer_access_token(headers, request) do
-    if request.customer_access_token do
-      Keyword.put(headers, :Authorization, "Bearer #{request.customer_access_token}")
+    token = request.customer_access_token || request.token
+
+    if token do
+      Keyword.put(headers, :Authorization, "Bearer #{request.token}")
     else
       headers
     end

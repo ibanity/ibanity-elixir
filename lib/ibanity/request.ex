@@ -24,7 +24,8 @@ defmodule Ibanity.Request do
             resource_type: nil,
             resource_ids: [],
             page: %{},
-            query_params: %{}
+            query_params: %{},
+            token: nil
 
   @doc """
   Creates a new request and sets the application name
@@ -150,18 +151,11 @@ defmodule Ibanity.Request do
   def customer_access_token(%Ibanity.Xs2a.CustomerAccessToken{} = access),
     do: customer_access_token(access.token)
 
-  def customer_access_token(%Ibanity.PontoConnect.Token{} = token),
-    do: customer_access_token(token.access_token)
-
   @doc """
   Sets the [customer access token](https://documentation.ibanity.com/api#customer-access-token) to the request
   """
   def customer_access_token(%__MODULE__{} = request, %Ibanity.Xs2a.CustomerAccessToken{} = access) do
     customer_access_token(request, access.token)
-  end
-
-  def customer_access_token(%__MODULE__{} = request, %Ibanity.PontoConnect.Token{} = token) do
-    customer_access_token(request, token.access_token)
   end
 
   @doc """
@@ -170,6 +164,18 @@ defmodule Ibanity.Request do
   def customer_access_token(%__MODULE__{} = request, token) do
     %__MODULE__{request | customer_access_token: token}
   end
+
+  @doc """
+  Sets the [token](https://documentation.ibanity.com/ponto-connect/api#token) used in some Ponto Connect requests.
+  """
+  def token(request \\ %__MODULE__{}, token)
+
+  def token(%__MODULE__{} = request, token) when is_bitstring(token) or is_nil(token) do
+    %__MODULE__{request | token: token}
+  end
+
+  def token(%__MODULE__{} = request, %Ibanity.PontoConnect.Token{access_token: token}),
+    do: token(request, token)
 
   @doc """
   Creates a new request and adds the attribute and its value to it

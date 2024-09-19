@@ -18,7 +18,7 @@ defmodule Ibanity.PontoConnect.RequestUtils do
     """
     Cannot access #{resource_name} with given arguments.
     Expected one of:
-    - `%Ibanity.Request{}` with `:customer_access_token` set
+    - `%Ibanity.Request{}` with `:token` set
     - `%Ibanity.PontoConnect.Token{}`
 
     Got: #{inspect(other)}

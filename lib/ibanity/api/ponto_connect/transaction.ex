@@ -40,7 +40,7 @@ defmodule Ibanity.PontoConnect.Transaction do
   @doc """
   [List transactions](https://documentation.ibanity.com/ponto-connect/2/api#list-transactions)
 
-  Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:customer_access_token` as first argument.
+  Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:token` as first argument.
 
   Takes a `Ibanity.PontoConnect.Account` or the account id as a string as second argument.
 
@@ -55,7 +55,7 @@ defmodule Ibanity.PontoConnect.Transaction do
         items: [%Ibanity.PontoConnect.Transaction{}]
       }}
 
-      iex> "access-token" |> Ibanity.Request.customer_access_token() |> Ibanity.PontoConnect.Transaction.list(account_or_id)
+      iex> "access-token" |> Ibanity.Request.token() |> Ibanity.PontoConnect.Transaction.list(account_or_id)
       {:ok, %Ibanity.Collection{
         items: [%Ibanity.PontoConnect.Transaction{}]
       }}
@@ -73,8 +73,8 @@ defmodule Ibanity.PontoConnect.Transaction do
   def list(request_or_token, %PontoConnect.Account{id: account_id}),
     do: list(request_or_token, account_id)
 
-  def list(%Request{customer_access_token: customer_access_token} = request, account_id)
-      when not is_nil(customer_access_token) and is_bitstring(account_id) do
+  def list(%Request{token: token} = request, account_id)
+      when not is_nil(token) and is_bitstring(account_id) do
     request
     |> Request.ids(id: "", account_id: account_id)
     |> Client.execute(:get, @api_schema_path, __MODULE__)
@@ -82,7 +82,7 @@ defmodule Ibanity.PontoConnect.Transaction do
 
   def list(%PontoConnect.Token{} = token, account_id) do
     token
-    |> Request.customer_access_token()
+    |> Request.token()
     |> list(account_id)
   end
 
@@ -94,7 +94,7 @@ defmodule Ibanity.PontoConnect.Transaction do
   @doc """
   [List updated Transactions for synchronizations](https://documentation.ibanity.com/ponto-connect/2/api#list-updated-transactions-for-synchronization)
 
-  Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:customer_access_token` as first argument.
+  Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:token` as first argument.
 
   Takes a map with the following keys as second argument:
   - `:synchronization``Ibanity.PontoConnect.Synchronization` struct or account ID as a string
@@ -111,7 +111,7 @@ defmodule Ibanity.PontoConnect.Transaction do
         items: [%Ibanity.PontoConnect.Transaction{}]
       }}
 
-      iex> "access-token" |> Ibanity.Request.customer_access_token() |> Ibanity.PontoConnect.Transaction.list_updated_for_transaction(account_or_id)
+      iex> "access-token" |> Ibanity.Request.token() |> Ibanity.PontoConnect.Transaction.list_updated_for_transaction(account_or_id)
       {:ok, %Ibanity.Collection{
         items: [%Ibanity.PontoConnect.Transaction{}]
       }}
@@ -137,10 +137,10 @@ defmodule Ibanity.PontoConnect.Transaction do
       do: list_updated_for_synchronization(request_or_token, synchronization_id)
 
   def list_updated_for_synchronization(
-        %Request{customer_access_token: customer_access_token} = request,
+        %Request{token: token} = request,
         synchronization_id
       )
-      when not is_nil(customer_access_token) and is_bitstring(synchronization_id) do
+      when not is_nil(token) and is_bitstring(synchronization_id) do
     api_schema_path = List.insert_at(@api_schema_synchronization_path, -1, "updatedTransactions")
 
     request
@@ -150,7 +150,7 @@ defmodule Ibanity.PontoConnect.Transaction do
 
   def list_updated_for_synchronization(%PontoConnect.Token{} = token, synchronization_id) do
     token
-    |> Request.customer_access_token()
+    |> Request.token()
     |> list_updated_for_synchronization(synchronization_id)
   end
 
@@ -162,7 +162,7 @@ defmodule Ibanity.PontoConnect.Transaction do
   @doc """
   [List updated pending Transactions for synchronizations](https://documentation.ibanity.com/ponto-connect/2/api#list-updated-pending-transactions-for-synchronization)
 
-  Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:customer_access_token` as first argument.
+  Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:token` as first argument.
 
   Takes a map with the following keys as second argument:
   - `:synchronization``Ibanity.PontoConnect.Synchronization` struct or account ID as a string
@@ -179,7 +179,7 @@ defmodule Ibanity.PontoConnect.Transaction do
         items: [%Ibanity.PontoConnect.Transaction{}]
       }}
 
-      iex> "access-token" |> Ibanity.Request.customer_access_token() |> Ibanity.PontoConnect.Transaction.list_updated_pending_for_synchronization(synchronization_or_id)
+      iex> "access-token" |> Ibanity.Request.token() |> Ibanity.PontoConnect.Transaction.list_updated_pending_for_synchronization(synchronization_or_id)
       {:ok, %Ibanity.Collection{
         items: [%Ibanity.PontoConnect.Transaction{}]
       }}
@@ -203,10 +203,10 @@ defmodule Ibanity.PontoConnect.Transaction do
       do: list_updated_pending_for_synchronization(request_or_token, synchronization_id)
 
   def list_updated_pending_for_synchronization(
-        %Request{customer_access_token: customer_access_token} = request,
+        %Request{token: token} = request,
         synchronization_id
       )
-      when not is_nil(customer_access_token) and is_bitstring(synchronization_id) do
+      when not is_nil(token) and is_bitstring(synchronization_id) do
     api_schema_path = List.insert_at(@api_schema_synchronization_path, -1, "updatedTransactions")
 
     request
@@ -216,7 +216,7 @@ defmodule Ibanity.PontoConnect.Transaction do
 
   def list_updated_pending_for_synchronization(%PontoConnect.Token{} = token, synchronization_id) do
     token
-    |> Request.customer_access_token()
+    |> Request.token()
     |> list_updated_pending_for_synchronization(synchronization_id)
   end
 
@@ -228,7 +228,7 @@ defmodule Ibanity.PontoConnect.Transaction do
   @doc """
   [List updated pending transactions](https://documentation.ibanity.com/ponto-connect/2/api#pending-transactions)
 
-  Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:customer_access_token` as first argument.
+  Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:token` as first argument.
 
   Takes a `Ibanity.PontoConnect.Account` or the account id as a string as second argument.
 
@@ -243,7 +243,7 @@ defmodule Ibanity.PontoConnect.Transaction do
         items: [%Ibanity.PontoConnect.Transaction{}]
       }}
 
-      iex> "access-token" |> Ibanity.Request.customer_access_token() |> Ibanity.PontoConnect.Transaction.list_pending_for_account(account_or_id)
+      iex> "access-token" |> Ibanity.Request.token() |> Ibanity.PontoConnect.Transaction.list_pending_for_account(account_or_id)
       {:ok, %Ibanity.Collection{
         items: [%Ibanity.PontoConnect.Transaction{}]
       }}
@@ -262,10 +262,10 @@ defmodule Ibanity.PontoConnect.Transaction do
     do: list_pending_for_account(request_or_token, account_id)
 
   def list_pending_for_account(
-        %Request{customer_access_token: customer_access_token} = request,
+        %Request{token: token} = request,
         account_id
       )
-      when not is_nil(customer_access_token) and is_bitstring(account_id) do
+      when not is_nil(token) and is_bitstring(account_id) do
     api_schema_path = List.insert_at(@api_schema_account_path, -1, "pendingTransactions")
 
     request
@@ -275,7 +275,7 @@ defmodule Ibanity.PontoConnect.Transaction do
 
   def list_pending_for_account(%PontoConnect.Token{} = token, account_id) do
     token
-    |> Request.customer_access_token()
+    |> Request.token()
     |> list_pending_for_account(account_id)
   end
 
@@ -287,7 +287,7 @@ defmodule Ibanity.PontoConnect.Transaction do
   @doc """
   [Find Transaction by id](https://documentation.ibanity.com/ponto-connect/2/api#get-transaction)
 
-  Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:customer_access_token` as first argument.
+  Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:token` as first argument.
 
   #{PontoConnect.CommonDocs.fetch!(:account_and_id_second_arg)}
 
@@ -300,7 +300,7 @@ defmodule Ibanity.PontoConnect.Transaction do
       {:ok, %Ibanity.PontoConnect.Transaction{id: "d0e23b50-e150-403b-aa50-581a2329b5f5"}}
 
       iex> %Ibanity.PontoConnect.Token{}
-      ...> |> Ibanity.Request.customer_access_token()
+      ...> |> Ibanity.Request.token()
       ...> |> Ibanity.Request.application(:my_application)
       ...> |> Ibanity.PontoConnect.Transaction.find(%{account_id: account_or_id, id: "d0e23b50-e150-403b-aa50-581a2329b5f5"})
       {:ok, %Ibanity.PontoConnect.Transaction{id: "d0e23b50-e150-403b-aa50-581a2329b5f5"}}
@@ -319,8 +319,8 @@ defmodule Ibanity.PontoConnect.Transaction do
           }
         ]}
   """
-  def find(%Request{customer_access_token: customer_access_token} = request, ids)
-      when not is_nil(customer_access_token) do
+  def find(%Request{token: token} = request, ids)
+      when not is_nil(token) do
     formatted_ids = PontoConnect.RequestUtils.format_ids(ids)
 
     request
@@ -330,7 +330,7 @@ defmodule Ibanity.PontoConnect.Transaction do
 
   def find(%PontoConnect.Token{} = token, ids) do
     token
-    |> Request.customer_access_token()
+    |> Request.token()
     |> find(ids)
   end
 
@@ -342,7 +342,7 @@ defmodule Ibanity.PontoConnect.Transaction do
   @doc """
   [Find pending Transaction by id](https://documentation.ibanity.com/ponto-connect/2/api#get-pending-transaction)
 
-  Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:customer_access_token` as first argument.
+  Takes a `Ibanity.PontoConnect.Token`, or a `Ibanity.Request` with set `:token` as first argument.
 
   Takes a map with the following keys as second argument:
   - `:account_id``Ibanity.PontoConnect.Account` struct or account ID as a string
@@ -357,7 +357,7 @@ defmodule Ibanity.PontoConnect.Transaction do
       {:ok, %Ibanity.PontoConnect.Transaction{id: "d0e23b50-e150-403b-aa50-581a2329b5f5"}}
 
       iex> %Ibanity.PontoConnect.Token{}
-      ...> |> Ibanity.Request.customer_access_token()
+      ...> |> Ibanity.Request.token()
       ...> |> Ibanity.Request.application(:my_application)
       ...> |> Ibanity.PontoConnect.Transaction.find_pending_for_account(%{account_id: account_or_id, id: "d0e23b50-e150-403b-aa50-581a2329b5f5"})
       {:ok, %Ibanity.PontoConnect.Transaction{id: "d0e23b50-e150-403b-aa50-581a2329b5f5"}}
@@ -377,10 +377,10 @@ defmodule Ibanity.PontoConnect.Transaction do
         ]}
   """
   def find_pending_for_account(
-        %Request{customer_access_token: customer_access_token} = request,
+        %Request{token: token} = request,
         ids
       )
-      when not is_nil(customer_access_token) do
+      when not is_nil(token) do
     formatted_ids = PontoConnect.RequestUtils.format_ids(ids)
 
     request
@@ -390,7 +390,7 @@ defmodule Ibanity.PontoConnect.Transaction do
 
   def find_pending_for_account(%PontoConnect.Token{} = token, ids) do
     token
-    |> Request.customer_access_token()
+    |> Request.token()
     |> find_pending_for_account(ids)
   end
 
