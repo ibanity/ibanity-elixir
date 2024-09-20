@@ -86,7 +86,7 @@ defmodule Ibanity.PontoConnect.Sandbox.FinancialInstitutionAccount do
   def list(other, _financial_institution__or_id) do
     raise ArgumentError,
       message:
-        PontoConnect.RequestUtils.token_argument_error_msg("FinancialInstitutionAccount", other)
+        PontoConnect.Exceptions.token_argument_error_msg("FinancialInstitutionAccount", other)
   end
 
   @doc """
@@ -155,7 +155,7 @@ defmodule Ibanity.PontoConnect.Sandbox.FinancialInstitutionAccount do
   def find(other, _id) do
     raise ArgumentError,
       message:
-        PontoConnect.RequestUtils.token_argument_error_msg("FinancialInstitutionAccount", other)
+        PontoConnect.Exceptions.token_argument_error_msg("FinancialInstitutionAccount", other)
   end
 
   @doc false

@@ -57,7 +57,7 @@ defmodule Ibanity.PontoConnect.ReauthorizationRequest do
 
   def create(other, _account_or_id, _attrs) do
     raise ArgumentError,
-      message: PontoConnect.RequestUtils.token_argument_error_msg("ReauthorizationRequest", other)
+      message: PontoConnect.Exceptions.token_argument_error_msg("ReauthorizationRequest", other)
   end
 
   @doc """

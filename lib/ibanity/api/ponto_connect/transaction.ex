@@ -94,7 +94,7 @@ defmodule Ibanity.PontoConnect.Transaction do
 
   def list(other, _account_id) do
     raise ArgumentError,
-      message: PontoConnect.RequestUtils.token_argument_error_msg("Transactions", other)
+      message: PontoConnect.Exceptions.token_argument_error_msg("Transactions", other)
   end
 
   @doc """
@@ -164,7 +164,7 @@ defmodule Ibanity.PontoConnect.Transaction do
 
   def list_updated_for_synchronization(other, _synchronization_id) do
     raise ArgumentError,
-      message: PontoConnect.RequestUtils.token_argument_error_msg("Transactions", other)
+      message: PontoConnect.Exceptions.token_argument_error_msg("Transactions", other)
   end
 
   @doc """
@@ -236,7 +236,7 @@ defmodule Ibanity.PontoConnect.Transaction do
 
   def list_updated_pending_for_synchronization(other, _synchronization_or_id) do
     raise ArgumentError,
-      message: PontoConnect.RequestUtils.token_argument_error_msg("Transactions", other)
+      message: PontoConnect.Exceptions.token_argument_error_msg("Transactions", other)
   end
 
   @doc """
@@ -301,7 +301,7 @@ defmodule Ibanity.PontoConnect.Transaction do
 
   def list_pending_for_account(other, _account_or_id) do
     raise ArgumentError,
-      message: PontoConnect.RequestUtils.token_argument_error_msg("Transactions", other)
+      message: PontoConnect.Exceptions.token_argument_error_msg("Transactions", other)
   end
 
   @doc """
@@ -356,7 +356,7 @@ defmodule Ibanity.PontoConnect.Transaction do
 
   def find(other, _ids) do
     raise ArgumentError,
-      message: PontoConnect.RequestUtils.token_argument_error_msg("Transaction", other)
+      message: PontoConnect.Exceptions.token_argument_error_msg("Transaction", other)
   end
 
   @doc """
@@ -416,7 +416,7 @@ defmodule Ibanity.PontoConnect.Transaction do
 
   def find_pending_for_account(other, _ids) do
     raise ArgumentError,
-      message: PontoConnect.RequestUtils.token_argument_error_msg("Transaction", other)
+      message: PontoConnect.Exceptions.token_argument_error_msg("Transaction", other)
   end
 
   @doc false

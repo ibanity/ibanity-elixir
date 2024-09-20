@@ -89,7 +89,7 @@ defmodule Ibanity.PontoConnect.Usage do
   def find(other, _ids) do
     raise ArgumentError,
       message:
-        PontoConnect.RequestUtils.token_argument_error_msg(
+        PontoConnect.Exceptions.token_argument_error_msg(
           "FinancialInstitutionTransaction",
           other
         )

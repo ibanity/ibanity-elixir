@@ -118,7 +118,7 @@ defmodule Ibanity.PontoConnect.Sandbox.FinancialInstitutionTransaction do
   def create(other, _ids, _attrs) do
     raise ArgumentError,
       message:
-        PontoConnect.RequestUtils.token_argument_error_msg(
+        PontoConnect.Exceptions.token_argument_error_msg(
           "FinancialInstitutionTransaction",
           other
         )
@@ -209,7 +209,7 @@ defmodule Ibanity.PontoConnect.Sandbox.FinancialInstitutionTransaction do
   def list(other, _ids) do
     raise ArgumentError,
       message:
-        PontoConnect.RequestUtils.token_argument_error_msg(
+        PontoConnect.Exceptions.token_argument_error_msg(
           "FinancialInstitutionTransaction",
           other
         )
@@ -290,7 +290,7 @@ defmodule Ibanity.PontoConnect.Sandbox.FinancialInstitutionTransaction do
   def find(other, _id) do
     raise ArgumentError,
       message:
-        PontoConnect.RequestUtils.token_argument_error_msg(
+        PontoConnect.Exceptions.token_argument_error_msg(
           "FinancialInstitutionTransaction",
           other
         )
@@ -367,7 +367,7 @@ defmodule Ibanity.PontoConnect.Sandbox.FinancialInstitutionTransaction do
   def update(other, _ids, _attrs) do
     raise ArgumentError,
       message:
-        PontoConnect.RequestUtils.token_argument_error_msg(
+        PontoConnect.Exceptions.token_argument_error_msg(
           "FinancialInstitutionTransaction",
           other
         )
