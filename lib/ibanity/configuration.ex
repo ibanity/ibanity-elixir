@@ -38,11 +38,13 @@ defmodule Ibanity.Configuration do
   end
 
   def api_schema(product) do
-    Map.get(Agent.get(__MODULE__, & &1.api_schema), product) || fetch_and_store_api_schema(product)
+    Map.get(Agent.get(__MODULE__, & &1.api_schema), product) ||
+      fetch_and_store_api_schema(product)
   end
 
   def webhook_key(kid, app_name \\ :default) do
-    Map.get(Agent.get(__MODULE__, & &1.webhook_keys[app_name]) || %{}, kid) || fetch_and_store_webhook_keys(kid, app_name)
+    Map.get(Agent.get(__MODULE__, & &1.webhook_keys[app_name]) || %{}, kid) ||
+      fetch_and_store_webhook_keys(kid, app_name)
   end
 
   def fetch_and_store_webhook_keys(kid, app_name \\ :default) do
@@ -57,6 +59,7 @@ defmodule Ibanity.Configuration do
 
   def fetch_and_store_api_schema(product) do
     schema = fetch_api_schema(product)
+
     Agent.get_and_update(__MODULE__, fn configuration ->
       merged_schema = Map.merge(configuration.api_schema, %{product => schema})
       {schema, %__MODULE__{configuration | api_schema: merged_schema}}
@@ -68,6 +71,7 @@ defmodule Ibanity.Configuration do
     |> fetch_api_schema()
     |> Map.fetch!("sandbox")
   end
+
   def fetch_api_schema(product) do
     api_url()
     |> URI.parse()
@@ -109,12 +113,18 @@ defmodule Ibanity.Configuration do
   end
 
   defp extract_retry_options(environment) do
-    retry_options = environment |> Keyword.get(:retry, []) |> Keyword.take([:initial_delay, :backoff_interval, :max_retries])
+    retry_options =
+      environment
+      |> Keyword.get(:retry, [])
+      |> Keyword.take([:initial_delay, :backoff_interval, :max_retries])
+
     @default_retry_options |> Keyword.merge(retry_options)
   end
 
   defp extract_timeout_options(environment) do
-    timeout_options = environment |> Keyword.get(:timeout, []) |> Keyword.take([:timeout, :recv_timeout])
+    timeout_options =
+      environment |> Keyword.get(:timeout, []) |> Keyword.take([:timeout, :recv_timeout])
+
     @default_timeout_options |> Keyword.merge(timeout_options)
   end
 
@@ -146,10 +156,8 @@ defmodule Ibanity.Configuration do
       passphrase = Keyword.get(environment, :signature_key_passphrase)
 
       [
-        certificate:
-          environment |> Keyword.get(:signature_certificate),
-        certificate_id:
-          environment |> Keyword.get(:signature_certificate_id),
+        certificate: environment |> Keyword.get(:signature_certificate),
+        certificate_id: environment |> Keyword.get(:signature_certificate_id),
         signature_key:
           environment |> Keyword.get(:signature_key) |> ExPublicKey.loads!(passphrase)
       ]
@@ -157,7 +165,17 @@ defmodule Ibanity.Configuration do
   end
 
   defp extract_ssl_options(environment) do
-    []
+    ciphers =
+      :ssl.cipher_suites(:all, :"tlsv1.2")
+      |> :ssl.filter_cipher_suites(
+        key_exchange: &(&1 == :rsa),
+        cipher: &(&1 == :aes_128_cbc)
+      )
+
+    [
+      ciphers: ciphers,
+      verify: :verify_none
+    ]
     |> add_certificate(environment)
     |> add_key(environment)
   end
@@ -166,6 +184,7 @@ defmodule Ibanity.Configuration do
     case Keyword.get(environment, :ssl_ca) do
       nil ->
         Keyword.put_new(ssl_options, :cacertfile, :certifi.cacertfile())
+
       cert ->
         Keyword.put_new(ssl_options, :cacerts, [der_encoded_certificate(cert)])
     end
@@ -210,7 +229,6 @@ defmodule Ibanity.Configuration do
     cert
   end
 
-
   # See https://elixirforum.com/t/using-client-certificates-from-a-string-with-httposion/8631/7
   defp split_type_and_entry(asn1_entry) do
     asn1_type = asn1_entry |> elem(0)
@@ -234,6 +252,7 @@ defmodule Ibanity.Configuration do
     {type, encoded, _atom} = decode_pem_bin(priv_key_pem)
     {type, encoded}
   end
+
   defp get_key_der(priv_key_pem, password) do
     {key_type, key_entry} =
       priv_key_pem
