@@ -89,14 +89,20 @@ defmodule Ibanity.PontoConnect.Account do
 
   ## Examples
 
+  With token
+
       iex> Ibanity.PontoConnect.Account.find(token, "953934eb-229a-4fd2-8675-07794078cc7d")
       {:ok, %Ibanity.PontoConnect.Account{id: "953934eb-229a-4fd2-8675-07794078cc7d"}}
+
+  With request
 
       iex> token
       ...> |> Ibanity.Request.token()
       ...> |> Ibanity.Request.application(:my_application)
       ...> |> Ibanity.PontoConnect.Account.find("953934eb-229a-4fd2-8675-07794078cc7d")
       {:ok, %Ibanity.PontoConnect.Account{id: "953934eb-229a-4fd2-8675-07794078cc7d"}}
+
+  Error
 
       iex> Ibanity.PontoConnect.Account.find(token, "does-not-exist")
       {:error,
@@ -134,14 +140,20 @@ defmodule Ibanity.PontoConnect.Account do
 
   ## Examples
 
+  With token
+
       iex> Ibanity.PontoConnect.Account.delete(token, "953934eb-229a-4fd2-8675-07794078cc7d")
       {:ok, %Ibanity.PontoConnect.Account{id: "953934eb-229a-4fd2-8675-07794078cc7d"}}
+
+  With request
 
       iex> token
       ...> |> Ibanity.Request.token()
       ...> |> Ibanity.Request.application(:my_application)
       ...> |> Ibanity.PontoConnect.Account.delete("953934eb-229a-4fd2-8675-07794078cc7d")
       {:ok, %Ibanity.PontoConnect.Account{id: "953934eb-229a-4fd2-8675-07794078cc7d"}}
+
+  Error
 
       iex> Ibanity.PontoConnect.Account.delete(token, "does-not-exist")
       {:error,

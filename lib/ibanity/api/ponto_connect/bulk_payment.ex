@@ -62,10 +62,12 @@ defmodule Ibanity.PontoConnect.BulkPayment do
       ...>  ]
       ...> ]
 
-  Use attributes and account_or_id:
+  With token
 
       iex> Ibanity.PontoConnect.BulkPayment.create(%Ibanity.PontoConnect.Token{}, account_or_id, attributes)
       {:ok, %Ibanity.PontoConnect.BulkPayment{id: "343e64e5-4882-4559-96d0-221c398288f3"}}
+
+  With request
 
       iex> request = Ibanity.Request.token(%PontoConnect.Token{})
       iex> Ibanity.PontoConnect.BulkPayment.create(request, account_or_id, attributes)
@@ -178,13 +180,15 @@ defmodule Ibanity.PontoConnect.BulkPayment do
 
   #{PontoConnect.CommonDocs.fetch!(:account_id)}
 
-  Use `account_or_id` to delete a bulk payment:
+  With token
 
       iex> %Ibanity.PontoConnect.Token{}
       ...> |> Ibanity.PontoConnect.BulkPayment.delete(%{
       ...>   id: "953934eb-229a-4fd2-8675-07794078cc7d", account_id: account_or_id
       ...> })
       {:ok, %Ibanity.PontoConnect.BulkPayment{id: "953934eb-229a-4fd2-8675-07794078cc7d"}}
+
+  With request
 
       iex> %Ibanity.PontoConnect.Token{}
       ...> |> Ibanity.Request.token()
@@ -193,6 +197,8 @@ defmodule Ibanity.PontoConnect.BulkPayment do
       ...>   id: "953934eb-229a-4fd2-8675-07794078cc7d", account_id: account_or_id
       ...> })
       {:ok, %Ibanity.PontoConnect.BulkPayment{id: "953934eb-229a-4fd2-8675-07794078cc7d"}}
+
+  Error
 
       iex> %Ibanity.PontoConnect.Token{}
       ...> |> Ibanity.PontoConnect.BulkPayment.delete(%{
