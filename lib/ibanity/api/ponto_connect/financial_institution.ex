@@ -38,7 +38,9 @@ defmodule Ibanity.PontoConnect.FinancialInstitution do
 
   ## Examples
 
-      iex> PontoConnect.FinancialInstitution.list_public()
+  For `:default` application
+
+      iex> Ibanity.PontoConnect.FinancialInstitution.list_public()
       %Ibanity.Collection{
         items: [
           %Ibanity.PontoConnect.FinancialInstitution{},
@@ -48,9 +50,11 @@ defmodule Ibanity.PontoConnect.FinancialInstitution do
         ]
       }
 
+  With request
 
-      iex> Request.limit(1)
-      ...> |> PontoConnect.FinancialInstitution.list_public()
+      iex> Ibanity.Request.limit(1)
+      ...> |> Ibanity.Request.application(:my_application)
+      ...> |> Ibanity.PontoConnect.FinancialInstitution.list_public()
       %Ibanity.Collection{
         items: [
           %Ibanity.PontoConnect.FinancialInstitution{}
@@ -75,15 +79,23 @@ defmodule Ibanity.PontoConnect.FinancialInstitution do
 
   ## Examples
 
+  With token
+
       iex> token |> Ibanity.PontoConnect.FinancialInstitution.list_organization()
       {:ok, %Ibanity.Collection{
         items: [%Ibanity.PontoConnect.FinancialInstitution{}]
       }}
 
-      iex> token |> Ibanity.Request.token() |> Ibanity.PontoConnect.FinancialInstitutions.list_organizations()
+  With request
+
+      iex> token
+      ...> |> Ibanity.Request.token()
+      ...> |> Ibanity.PontoConnect.FinancialInstitutions.list_organizations()
       {:ok, %Ibanity.Collection{
         items: [%Ibanity.PontoConnect.FinancialInstitution{}]
       }}
+
+  Error
 
       iex> invalid_token |> Ibanity.PontoConnect.FinancialInstitution.list_organization()
       {:error,
@@ -119,6 +131,8 @@ defmodule Ibanity.PontoConnect.FinancialInstitution do
 
   ## Examples
 
+  For `:default` application
+
       iex> Ibanity.PontoConnect.FinancialInstitution.find_public("953934eb-229a-4fd2-8675-07794078cc7d")
       {:ok,
         %Ibanity.PontoConnect.FinancialInstitution{
@@ -146,7 +160,10 @@ defmodule Ibanity.PontoConnect.FinancialInstitution do
           time_zone: nil
         }}
 
+  With request
+
       iex> Ibanity.Request.id("953934eb-229a-4fd2-8675-07794078cc7d")
+      ...> Ibanity.Request.application(:my_application)
       ...> |> Ibanity.PontoConnect.FinancialInstitution.find_public()
       {:ok,
         %Ibanity.PontoConnect.FinancialInstitution{
@@ -199,17 +216,23 @@ defmodule Ibanity.PontoConnect.FinancialInstitution do
 
   ## Examples
 
-      iex> %Ibanity.PontoConnect.Token{}
+  With token
+
+      iex> token
       ...> |> Ibanity.PontoConnect.FinancialInstitution.find_organization("953934eb-229a-4fd2-8675-07794078cc7d")
       {:ok, %Ibanity.PontoConnect.FinancialInstitution{id: "953934eb-229a-4fd2-8675-07794078cc7d", name: "Fake Bank"}}
 
-      iex> %Ibanity.PontoConnect.Token{}
+  With request
+
+      iex> token
       ...> |> Ibanity.Request.token()
       ...> |> Ibanity.Request.application(:my_application)
       ...> |> Ibanity.PontoConnect.FinancialInstitution.find_organization("953934eb-229a-4fd2-8675-07794078cc7d")
       {:ok, %Ibanity.PontoConnect.FinancialInstitution{id: "953934eb-229a-4fd2-8675-07794078cc7d", name: "Fake Bank"}}
 
-      iex> %Ibanity.PontoConnect.Token{}
+  Error
+
+      iex> token
       ...> |> Ibanity.PontoConnect.FinancialInstitution.find_organization("does-not-exist")
       {:error,
         [
