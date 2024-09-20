@@ -123,7 +123,7 @@ defmodule Ibanity.PontoConnect.FinancialInstitution do
 
   def list_organization(other) do
     raise ArgumentError,
-      message: PontoConnect.RequestUtils.token_argument_error_msg("Financial Institutions", other)
+      message: PontoConnect.Exceptions.token_argument_error_msg("Financial Institutions", other)
   end
 
   @doc """
@@ -205,7 +205,7 @@ defmodule Ibanity.PontoConnect.FinancialInstitution do
 
   def find_public(other, _id) do
     raise ArgumentError,
-      message: PontoConnect.RequestUtils.token_argument_error_msg("FinancialInstitution", other)
+      message: PontoConnect.Exceptions.token_argument_error_msg("FinancialInstitution", other)
   end
 
   @doc """
@@ -261,7 +261,7 @@ defmodule Ibanity.PontoConnect.FinancialInstitution do
 
   def find_organization(other, _id) do
     raise ArgumentError,
-      message: PontoConnect.RequestUtils.token_argument_error_msg("FinancialInstitution", other)
+      message: PontoConnect.Exceptions.token_argument_error_msg("FinancialInstitution", other)
   end
 
   @doc false

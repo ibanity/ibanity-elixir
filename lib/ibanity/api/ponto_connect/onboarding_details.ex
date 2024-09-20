@@ -82,7 +82,7 @@ defmodule Ibanity.PontoConnect.OnboardingDetails do
 
   def create(other, _attrs) do
     raise ArgumentError,
-      message: PontoConnect.RequestUtils.token_argument_error_msg("OnboardingDetails", other)
+      message: PontoConnect.Exceptions.token_argument_error_msg("OnboardingDetails", other)
   end
 
   @doc """

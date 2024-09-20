@@ -14,18 +14,6 @@ defmodule Ibanity.PontoConnect.RequestUtils do
   end
 
   @doc false
-  def token_argument_error_msg(resource_name, other) do
-    """
-    Cannot access #{resource_name} with given arguments.
-    Expected one of:
-    - `%Ibanity.Request{}` with `:token` set
-    - `%Ibanity.PontoConnect.Token{}`
-
-    Got: #{inspect(other)}
-    """
-  end
-
-  @doc false
   def create_token_default_request(%Request{} = request) do
     new_attributes =
       %{

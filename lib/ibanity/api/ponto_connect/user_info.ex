@@ -49,7 +49,7 @@ defmodule Ibanity.PontoConnect.UserInfo do
 
   def myself(other) do
     raise ArgumentError,
-      message: PontoConnect.RequestUtils.token_argument_error_msg("UserInfo", other)
+      message: PontoConnect.Exceptions.token_argument_error_msg("UserInfo", other)
   end
 
   @doc false

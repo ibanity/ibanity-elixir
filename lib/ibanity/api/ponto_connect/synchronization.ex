@@ -66,7 +66,7 @@ defmodule Ibanity.PontoConnect.Synchronization do
 
   def create(other, _attrs) do
     raise ArgumentError,
-      message: PontoConnect.RequestUtils.token_argument_error_msg("Synchronization", other)
+      message: PontoConnect.Exceptions.token_argument_error_msg("Synchronization", other)
   end
 
   @doc """
@@ -144,7 +144,7 @@ defmodule Ibanity.PontoConnect.Synchronization do
 
   def find(other, _id) do
     raise ArgumentError,
-      message: PontoConnect.RequestUtils.token_argument_error_msg("Synchronization", other)
+      message: PontoConnect.Exceptions.token_argument_error_msg("Synchronization", other)
   end
 
   @doc false
