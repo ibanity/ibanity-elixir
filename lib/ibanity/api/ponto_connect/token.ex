@@ -145,7 +145,7 @@ defmodule Ibanity.PontoConnect.Token do
 
   With refresh token as string
 
-      iex> [token: "H1Sc-bFi3946Xzca5yuUMZDjVz6WuZ061Hkt3V_lpWs.8wJzYLM8vx1ONzaYlMHcCl_OM_nPOzDGcuCAQPqKPAc"]
+      iex> [refresh_token: "H1Sc-bFi3946Xzca5yuUMZDjVz6WuZ061Hkt3V_lpWs.8wJzYLM8vx1ONzaYlMHcCl_OM_nPOzDGcuCAQPqKPAc"]
       ...> |> Ibanity.Request.attributes()
       ...> |> Ibanity.Request.application(:my_application)
       ...> Ibanity.PontoConnect.Token.delete()
@@ -169,8 +169,8 @@ defmodule Ibanity.PontoConnect.Token do
     |> delete()
   end
 
-  def delete(%Request{attributes: %{token: token}} = request)
-      when not is_nil(token) do
+  def delete(%Request{attributes: %{refresh_token: refresh_token}} = request)
+      when not is_nil(refresh_token) do
     request
     |> Request.resource_type(__MODULE__)
     |> PontoConnect.RequestUtils.delete_token_default_request()
