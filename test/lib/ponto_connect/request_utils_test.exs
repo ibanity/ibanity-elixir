@@ -129,10 +129,14 @@ defmodule Ibanity.PontoConnect.RequestUtilsTest do
     end
 
     test "returns a request for revoking an access token" do
+      test_token = "123.test-token"
+
       expected =
         %Request{
           attributes: %{
-            client_id: "542cbc7a-7968-426c-830f-f9dc1c3c358a"
+            client_id: "542cbc7a-7968-426c-830f-f9dc1c3c358a",
+            token: test_token,
+            refresh_token: test_token
           },
           headers: [
             {:Authorization,
@@ -142,7 +146,11 @@ defmodule Ibanity.PontoConnect.RequestUtilsTest do
           ]
         }
 
-      assert ^expected = RequestUtils.delete_token_default_request(%Request{})
+      request =
+        Request.attribute(:refresh_token, test_token)
+        |> RequestUtils.delete_token_default_request()
+
+      assert ^expected = request
     end
   end
 end
