@@ -41,12 +41,10 @@ defmodule Ibanity.PontoConnect.RequestUtils do
 
   @doc false
   def delete_token_default_request(%Request{} = request) do
-    new_attributes =
-      %{
-        client_id: client_id(request),
-        token: request.attributes.refresh_token
-      }
-      |> Map.merge(request.attributes)
+    new_attributes = %{
+      client_id: client_id(request),
+      token: request.attributes.refresh_token
+    }
 
     %Request{request | attributes: new_attributes}
     |> Request.header(:Authorization, "Basic " <> authorization_header(request))
