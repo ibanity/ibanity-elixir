@@ -143,15 +143,29 @@ defmodule Ibanity.PontoConnect.Token do
 
   ## Examples
 
+  With refresh token as string
+
       iex> [token: "H1Sc-bFi3946Xzca5yuUMZDjVz6WuZ061Hkt3V_lpWs.8wJzYLM8vx1ONzaYlMHcCl_OM_nPOzDGcuCAQPqKPAc"]
       ...> |> Ibanity.Request.attributes()
       ...> |> Ibanity.Request.application(:my_application)
       ...> Ibanity.PontoConnect.Token.delete()
       {:ok, %{}}
+
+  With token struct
+
+    iex> Ibanity.PontoConnect.Token.delete(token)
+    {:ok, %{}}
   """
   def delete(attrs) when is_list(attrs) do
     attrs
     |> Request.attributes()
+    |> delete()
+  end
+
+  def delete(%__MODULE__{} = token) do
+    [token: token.refresh_token]
+    |> Request.attributes()
+    |> Request.application(token.application)
     |> delete()
   end
 
