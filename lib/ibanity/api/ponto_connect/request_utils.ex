@@ -43,7 +43,8 @@ defmodule Ibanity.PontoConnect.RequestUtils do
   def delete_token_default_request(%Request{} = request) do
     new_attributes =
       %{
-        client_id: client_id(request)
+        client_id: client_id(request),
+        token: request.attributes.refresh_token
       }
       |> Map.merge(request.attributes)
 
