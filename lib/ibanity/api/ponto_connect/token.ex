@@ -163,7 +163,7 @@ defmodule Ibanity.PontoConnect.Token do
   end
 
   def delete(%__MODULE__{} = token) do
-    [token: token.refresh_token]
+    [refresh_token: token.refresh_token]
     |> Request.attributes()
     |> Request.application(token.application)
     |> delete()
