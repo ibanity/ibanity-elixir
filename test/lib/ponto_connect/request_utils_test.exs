@@ -135,8 +135,7 @@ defmodule Ibanity.PontoConnect.RequestUtilsTest do
         %Request{
           attributes: %{
             client_id: "542cbc7a-7968-426c-830f-f9dc1c3c358a",
-            token: test_token,
-            refresh_token: test_token
+            token: test_token
           },
           headers: [
             {:Authorization,
