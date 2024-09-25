@@ -191,21 +191,10 @@ defmodule Ibanity.PontoConnect.FinancialInstitution do
           time_zone: nil
         }}
   """
-  def find_public(%Request{token: token} = request_or_token, id) when not is_nil(token) do
-    request_or_token
+  def find_public(%Request{} = request \\ %Request{}, id) do
+    request
     |> Request.id(id)
     |> Client.execute(:get, @api_schema_path, __MODULE__)
-  end
-
-  def find_public(%PontoConnect.Token{} = request_or_token, id) do
-    request_or_token
-    |> Request.token()
-    |> find_public(id)
-  end
-
-  def find_public(other, _id) do
-    raise ArgumentError,
-      message: PontoConnect.Exceptions.token_argument_error_msg("FinancialInstitution", other)
   end
 
   @doc """
