@@ -1,6 +1,6 @@
-defmodule Ibanity.Webhooks.PontoConnect.Account.Unblocked do
+defmodule Ibanity.Webhooks.PontoConnect.Organization.Unblocked do
   @moduledoc """
-  pontoConnect.account.unblocked webhook event
+  pontoConnect.organization.unblocked webhook event
   """
 
   defstruct [
