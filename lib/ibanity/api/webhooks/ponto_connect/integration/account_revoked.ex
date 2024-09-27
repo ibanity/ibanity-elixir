@@ -1,4 +1,4 @@
-defmodule Ibanity.Webhooks.PontoConnect.Integration.AccoRevoked do
+defmodule Ibanity.Webhooks.PontoConnect.Integration.AccountRevoked do
   @moduledoc """
   pontoConnect.integration.accoRevoked webhook event
   """
