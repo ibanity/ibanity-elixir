@@ -121,7 +121,7 @@ defmodule Ibanity.PontoConnect.Transaction do
 
       iex> token |>
       ...> |> Ibanity.Request.token()
-      ...> |> Ibanity.PontoConnect.Transaction.list_updated_for_transaction(account_or_id)
+      ...> |> Ibanity.PontoConnect.Transaction.list_updated_for_transaction(synchronization_or_id)
       {:ok, %Ibanity.Collection{
         items: [%Ibanity.PontoConnect.Transaction{}]
       }}
@@ -129,7 +129,7 @@ defmodule Ibanity.PontoConnect.Transaction do
   Error
 
       iex> invalid_token
-      ...> |> Ibanity.PontoConnect.Transaction.list_updated_for_transaction(account_or_id)
+      ...> |> Ibanity.PontoConnect.Transaction.list_updated_for_transaction(synchronization_or_id)
       {:error,
         [
           %{
