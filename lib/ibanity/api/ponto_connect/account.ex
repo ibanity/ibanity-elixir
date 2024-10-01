@@ -199,7 +199,7 @@ defmodule Ibanity.PontoConnect.Account do
       currency: {~w(attributes currency), :string},
       subtype: {~w(attributes subtype), :string},
       available_balance: {~w(attributes availableBalance), :number},
-      available_balance_changed_at: {~w(attributes availableBalanceChanged_at), :datetime},
+      available_balance_changed_at: {~w(attributes availableBalanceChangedAt), :datetime},
       available_balance_reference_date: {~w(attributes availableBalanceReferenceDate), :date},
       current_balance: {~w(attributes current_balance), :number},
       current_balance_changed_at: {~w(attributes current_balance_changed_at), :datetime},
