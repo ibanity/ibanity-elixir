@@ -198,25 +198,25 @@ defmodule Ibanity.PontoConnect.Account do
       reference: {~w(attributes reference), :string},
       currency: {~w(attributes currency), :string},
       subtype: {~w(attributes subtype), :string},
-      available_balance: {~w(attributes available_balance), :number},
-      available_balance_changed_at: {~w(attributes available_balance_changed_at), :datetime},
-      available_balance_reference_date: {~w(attributes available_balance_reference_date), :date},
+      available_balance: {~w(attributes availableBalance), :number},
+      available_balance_changed_at: {~w(attributes availableBalanceChanged_at), :datetime},
+      available_balance_reference_date: {~w(attributes availableBalanceReferenceDate), :date},
       current_balance: {~w(attributes current_balance), :number},
       current_balance_changed_at: {~w(attributes current_balance_changed_at), :datetime},
-      current_balance_reference_date: {~w(attributes current_balance_reference_date), :date},
-      holder_name: {~w(attributes holder_name), :string},
-      reference_type: {~w(attributes reference_type), :string},
+      current_balance_reference_date: {~w(attributes currentBalanceReferenceDate), :date},
+      holder_name: {~w(attributes holderName), :string},
+      reference_type: {~w(attributes referenceType), :string},
       authorization_expiration_expected_at:
-        {~w(attributes authorization_expiration_expected_at), :datetime},
-      authorized_at: {~w(attributes authorized_at), :datetime},
+        {~w(attributes authorizationExpirationExpectedAt), :datetime},
+      authorized_at: {~w(attributes authorizedAt), :datetime},
       available_balance_variation_observed_at:
-        {~w(attributes available_balance_variation_observed_at), :datetime},
+        {~w(attributes availableBalanceVariationObservedAt), :datetime},
       current_balance_variation_observed_at:
-        {~w(attributes current_balance_variation_observed_at), :datetime},
-      internal_reference: {~w(attributes internal_reference), :string},
+        {~w(attributes currentBalanceVariationObservedAt), :datetime},
+      internal_reference: {~w(attributes internalReference), :string},
       avilability: {~w(meta availability), :string},
-      latest_synchronization: {~w(meta latest_synchronization), :map},
-      synchronized_at: {~w(meta synchronized_at), :datetime}
+      latest_synchronization: {~w(meta latestSynchronization), :map},
+      synchronized_at: {~w(meta synchronizedAt), :datetime}
     ]
   end
 end
