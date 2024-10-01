@@ -200,10 +200,10 @@ defmodule Ibanity.PontoConnect.Account do
       subtype: {~w(attributes subtype), :string},
       available_balance: {~w(attributes availableBalance), :number},
       available_balance_changed_at: {~w(attributes availableBalanceChangedAt), :datetime},
-      available_balance_reference_date: {~w(attributes availableBalanceReferenceDate), :date},
+      available_balance_reference_date: {~w(attributes availableBalanceReferenceDate), :datetime},
       current_balance: {~w(attributes current_balance), :number},
       current_balance_changed_at: {~w(attributes current_balance_changed_at), :datetime},
-      current_balance_reference_date: {~w(attributes currentBalanceReferenceDate), :date},
+      current_balance_reference_date: {~w(attributes currentBalanceReferenceDate), :datetime},
       holder_name: {~w(attributes holderName), :string},
       reference_type: {~w(attributes referenceType), :string},
       authorization_expiration_expected_at:
