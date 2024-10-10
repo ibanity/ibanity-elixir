@@ -32,7 +32,8 @@ defmodule Ibanity.ApiSchema do
           "paymentInitiationRequests" =>
             "https://api.ibanity.com/xs2a/customer/financial-institutions/{financial_institution_id}/payment-initiation-requests/{id}",
           "paymentInitiationRequest" => %{
-            "authorizations" => "https://api.ibanity.com/xs2a/customer/financial-institutions/{financial_institution_id}/payment-initiation-requests/{payment_initiation_request_id}/authorizations"
+            "authorizations" =>
+              "https://api.ibanity.com/xs2a/customer/financial-institutions/{financial_institution_id}/payment-initiation-requests/{payment_initiation_request_id}/authorizations"
           },
           "pendingTransactions" =>
             "https://api.ibanity.com/xs2a/customer/financial-institutions/{financial_institution_id}/accounts/{account_id}/pending-transactions/{id}",
@@ -41,14 +42,17 @@ defmodule Ibanity.ApiSchema do
           "holdings" =>
             "https://api.ibanity.com/xs2a/customer/financial-institutions/{financial_institution_id}/accounts/{account_id}/holdings/{id}",
           "accountInformationAccessRequest" => %{
-            "accounts" => "https://api.ibanity.com/xs2a/customer/financial-institutions/{financial_institution_id}/account-information-access-requests/{account_information_access_request_id}/accounts",
-            "authorizations" => "https://api.ibanity.com/xs2a/customer/financial-institutions/{financial_institution_id}/account-information-access-requests/{account_information_access_request_id}/authorizations",
+            "accounts" =>
+              "https://api.ibanity.com/xs2a/customer/financial-institutions/{financial_institution_id}/account-information-access-requests/{account_information_access_request_id}/accounts",
+            "authorizations" =>
+              "https://api.ibanity.com/xs2a/customer/financial-institutions/{financial_institution_id}/account-information-access-requests/{account_information_access_request_id}/authorizations"
           }
         },
         "financialInstitutions" => "https://api.ibanity.com/xs2a/customer/financial-institutions",
         "self" => "https://api.ibanity.com/xs2a/customer",
         "synchronizations" => "https://api.ibanity.com/xs2a/customer/synchronizations/{id}",
-        "transactionDeleteRequests" => "https://api.ibanity.com/xs2a/customer/transaction-delete-requests"
+        "transactionDeleteRequests" =>
+          "https://api.ibanity.com/xs2a/customer/transaction-delete-requests"
       },
       "customerAccessTokens" => "https://api.ibanity.com/xs2a/customer-access-tokens",
       "financialInstitutions" => "https://api.ibanity.com/financial-institutions/{id}",
@@ -93,9 +97,8 @@ defmodule Ibanity.ApiSchema do
     %{
       "consent" => %{
         "processingOperations" =>
-            "https://api.ibanity.com/consent/consents/{consent_id}/processing-operations",
-        "validations" =>
-          "https://api.ibanity.com/consent/consents/{consent_id}/validations",
+          "https://api.ibanity.com/consent/consents/{consent_id}/processing-operations",
+        "validations" => "https://api.ibanity.com/consent/consents/{consent_id}/validations"
       },
       "consents" => "https://api.ibanity.com/consent/consents/{id}"
     }
@@ -104,13 +107,12 @@ defmodule Ibanity.ApiSchema do
   def fetch("https://api.ibanity.com/billing", _, :test) do
     %{
       "xs2a" => %{
-        "financialInstitutionStatuses" => "https://api.ibanity.com/billing/products/xs2a/financial-institution-statuses",
+        "financialInstitutionStatuses" =>
+          "https://api.ibanity.com/billing/products/xs2a/financial-institution-statuses",
         "customer" => %{
-          "report" =>
-              "https://api.ibanity.com/billing/products/xs2a/customer/report"
+          "report" => "https://api.ibanity.com/billing/products/xs2a/customer/report"
         }
       }
-
     }
   end
 
@@ -124,11 +126,64 @@ defmodule Ibanity.ApiSchema do
     %{
       "xs2a" => %{
         "customer" => %{
-          "nbbReport" =>
-              "https://api.ibanity.com/reporting/products/xs2a/customer/nbb-report"
+          "nbbReport" => "https://api.ibanity.com/reporting/products/xs2a/customer/nbb-report"
         }
       }
+    }
+  end
 
+  def fetch("https://api.ibanity.com/ponto-connect", _, :test) do
+    %{
+      "userinfo" => "https://api.ibanity.com/ponto-connect/userinfo",
+      "account" => %{
+        "bulkPayments" =>
+          "https://api.ibanity.com/ponto-connect/accounts/{accountId}/bulk-payments/{bulkPaymentId}",
+        "paymentRequests" =>
+          "https://api.ibanity.com/ponto-connect/accounts/{accountId}/payment-requests/{paymentRequestId}",
+        "payments" =>
+          "https://api.ibanity.com/ponto-connect/accounts/{accountId}/payments/{paymentId}",
+        "pendingTransactions" =>
+          "https://api.ibanity.com/ponto-connect/accounts/{accountId}/pending-transactions/{pendingTransactionId}",
+        "reauthorizationRequests" =>
+          "https://api.ibanity.com/ponto-connect/accounts/{accountId}/reauthorization-requests",
+        "transactions" =>
+          "https://api.ibanity.com/ponto-connect/accounts/{accountId}/transactions/{transactionId}"
+      },
+      "accounts" => "https://api.ibanity.com/ponto-connect/accounts/{accountId}",
+      "financialInstitutions" =>
+        "https://api.ibanity.com/ponto-connect/financial-institutions/{financialInstitutionId}",
+      "integrationAccounts" => "https://api.ibanity.com/ponto-connect/integration-accounts",
+      "oauth" => %{
+        "toke" => "https://api.ibanity.com/ponto-connect/oauth2/token",
+        "revok" => "https://api.ibanity.com/ponto-connect/oauth2/revoke"
+      },
+      "onboardingDetails" => "https://api.ibanity.com/ponto-connect/onboarding-details",
+      "organizations" => %{
+        "usage" =>
+          "https://api.ibanity.com/ponto-connect/organizations/{organizationId}/usage/{month}",
+        "integration" =>
+          "https://api.ibanity.com/ponto-connect/organizations/{organizationId}/integration"
+      },
+      "paymentActivationRequests" =>
+        "https://api.ibanity.com/ponto-connect/payment-activation-requests",
+      "sandbox" => %{
+        "financialInstitution" => %{
+          "financialInstitutionAccount" => %{
+            "financialInstitutionTransactions" =>
+              "https://api.ibanity.com/ponto-connect/sandbox/financial-institutions/{financialInstitutionId}/financial-institution-accounts/{financialInstitutionAccountId}/financial-institution-transactions/{financialInstitutionTransactionId}"
+          },
+          "financialInstitutionAccounts" =>
+            "https://api.ibanity.com/ponto-connect/sandbox/financial-institutions/{financialInstitutionId}/financial-institution-accounts/{financialInstitutionAccountId}"
+        }
+      },
+      "synchronization" => %{
+        "updatedPendingTransactions" =>
+          "https://api.ibanity.com/ponto-connect/synchronizations/{synchronizationId}/updated-pending-transactions",
+        "updatedTransactions" =>
+          "https://api.ibanity.com/ponto-connect/synchronizations/{synchronizationId}/updated-transactions"
+      },
+      "synchronizations" =>
+        "https://api.ibanity.com/ponto-connect/synchronizations/{synchronizationId}"
     }
   end
 
@@ -148,17 +203,25 @@ defmodule Ibanity.ApiSchema do
   defp fetch_api_schema(api_url, app_options) do
     retry with: backoff(), rescue_only: [HTTPoison.Error] do
       url = api_url <> "/"
-      res = HTTPoison.get!(url, headers(url, app_options.signature), ssl: app_options.ssl, hackney: [pool: :default])
+
+      res =
+        HTTPoison.get!(url, headers(url, app_options.signature),
+          ssl: app_options.ssl,
+          hackney: [pool: :default]
+        )
 
       handle_response(res)
     after
       result -> result
     else
-      _ -> raise HTTPoison.Error, reason: :timeout
+      error ->
+        IO.inspect(error, label: "Fetch API schema")
+        raise HTTPoison.Error, reason: :timeout
     end
   end
 
   defp headers(_, nil), do: @base_headers
+
   defp headers(url, signature_options) do
     key = Keyword.get(signature_options, :signature_key)
     certificate_id = Keyword.get(signature_options, :certificate_id)
@@ -174,6 +237,7 @@ defmodule Ibanity.ApiSchema do
 
   defp handle_response(response) do
     code = response.status_code
+
     cond do
       code in 200..499 ->
         response

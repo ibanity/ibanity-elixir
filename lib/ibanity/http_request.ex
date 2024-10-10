@@ -11,6 +11,8 @@ defmodule Ibanity.HttpRequest do
             return_type: nil,
             application: :default
 
+  @token_resource_types [Ibanity.PontoConnect.Token]
+
   def build(%Ibanity.Request{} = request, http_method, uri_path, resource_type \\ nil) do
     case UriUtil.from_request(request, uri_path) do
       {:ok, uri} ->
@@ -39,7 +41,8 @@ defmodule Ibanity.HttpRequest do
   defp add_signature(request, method, signature_options) do
     with {:ok, private_key} <- Keyword.fetch(signature_options, :signature_key),
          {:ok, certificate_id} <- Keyword.fetch(signature_options, :certificate_id),
-         {:ok, headers} <- Ibanity.Signature.signature_headers(request, method, private_key, certificate_id) do
+         {:ok, headers} <-
+           Ibanity.Signature.signature_headers(request, method, private_key, certificate_id) do
       {:ok, %__MODULE__{request | headers: Keyword.merge(request.headers, headers)}}
     else
       {:error, reason} -> {:error, reason}
@@ -72,11 +75,18 @@ defmodule Ibanity.HttpRequest do
   end
 
   defp add_customer_access_token(headers, request) do
-    if request.customer_access_token do
-      Keyword.put(headers, :Authorization, "Bearer #{request.customer_access_token}")
+    token = request.customer_access_token || request.token
+
+    if token do
+      Keyword.put(headers, :Authorization, "Bearer #{request.token}")
     else
       headers
     end
+  end
+
+  defp create_data(%{resource_type: resource_type, attributes: attributes})
+       when resource_type in @token_resource_types do
+    attributes
   end
 
   defp create_data(request) do

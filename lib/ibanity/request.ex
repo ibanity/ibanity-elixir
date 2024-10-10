@@ -24,7 +24,8 @@ defmodule Ibanity.Request do
             resource_type: nil,
             resource_ids: [],
             page: %{},
-            query_params: %{}
+            query_params: %{},
+            token: nil
 
   @doc """
   Creates a new request and sets the application name
@@ -135,7 +136,10 @@ defmodule Ibanity.Request do
   Overrides existing query params with the same name
   """
   def query_params(%__MODULE__{} = request, query_params) do
-    %__MODULE__{request | query_params: Map.merge(request.query_params, Enum.into(query_params, %{}))}
+    %__MODULE__{
+      request
+      | query_params: Map.merge(request.query_params, Enum.into(query_params, %{}))
+    }
   end
 
   @doc """
@@ -160,6 +164,25 @@ defmodule Ibanity.Request do
   def customer_access_token(%__MODULE__{} = request, token) do
     %__MODULE__{request | customer_access_token: token}
   end
+
+  @doc """
+  Sets the [token](https://documentation.ibanity.com/ponto-connect/api#token) used in some Ponto Connect requests.
+
+  Since the token is bound to an application, the application is set to `token.application`.
+  """
+  def token(request \\ %__MODULE__{}, token, application \\ :default)
+
+  def token(%__MODULE__{} = request, token, application)
+      when is_bitstring(token) or is_nil(token) do
+    %__MODULE__{request | token: token, application: application}
+  end
+
+  def token(
+        %__MODULE__{} = request,
+        %Ibanity.PontoConnect.Token{access_token: token, application: token_application},
+        _application
+      ),
+      do: token(request, token, token_application)
 
   @doc """
   Creates a new request and adds the attribute and its value to it
@@ -235,6 +258,11 @@ defmodule Ibanity.Request do
   @doc """
   Sets URI template identifiers to their corresponding values. Overrides existing values if identifiers are already present
   """
+  def ids(%__MODULE__{} = request, ids) when is_map(ids) do
+    ids_keyword_list = Enum.into(ids, [])
+    ids(request, ids_keyword_list)
+  end
+
   def ids(%__MODULE__{} = request, ids) when is_list(ids) do
     %__MODULE__{request | resource_ids: Keyword.merge(request.resource_ids, ids)}
   end
