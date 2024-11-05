@@ -31,7 +31,7 @@ defmodule Ibanity.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:httpoison, "~> 2.2.1"},
+      {:httpoison, ">= 1.8.2"},
       {:jason, "~> 1.3"},
       {:recase, "~> 0.7"},
       {:ex_crypto, "~> 0.9.0"},
