@@ -165,19 +165,45 @@ defmodule Ibanity.Configuration do
   end
 
   defp extract_ssl_options(environment) do
-    ciphers =
-      :ssl.cipher_suites(:all, :"tlsv1.2")
-      |> :ssl.filter_cipher_suites(
-        key_exchange: &(&1 == :rsa),
-        cipher: &(&1 == :aes_128_cbc)
-      )
+    # Use [log_level: :all] to debug http calls on hackney level.
+    []
+    |> maybe_add_ssl_ciphers()
+    |> add_certificate(environment)
+    |> add_key(environment)
+  end
+
+  defp maybe_add_ssl_ciphers(opts) do
+    case otp_version() do
+      version when version <= 25 ->
+        opts
+
+      version when version > 25 ->
+        add_rsa_ciphers(opts)
+    end
+  end
+
+  defp add_rsa_ciphers(opts) do
+    ciphers = [
+      %{key_exchange: :rsa, cipher: :aes_128_cbc, mac: :sha},
+      %{key_exchange: :rsa, cipher: :aes_128_gcm, mac: :aead, prf: :sha256}
+      | :ssl.cipher_suites(:all, :"tlsv1.2")
+    ]
 
     [
       ciphers: ciphers,
-      verify: :verify_none
-    ]
-    |> add_certificate(environment)
-    |> add_key(environment)
+      verify: :verify_none,
+      versions: [:"tlsv1.2"]
+    ] ++ opts
+  end
+
+  defp otp_version do
+    {otp_version, _} =
+      :otp_release
+      |> :erlang.system_info()
+      |> to_string()
+      |> Integer.parse()
+
+    otp_version
   end
 
   defp add_ca_cert(ssl_options, environment) do
