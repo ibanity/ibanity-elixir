@@ -77,7 +77,7 @@ defmodule Ibanity.Configuration do
     |> URI.parse()
     |> URI.merge("/#{product}")
     |> to_string()
-    |> ApiSchema.fetch(default_app_options(), Mix.env())
+    |> ApiSchema.fetch(default_app_options(), Application.get_env(:ibanity, :env))
   end
 
   def default_app_options, do: Agent.get(__MODULE__, & &1.applications_options[:default])

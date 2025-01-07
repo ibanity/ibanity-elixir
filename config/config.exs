@@ -1,5 +1,7 @@
 # This file is responsible for configuring your application
-# and its dependencies with the aid of the Mix.Config module.
-use Mix.Config
+# and its dependencies with the aid of the Config module.
+import Config
 
-import_config "#{Mix.env}.exs"
+config :ibanity, env: config_env()
+
+import_config "#{config_env()}.exs"
