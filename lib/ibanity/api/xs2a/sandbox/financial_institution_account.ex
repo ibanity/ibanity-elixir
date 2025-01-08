@@ -216,13 +216,16 @@ defmodule Ibanity.Xs2a.Sandbox.FinancialInstitutionAccount do
       product: {~w(attributes product), :string},
       holder_name: {~w(attributes holderName), :string},
       current_balance_changed_at: {~w(attributes currentBalanceChangedAt), :datetime},
-      current_balance_variation_observed_at: {~w(attributes currentBalanceVariationObservedAt), :datetime},
+      current_balance_variation_observed_at:
+        {~w(attributes currentBalanceVariationObservedAt), :datetime},
       current_balance_reference_date: {~w(attributes currentBalanceReferenceDate), :datetime},
       available_balance_changed_at: {~w(attributes availableBalanceChangedAt), :datetime},
-      available_balance_variation_observed_at: {~w(attributes availableBalanceVariationObservedAt), :datetime},
+      available_balance_variation_observed_at:
+        {~w(attributes availableBalanceVariationObservedAt), :datetime},
       available_balance_reference_date: {~w(attributes availableBalanceReferenceDate), :datetime},
       authorized_at: {~w(attributes authorizedAt), :datetime},
-      authorization_expiration_expected_at: {~w(attributes authorizationExpirationExpectedAt), :datetime},
+      authorization_expiration_expected_at:
+        {~w(attributes authorizationExpirationExpectedAt), :datetime},
       transactions: {~w(relationships financialInstitutionTransactions links related), :string},
       financial_institution_user:
         {~w(relationships financialInstitutionUser links related), :string},

@@ -48,8 +48,9 @@ defmodule Ibanity.Signature do
       ~s/created="#{timestamp}"/,
       ~s/algorithm="#{@algorithm}"/,
       ~s/headers="#{signing_headers}"/,
-      ~s/signature="#{signature}"/,
-    ] |> Enum.join(",")
+      ~s/signature="#{signature}"/
+    ]
+    |> Enum.join(",")
   end
 
   defp signing_headers(request, method, uri, timestamp) do

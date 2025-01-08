@@ -70,7 +70,7 @@ defmodule Ibanity.Xs2a.Sandbox.FinancialInstitutionTransaction.DeserializationTe
       end_to_end_id: "61dd468606594217af9965ad3928280d",
       purpose_code: "CASH",
       mandate_id: "12345678",
-      creditor_id:  "98765",
+      creditor_id: "98765",
       additional_information: "addional",
       fee: 3.14,
       card_reference: "1234",

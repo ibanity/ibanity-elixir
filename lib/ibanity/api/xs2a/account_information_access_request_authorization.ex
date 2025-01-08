@@ -8,7 +8,13 @@ defmodule Ibanity.Xs2a.AccountInformationAccessRequestAuthorization do
   defstruct id: nil,
             status: nil
 
-  @api_schema_path ["xs2a", "customer", "financialInstitution", "accountInformationAccessRequest", "authorizations"]
+  @api_schema_path [
+    "xs2a",
+    "customer",
+    "financialInstitution",
+    "accountInformationAccessRequest",
+    "authorizations"
+  ]
 
   @doc """
   [Creates an account information access request authorization](https://documentation.ibanity.com/xs2a/api#create-account-information-access-request-authorization)
@@ -39,7 +45,6 @@ defmodule Ibanity.Xs2a.AccountInformationAccessRequestAuthorization do
     |> Request.id(:id, "")
     |> Client.execute(:post, @api_schema_path, "accountInformationAccessRequestAuthorization")
   end
-
 
   @doc false
   def key_mapping do

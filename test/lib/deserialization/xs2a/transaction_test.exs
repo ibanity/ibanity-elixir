@@ -67,7 +67,7 @@ defmodule Ibanity.Xs2a.Transaction.DeserializationTest do
       end_to_end_id: "61dd468606594217af9965ad3928280d",
       purpose_code: "CASH",
       mandate_id: "12345678",
-      creditor_id:  "98765",
+      creditor_id: "98765",
       digest: "d59f256988324499809c18a8d4a8be60ff36e3d1e0c89c380be49e032e39a287",
       additional_information: "addional",
       fee: 3.14,

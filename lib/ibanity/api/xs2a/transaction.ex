@@ -64,7 +64,13 @@ defmodule Ibanity.Xs2a.Transaction do
   def list(%Request{} = request) do
     request
     |> Request.id(:id, "")
-    |> Client.execute(:get, ["xs2a", "customer", "financialInstitution", "account", "transactions"])
+    |> Client.execute(:get, [
+      "xs2a",
+      "customer",
+      "financialInstitution",
+      "account",
+      "transactions"
+    ])
   end
 
   @doc """
@@ -84,7 +90,13 @@ defmodule Ibanity.Xs2a.Transaction do
   """
   def find(%Request{} = request) do
     request
-    |> Client.execute(:get, ["xs2a", "customer", "financialInstitution", "account", "transactions"])
+    |> Client.execute(:get, [
+      "xs2a",
+      "customer",
+      "financialInstitution",
+      "account",
+      "transactions"
+    ])
   end
 
   @doc false

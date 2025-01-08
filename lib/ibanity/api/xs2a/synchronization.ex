@@ -35,9 +35,22 @@ defmodule Ibanity.Xs2a.Synchronization do
       ...> |> Synchronization.list
       {:ok, %Ibanity.Collection{items: [%Ibanity.Synchronization{...}], ...}}
   """
-  def list(%Request{resource_ids: [financial_institution_id: _financial_institution_id, account_information_access_request_id: _account_information_access_request_id]} = request) do
+  def list(
+        %Request{
+          resource_ids: [
+            financial_institution_id: _financial_institution_id,
+            account_information_access_request_id: _account_information_access_request_id
+          ]
+        } = request
+      ) do
     request
-    |> Client.execute(:get, ["xs2a", "customer", "financialInstitution", "accountInformationAccessRequest", "initialAccountTransactionsSynchronizations"])
+    |> Client.execute(:get, [
+      "xs2a",
+      "customer",
+      "financialInstitution",
+      "accountInformationAccessRequest",
+      "initialAccountTransactionsSynchronizations"
+    ])
   end
 
   @doc """
@@ -96,7 +109,8 @@ defmodule Ibanity.Xs2a.Synchronization do
       errors: {~w(attributes errors), :string},
       created_at: {~w(attributes createdAt), :datetime},
       updated_at: {~w(attributes updatedAt), :datetime},
-      updated_pending_transactions: {~w(relationships updatedPendingTransactions links related), :string},
+      updated_pending_transactions:
+        {~w(relationships updatedPendingTransactions links related), :string},
       updated_transactions: {~w(relationships updatedTransactions links related), :string}
     ]
   end

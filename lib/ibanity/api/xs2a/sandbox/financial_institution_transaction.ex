@@ -307,7 +307,8 @@ defmodule Ibanity.Xs2a.Sandbox.FinancialInstitutionTransaction do
       card_reference: {~w(attributes cardReference), :string},
       card_reference_type: {~w(attributes cardReferenceType), :string},
       automatic_booking: {~w(attributes automaticBooking), :boolean},
-      financial_institution_account_id: {~w(relationships financialInstitutionAccount data id), :string},
+      financial_institution_account_id:
+        {~w(relationships financialInstitutionAccount data id), :string}
     ]
   end
 end
