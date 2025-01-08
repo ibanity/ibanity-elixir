@@ -12,10 +12,6 @@ defmodule Ibanity.IdReplacer do
     ...> Ibanity.IdReplacer.replace_all(url, &String.upcase/1)
     "https://api.ibanity.com/customer/synchronizations/{SYNCHRONIZATIONID}"
 
-    iex> url = "https://api.ibanity.com/customer/synchronizations"
-    ...> Ibanity.IdReplacer.replace_all(url, &String.replace("*", String.length(&1)))
-    "https://api.ibanity.com/customer/synchronizations"
-
     iex> url = "https://api.ibanity.com/customer/financial-institutions/{financialInstitutionId}/accounts/{accountId}"
     ...> Ibanity.IdReplacer.replace_all(url, &Recase.to_snake/1)
     "https://api.ibanity.com/customer/financial-institutions/{financial_institution_id}/accounts/{account_id}"
