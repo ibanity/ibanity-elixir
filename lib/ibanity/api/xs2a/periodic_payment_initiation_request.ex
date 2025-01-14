@@ -63,7 +63,8 @@ defmodule Ibanity.Xs2a.PeriodicPaymentInitiationRequest do
       end_date: {~w(attributes endDate), :date},
       execution_rule: {~w(attributes executionRule), :string},
       skip_ibanity_completion_callback: {~w(attributes skipIbanityCompletionCallback), :boolean},
-      allow_financial_institution_redirect_uri:  {~w(attributes allowFinancialInstitutionRedirectUri), :boolean}
+      allow_financial_institution_redirect_uri:
+        {~w(attributes allowFinancialInstitutionRedirectUri), :boolean}
     ]
   end
 

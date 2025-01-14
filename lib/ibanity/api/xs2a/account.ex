@@ -53,7 +53,12 @@ defmodule Ibanity.Xs2a.Account do
       {:ok, %Ibanity.Collection{items: [...]}}
   """
   def list(%Request{} = request),
-    do: list(request, Request.get_id(request, :financial_institution_id), Request.get_id(request, :account_information_access_request_id))
+    do:
+      list(
+        request,
+        Request.get_id(request, :financial_institution_id),
+        Request.get_id(request, :account_information_access_request_id)
+      )
 
   @doc false
   def list(%Request{} = request, nil, nil) do
@@ -98,7 +103,13 @@ defmodule Ibanity.Xs2a.Account do
     |> Request.id(:id, "")
     |> Request.id(:financial_institution_id, financial_institution_id)
     |> Request.id(:account_information_access_request_id, account_information_access_request_id)
-    |> Client.execute(:get, ["xs2a", "customer", "financialInstitution", "accountInformationAccessRequest", "accounts"])
+    |> Client.execute(:get, [
+      "xs2a",
+      "customer",
+      "financialInstitution",
+      "accountInformationAccessRequest",
+      "accounts"
+    ])
   end
 
   @doc """
@@ -231,13 +242,16 @@ defmodule Ibanity.Xs2a.Account do
       product: {~w(attributes product), :string},
       holder_name: {~w(attributes holderName), :string},
       current_balance_changed_at: {~w(attributes currentBalanceChangedAt), :datetime},
-      current_balance_variation_observed_at: {~w(attributes currentBalanceVariationObservedAt), :datetime},
+      current_balance_variation_observed_at:
+        {~w(attributes currentBalanceVariationObservedAt), :datetime},
       current_balance_reference_date: {~w(attributes currentBalanceReferenceDate), :datetime},
       available_balance_changed_at: {~w(attributes availableBalanceChangedAt), :datetime},
-      available_balance_variation_observed_at: {~w(attributes availableBalanceVariationObservedAt), :datetime},
+      available_balance_variation_observed_at:
+        {~w(attributes availableBalanceVariationObservedAt), :datetime},
       available_balance_reference_date: {~w(attributes availableBalanceReferenceDate), :datetime},
       authorized_at: {~w(attributes authorizedAt), :datetime},
-      authorization_expiration_expected_at: {~w(attributes authorizationExpirationExpectedAt), :datetime},
+      authorization_expiration_expected_at:
+        {~w(attributes authorizationExpirationExpectedAt), :datetime},
       pending_transactions: {~w(relationships pendingTransactions links related), :string},
       transactions: {~w(relationships transactions links related), :string},
       financial_institution: {~w(relationships financialInstitution links related), :string},

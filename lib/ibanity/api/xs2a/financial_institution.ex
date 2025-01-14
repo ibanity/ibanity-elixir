@@ -206,7 +206,8 @@ defmodule Ibanity.Xs2a.FinancialInstitution do
       payments_product_types: {~w(attributes paymentsProductTypes), :string},
       periodic_payments_product_types: {~w(attributes periodicPaymentsProductTypes), :string},
       authorization_models: {~w(attributes authorizationModels), :string},
-      financial_institution_customer_reference_required: {~w(attributes financialInstitutionCustomerReferenceRequired), :boolean},
+      financial_institution_customer_reference_required:
+        {~w(attributes financialInstitutionCustomerReferenceRequired), :boolean},
       shared_brand_reference: {~w(attributes sharedBrandReference), :string},
       shared_brand_name: {~w(attributes sharedBrandName), :string},
       maintenance_from: {~w(attributes maintenanceFrom), :datetime},
@@ -216,8 +217,10 @@ defmodule Ibanity.Xs2a.FinancialInstitution do
       pending_transactions_available: {~w(attributes pendingTransactionsAvailable), :boolean},
       bulk_payment_instructions_limit: {~w(attributes bulkPaymentInstructionsLimit), :integer},
       expected_authorization_lifetime: {~w(attributes expectedAuthorizationLifetime), :integer},
-      payment_debtor_account_reference_required: {~w(attributes paymentDebtorAccountReferenceRequired), :boolean},
-      bulk_payment_debtor_account_reference_required: {~w(attributes bulkPaymentDebtorAccountReferenceRequired), :boolean}
+      payment_debtor_account_reference_required:
+        {~w(attributes paymentDebtorAccountReferenceRequired), :boolean},
+      bulk_payment_debtor_account_reference_required:
+        {~w(attributes bulkPaymentDebtorAccountReferenceRequired), :boolean}
     ]
   end
 end

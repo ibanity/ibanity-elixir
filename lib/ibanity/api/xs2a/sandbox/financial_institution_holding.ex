@@ -225,7 +225,8 @@ defmodule Ibanity.Xs2a.Sandbox.FinancialInstitutionHolding do
       reference_type: {~w(attributes referenceType), :string},
       subtype: {~w(attributes subtype), :string},
       quantity: {~w(attributes quantity), :float},
-      financial_institution_account_id: {~w(relationships financialInstitutionAccount data id), :string}
+      financial_institution_account_id:
+        {~w(relationships financialInstitutionAccount data id), :string}
     ]
   end
 end

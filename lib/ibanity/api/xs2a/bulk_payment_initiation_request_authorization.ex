@@ -8,7 +8,13 @@ defmodule Ibanity.Xs2a.BulkPaymentInitiationRequestAuthorization do
   defstruct id: nil,
             status: nil
 
-  @api_schema_path ["xs2a", "customer", "financialInstitution", "bulkPaymentInitiationRequest", "authorizations"]
+  @api_schema_path [
+    "xs2a",
+    "customer",
+    "financialInstitution",
+    "bulkPaymentInitiationRequest",
+    "authorizations"
+  ]
 
   @doc """
   [Creates an account information access request authorization](https://documentation.ibanity.com/xs2a/api#create-bulk-payment-initiation-request-authorization)
@@ -39,7 +45,6 @@ defmodule Ibanity.Xs2a.BulkPaymentInitiationRequestAuthorization do
     |> Request.id(:id, "")
     |> Client.execute(:post, @api_schema_path, "bulkPaymentInitiationRequestAuthorization")
   end
-
 
   @doc false
   def key_mapping do

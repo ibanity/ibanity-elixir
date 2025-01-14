@@ -4,7 +4,7 @@ defmodule Ibanity.Consent.ProcessingOperation do
 
   use Ibanity.Resource
 
-  @api_schema_path  ~w(consent consent processingOperations)
+  @api_schema_path ~w(consent consent processingOperations)
   @revoke_api_schema_path ~w(consent consent processingOperation revocations)
 
   @resource_type "processing_operation"
@@ -60,7 +60,7 @@ defmodule Ibanity.Consent.ProcessingOperation do
     |> Client.execute(:get, @api_schema_path)
   end
 
-    @doc """
+  @doc """
   [Revokes a processing operation].
 
   Returns `{:ok, processing_operation}` if successful, `{:error, reason}` otherwise.

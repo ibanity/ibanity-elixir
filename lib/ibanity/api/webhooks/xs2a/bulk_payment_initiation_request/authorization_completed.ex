@@ -13,7 +13,8 @@ defmodule Ibanity.Webhooks.Xs2a.BulkPaymentInitiationRequest.AuthorizationComple
       id: {~w(id), :string},
       created_at: {~w(attributes createdAt), :datetime},
       status: {~w(attributes status), :string},
-      bulk_payment_initiation_request_id: {~w(relationships bulkPaymentInitiationRequest data id), :string}
+      bulk_payment_initiation_request_id:
+        {~w(relationships bulkPaymentInitiationRequest data id), :string}
     ]
   end
 end

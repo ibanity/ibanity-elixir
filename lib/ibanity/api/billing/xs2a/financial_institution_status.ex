@@ -7,7 +7,8 @@ defmodule Ibanity.Billing.Xs2a.FinancialInstitutionStatus do
             worst_status: nil,
             best_status: nil
 
-  def list(%Request{} = request), do: Client.execute(request, :get, @api_schema_path, "financialInstitutionStatus")
+  def list(%Request{} = request),
+    do: Client.execute(request, :get, @api_schema_path, "financialInstitutionStatus")
 
   def key_mapping do
     [

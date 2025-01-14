@@ -13,7 +13,12 @@ defmodule Ibanity.Xs2a.AccountInformationAccessRequest do
             skip_ibanity_completion_callback: false,
             allow_financial_institution_redirect_uri: false
 
-  @api_schema_path ["xs2a", "customer", "financialInstitution", "accountInformationAccessRequests"]
+  @api_schema_path [
+    "xs2a",
+    "customer",
+    "financialInstitution",
+    "accountInformationAccessRequests"
+  ]
 
   @doc """
   [Creates an account information access request](https://documentation.ibanity.com/xs2a/api#create-account-information-access-request)
@@ -80,7 +85,8 @@ defmodule Ibanity.Xs2a.AccountInformationAccessRequest do
       status: {~w(attributes status), :string},
       errors: {~w(attributes errors), :string},
       skip_ibanity_completion_callback: {~w(attributes skipIbanityCompletionCallback), :boolean},
-      allow_financial_institution_redirect_uri:  {~w(attributes allowFinancialInstitutionRedirectUri), :boolean},
+      allow_financial_institution_redirect_uri:
+        {~w(attributes allowFinancialInstitutionRedirectUri), :boolean}
     ]
   end
 end

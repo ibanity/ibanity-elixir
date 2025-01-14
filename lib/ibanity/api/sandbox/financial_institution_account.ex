@@ -103,7 +103,11 @@ defmodule Ibanity.Sandbox.FinancialInstitutionAccount do
   """
   @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionAccount.find/3 instead"
   def find(financial_institution_id, user_id, account_id) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionAccount.find(financial_institution_id, user_id, account_id)
+    Ibanity.Xs2a.Sandbox.FinancialInstitutionAccount.find(
+      financial_institution_id,
+      user_id,
+      account_id
+    )
   end
 
   @doc """
@@ -142,7 +146,11 @@ defmodule Ibanity.Sandbox.FinancialInstitutionAccount do
   """
   @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionAccount.delete/3 instead"
   def delete(financial_institution_id, user_id, account_id) do
-    Ibanity.Xs2a.Sandbox.FinancialInstitutionAccount.delete(financial_institution_id, user_id, account_id)
+    Ibanity.Xs2a.Sandbox.FinancialInstitutionAccount.delete(
+      financial_institution_id,
+      user_id,
+      account_id
+    )
   end
 
   @doc """

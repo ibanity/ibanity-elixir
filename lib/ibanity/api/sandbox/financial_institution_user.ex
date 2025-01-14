@@ -51,6 +51,7 @@ defmodule Ibanity.Sandbox.FinancialInstitutionUser do
   def list(%Request{} = request) do
     Ibanity.Xs2a.Sandbox.FinancialInstitutionUser.list(request)
   end
+
   def list, do: list(%Request{})
 
   @doc """

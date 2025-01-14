@@ -57,6 +57,7 @@ defmodule Ibanity.Xs2a.Sandbox.FinancialInstitutionUser do
     |> Request.id(:id, "")
     |> Client.execute(:get, @api_schema_path)
   end
+
   def list, do: list(%Request{})
 
   @doc """

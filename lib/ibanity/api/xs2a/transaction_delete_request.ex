@@ -27,7 +27,10 @@ defmodule Ibanity.Xs2a.TransactionDeleteRequest do
     |> Request.resource_type(@resource_type)
     |> Request.id(:financial_institution_id, financial_institution_id)
     |> Request.id(:account_id, account_id)
-    |> Client.execute(:post, ~w(xs2a customer financialInstitution account transactionDeleteRequests))
+    |> Client.execute(
+      :post,
+      ~w(xs2a customer financialInstitution account transactionDeleteRequests)
+    )
   end
 
   @doc """
@@ -44,12 +47,22 @@ defmodule Ibanity.Xs2a.TransactionDeleteRequest do
       ...> |> TransactionDeleteRequest.create
       {:ok, %TransactionDeleteRequest{id: "9c57df52-bd8e-42d2-b15a-a664741e3ed2"}}
   """
-  def create(%Request{resource_ids: [financial_institution_id: financial_institution_id, account_id: account_id]} = request) do
+  def create(
+        %Request{
+          resource_ids: [
+            financial_institution_id: financial_institution_id,
+            account_id: account_id
+          ]
+        } = request
+      ) do
     request
     |> Request.resource_type(@resource_type)
     |> Request.id(:financial_institution_id, financial_institution_id)
     |> Request.id(:account_id, account_id)
-    |> Client.execute(:post, ~w(xs2a customer financialInstitution account transactionDeleteRequests))
+    |> Client.execute(
+      :post,
+      ~w(xs2a customer financialInstitution account transactionDeleteRequests)
+    )
   end
 
   @doc """

@@ -60,7 +60,10 @@ defmodule Ibanity.WebhookPlug do
   end
 
   @impl true
-  def call(%Conn{method: "POST", path_info: path_info} = conn, %{path_info: path_info, handler: handler} = opts) do
+  def call(
+        %Conn{method: "POST", path_info: path_info} = conn,
+        %{path_info: path_info, handler: handler} = opts
+      ) do
     with [signature] <- get_req_header(conn, "signature"),
          {:ok, payload, _} = Conn.read_body(conn),
          {:ok, %{} = event} <- construct_event(payload, signature, opts),

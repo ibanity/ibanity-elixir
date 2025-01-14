@@ -55,7 +55,8 @@ defmodule Ibanity.Xs2a.PaymentInitiationRequest do
       redirect_link: {~w(links redirect), :string},
       financial_institution_id: {~w(relationships financialInstitution data id), :string},
       skip_ibanity_completion_callback: {~w(attributes skipIbanityCompletionCallback), :boolean},
-      allow_financial_institution_redirect_uri:  {~w(attributes allowFinancialInstitutionRedirectUri), :boolean}
+      allow_financial_institution_redirect_uri:
+        {~w(attributes allowFinancialInstitutionRedirectUri), :boolean}
     ]
   end
 

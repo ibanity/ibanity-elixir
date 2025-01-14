@@ -31,7 +31,12 @@ defmodule Ibanity.Webhook do
       end
   """
   @spec construct_event(String.t(), String.t(), atom(), integer) :: {:ok, Struct} | {:error, any}
-  def construct_event(payload, signature_header, application \\ :default, tolerance \\ @default_tolerance) do
+  def construct_event(
+        payload,
+        signature_header,
+        application \\ :default,
+        tolerance \\ @default_tolerance
+      ) do
     case verify_signature_header(payload, signature_header, application, tolerance) do
       {:ok, _} -> {:ok, convert_to_event!(payload)}
       error -> error
@@ -44,6 +49,7 @@ defmodule Ibanity.Webhook do
         case Ibanity.Configuration.webhook_key(kid, application) do
           %Key{} = signer_key ->
             signer = Joken.Signer.create(@signing_algorithm, signer_key_map(signer_key))
+
             Joken.verify_and_validate(
               token_config(),
               signature_header,
@@ -78,10 +84,10 @@ defmodule Ibanity.Webhook do
     do: digest == Base.encode64(:crypto.hash(:sha512, payload), case: :lower)
 
   defp validate_issued_at(iat, _, %{tolerance: tolerance}),
-    do: iat <= (System.system_time(:second) + tolerance)
+    do: iat <= System.system_time(:second) + tolerance
 
   defp validate_expiration(exp, _, %{tolerance: tolerance}),
-    do: exp >= (System.system_time(:second) - tolerance)
+    do: exp >= System.system_time(:second) - tolerance
 
   defp validate_audience(aud, _, %{application: application}),
     do: aud == Ibanity.Configuration.application_id(application)

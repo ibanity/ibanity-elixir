@@ -4,7 +4,7 @@ defmodule Ibanity.Consent.Consent do
 
   use Ibanity.Resource
 
-  @api_schema_path  ~w(consent consents)
+  @api_schema_path ~w(consent consents)
   @validate_api_schema_path ~w(consent consent validations)
   @revoke_api_schema_path ~w(consent consent revocations)
 
@@ -116,13 +116,14 @@ defmodule Ibanity.Consent.Consent do
       revoked_at: {~w(attributes revokedAt), :datetime},
       data_subject: {~w(attributes dataSubject), :string},
       authorized_representative_type: {~w(attributes authorizedRepresentativeType), :string},
-      authorized_representative_reference: {~w(attributes authorizedRepresentativeReference), :string},
+      authorized_representative_reference:
+        {~w(attributes authorizedRepresentativeReference), :string},
       data_controller_meta: {~w(attributes dataControllerMeta), :string},
       displayed_text: {~w(attributes displayedText), :string},
       action_type: {~w(attributes actionType), :string},
       terms_reference: {~w(attributes termsReference), :string},
       terms_version: {~w(attributes termsVersion), :string},
-      status: {~w(attributes status), :string},
+      status: {~w(attributes status), :string}
     ]
   end
 end

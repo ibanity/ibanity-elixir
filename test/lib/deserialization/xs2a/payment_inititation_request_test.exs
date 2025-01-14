@@ -67,7 +67,7 @@ defmodule Ibanity.Xs2a.PaymentInitiationRequest.DeserializationTest do
       redirect_link: "https://callback.ibanity.com/sandbox/fi/pir/i?state=dmF1bHQ6djE6V1FLZFp...",
       financial_institution_id: "b2c76f6b-ab34-4843-8ef3-84300ef98a09",
       skip_ibanity_completion_callback: true,
-      allow_financial_institution_redirect_uri: true,
+      allow_financial_institution_redirect_uri: true
     }
 
     assert actual == expected
