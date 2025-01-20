@@ -222,7 +222,7 @@ defmodule Ibanity.Configuration do
         ssl_options
 
       cert ->
-        Keyword.put_new(ssl_options, :cert, der_encoded_certificate(cert) |> List.first())
+        Keyword.put_new(ssl_options, :cert, der_encoded_certificate(cert))
     end
   end
 
