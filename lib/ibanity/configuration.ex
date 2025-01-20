@@ -212,7 +212,7 @@ defmodule Ibanity.Configuration do
         Keyword.put_new(ssl_options, :cacertfile, :certifi.cacertfile())
 
       cert ->
-        Keyword.put_new(ssl_options, :cacerts, [der_encoded_certificate(cert)])
+        Keyword.put_new(ssl_options, :cacerts, der_encoded_certificate(cert))
     end
   end
 
@@ -247,12 +247,9 @@ defmodule Ibanity.Configuration do
   end
 
   defp der_encoded_certificate(pem_certificate) do
-    {:Certificate, cert, :not_encrypted} =
-      pem_certificate
-      |> :public_key.pem_decode()
-      |> List.first()
-
-    cert
+    pem_certificate
+    |> :public_key.pem_decode()
+    |> Enum.map(fn {:Certificate, cert, :not_encrypted} -> cert end)
   end
 
   # See https://elixirforum.com/t/using-client-certificates-from-a-string-with-httposion/8631/7
