@@ -9,6 +9,7 @@ defmodule Ibanity.Xs2a.BulkPaymentInitiationRequest do
   @resource_type "bulk_payment_initiation_request"
 
   defstruct id: nil,
+            errors: nil,
             status: nil,
             status_reason: nil,
             product_type: nil,
@@ -57,6 +58,7 @@ defmodule Ibanity.Xs2a.BulkPaymentInitiationRequest do
   def key_mapping do
     [
       id: {~w(id), :string},
+      errors: {~w(attributes errors), :array},
       status: {~w(attributes status), :string},
       status_reason: {~w(attributes status_reason), :string},
       product_type: {~w(attributes productType), :string},
