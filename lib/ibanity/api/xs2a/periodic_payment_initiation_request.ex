@@ -9,7 +9,7 @@ defmodule Ibanity.Xs2a.PeriodicPaymentInitiationRequest do
   @resource_type "periodic_payment_initiation_request"
 
   defstruct id: nil,
-            errors: [],
+            errors: nil,
             status: nil,
             status_reason: nil,
             remittance_information_type: nil,
