@@ -9,6 +9,7 @@ defmodule Ibanity.Xs2a.BulkPaymentInitiationRequest do
   @resource_type "bulk_payment_initiation_request"
 
   defstruct id: nil,
+            errors: nil,
             status: nil,
             status_reason: nil,
             product_type: nil,
@@ -22,8 +23,7 @@ defmodule Ibanity.Xs2a.BulkPaymentInitiationRequest do
             skip_ibanity_completion_callback: false,
             allow_financial_institution_redirect_uri: false,
             batch_booking_preferred: false,
-            payments: [],
-            errors: []
+            payments: []
 
   defmodule Payment do
     defstruct remittance_information: nil,
