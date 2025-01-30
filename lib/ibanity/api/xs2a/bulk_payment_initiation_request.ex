@@ -22,7 +22,8 @@ defmodule Ibanity.Xs2a.BulkPaymentInitiationRequest do
             skip_ibanity_completion_callback: false,
             allow_financial_institution_redirect_uri: false,
             batch_booking_preferred: false,
-            payments: []
+            payments: [],
+            errors: []
 
   defmodule Payment do
     defstruct remittance_information: nil,
@@ -57,6 +58,7 @@ defmodule Ibanity.Xs2a.BulkPaymentInitiationRequest do
   def key_mapping do
     [
       id: {~w(id), :string},
+      errors: {~w(attributes errors), :array},
       status: {~w(attributes status), :string},
       status_reason: {~w(attributes status_reason), :string},
       product_type: {~w(attributes productType), :string},

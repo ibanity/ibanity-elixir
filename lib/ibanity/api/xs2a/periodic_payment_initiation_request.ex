@@ -9,6 +9,7 @@ defmodule Ibanity.Xs2a.PeriodicPaymentInitiationRequest do
   @resource_type "periodic_payment_initiation_request"
 
   defstruct id: nil,
+            errors: [],
             status: nil,
             status_reason: nil,
             remittance_information_type: nil,
@@ -39,6 +40,7 @@ defmodule Ibanity.Xs2a.PeriodicPaymentInitiationRequest do
   def key_mapping do
     [
       id: {~w(id), :string},
+      errors: {~w(attributes errors), :array},
       status: {~w(attributes status), :string},
       status_reason: {~w(attributes status_reason), :string},
       remittance_information_type: {~w(attributes remittanceInformationType), :string},
