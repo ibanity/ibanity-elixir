@@ -78,7 +78,7 @@ defmodule Ibanity.HttpRequest do
     token = request.customer_access_token || request.token
 
     if token do
-      Keyword.put(headers, :Authorization, "Bearer #{request.token}")
+      Keyword.put(headers, :Authorization, "Bearer #{token}")
     else
       headers
     end
