@@ -199,7 +199,9 @@ defmodule Ibanity.Request do
   end
 
   @doc """
-  Sets the token used in some Ponto Connect requests. Since the token is bound to an application, the application is set to `token.application`.
+  Sets the token used in some Ponto Connect requests.
+
+  When using a `Ibanity.PontoConnect.Token` struct, the token is already bound to an application, and an application parameter will raise an error.
 
   If no request given, a new `%Ibanity.Request{}` is created.
 
@@ -219,13 +221,22 @@ defmodule Ibanity.Request do
 
       iex> Ibanity.Request.token(%Ibanity.PontoConnect.Token{access_token: "token123", application: :my_app})
       %Ibanity.Request{token: "token123", application: :my_app}
+
+      iex> Ibanity.Request.token(%Ibanity.PontoConnect.Token{access_token: "token123", application: :my_app}, :my_app)
+      ** (FunctionClauseError) no function clause matching in Ibanity.Request.token/2
+
+      iex> Ibanity.Request.token(%Ibanity.Request{}, %Ibanity.PontoConnect.Token{access_token: "token123", application: :my_app}, :my_app)
+      ** (FunctionClauseError) no function clause matching in Ibanity.Request.token/3
   """
   def token(token) do
     token(%__MODULE__{}, token)
   end
 
-  def token(%__MODULE__{} = request, %Ibanity.PontoConnect.Token{} = token) do
-    token(request, token, token.application)
+  def token(
+        %__MODULE__{} = request,
+        %Ibanity.PontoConnect.Token{access_token: token, application: token_application}
+      ) do
+    token(request, token, token_application)
   end
 
   def token(%__MODULE__{} = request, token) do
@@ -240,13 +251,6 @@ defmodule Ibanity.Request do
       when is_bitstring(token) or is_nil(token) do
     %__MODULE__{request | token: token, application: application}
   end
-
-  def token(
-        %__MODULE__{} = request,
-        %Ibanity.PontoConnect.Token{access_token: token, application: token_application},
-        _application
-      ),
-      do: token(request, token, token_application)
 
   @doc """
   Adds an attribute to a request. Overrides existing attribute with the same name.
