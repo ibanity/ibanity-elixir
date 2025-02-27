@@ -14,7 +14,7 @@ defmodule Ibanity.MixProject do
       package: package(),
       docs: [
         extras: ["README.md"],
-        main: "README.md",
+        main: "readme",
         source_url: @source_url,
         groups_for_modules: [
           General: [Ibanity.Request, Ibanity.Collection],
