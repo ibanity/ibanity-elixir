@@ -15,7 +15,35 @@ defmodule Ibanity.MixProject do
       docs: [
         extras: ["README.md"],
         main: "readme",
-        source_url: @source_url
+        source_url: @source_url,
+        groups_for_modules: [
+          General: [Ibanity.Request, Ibanity.Collection],
+          Webhooks: [
+            Ibanity.Webhook,
+            Ibanity.WebhookHandler,
+            Ibanity.WebhookPlug,
+            Ibanity.Webhooks.Key
+          ],
+          XS2A: [
+            ~r/Ibanity\.Xs2a/,
+            ~r/Ibanity\.Webhooks\.Xs2a/,
+            ~r/Ibanity\.Billing\.Xs2a/,
+            ~r/Ibanity\.Reporting.Xs2a/,
+            ~r/Ibanity\.Consent/
+          ],
+          "Ponto Connect": [~r/Ibanity\.PontoConnect/, ~r/Ibanity\.Webhooks\.PontoConnect/],
+          Deprecated: ~r/Ibanity\.Sandbox/
+        ],
+        nest_modules_by_prefix: [
+          Ibanity.PontoConnect,
+          Ibanity.Xs2a,
+          Ibanity.Sandbox,
+          Ibanity.Webhooks.PontoConnect,
+          Ibanity.Webhooks.Xs2a,
+          Ibanity.Reporting.Xs2a,
+          Ibanity.Consent,
+          Ibanity.Billing
+        ]
       ]
     ]
   end

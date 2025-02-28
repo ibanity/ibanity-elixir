@@ -33,23 +33,29 @@ defmodule Ibanity.Xs2a.Account do
             availability: nil
 
   @doc """
-  [List all accounts](https://documentation.ibanity.com/xs2a/api#list-accounts)
-  according to the `financial_institution_id` from the `Ibanity.Request`.
+  [List accounts](https://documentation.ibanity.com/xs2a/api#list-accounts) according to the `financial_institution_id` stored in the `Ibanity.Request`.
 
-  If `financial_institution_id` is `nil` or is not set, it will list all the accounts.
-  If set it will list accounts for that specific financial institution.
+  If `financial_institution_id` and `account_information_access_request_id` are `nil` or not set, it will list all the accounts.
+  If set it will list accounts for that specific financial institution and/or account information access request.
+
+  IDs can be set in the request using `Request.id/3`, or passed as arguments (see `list/3`).
+
+  Returns `{:ok, collection}` with `collection` being an `Ibanity.Collection`
+  with `Ibanity.Xs2a.Account` as items, `{:error, reason}` otherwise.
 
   ## Examples
 
       iex> token
-      ...> |> Request.customer_access_token
-      ...> |> Account.list
+      ...> |> Request.customer_access_token()
+      ...> |> Account.list()
       {:ok, %Ibanity.Collection{items: [...]}}
 
+
+
       iex> token
-      ...> |> Request.customer_access_token
+      ...> |> Request.customer_access_token()
       ...> |> Request.id(:financial_institution_id, "0a089c79-bfef-45e7-b647-a4654e4bff9f")
-      ...> |> Account.list
+      ...> |> Account.list()
       {:ok, %Ibanity.Collection{items: [...]}}
   """
   def list(%Request{} = request),
@@ -60,25 +66,41 @@ defmodule Ibanity.Xs2a.Account do
         Request.get_id(request, :account_information_access_request_id)
       )
 
-  @doc false
+  @doc """
+  Same as `list/1`, but with the `financial_institution_id` passed as argument.
+
+  ## Examples
+
+      iex> token
+      ...> |> Request.customer_access_token()
+      ...> |> Account.list("b031dfe8-ebad-410b-aa77-064f8c876540")
+      {:ok, %Ibanity.Collection{items: [...]}}
+
+  """
+  def list(%Request{} = request, financial_institution_id),
+    do:
+      list(
+        request,
+        financial_institution_id,
+        Request.get_id(request, :account_information_access_request_id)
+      )
+
+  @doc """
+  Same as `list/1`, but with the `financial_institution_id` and `account_information_access_request_id` passed as arguments.
+
+  ## Examples
+
+      iex> token
+      ...> |> Request.customer_access_token()
+      ...> |> Account.list("b031dfe8-ebad-410b-aa77-064f8c876540", "42ebed1a-d890-41d6-b4f2-ac1ef6fd0e32")
+      {:ok, %Ibanity.Collection{items: [...]}}
+  """
   def list(%Request{} = request, nil, nil) do
     request
     |> Request.id(:id, "")
     |> Client.execute(:get, ["xs2a", "customer", "accounts"])
   end
 
-  @doc """
-  [List accounts](https://documentation.ibanity.com/xs2a/api#list-accounts) for a specific financial institution.
-
-  Returns `{:ok, coll}` with `coll` being an `Ibanity.Collection`
-  with `Ibanity.Xs2a.Account` as items, `{:error, reason}`otherwise
-
-  ## Example
-
-      iex> token
-      ...> |> Request.customer_access_token
-      ...> |> Account.list("b031dfe8-ebad-410b-aa77-064f8c876540")
-  """
   def list(%Request{} = request, financial_institution_id, nil) do
     request
     |> Request.id(:id, "")
@@ -86,18 +108,6 @@ defmodule Ibanity.Xs2a.Account do
     |> Client.execute(:get, ["xs2a", "customer", "financialInstitution", "accounts"])
   end
 
-  @doc """
-  [List accounts](https://documentation.ibanity.com/xs2a/api#list-accounts) for a specific financial institution and account information access request.
-
-  Returns `{:ok, coll}` with `coll` being an `Ibanity.Collection`
-  with `Ibanity.Xs2a.Account` as items, `{:error, reason}`otherwise
-
-  ## Example
-
-      iex> token
-      ...> |> Request.customer_access_token
-      ...> |> Account.list("b031dfe8-ebad-410b-aa77-064f8c876540", "42ebed1a-d890-41d6-b4f2-ac1ef6fd0e32")
-  """
   def list(%Request{} = request, financial_institution_id, account_information_access_request_id) do
     request
     |> Request.id(:id, "")
@@ -114,17 +124,19 @@ defmodule Ibanity.Xs2a.Account do
 
   @doc """
   [Retrieves an account](https://documentation.ibanity.com/xs2a/api#get-account)
-  based on the `financial_institution_id` and `id` (e.g. the account id) stored in the `Ibanity.Request`.
+  based on the `financial_institution_id` and `id` (e.g. the account id).
+
+  IDs can be set in the request using `Request.id/3`, or passed as arguments (see `find/3`).
 
   Returns `{:ok, account}` if found, otherwise `{:error, reason}`
 
   ## Example
 
       iex> token
-      ...> |> Request.customer_access_token
+      ...> |> Request.customer_access_token()
       ...> |> Request.id(:financial_institution_id, "e1865795-dfa6-4c61-8f1f-1806957ddbdc")
       ...> |> Request.id(:id, "060d959f-e784-4a5b-a5ca-30c857ca0371")
-      ...> |> Account.find
+      ...> |> Account.find()
       {:ok, %Ibanity.Account{id: "060d959f-e784-4a5b-a5ca-30c857ca0371", ...}}
   """
   def find(%Request{} = request) do
@@ -133,17 +145,40 @@ defmodule Ibanity.Xs2a.Account do
   end
 
   @doc """
-  Convenience function to retrieve an account based on the `account_id` `financial_institution_id` given as arguments.
+  Same as `find/1`, but with the `financial_institution_id` and `account_id` passed as arguments.
 
-  Returns `{:ok, account}` if found, otherwise `{:error, reason}`
+  ## Examples
 
-  See `find/1`
+      iex> token
+      ...> |> Request.customer_access_token()
+      ...> |> Account.find("060d959f-e784-4a5b-a5ca-30c857ca0371", "e1865795-dfa6-4c61-8f1f-1806957ddbdc")
+      {:ok, %Ibanity.Account{id: "060d959f-e784-4a5b-a5ca-30c857ca0371", ...}}
   """
   def find(%Request{} = request, account_id, financial_institution_id) do
     request
     |> Request.id(:id, account_id)
     |> Request.id(:financial_institution_id, financial_institution_id)
-    |> find
+    |> find()
+  end
+
+  @doc """
+  [Deletes an account](https://documentation.ibanity.com/xs2a/api#account)
+  based on the `financial_institution_id` and `id` (e.g. the account id).
+
+  Returns `{:ok, account}` if found, otherwise `{:error, reason}`
+
+  ## Example
+
+      iex> token
+      ...> |> Request.customer_access_token()
+      ...> |> Request.id(:financial_institution_id, "e1865795-dfa6-4c61-8f1f-1806957ddbdc")
+      ...> |> Request.id(:id, "060d959f-e784-4a5b-a5ca-30c857ca0371")
+      ...> |> Account.delete()
+      {:ok, %Ibanity.Account{id: "060d959f-e784-4a5b-a5ca-30c857ca0371", ...}}
+  """
+  def delete(%Request{} = request) do
+    request
+    |> Client.execute(:delete, ["xs2a", "customer", "financialInstitution", "accounts"])
   end
 
   @doc """
@@ -169,26 +204,6 @@ defmodule Ibanity.Xs2a.Account do
     |> Request.id(:id, account_id)
     |> Request.id(:financial_institution_id, financial_institution_id)
     |> delete
-  end
-
-  @doc """
-  [Deletes an account](https://documentation.ibanity.com/xs2a/api#account)
-  based on the `financial_institution_id` and `id` (e.g. the account id) stored in the `Ibanity.Request`.
-
-  Returns `{:ok, account}` if found, otherwise `{:error, reason}`
-
-  ## Example
-
-      iex> token
-      ...> |> Request.customer_access_token
-      ...> |> Request.id(:financial_institution_id, "e1865795-dfa6-4c61-8f1f-1806957ddbdc")
-      ...> |> Request.id(:id, "060d959f-e784-4a5b-a5ca-30c857ca0371")
-      ...> |> Account.delete
-      {:ok, %Ibanity.Account{id: "060d959f-e784-4a5b-a5ca-30c857ca0371", ...}}
-  """
-  def delete(%Request{} = request) do
-    request
-    |> Client.execute(:delete, ["xs2a", "customer", "financialInstitution", "accounts"])
   end
 
   @doc """

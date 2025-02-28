@@ -181,7 +181,7 @@ defmodule Ibanity.Sandbox.FinancialInstitutionAccount do
   * `{:error, reason}` otherwise
   """
   @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionAccount.transactions/1 instead"
-  def transactions(%__MODULE__{} = account) do
+  def transactions(account) do
     Ibanity.Xs2a.Sandbox.FinancialInstitutionAccount.transactions(account)
   end
 
@@ -194,7 +194,7 @@ defmodule Ibanity.Sandbox.FinancialInstitutionAccount do
   * `{:error, reason}` otherwise
   """
   @deprecated "Use Ibanity.Xs2a.Sandbox.FinancialInstitutionAccount.financial_institution_user/1 instead"
-  def financial_institution_user(%__MODULE__{} = account) do
+  def financial_institution_user(account) do
     Ibanity.Xs2a.Sandbox.FinancialInstitutionAccount.financial_institution_user(account)
   end
 end

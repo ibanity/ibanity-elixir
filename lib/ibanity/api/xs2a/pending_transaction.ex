@@ -33,34 +33,31 @@ defmodule Ibanity.Xs2a.PendingTransaction do
             self: nil
 
   @doc """
-  [Lists updated Pending transactions](https://documentation.ibanity.com/xs2a/api#list-updated-transactions-for-synchronization) for a specific synchronization.
+  Lists [updated Pending transactions](https://documentation.ibanity.com/xs2a/api#list-updated-transactions-for-synchronization) for a specific synchronization,
+  or [pending transactions](https://documentation.ibanity.com/xs2a/api#list-pending-transactions)] for a financial institution and linked account.
 
   Returns `{:ok, collection}` where `collection` is a `Ibanity.Collection` where items are of type `Ibanity.Xs2a.Transaction`.
 
   ## Example
+
+  Updated pending transactions:
 
       iex> Request.id(:synchronization_id, "ce3893cd-fff5-435a-bdfc-d55a7e98df6f")
       ...> |> Transaction.list
       {:ok, %Ibanity.Collection{items: [%Ibanity.Transaction{...}], ...}}
-  """
-  def list(%Request{resource_ids: [synchronization_id: _synchronization_id]} = request) do
-    request
-    |> Client.execute(:get, ["xs2a", "customer", "synchronization", "updatedPendingTransactions"])
-  end
 
-  @doc """
-  [Lists pending transactions](https://documentation.ibanity.com/xs2a/api#list-pending-transactions)
-  linked to an account belonging to a financial institution.
-
-  Returns `{:ok, collection}` where `collection` is a `Ibanity.Collection` where items are of type `Ibanity.Xs2a.Transaction`.
-
-  ## Example
+  Pending transactions:
 
       iex> Request.id(:financial_institution_id, "0f88f06c-3cfe-4b8f-9338-69981c0c4632")
       ...> |> Request.id(:account_id, "ce3893cd-fff5-435a-bdfc-d55a7e98df6f")
       ...> |> PendingTransaction.list
       {:ok, %Ibanity.Collection{items: [%Ibanity.PendingTransaction{...}], ...}}
   """
+  def list(%Request{resource_ids: [synchronization_id: _synchronization_id]} = request) do
+    request
+    |> Client.execute(:get, ["xs2a", "customer", "synchronization", "updatedPendingTransactions"])
+  end
+
   def list(%Request{} = request) do
     request
     |> Request.id(:id, "")
