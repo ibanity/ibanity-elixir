@@ -25,9 +25,11 @@ defmodule Ibanity.PontoConnect.OnboardingDetails do
     :initial_financial_institution_id,
     :organization_name,
     :organization_type,
-    :preferred_opt_method,
+    :preferred_otp_method,
     :requested_organization_id,
-    :partner_reference
+    :partner_reference,
+    :requested_organisation_id,
+    :skip_financial_institution_selection
   ]
 
   alias Ibanity.PontoConnect
@@ -124,9 +126,12 @@ defmodule Ibanity.PontoConnect.OnboardingDetails do
       organization_type: {["attributes", "organizationType"], :string},
       automatic_submission_on_completed_forms:
         {["attributes", "automaticSubmissionOnCompletedForms"], :boolean},
-      preferred_opt_method: {["attributes", "preferredOtpMethod"], :string},
+      preferred_otp_method: {["attributes", "preferredOtpMethod"], :string},
       requested_organization_id: {["attributes", "requestedOrganizationId"], :string},
-      partner_reference: {["attributes", "partnerReference"], :string}
+      partner_reference: {["attributes", "partnerReference"], :string},
+      requested_organisation_id: {["attributes", "requestedOrganisationId"], :string},
+      skip_financial_institution_selection:
+        {["attributes", "skipFinancialInstitutionSelection"], :boolean}
     ]
   end
 end
