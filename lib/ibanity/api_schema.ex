@@ -166,6 +166,8 @@ defmodule Ibanity.ApiSchema do
       },
       "paymentActivationRequests" =>
         "https://api.ibanity.com/ponto-connect/payment-activation-requests",
+      "paymentRequestActivationRequests" =>
+        "https://api.ibanity.com/ponto-connect/payment-request-activation-requests",
       "sandbox" => %{
         "financialInstitution" => %{
           "financialInstitutionAccount" => %{
