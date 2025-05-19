@@ -36,7 +36,7 @@ defmodule Ibanity.Xs2a.PaymentInitiationRequest do
   def key_mapping do
     [
       id: {~w(id), :string},
-      errors: {~w(attributes errors), :array},
+      errors: {~w(attributes errors), :string},
       status: {~w(attributes status), :string},
       status_reason: {~w(attributes status_reason), :string},
       remittance_information_type: {~w(attributes remittanceInformationType), :string},
