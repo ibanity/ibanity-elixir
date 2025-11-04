@@ -26,7 +26,12 @@ defmodule Ibanity.PontoConnect.FinancialInstitution do
     :secondary_color,
     :shared_brand_name,
     :shared_brand_reference,
-    :time_zone
+    :time_zone,
+    :pending_transactions_available,
+    :bulk_payment_instructions_limit,
+    :expected_authorization_lifetime,
+    :payment_debtor_account_reference_required,
+    :bulk_payment_debtor_account_reference_required
   ]
 
   alias Ibanity.PontoConnect
@@ -277,7 +282,12 @@ defmodule Ibanity.PontoConnect.FinancialInstitution do
       secondary_color: {~w(attributes secondaryColor), :string},
       shared_brand_name: {~w(attributes sharedBrandName), :string},
       shared_brand_reference: {~w(attributes sharedBrandReference), :string},
-      time_zone: {~w(attributes timeZone), :string}
+      time_zone: {~w(attributes timeZone), :string},
+      pending_transactions_available: {~w(attributes pendingTransactionsAvailable), :boolean},
+      bulk_payment_instructions_limit: {~w(attributes bulkPaymentInstructionsLimit), :integer},
+      expected_authorization_lifetime: {~w(attributes expectedAuthorizationLifetime), :integer},
+      payment_debtor_account_reference_required: {~w(attributes paymentDebtorAccountReferenceRequired), :boolean},
+      bulk_payment_debtor_account_reference_required: {~w(attributes bulkPaymentDebtorAccountReferenceRequired), :boolean}
     ]
   end
 end
