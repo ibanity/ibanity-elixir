@@ -62,7 +62,6 @@ defmodule Ibanity.MixProject do
       {:httpoison, ">= 1.8.0"},
       {:jason, "~> 1.3"},
       {:recase, "~> 0.7"},
-      {:ex_crypto, "~> 0.9.0"},
       {:retry, "~> 0.15"},
       {:joken, "~> 2.4"},
       {:plug, "~> 1.13", optional: true},
