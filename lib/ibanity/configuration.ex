@@ -3,7 +3,7 @@ defmodule Ibanity.Configuration do
 
   use Agent
   use Retry
-  alias Ibanity.{ApiSchema, Configuration.Options}
+  alias Ibanity.{ApiSchema, Configuration.Options, CryptoUtil}
   alias Ibanity.Configuration.Exception, as: ConfigurationException
   alias Ibanity.Webhooks.Key
 
@@ -49,8 +49,8 @@ defmodule Ibanity.Configuration do
 
   def fetch_and_store_webhook_keys(kid, app_name \\ :default) do
     with {:ok, %{items: keys}} <- Key.list(app_name) do
-      Agent.get_and_update(__MODULE__, fn configuration ->
-        key_map = Enum.into(keys, %{}, fn key -> {key.kid, key} end)
+      Agent.get_and_update(__MODULE__, fn %__MODULE__{} = configuration ->
+        key_map = Map.new(keys, &{&1.kid, &1})
         merged_webhook_keys = Keyword.put(configuration.webhook_keys, app_name, key_map)
         {key_map[kid], %__MODULE__{configuration | webhook_keys: merged_webhook_keys}}
       end)
@@ -60,7 +60,7 @@ defmodule Ibanity.Configuration do
   def fetch_and_store_api_schema(product) do
     schema = fetch_api_schema(product)
 
-    Agent.get_and_update(__MODULE__, fn configuration ->
+    Agent.get_and_update(__MODULE__, fn %__MODULE__{} = configuration ->
       merged_schema = Map.merge(configuration.api_schema, %{product => schema})
       {schema, %__MODULE__{configuration | api_schema: merged_schema}}
     end)
@@ -158,8 +158,7 @@ defmodule Ibanity.Configuration do
       [
         certificate: environment |> Keyword.get(:signature_certificate),
         certificate_id: environment |> Keyword.get(:signature_certificate_id),
-        signature_key:
-          environment |> Keyword.get(:signature_key) |> ExPublicKey.loads!(passphrase)
+        signature_key: environment |> Keyword.get(:signature_key) |> CryptoUtil.loads!(passphrase)
       ]
     end
   end
