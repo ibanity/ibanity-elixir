@@ -5,7 +5,7 @@ defmodule Ibanity.Signature do
   @algorithm "hs2019"
 
   alias Ibanity.HttpRequest
-  import Ibanity.CryptoUtil
+  import Ibanity.CryptoUtil, only: [sha512sum: 1, private_key_from_sequence: 1]
 
   def signature_headers(%HttpRequest{} = request, method, private_key, certificate_id) do
     parsed_uri = URI.parse(request.uri)
@@ -65,7 +65,7 @@ defmodule Ibanity.Signature do
   end
 
   defp sign(msg, private_key) do
-    {:ok, pri_key_seq} = ExPublicKey.RSAPrivateKey.as_sequence(private_key)
+    {:ok, pri_key_seq} = private_key_from_sequence(private_key)
     :public_key.sign(msg, :sha256, pri_key_seq, rsa_padding: :rsa_pkcs1_pss_padding)
   end
 
