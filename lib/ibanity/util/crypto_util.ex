@@ -42,7 +42,7 @@ defmodule Ibanity.CryptoUtil do
          do: sort_key_tup(rsa_key)
   end
 
-  def private_key_from_sequence(private_key), do: PrivateKey.from_sequence(private_key)
+  def private_key_as_sequence(private_key), do: PrivateKey.as_sequence(private_key)
 
   defp sort_key_tup(key_tup) do
     case elem(key_tup, 0) do
