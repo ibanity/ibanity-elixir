@@ -85,7 +85,7 @@ defmodule Ibanity.CryptoUtil.PublicKey do
     ```
     """
     def inspect(data, _opts) do
-      fp_opts = [format: :sha256, colons: true]
+      fp_opts = [digest_type: :sha256, colons: true]
 
       fp_sha256_parts_doc =
         PublicKey.get_fingerprint(data, fp_opts)
