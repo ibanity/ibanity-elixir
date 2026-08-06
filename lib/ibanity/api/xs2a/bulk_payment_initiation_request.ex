@@ -58,7 +58,7 @@ defmodule Ibanity.Xs2a.BulkPaymentInitiationRequest do
   def key_mapping do
     [
       id: {~w(id), :string},
-      errors: {~w(attributes errors), :array},
+      errors: {~w(attributes errors), :string},
       status: {~w(attributes status), :string},
       status_reason: {~w(attributes status_reason), :string},
       product_type: {~w(attributes productType), :string},
