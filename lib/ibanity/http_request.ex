@@ -38,12 +38,12 @@ defmodule Ibanity.HttpRequest do
 
   defp add_signature(request, _method, nil), do: {:ok, request}
 
-  defp add_signature(request, method, signature_options) do
+  defp add_signature(%__MODULE__{} = request, method, signature_options) do
     with {:ok, private_key} <- Keyword.fetch(signature_options, :signature_key),
          {:ok, certificate_id} <- Keyword.fetch(signature_options, :certificate_id),
          {:ok, headers} <-
            Ibanity.Signature.signature_headers(request, method, private_key, certificate_id) do
-      {:ok, %__MODULE__{request | headers: Keyword.merge(request.headers, headers)}}
+      {:ok, %{request | headers: Keyword.merge(request.headers, headers)}}
     else
       {:error, reason} -> {:error, reason}
       :error -> {:error, :not_found}
