@@ -20,6 +20,8 @@ defmodule Ibanity.Xs2a.AccountInformationAccessRequest do
     "accountInformationAccessRequests"
   ]
 
+  @resource_type "account_information_access_request"
+
   @doc """
   [Creates an account information access request](https://documentation.ibanity.com/xs2a/api#create-account-information-access-request)
 
@@ -48,7 +50,7 @@ defmodule Ibanity.Xs2a.AccountInformationAccessRequest do
   """
   def create(%Request{} = request) do
     request
-    |> Request.resource_type("account_information_access_request")
+    |> Request.resource_type(@resource_type)
     |> Request.id(:id, "")
     |> Client.execute(:post, @api_schema_path)
   end
@@ -74,6 +76,13 @@ defmodule Ibanity.Xs2a.AccountInformationAccessRequest do
   def find(%Request{} = request) do
     request
     |> Client.execute(:get, @api_schema_path)
+  end
+
+  @doc false
+  def update_auditing(%Request{} = request) do
+    request
+    |> Request.resource_type(@resource_type)
+    |> Client.execute(:patch, @api_schema_path)
   end
 
   @doc false
